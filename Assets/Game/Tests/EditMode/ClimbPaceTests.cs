@@ -10,7 +10,7 @@ namespace Game.Tests.EditMode
     /// ClimbPace is the single climb-speed setting: a level's speed and all of its distances scale by
     /// the same factor, so the level keeps its authored duration. Covers the factor itself and
     /// GameSession/PlayerMotor applying it. The session test opens GameSession's real (unused)
-    /// loopback listener for its lifetime, like GameSessionLoseRetryTests.
+    /// loopback listener for its lifetime, like GameSessionRetryTests.
     /// </summary>
     public sealed class ClimbPaceTests
     {

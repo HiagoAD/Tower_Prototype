@@ -47,23 +47,31 @@ namespace Game.Presentation
         {
             session.BumpAccepted += OnBumpAccepted;
             session.StateChanged += OnStateChanged;
+            session.LevelStarted += ClearCards;
         }
 
         private void OnDisable()
         {
             session.BumpAccepted -= OnBumpAccepted;
             session.StateChanged -= OnStateChanged;
+            session.LevelStarted -= ClearCards;
         }
 
         private void OnStateChanged(SessionState state)
         {
             if (state == SessionState.Menu)
             {
-                for (int i = 0; i < _ages.Length; i++)
-                {
-                    _ages[i] = float.MaxValue;
-                    cards[i].alpha = 0f;
-                }
+                ClearCards();
+            }
+        }
+
+        /// <summary>Drops every card at once, so nothing from the previous run shows on the next.</summary>
+        private void ClearCards()
+        {
+            for (int i = 0; i < _ages.Length; i++)
+            {
+                _ages[i] = float.MaxValue;
+                cards[i].alpha = 0f;
             }
         }
 
@@ -137,6 +145,8 @@ namespace Game.Presentation
 
         private void Update()
         {
+            // Cards hold still under the pause panel; on Won they keep fading.
+            float dt = session.State == SessionState.Paused ? 0f : Time.unscaledDeltaTime;
             for (int i = 0; i < cards.Length; i++)
             {
                 if (_ages[i] == float.MaxValue)
@@ -144,7 +154,7 @@ namespace Game.Presentation
                     continue;
                 }
 
-                _ages[i] += Time.unscaledDeltaTime;
+                _ages[i] += dt;
                 float remaining = lifetimeSeconds - _ages[i];
                 cards[i].alpha = Mathf.Clamp01(remaining / fadeSeconds);
 

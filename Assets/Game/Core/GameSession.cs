@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Game.Core
 {
     /// <summary>
-    /// Owns menu/playing/paused/won/lost state, the active level instance id, and bump dispatch.
+    /// Owns menu/playing/paused/won state, the active level instance id, and bump dispatch.
     /// Sole authority for whether a hit (hazard or webhook) is allowed to apply right now.
     /// </summary>
     public sealed class GameSession : MonoBehaviour
@@ -67,6 +67,19 @@ namespace Game.Core
         public event System.Action<SessionState> StateChanged;
         public event System.Action<float, float> HeightUpdated;
         public event System.Action<BumpEvent> BumpAccepted;
+
+        /// <summary>
+        /// Raised by every StartLevel/Retry, including one made while already Playing (which raises no
+        /// StateChanged transition worth acting on). Time-based presentation cancels its leftovers here.
+        /// </summary>
+        public event System.Action LevelStarted;
+
+        /// <summary>
+        /// Seconds a time-based effect may advance this frame: the frame time while Playing, 0 in every
+        /// other state. Presentation that advances by this instead of Time.deltaTime freezes with the
+        /// pause for free; pair it with StateChanged/LevelStarted to cancel on menu, win and restart.
+        /// </summary>
+        public float PlayDeltaTime => State == SessionState.Playing ? Time.deltaTime : 0f;
 
         private void Awake()
         {
@@ -198,6 +211,7 @@ namespace Game.Core
             SetState(SessionState.Playing);
             _accepting = true;
 
+            LevelStarted?.Invoke();
             HeightUpdated?.Invoke(0f, motor.FinishHeight);
         }
 
@@ -234,11 +248,15 @@ namespace Game.Core
 
         private void OnApplicationPause(bool pauseStatus)
         {
-            // A backgrounded app answers /bump with 409 (not a 503 timeout) and the player never
-            // returns mid-level. No auto-resume: the player resumes deliberately.
+            // A backgrounded app answers /bump with 409 (not a 503 timeout) and nothing advances
+            // while away. The game has no pause UI (neither reference shows one), so returning resumes.
             if (pauseStatus)
             {
                 Pause();
+            }
+            else
+            {
+                Resume();
             }
         }
 

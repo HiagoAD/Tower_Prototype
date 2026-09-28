@@ -48,9 +48,8 @@ namespace Game.Editor
             rect.sizeDelta = new Vector2(0f, 200f);
 
             var runnerGo = new GameObject("BumpRunner", typeof(BumpRunner));
-            var so = new SerializedObject(runnerGo.GetComponent<BumpRunner>());
-            so.FindProperty("counterText").objectReferenceValue = text;
-            so.ApplyModifiedPropertiesWithoutUndo();
+            SceneBinding.Bind(runnerGo.GetComponent<BumpRunner>(), "counterText", text);
+            SceneWiringCheck.Verify(scene);
 
             System.IO.Directory.CreateDirectory("Assets/Game/Scenes");
             EditorSceneManager.SaveScene(scene, ScenePath);

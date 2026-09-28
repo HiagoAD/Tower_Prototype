@@ -6,7 +6,7 @@ namespace Game.Webhook
     /// <summary>
     /// G1 smoke proof: owns the BumpListener lifecycle on the main thread and drives a visible
     /// diagnostic counter for every accepted /bump request. Session-state acceptance rules
-    /// (menu/paused/won/lost -> 409, dispatch into gameplay) land in G2 on top of this transport.
+    /// (menu/paused/won -> 409, dispatch into gameplay) land in G2 on top of this transport.
     /// </summary>
     public sealed class BumpRunner : MonoBehaviour
     {

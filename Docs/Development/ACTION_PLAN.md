@@ -14,7 +14,7 @@ The brief explicitly lists win/lose among expected character states. The user's 
 - Retain current hazard knockback as recoverable lost progress. No hit-point depletion. Difficulty comes from climb duration, obstacle placement/timing and viewer interference.
 - Every accepted social event gives visible feedback. After a finite burst ends, normal control must recover. Continuous negative requests may deliberately prevent progress; a stuck motor, lost input or lingering effect after requests stop is a defect.
 - Positive help near the summit may complete the level normally. Clamp movement at the level bounds and reject stale requests across transitions.
-- Keep exactly five distinct, sequentially reachable, completable levels with shared visuals. No separate level-select screen is required. Main menu, HUD, pause/resume, summit/next, final completion and return to menu are required. A voluntary restart may remain useful but is not a lose/retry gate.
+- Keep exactly five distinct, sequentially reachable, completable levels with shared visuals. No separate level-select screen is required. Main menu, HUD, summit/next, final completion and return to menu are required. No pause UI: the user decided to remove it because neither reference shows one (see [CLAUDE_HANDOFF.md](CLAUDE_HANDOFF.md#gameplay-decision)). A voluntary restart may remain useful but is not a lose/retry gate.
 - This plan covers the game's local listener and viewer-style commands. A streaming-platform integration, remote relay, audience website, accounts or monetization is not part of the current deliverable.
 
 ## 2. Current baseline
@@ -69,7 +69,7 @@ Retain the existing listener; no transport rewrite. See [BUMP_EVENTS.md](BUMP_EV
 | Real HTTP in Editor and Android | GET and POST while playing return accepted request IDs and visibly trigger full-screen gloves; positive and negative commands affect altitude in the intended direction. No debug-button substitute. |
 | Recovery and boundaries | Negative bump at nonzero height visibly loses progress and re-grips; near-bottom hit remains bounded; positive bump near summit completes normally; after rapid finite mixed requests stop, input and climbing work. |
 | Visual/audio | At least 4–6 recognizable gloves cover the playfield (current implementation uses 14), flash/shake are readable, impact sound is actually heard, and the character remains readable. Final device still compared with ref.png. |
-| Session/lifecycle | Pause during recovery freezes gameplay; resume works; menu/restart/next clear transient effects. Requests during non-playing states are rejected. Background/resume and listener restart do not replay stale events or crash. |
+| Session/lifecycle | Backgrounding during recovery freezes gameplay and returning resumes it (no pause UI, by user decision); menu/restart/next clear transient effects. Requests during non-playing states are rejected. Background/resume and listener restart do not replay stale events or crash. |
 | Five-level completion | Per-level normal touch play, obstacle interaction, summit and next; final completion returns to menu. No skip/debug teleport as proof. |
 | Focused automated checks | Existing suite plus meaningful campaign/transition coverage and regressions for changes from Claude's review. Save actual executed counts/XML. No duplicate tests solely to increase counts. |
 | Performance | Five-minute Android run with repeated social events and transitions; record measured frame rate, stalls and memory/object-growth observations. Target stable 30 FPS minimum, preferably 60. |

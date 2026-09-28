@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 
@@ -27,6 +28,14 @@ namespace Game.Webhook
         internal const int MaxBodyBytes = 8 * 1024;
         internal const int QueueCapacity = 16;
 
+        /// <summary>
+        /// Simultaneous connections served; further ones get an immediate 503 busy. Above
+        /// QueueCapacity so a full queue still answers 429 rather than the cap hiding it.
+        /// </summary>
+        internal const int MaxConcurrentClients = QueueCapacity + 4;
+        internal const int StopTimeoutMs = 1000;
+
+        private const int OverCapSendTimeoutMs = 250;
         private const int SocketTimeoutMs = 3000;
         private const int AcceptWaitTimeoutMs = 750;
 
@@ -34,9 +43,16 @@ namespace Game.Webhook
         private readonly ConcurrentQueue<BumpRequest> _queue = new ConcurrentQueue<BumpRequest>();
         private int _queueCount;
 
+        // Guards _running transitions, _clients and _inflight so Stop can snapshot everything a
+        // worker has registered and no worker can register after that snapshot.
+        private readonly object _gate = new object();
+        private readonly HashSet<TcpClient> _clients = new HashSet<TcpClient>();
+        private readonly HashSet<BumpRequest> _inflight = new HashSet<BumpRequest>();
+
         private TcpListener _listener;
         private Thread _acceptThread;
         private volatile bool _running;
+        private int _generation;
 
         public event Action<string> Faulted;
 
@@ -63,6 +79,18 @@ namespace Game.Webhook
         /// <summary>The bound port. Resolves to the OS-assigned port after Start() when constructed with 0.</summary>
         public int Port => _port;
 
+        /// <summary>Connections currently being handled (tracked so Stop can close them).</summary>
+        internal int ActiveClientCount
+        {
+            get
+            {
+                lock (_gate)
+                {
+                    return _clients.Count;
+                }
+            }
+        }
+
         public BumpListener(int port = 56789)
         {
             _port = port;
@@ -70,50 +98,122 @@ namespace Game.Webhook
 
         public void Start()
         {
-            if (_running)
+            lock (_gate)
             {
-                return;
+                if (_running)
+                {
+                    return;
+                }
+
+                var listener = new TcpListener(IPAddress.Loopback, _port);
+                if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    // Lets a Stop -> Start cycle rebind the same port while old connections sit in TIME_WAIT.
+                    listener.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+                }
+
+                listener.Start();
+                _port = ((IPEndPoint)listener.LocalEndpoint).Port;
+                _listener = listener;
+                int generation = ++_generation;
+                _running = true;
+
+                _acceptThread = new Thread(() => AcceptLoop(listener, generation))
+                {
+                    IsBackground = true,
+                    Name = "BumpListener.Accept",
+                };
+                _acceptThread.Start();
             }
-
-            _listener = new TcpListener(IPAddress.Loopback, _port);
-            _listener.Start();
-            _port = ((IPEndPoint)_listener.LocalEndpoint).Port;
-            _running = true;
-
-            _acceptThread = new Thread(AcceptLoop)
-            {
-                IsBackground = true,
-                Name = "BumpListener.Accept",
-            };
-            _acceptThread.Start();
         }
 
+        /// <summary>
+        /// Stops accepting, closes every active client socket, rejects all queued and in-flight
+        /// requests, then waits at most <see cref="StopTimeoutMs"/> in total for the accept thread and
+        /// workers to finish -- it can never hang the caller (Unity's main thread). Idempotent; a
+        /// closed client sees its connection dropped without a response.
+        /// </summary>
         public void Stop()
         {
-            _running = false;
+            TcpListener listener;
+            Thread acceptThread;
+            TcpClient[] clients;
+            BumpRequest[] inflight;
+
+            lock (_gate)
+            {
+                _running = false;
+                listener = _listener;
+                acceptThread = _acceptThread;
+                _listener = null;
+                _acceptThread = null;
+                clients = new TcpClient[_clients.Count];
+                _clients.CopyTo(clients);
+                inflight = new BumpRequest[_inflight.Count];
+                _inflight.CopyTo(inflight);
+            }
+
+            var deadline = DateTime.UtcNow.AddMilliseconds(StopTimeoutMs);
 
             try
             {
-                _listener?.Stop();
+                listener?.Stop();
             }
             catch (Exception)
             {
                 // Ignore -- shutting down.
             }
 
-            _acceptThread = null;
-            _listener = null;
+            // Close sockets first so a released worker finds its connection gone rather than racing a response out.
+            foreach (TcpClient client in clients)
+            {
+                try
+                {
+                    client.Close();
+                }
+                catch (Exception)
+                {
+                    // Ignore -- shutting down.
+                }
+            }
 
-            // Release any worker threads still blocked in WaitForResolution so shutdown never hangs.
+            // Release any worker still blocked in WaitForResolution so shutdown never hangs.
+            foreach (BumpRequest request in inflight)
+            {
+                request.TryResolve(BumpRequestState.Rejected);
+            }
+
             while (TryDequeue(out BumpRequest request))
             {
                 request.TryResolve(BumpRequestState.Rejected);
+            }
+
+            if (acceptThread != null && acceptThread != Thread.CurrentThread)
+            {
+                acceptThread.Join(RemainingMs(deadline));
+            }
+
+            lock (_gate)
+            {
+                while (_clients.Count > 0)
+                {
+                    int remaining = RemainingMs(deadline);
+                    if (remaining <= 0 || !Monitor.Wait(_gate, remaining))
+                    {
+                        break;
+                    }
+                }
             }
         }
 
         public void Dispose()
         {
             Stop();
+        }
+
+        private static int RemainingMs(DateTime deadlineUtc)
+        {
+            return Math.Max(0, (int)(deadlineUtc - DateTime.UtcNow).TotalMilliseconds);
         }
 
         /// <summary>Drain one pending request, if any. Call from the main thread only.</summary>
@@ -143,14 +243,14 @@ namespace Game.Webhook
             return true;
         }
 
-        private void AcceptLoop()
+        private void AcceptLoop(TcpListener listener, int generation)
         {
-            while (_running)
+            while (_running && generation == _generation)
             {
                 TcpClient client;
                 try
                 {
-                    client = _listener.AcceptTcpClient();
+                    client = listener.AcceptTcpClient();
                 }
                 catch (Exception)
                 {
@@ -158,11 +258,44 @@ namespace Game.Webhook
                     break;
                 }
 
-                ThreadPool.QueueUserWorkItem(_ => HandleClient(client));
+                bool admitted;
+                lock (_gate)
+                {
+                    admitted = _running && generation == _generation && _clients.Count < MaxConcurrentClients;
+                    if (admitted)
+                    {
+                        _clients.Add(client);
+                    }
+                }
+
+                if (!admitted)
+                {
+                    RejectOverCap(client);
+                    continue;
+                }
+
+                ThreadPool.QueueUserWorkItem(_ => HandleClient(client, generation));
             }
         }
 
-        private void HandleClient(TcpClient client)
+        /// <summary>Answers a connection over the concurrency cap with a fast 503 without reading anything from it.</summary>
+        private static void RejectOverCap(TcpClient client)
+        {
+            try
+            {
+                using (client)
+                {
+                    client.SendTimeout = OverCapSendTimeoutMs;
+                    WriteResponse(client.GetStream(), 503, "Service Unavailable", "{\"error\":\"busy\"}");
+                }
+            }
+            catch (Exception)
+            {
+                // Ignore -- the client is being turned away anyway.
+            }
+        }
+
+        private void HandleClient(TcpClient client, int generation)
         {
             try
             {
@@ -173,94 +306,138 @@ namespace Game.Webhook
 
                     using (Stream stream = client.GetStream())
                     {
-                        if (!TryReadRequest(stream, out HttpRequestLine requestLine, out byte[] body, out int failureStatusCode))
-                        {
-                            if (failureStatusCode == 413)
-                            {
-                                WriteResponse(stream, 413, "Payload Too Large", "{\"error\":\"payload_too_large\"}");
-                            }
-                            else
-                            {
-                                WriteResponse(stream, 400, "Bad Request", "{\"error\":\"bad_request\"}");
-                            }
-
-                            return;
-                        }
-
-                        if (!string.Equals(requestLine.Path, BumpPath, StringComparison.Ordinal))
-                        {
-                            WriteResponse(stream, 404, "Not Found", "{\"error\":\"not_found\"}");
-                            return;
-                        }
-
-                        bool isGet = string.Equals(requestLine.Method, "GET", StringComparison.Ordinal);
-                        bool isPost = string.Equals(requestLine.Method, "POST", StringComparison.Ordinal);
-                        if (!isGet && !isPost)
-                        {
-                            WriteResponse(stream, 405, "Method Not Allowed", "{\"error\":\"method_not_allowed\"}");
-                            return;
-                        }
-
-                        if (!BumpCommandParser.TryParse(requestLine.Query, body.Length > 0 ? Encoding.UTF8.GetString(body) : null, out BumpCommand command, out string parseError))
-                        {
-                            WriteResponse(stream, 400, "Bad Request", "{\"error\":\"" + parseError + "\"}");
-                            return;
-                        }
-
-                        if (command.TypeId != null && !IsKnownType(command.TypeId))
-                        {
-                            WriteResponse(stream, 400, "Bad Request", "{\"error\":\"unknown_type\"}");
-                            return;
-                        }
-
-                        (bool accepting, int levelInstanceId) state = StateProvider != null
-                            ? StateProvider()
-                            : (accepting: true, levelInstanceId: 0);
-
-                        if (!state.accepting)
-                        {
-                            WriteResponse(stream, 409, "Conflict", "{\"error\":\"not_playing\"}");
-                            return;
-                        }
-
-                        if (!TryReserveCapacity())
-                        {
-                            WriteResponse(stream, 429, "Too Many Requests", "{\"error\":\"too_many_requests\"}");
-                            return;
-                        }
-
-                        string requestId = Guid.NewGuid().ToString("N");
-                        var request = new BumpRequest(requestId, requestLine.Method, DateTime.UtcNow, state.levelInstanceId, command);
-                        _queue.Enqueue(request);
-
-                        bool resolvedInTime = request.WaitForResolution(TimeSpan.FromMilliseconds(AcceptWaitTimeoutMs));
-                        if (!resolvedInTime && request.TryResolve(BumpRequestState.Expired))
-                        {
-                            // We won the Pending -> Expired race; the main thread never accepted this one.
-                            WriteResponse(stream, 503, "Service Unavailable", "{\"error\":\"timeout\"}");
-                            return;
-                        }
-
-                        // Either resolved within the wait, or the main thread's Accept/Reject won the
-                        // race against our own expiry attempt above -- read the final state either way.
-                        switch (request.State)
-                        {
-                            case BumpRequestState.Accepted:
-                                WriteResponse(stream, 200, "OK", BuildAcceptedBody(request));
-                                break;
-                            case BumpRequestState.Rejected:
-                                WriteResponse(stream, 409, "Conflict", "{\"error\":\"not_playing\"}");
-                                break;
-                            default: // Expired
-                                WriteResponse(stream, 503, "Service Unavailable", "{\"error\":\"timeout\"}");
-                                break;
-                        }
+                        ServeRequest(stream);
                     }
                 }
             }
             catch (Exception ex)
             {
-                Faulted?.Invoke(ex.Message);
+                // Stop closes sockets under a worker on purpose; only surface genuine faults.
+                if (_running && generation == _generation && !(ex is ObjectDisposedException))
+                {
+                    Faulted?.Invoke(ex.Message);
+                }
+            }
+            finally
+            {
+                lock (_gate)
+                {
+                    _clients.Remove(client);
+                    Monitor.PulseAll(_gate);
+                }
+            }
+        }
+
+        private void ServeRequest(Stream stream)
+        {
+            if (!TryReadRequest(stream, out HttpRequestLine requestLine, out byte[] body, out int failureStatusCode))
+            {
+                if (failureStatusCode == 413)
+                {
+                    WriteResponse(stream, 413, "Payload Too Large", "{\"error\":\"payload_too_large\"}");
+                }
+                else
+                {
+                    WriteResponse(stream, 400, "Bad Request", "{\"error\":\"bad_request\"}");
+                }
+
+                return;
+            }
+
+            if (!string.Equals(requestLine.Path, BumpPath, StringComparison.Ordinal))
+            {
+                WriteResponse(stream, 404, "Not Found", "{\"error\":\"not_found\"}");
+                return;
+            }
+
+            bool isGet = string.Equals(requestLine.Method, "GET", StringComparison.Ordinal);
+            bool isPost = string.Equals(requestLine.Method, "POST", StringComparison.Ordinal);
+            if (!isGet && !isPost)
+            {
+                WriteResponse(stream, 405, "Method Not Allowed", "{\"error\":\"method_not_allowed\"}");
+                return;
+            }
+
+            if (!BumpCommandParser.TryParse(requestLine.Query, body.Length > 0 ? Encoding.UTF8.GetString(body) : null, out BumpCommand command, out string parseError))
+            {
+                WriteResponse(stream, 400, "Bad Request", "{\"error\":\"" + parseError + "\"}");
+                return;
+            }
+
+            if (command.TypeId != null && !IsKnownType(command.TypeId))
+            {
+                WriteResponse(stream, 400, "Bad Request", "{\"error\":\"unknown_type\"}");
+                return;
+            }
+
+            (bool accepting, int levelInstanceId) state = StateProvider != null
+                ? StateProvider()
+                : (accepting: true, levelInstanceId: 0);
+
+            if (!state.accepting)
+            {
+                WriteResponse(stream, 409, "Conflict", "{\"error\":\"not_playing\"}");
+                return;
+            }
+
+            if (!TryReserveCapacity())
+            {
+                WriteResponse(stream, 429, "Too Many Requests", "{\"error\":\"too_many_requests\"}");
+                return;
+            }
+
+            string requestId = Guid.NewGuid().ToString("N");
+            var request = new BumpRequest(requestId, requestLine.Method, DateTime.UtcNow, state.levelInstanceId, command);
+
+            // Register under the gate so Stop's snapshot either includes this request or we see _running false here.
+            bool registered;
+            lock (_gate)
+            {
+                registered = _running;
+                if (registered)
+                {
+                    _inflight.Add(request);
+                    _queue.Enqueue(request);
+                }
+            }
+
+            if (!registered)
+            {
+                Interlocked.Decrement(ref _queueCount);
+                return; // shutting down: drop the connection without a response
+            }
+
+            try
+            {
+                bool resolvedInTime = request.WaitForResolution(TimeSpan.FromMilliseconds(AcceptWaitTimeoutMs));
+                if (!resolvedInTime && request.TryResolve(BumpRequestState.Expired))
+                {
+                    // We won the Pending -> Expired race; the main thread never accepted this one.
+                    WriteResponse(stream, 503, "Service Unavailable", "{\"error\":\"timeout\"}");
+                    return;
+                }
+            }
+            finally
+            {
+                lock (_gate)
+                {
+                    _inflight.Remove(request);
+                }
+            }
+
+            // Either resolved within the wait, or the main thread's Accept/Reject won the
+            // race against our own expiry attempt above -- read the final state either way.
+            switch (request.State)
+            {
+                case BumpRequestState.Accepted:
+                    WriteResponse(stream, 200, "OK", BuildAcceptedBody(request));
+                    break;
+                case BumpRequestState.Rejected:
+                    WriteResponse(stream, 409, "Conflict", "{\"error\":\"not_playing\"}");
+                    break;
+                default: // Expired
+                    WriteResponse(stream, 503, "Service Unavailable", "{\"error\":\"timeout\"}");
+                    break;
             }
         }
 
@@ -492,9 +669,9 @@ namespace Game.Webhook
                 stream.Write(bodyBytes, 0, bodyBytes.Length);
                 stream.Flush();
             }
-            catch (IOException)
+            catch (Exception ex) when (ex is IOException || ex is ObjectDisposedException)
             {
-                // Client disconnected before the response was fully sent.
+                // Client disconnected (or Stop closed it) before the response was fully sent.
             }
         }
     }

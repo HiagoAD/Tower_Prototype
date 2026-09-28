@@ -28,7 +28,6 @@ namespace Game.Editor
             ("start", 0f, "HudPanel"),
             ("climb", 14f, "HudPanel"),
             ("bump", 21f, "HudPanel"),
-            ("lose", 9f, "LosePanel"),
         };
 
         private const float PreviewSafeBandOffset = 4.5f; // the safe band sits this far above the active one.
@@ -158,7 +157,7 @@ namespace Game.Editor
 
         private static void ShowPanel(Transform canvas, string panelName)
         {
-            foreach (string name in new[] { "MainMenuPanel", "HudPanel", "PausePanel", "WinPanel", "LosePanel" })
+            foreach (string name in new[] { "MainMenuPanel", "HudPanel", "WinPanel" })
             {
                 Transform panel = canvas.Find(name);
                 if (panel == null)

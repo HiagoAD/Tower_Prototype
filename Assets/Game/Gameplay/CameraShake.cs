@@ -10,14 +10,30 @@ namespace Game.Gameplay
         private float _timer;
         private float _duration;
 
+        /// <summary>While true the shake holds its timer and current offset. Driven by whoever owns the effect (BumpBurstView follows the session pause).</summary>
+        public bool Paused { get; set; }
+
         public void Shake(float durationSeconds)
         {
             _duration = durationSeconds;
             _timer = durationSeconds;
         }
 
+        /// <summary>Ends any shake now and puts the camera back on its follow position, un-pausing it.</summary>
+        public void Cancel()
+        {
+            _timer = 0f;
+            Paused = false;
+            transform.localPosition = Vector3.zero;
+        }
+
         private void Update()
         {
+            if (Paused)
+            {
+                return;
+            }
+
             if (_timer <= 0f)
             {
                 if (transform.localPosition != Vector3.zero)

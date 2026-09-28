@@ -17,7 +17,7 @@ namespace Game.Core
         public float climbSpeed;
         public HazardSpec[] hazards;
 
-        /// <summary>Parses and validates a level file; throws FormatException naming the offending field.</summary>
+        /// <summary>Parses and validates a level file; throws FormatException naming the offending field (and hazard index, for a bad band).</summary>
         public static LevelDefinition FromJson(string json)
         {
             if (string.IsNullOrWhiteSpace(json))
@@ -50,17 +50,29 @@ namespace Game.Core
                 throw new FormatException("Level JSON field 'displayName' must not be blank.");
             }
 
-            if (!(level.finishHeight >= 1f))
+            if (float.IsNaN(level.finishHeight) || float.IsInfinity(level.finishHeight) || !(level.finishHeight >= 1f))
             {
                 throw new FormatException("Level JSON field 'finishHeight' must be >= 1 (got " + level.finishHeight + ").");
             }
 
-            if (!(level.climbSpeed >= 0.1f))
+            if (float.IsNaN(level.climbSpeed) || float.IsInfinity(level.climbSpeed) || !(level.climbSpeed >= 0.1f))
             {
                 throw new FormatException("Level JSON field 'climbSpeed' must be >= 0.1 (got " + level.climbSpeed + ").");
             }
 
             level.hazards ??= Array.Empty<HazardSpec>();
+
+            // HazardSpec is a struct, so JsonUtility turns a JSON null entry into a default (all-zero)
+            // hazard; that fails height > 0 below and is reported by index like any other bad band.
+            for (int i = 0; i < level.hazards.Length; i++)
+            {
+                string problem = level.hazards[i].Validate(level.finishHeight);
+                if (problem != null)
+                {
+                    throw new FormatException("Level JSON hazards[" + i + "]." + problem + ".");
+                }
+            }
+
             return level;
         }
     }

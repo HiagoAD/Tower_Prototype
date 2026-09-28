@@ -8,6 +8,8 @@ This is a social climbing game: viewers send positive bumps to help or negative 
 
 Hold/release controls, accepted planted grips/body swing, global pace, hazard setbacks and clear summit wins remain. Finite request bursts must end with controllable play; endless hostile requests can intentionally delay progress. Positive help near the summit may win normally. No streaming-platform connector, relay or audience UI is in this scope.
 
+**No pause feature (user decision, September 28).** The user decided to remove pause because neither reference (ref.png, ref.mp4) shows one. There is no pause button or pause panel; do not restore them. Backgrounding the app still freezes play internally (`/bump` answers 409) and returning resumes automatically. The brief's §3 menu list, which names pause, remains unchanged; document this deliberate decision in the README alongside the lose-state interpretation.
+
 ## Current baseline and next work
 
 One JSON level exists. JSON loading, lives removal and typed bumps are merged. Saved integrated tests show 101/101 passed; local APK `f63e5156…` predates those changes. G2 remains partial. Candidate accepted the grip feel; do not redo it because the old fidelity review predates that acceptance.
@@ -23,7 +25,7 @@ Total forecast **4½–6½ hours**, assuming toolchain/device/quotas hold and no
 ## Completion contract
 
 - Exactly five distinct, completable sequential levels; shared presentation and one gameplay scene.
-- Main menu, HUD, touch climb/idle, readable hit/setback/recovery, pause/resume, summit/next, final completion and menu return. Voluntary restart if retained resets the active level fully.
+- Main menu, HUD, touch climb/idle, readable hit/setback/recovery, summit/next, final completion and menu return. Voluntary restart if retained resets the active level fully.
 - Existing art direction from ref.png; existing licensed assets only, no generated art/audio. Final device visual approval and audible impact.
 - Editor and Android local GET/POST `http://localhost:56789/bump`; default boxing burst retained. Positive/negative commands, visible feedback for accepted requests, bounded motion, no stale events across levels and continued control after a finite burst.
 - Build-linked tests/device evidence, performance observation, all-five APK recording, README/licenses/attribution, clean source and verified single delivery link.

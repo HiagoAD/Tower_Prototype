@@ -15,6 +15,9 @@ namespace Game.Presentation
     /// yellow stars go off on the character. Bounded: a new trigger while one is already playing
     /// restarts the single coroutine instead of stacking, so accepted requests during an active burst
     /// still produce visible feedback without extending the lock indefinitely.
+    /// Follows the session: advances by GameSession.PlayDeltaTime, so it (and its camera shake and
+    /// impact sound) freezes while paused and continues on resume, and is cancelled outright on
+    /// menu, win and every level start.
     /// </summary>
     public sealed class BumpBurstView : MonoBehaviour
     {
@@ -72,12 +75,64 @@ namespace Game.Presentation
         private void OnEnable()
         {
             session.BumpAccepted += OnBumpAccepted;
+            session.StateChanged += OnStateChanged;
+            session.LevelStarted += Cancel;
+            SetFrozen(session.State == SessionState.Paused);
         }
 
         private void OnDisable()
         {
             session.BumpAccepted -= OnBumpAccepted;
+            session.StateChanged -= OnStateChanged;
+            session.LevelStarted -= Cancel;
+            Cancel();
+        }
+
+        private void OnStateChanged(SessionState state)
+        {
+            if (state == SessionState.Menu || state == SessionState.Won)
+            {
+                Cancel();
+                return;
+            }
+
+            SetFrozen(state == SessionState.Paused);
+        }
+
+        /// <summary>Stops the burst, its camera shake and its impact sound, leaving every element hidden.</summary>
+        public void Cancel()
+        {
             StopOwnedEffects();
+            if (cameraShake != null)
+            {
+                cameraShake.Cancel();
+            }
+
+            if (impactAudioSource != null)
+            {
+                impactAudioSource.Stop();
+            }
+        }
+
+        /// <summary>Holds (or releases) the camera shake and the impact sound; the routine holds itself via PlayDeltaTime.</summary>
+        private void SetFrozen(bool frozen)
+        {
+            if (cameraShake != null)
+            {
+                cameraShake.Paused = frozen;
+            }
+
+            if (impactAudioSource != null)
+            {
+                if (frozen)
+                {
+                    impactAudioSource.Pause();
+                }
+                else
+                {
+                    impactAudioSource.UnPause();
+                }
+            }
         }
 
         private void OnBumpAccepted(BumpEvent bump)
@@ -267,7 +322,14 @@ namespace Game.Presentation
             float t = 0f;
             while (t < durationSeconds)
             {
-                t += Time.deltaTime;
+                float dt = session.PlayDeltaTime;
+                if (dt <= 0f)
+                {
+                    yield return null; // paused: hold every element exactly where it is.
+                    continue;
+                }
+
+                t += dt;
                 Vector2 target = ComputeTargetLocalPosition();
 
                 UpdateGloves(t - gloveShift, target);

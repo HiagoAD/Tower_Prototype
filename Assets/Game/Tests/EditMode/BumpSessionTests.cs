@@ -240,7 +240,7 @@ namespace Game.Tests.EditMode
         }
 
         [Test]
-        public void ApplicationPause_PausesAPlayingSession_AndDoesNotAutoResume()
+        public void ApplicationPause_PausesAPlayingSession_AndResumesOnReturn()
         {
             MethodInfo onPause = typeof(GameSession).GetMethod("OnApplicationPause", BindingFlags.Instance | BindingFlags.NonPublic);
 
@@ -248,7 +248,7 @@ namespace Game.Tests.EditMode
             Assert.AreEqual(Game.Core.SessionState.Paused, _session.State);
 
             onPause.Invoke(_session, new object[] { false });
-            Assert.AreEqual(Game.Core.SessionState.Paused, _session.State, "the player resumes deliberately");
+            Assert.AreEqual(Game.Core.SessionState.Playing, _session.State, "no pause UI, so returning resumes");
         }
 
         [Test]

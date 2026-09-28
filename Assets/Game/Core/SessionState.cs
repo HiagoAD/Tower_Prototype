@@ -6,6 +6,5 @@ namespace Game.Core
         Playing,
         Paused,
         Won,
-        Lost,
     }
 }

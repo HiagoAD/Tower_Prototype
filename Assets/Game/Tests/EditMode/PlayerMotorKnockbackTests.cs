@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Game.Tests.EditMode
 {
     /// <summary>
-    /// Covers the G3 reachable-Lose fix: invulnerability must end no later than the climb lockout
+    /// Covers the knockback recovery rule: invulnerability must end no later than the climb lockout
     /// (knockback + re-grip), and strictly before a continuously-held climb can carry the player
     /// back up to the band height that hit them -- otherwise holding climb lets a player pass back
     /// through a still-active band for free (see PlayerMotor's field comments for the full rule).
