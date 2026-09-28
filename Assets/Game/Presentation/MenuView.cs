@@ -12,6 +12,10 @@ namespace Game.Presentation
         [SerializeField] private GameObject pausePanel;
         [SerializeField] private GameObject winPanel;
         [SerializeField] private GameObject losePanel;
+        [Tooltip("Seconds after the win before its panel appears, so the climber's slide onto the summit plays first.")]
+        [SerializeField] private float winPanelDelaySeconds = 0.8f;
+
+        private float _winDelayRemaining;
 
         private void OnEnable()
         {
@@ -24,12 +28,27 @@ namespace Game.Presentation
             session.StateChanged -= OnStateChanged;
         }
 
+        private void Update()
+        {
+            if (_winDelayRemaining <= 0f)
+            {
+                return;
+            }
+
+            _winDelayRemaining -= Time.unscaledDeltaTime;
+            if (_winDelayRemaining <= 0f && session.State == SessionState.Won)
+            {
+                SetActive(winPanel, true);
+            }
+        }
+
         private void OnStateChanged(SessionState state)
         {
+            _winDelayRemaining = state == SessionState.Won ? winPanelDelaySeconds : 0f;
             SetActive(mainMenuPanel, state == SessionState.Menu);
             SetActive(hudPanel, state == SessionState.Playing || state == SessionState.Paused);
             SetActive(pausePanel, state == SessionState.Paused);
-            SetActive(winPanel, state == SessionState.Won);
+            SetActive(winPanel, state == SessionState.Won && winPanelDelaySeconds <= 0f);
             SetActive(losePanel, state == SessionState.Lost);
         }
 

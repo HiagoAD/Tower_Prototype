@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Gameplay
@@ -9,14 +10,17 @@ namespace Game.Gameplay
     /// </summary>
     public sealed class PlayerMotor : MonoBehaviour
     {
-        [Tooltip("Knockback distance in the level's authored units; scaled by DistanceScale.")]
+        [Tooltip("Hazard knockback distance in the level's authored units; scaled by DistanceScale.")]
         [SerializeField] private float hitDisplacement = 1.5f;
 
-        // A hit or bump never teleports the player -- it eases them to the new height over
-        // knockbackSeconds (down for a hit or negative bump, up for a positive one), then holds
-        // for regripSeconds before climb input is accepted again. Both together define
-        // ClimbLockoutSeconds, the single source of truth for how long input stays locked.
+        // A hit or bump never teleports the player -- it eases them to the new height (over
+        // knockbackSeconds for a hit, bumpMoveSeconds for a bump), then holds for regripSeconds
+        // before climb input is accepted again. Together they define ClimbLockoutSeconds /
+        // BumpLockoutSeconds, the single source of truth for how long input stays locked.
         [SerializeField] private float knockbackSeconds = 0.35f;
+
+        [Tooltip("Duration of a webhook bump's eased move. Longer than a hazard knockback so the climber visibly travels on screen.")]
+        [SerializeField] private float bumpMoveSeconds = 0.6f;
         [SerializeField] private float regripSeconds = 0.25f;
 
         // Must never exceed ClimbLockoutSeconds: invulnerability exists so a hit can't be
@@ -38,6 +42,18 @@ namespace Game.Gameplay
         private float _knockbackElapsed;
         private float _knockbackStartHeight;
         private float _knockbackTargetHeight;
+        private float _moveSeconds;
+        private bool _moveIsBump;
+
+        // Accepted bumps waiting for the gloves to land: a signed world distance and the time left
+        // before the move starts. Frozen by Paused (Step returns early) and dropped by ResetState.
+        private struct PendingBump
+        {
+            public float Distance;
+            public float Remaining;
+        }
+
+        private readonly List<PendingBump> _pendingBumps = new List<PendingBump>();
 
         public float Height { get; private set; }
         public float FinishHeight { get; set; } = 1f;
@@ -59,11 +75,22 @@ namespace Game.Gameplay
         /// <summary>True only while the eased hit/bump displacement is actively playing.</summary>
         public bool IsInKnockback => _knockbackActive;
 
+        /// <summary>True while the eased move playing is a webhook bump's (not a hazard knockback).</summary>
+        public bool IsBumpMove => _knockbackActive && _moveIsBump;
+
+        /// <summary>Direction of the bump move playing: +1 up, -1 down, 0 when no bump move is playing or it goes nowhere (clamped).</summary>
+        public int BumpMoveDirection => IsBumpMove ? Math.Sign(_knockbackTargetHeight - _knockbackStartHeight) : 0;
+
+        /// <summary>Accepted bumps still waiting for their impact delay to elapse.</summary>
+        public int PendingBumpCount => _pendingBumps.Count;
+
         /// <summary>True from the moment a hit lands until climb input is accepted again (knockback + re-grip).</summary>
         public bool IsLockedOut => _lockoutTimer > 0f;
 
         public float KnockbackSeconds => knockbackSeconds;
         public float ClimbLockoutSeconds => knockbackSeconds + regripSeconds;
+        public float BumpMoveSeconds => bumpMoveSeconds;
+        public float BumpLockoutSeconds => bumpMoveSeconds + regripSeconds;
 
         public float NormalizedProgress => FinishHeight <= 0f ? 0f : Mathf.Clamp01(Height / FinishHeight);
 
@@ -100,6 +127,8 @@ namespace Game.Gameplay
             {
                 _lockoutTimer -= dt;
             }
+
+            AdvancePendingBumps(dt);
 
             if (_knockbackActive)
             {
@@ -159,29 +188,66 @@ namespace Game.Gameplay
         }
 
         /// <summary>
-        /// Webhook bump: eases the climber by a signed authored distance (positive = up), scaled by
-        /// DistanceScale and clamped to [0, FinishHeight]. Unlike TryApplyHit it always applies, even
-        /// while invulnerable. A bump during an eased move adds to that move's target, so rapid bumps
-        /// stack their full distances. It never
-        /// touches hit points; an upward bump that reaches the finish wins through the normal check.
+        /// Webhook bump: after impactDelaySeconds (the gloves landing; frozen while Paused) eases the
+        /// climber by a signed distance in world units (positive = up), clamped to [0, FinishHeight],
+        /// over bumpMoveSeconds. Unlike TryApplyHit it always applies, even while invulnerable. A bump
+        /// during an eased move adds to that move's target, so rapid bumps stack their full distances.
+        /// It never touches hit points; an upward bump that reaches the finish wins through the normal check.
         /// </summary>
-        public void ApplyBump(float authoredDistance)
+        public void ApplyBump(float worldDistance, float impactDelaySeconds = 0f)
+        {
+            if (impactDelaySeconds <= 0f)
+            {
+                BeginBump(worldDistance);
+                return;
+            }
+
+            _pendingBumps.Add(new PendingBump { Distance = worldDistance, Remaining = impactDelaySeconds });
+        }
+
+        private void AdvancePendingBumps(float dt)
+        {
+            for (int i = 0; i < _pendingBumps.Count;)
+            {
+                PendingBump pending = _pendingBumps[i];
+                pending.Remaining -= dt;
+                if (pending.Remaining > 0f)
+                {
+                    _pendingBumps[i] = pending;
+                    i++;
+                    continue;
+                }
+
+                _pendingBumps.RemoveAt(i);
+                BeginBump(pending.Distance);
+            }
+        }
+
+        private void BeginBump(float worldDistance)
         {
             float from = _knockbackActive ? _knockbackTargetHeight : Height;
-            StartDisplacement(Mathf.Clamp(from + authoredDistance * DistanceScale, 0f, FinishHeight));
+            StartDisplacement(Mathf.Clamp(from + worldDistance, 0f, FinishHeight), bumpMoveSeconds, true);
         }
 
         private void StartDisplacement(float targetHeight)
+        {
+            StartDisplacement(targetHeight, knockbackSeconds, false);
+        }
+
+        private void StartDisplacement(float targetHeight, float moveSeconds, bool isBump)
         {
             _knockbackStartHeight = Height;
             _knockbackTargetHeight = targetHeight;
             _knockbackElapsed = 0f;
             _knockbackActive = true;
+            _moveSeconds = moveSeconds;
+            _moveIsBump = isBump;
 
-            // Clamp against ClimbLockoutSeconds -- see the field comment above for why this must
-            // never be allowed to outlast the lockout.
-            _invulnTimer = Mathf.Min(invulnerabilitySeconds, ClimbLockoutSeconds);
-            _lockoutTimer = ClimbLockoutSeconds;
+            // Clamp against the lockout -- see the field comment above for why this must never be
+            // allowed to outlast it.
+            float lockout = moveSeconds + regripSeconds;
+            _invulnTimer = Mathf.Min(invulnerabilitySeconds, lockout);
+            _lockoutTimer = lockout;
         }
 
         public void ResetState(float startHeight)
@@ -190,6 +256,8 @@ namespace Game.Gameplay
             _invulnTimer = 0f;
             _lockoutTimer = 0f;
             _knockbackActive = false;
+            _moveIsBump = false;
+            _pendingBumps.Clear();
             Paused = false;
             ApplyTransform();
         }
@@ -197,7 +265,7 @@ namespace Game.Gameplay
         private void AdvanceKnockback(float dt)
         {
             _knockbackElapsed += dt;
-            float t = knockbackSeconds > 0f ? Mathf.Clamp01(_knockbackElapsed / knockbackSeconds) : 1f;
+            float t = _moveSeconds > 0f ? Mathf.Clamp01(_knockbackElapsed / _moveSeconds) : 1f;
             float eased = 1f - Mathf.Pow(1f - t, 3f); // ease-out cubic
 
             float previous = Height;
@@ -216,6 +284,7 @@ namespace Game.Gameplay
             if (t >= 1f)
             {
                 _knockbackActive = false;
+                _moveIsBump = false;
             }
         }
 

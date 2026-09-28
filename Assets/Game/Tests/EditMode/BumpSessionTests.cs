@@ -22,6 +22,8 @@ namespace Game.Tests.EditMode
     /// </summary>
     public sealed class BumpSessionTests
     {
+        private const float BodyHeight = 2f;
+
         private GameObject _motorGo;
         private GameObject _sessionGo;
         private TextAsset _level;
@@ -44,14 +46,15 @@ namespace Game.Tests.EditMode
             _catalog.fallbackTag = "Guest";
             _catalog.types = new[]
             {
-                new BumpType { id = "boxing", displayName = "Boxing", liftDistance = 1.5f, dropDistance = 1.5f },
-                new BumpType { id = "heavy", displayName = "Heavy", liftDistance = 4f, dropDistance = 3f },
+                new BumpType { id = "boxing", displayName = "Boxing", liftBodyHeights = 1f, dropBodyHeights = 1f },
+                new BumpType { id = "heavy", displayName = "Heavy", liftBodyHeights = 2f, dropBodyHeights = 1.5f },
             };
 
             _session = _sessionGo.AddComponent<GameSession>();
             SetObjectReference(_session, "motor", _motor);
             SetObjectReference(_session, "levelJson", _level);
             SetObjectReference(_session, "bumpCatalog", _catalog);
+            SetFloat(_session, "hazardBodyHeight", BodyHeight);
             typeof(GameSession).GetMethod("Awake", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(_session, null);
 
             // Swap the fixed-port listener Awake made for an OS-assigned one with the same wiring.
@@ -91,7 +94,7 @@ namespace Game.Tests.EditMode
             Assert.AreEqual(BumpPolarity.Positive, received.Value.Polarity);
             Assert.AreEqual("heavy", received.Value.Type.id);
             Assert.AreEqual("Ana", received.Value.Tag);
-            Assert.AreEqual(start + 4f * _session.DistanceScale, _motor.Height, 0.001f);
+            Assert.AreEqual(start + 2f * BodyHeight, _motor.Height, 0.001f, "two body heights, in world units");
             Assert.AreEqual(Game.Core.SessionState.Playing, _session.State, "a bump must leave the session playable");
         }
 
@@ -110,7 +113,7 @@ namespace Game.Tests.EditMode
             Assert.AreEqual(BumpPolarity.Negative, received.Value.Polarity);
             Assert.AreEqual("boxing", received.Value.Type.id);
             Assert.AreEqual("Guest", received.Value.Tag);
-            Assert.AreEqual(start - 1.5f * _session.DistanceScale, _motor.Height, 0.001f);
+            Assert.AreEqual(start - 1f * BodyHeight, _motor.Height, 0.001f);
         }
 
         [Test]
@@ -198,6 +201,71 @@ namespace Game.Tests.EditMode
             }
         }
 
+        [Test]
+        public void AcceptedBump_WaitsForTheImpactDelay_ThenMovesExactlyOneBodyHeight()
+        {
+            SetFloat(_session, "bumpImpactDelaySeconds", 0.275f);
+            Assert.AreEqual(0.275f, _session.BumpImpactDelaySeconds, 0.0001f);
+            float start = _motor.Height;
+
+            SendAndDrain("GET /bump?polarity=positive&type=boxing HTTP/1.1\r\nHost: localhost\r\n\r\n");
+
+            for (int i = 0; i < 12; i++)
+            {
+                _motor.Step(1f / 60f); // 0.2 s: the gloves have not landed yet.
+            }
+
+            Assert.AreEqual(start, _motor.Height, "nothing moves before the impact");
+            Assert.IsFalse(_motor.IsInKnockback);
+
+            Settle();
+            Assert.AreEqual(start + BodyHeight, _motor.Height, 0.001f);
+        }
+
+        [Test]
+        public void DefaultBodyHeights_UseTheSceneBoundBodyHeight()
+        {
+            Assert.AreEqual(BodyHeight, _session.BodyHeight, 0.0001f);
+        }
+
+        [Test]
+        public void ReturnToMenu_ResetsTheClimberToTheBase()
+        {
+            _motor.ResetState(20f);
+
+            _session.ReturnToMenu();
+
+            Assert.AreEqual(0f, _motor.Height);
+            Assert.AreEqual(Game.Core.SessionState.Menu, _session.State);
+        }
+
+        [Test]
+        public void ApplicationPause_PausesAPlayingSession_AndDoesNotAutoResume()
+        {
+            MethodInfo onPause = typeof(GameSession).GetMethod("OnApplicationPause", BindingFlags.Instance | BindingFlags.NonPublic);
+
+            onPause.Invoke(_session, new object[] { true });
+            Assert.AreEqual(Game.Core.SessionState.Paused, _session.State);
+
+            onPause.Invoke(_session, new object[] { false });
+            Assert.AreEqual(Game.Core.SessionState.Paused, _session.State, "the player resumes deliberately");
+        }
+
+        [Test]
+        public void StartLevel_DropsABumpStillWaitingForItsImpact()
+        {
+            _motor.ApplyBump(3f, 0.275f);
+
+            _session.StartLevel();
+            for (int i = 0; i < 120; i++)
+            {
+                _motor.Step(1f / 60f);
+            }
+
+            Assert.AreEqual(0f, _motor.Height);
+            Assert.AreEqual(0, _motor.PendingBumpCount);
+        }
+
         private void Settle()
         {
             for (int i = 0; i < 60; i++)
@@ -251,6 +319,15 @@ namespace Game.Tests.EditMode
             {
                 property.GetArrayElementAtIndex(i).objectReferenceValue = values[i];
             }
+        }
+
+        private static void SetFloat(UnityEngine.Object target, string fieldName, float value)
+        {
+            var so = new SerializedObject(target);
+            SerializedProperty property = so.FindProperty(fieldName);
+            Assert.IsNotNull(property, "missing serialized field " + fieldName);
+            property.floatValue = value;
+            so.ApplyModifiedPropertiesWithoutUndo();
         }
 
         private static void SetObjectReference(UnityEngine.Object target, string fieldName, UnityEngine.Object value)

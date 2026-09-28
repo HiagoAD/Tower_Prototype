@@ -128,6 +128,17 @@ namespace Game.Editor
 
         private const float CollarRadiusToShaftRadius = 1.11f;
 
+        // The summit is placed at runtime (TowerSummit). The climber's feet reach the level's finish
+        // height with its raised hands, about the body's height up, at the crown's lip; the standing
+        // surface is that lip above the finish. The tower-top model is a crenellated crown, so its
+        // floor is taken as this share of its measured height rather than its rim.
+        private const float SummitLipToBodyHeight = 0.85f;
+        private const float CrownStandSurfaceFraction = 0.8f;
+        private const float SummitSlideSeconds = 0.8f;
+        // Win panel button, in menu-button slots below the screen centre: the standing climber
+        // lands around 0.3-0.5 of the screen height up from the bottom, so the button sits below it.
+        private const int WinButtonSlot = 4;
+
         private const float PedestalRadiusMultiplier = 1.9f;
         private const float PedestalHeightMultiplier = 0.8f;
         private const float SeaHalfExtent = 14f * WorldScale;
@@ -179,6 +190,9 @@ namespace Game.Editor
             PlayerBuildResult player = BuildPlayer(tower);
             BindPrivate(pace, "bodyHeight", player.Metrics.Height);
             EditorUtility.SetDirty(pace);
+            float summitLip = player.Metrics.Height * SummitLipToBodyHeight;
+            BindPrivate(player.SlideView, "standOffset", new Vector3(0f, summitLip, -player.Motor.transform.position.z));
+            BindPrivate(player.SlideView, "slideSeconds", SummitSlideSeconds);
             BumpCatalog bumpCatalog = LoadOrCreateBumpCatalog(gloveSprite);
             Camera camera = BuildCamera(player.Motor, player.Metrics.ChestHeight, pace, out CameraShake shake);
 
@@ -193,6 +207,21 @@ namespace Game.Editor
             BindPrivate(session, "hazardSafeMaterial", hazardSafeMaterial);
             BindPrivate(session, "hazardVisualDiameter", tower.Radius * 2f * HazardVisualDiameterMultiplier);
             BindPrivate(session, "hazardBodyHeight", player.Metrics.Height);
+
+            BindPrivate(player.SlideView, "session", session);
+            TowerSummit summit = tower.Root.AddComponent<TowerSummit>();
+            BindPrivate(summit, "session", session);
+            BindPrivate(summit, "motor", player.Motor);
+            BindPrivate(summit, "crown", tower.Crown);
+            BindPrivate(summit, "shaft", tower.Shaft);
+            BindPrivateArray(summit, "pieces", tower.Pieces);
+            BindPrivate(summit, "crownPivotAboveBase", tower.CrownPivotAboveBase);
+            BindPrivate(summit, "crownBaseToSurface", tower.CrownBaseToSurface);
+            BindPrivate(summit, "lip", summitLip);
+            BindPrivate(summit, "pieceMargin", tower.PieceMargin);
+            float defaultFinish = level.finishHeight * pace.DistanceScaleFor(level);
+            BindPrivate(summit, "defaultFinishHeight", defaultFinish);
+            summit.Place(defaultFinish); // so the saved scene already shows Level 1's top.
 
             BindPrivate(player.PoseDriver, "session", session);
             BindPrivate(player.PoseDriver, "pace", pace);
@@ -246,8 +275,8 @@ namespace Game.Editor
                         displayName = "Boxing",
                         icon = gloveSprite,
                         iconTint = new Color(0.9f, 0.08f, 0.08f, 1f),
-                        liftDistance = 1.5f,
-                        dropDistance = 1.5f,
+                        liftBodyHeights = 1f,
+                        dropBodyHeights = 1f,
                     },
                 };
                 AssetDatabase.CreateAsset(catalog, BumpCatalogPath);
@@ -617,14 +646,23 @@ namespace Game.Editor
             }
         }
 
-        private readonly struct TowerMetrics
+        private struct TowerMetrics
         {
             public readonly float Radius;
             public readonly float ScaleFactor;
             public readonly float SegmentHeight;
             public readonly Material Material;
 
-            public TowerMetrics(float radius, float scaleFactor, float segmentHeight, Material material)
+            // Summit wiring for TowerSummit, set by BuildTower.
+            public GameObject Root;
+            public Transform Crown;
+            public Transform Shaft;
+            public Object[] Pieces;
+            public float CrownPivotAboveBase;
+            public float CrownBaseToSurface;
+            public float PieceMargin;
+
+            public TowerMetrics(float radius, float scaleFactor, float segmentHeight, Material material) : this()
             {
                 Radius = radius;
                 ScaleFactor = scaleFactor;
@@ -653,9 +691,11 @@ namespace Game.Editor
             public readonly ClimberPoseDriver PoseDriver;
             public readonly Transform HitTarget;
             public readonly CharacterMetrics Metrics;
+            public readonly SummitSlideView SlideView;
 
-            public PlayerBuildResult(PlayerMotor motor, ClimberPoseDriver poseDriver, Transform hitTarget, CharacterMetrics metrics)
+            public PlayerBuildResult(PlayerMotor motor, ClimberPoseDriver poseDriver, Transform hitTarget, CharacterMetrics metrics, SummitSlideView slideView)
             {
+                SlideView = slideView;
                 Motor = motor;
                 PoseDriver = poseDriver;
                 HitTarget = hitTarget;
@@ -728,7 +768,8 @@ namespace Game.Editor
                 storey++;
             }
 
-            CreateTowerCylinder(root.transform, "Shaft", diameter, y, y * 0.5f, towerMaterial);
+            // The shaft and crown are moved and resized at runtime (TowerSummit), so neither is static.
+            GameObject shaftGo = CreateTowerCylinder(root.transform, "Shaft", diameter, y, y * 0.5f, towerMaterial, isStatic: false);
 
             float topNaturalRadius = Mathf.Max(topBounds.extents.x, topBounds.extents.z);
             float topScale = topNaturalRadius > 0f ? collarOuterRadius / topNaturalRadius : scaleFactor;
@@ -737,17 +778,39 @@ namespace Game.Editor
             topInstance.transform.localPosition = new Vector3(0f, y - topBounds.min.y * topScale, 0f);
             topInstance.transform.localScale = Vector3.one * topScale;
             ApplyMaterialToRenderers(topInstance, towerMaterial);
-            MakeStatic(topInstance);
+
+            var summitPieces = new System.Collections.Generic.List<Object>();
+            foreach (Transform child in root.transform)
+            {
+                if (child.name.StartsWith("Collar") || child.name.StartsWith("Window"))
+                {
+                    summitPieces.Add(child);
+                }
+            }
+
+            float crownPivotAboveBase = -topBounds.min.y * topScale;
+            float crownBaseToSurface = topBounds.size.y * topScale * CrownStandSurfaceFraction;
+            Debug.Log(string.Format("[Level1SceneSetup] Crown: height={0:F3} pivotAboveBase={1:F3} surfaceAboveBase={2:F3}",
+                topBounds.size.y * topScale, crownPivotAboveBase, crownBaseToSurface));
 
             Debug.Log(string.Format(
                 "[Level1SceneSetup] Tower: naturalRadius={0:F3} naturalPieceHeight={1:F3} radius={2:F3} collarHeight={3:F3} storeys={4} height={5:F2}",
                 naturalRadius, naturalPieceHeight, radius, collarHeight, storey, y));
 
-            return new TowerMetrics(radius, scaleFactor, naturalPieceHeight * scaleFactor, towerMaterial);
+            return new TowerMetrics(radius, scaleFactor, naturalPieceHeight * scaleFactor, towerMaterial)
+            {
+                Root = root,
+                Crown = topInstance.transform,
+                Shaft = shaftGo.transform,
+                Pieces = summitPieces.ToArray(),
+                CrownPivotAboveBase = crownPivotAboveBase,
+                CrownBaseToSurface = crownBaseToSurface,
+                PieceMargin = collarHeight * 0.5f,
+            };
         }
 
         /// <summary>A static, collider-free built-in cylinder centred at centreY. Casts no shadow unless the caller enables it.</summary>
-        private static GameObject CreateTowerCylinder(Transform parent, string name, float diameter, float height, float centreY, Material material)
+        private static GameObject CreateTowerCylinder(Transform parent, string name, float diameter, float height, float centreY, Material material, bool isStatic = true)
         {
             GameObject cylinder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             Object.DestroyImmediate(cylinder.GetComponent<Collider>());
@@ -758,7 +821,11 @@ namespace Game.Editor
             Renderer renderer = cylinder.GetComponent<Renderer>();
             renderer.sharedMaterial = material;
             renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-            MakeStatic(cylinder);
+            if (isStatic)
+            {
+                MakeStatic(cylinder);
+            }
+
             return cylinder;
         }
 
@@ -835,8 +902,14 @@ namespace Game.Editor
             Texture2D characterTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(CharacterTexturePath);
             Material characterMaterial = CreateOrUpdateTexturedMaterial(CharacterMaterialPath, characterTexture);
 
+            // Between the motor's Player and the Visual (which carries the pose driver): the summit
+            // slide moves this, so the pose driver's maths, relative to its own transform, is untouched.
+            var slideGo = new GameObject("SummitSlide");
+            slideGo.transform.SetParent(playerGo.transform, false);
+            SummitSlideView slideView = slideGo.AddComponent<SummitSlideView>();
+
             var visualGo = new GameObject("Visual");
-            visualGo.transform.SetParent(playerGo.transform, false);
+            visualGo.transform.SetParent(slideGo.transform, false);
 
             GameObject characterInstance = (GameObject)PrefabUtility.InstantiatePrefab(characterPrefab, visualGo.transform);
             characterInstance.name = "CharacterModel";
@@ -892,7 +965,7 @@ namespace Game.Editor
                 "[Level1SceneSetup] Character: naturalHeight={0:F3} scaleFactor={1:F3} height={2:F3} halfDepth={3:F3} chestHeight={4:F3} playerZ={5:F3}",
                 naturalCharacterHeight, characterScaleFactor, characterHeight, characterHalfDepth, chestHeight, characterZ));
 
-            return new PlayerBuildResult(motor, poseDriver, hitTargetGo.transform, new CharacterMetrics(characterHeight, characterHalfDepth, chestHeight));
+            return new PlayerBuildResult(motor, poseDriver, hitTargetGo.transform, new CharacterMetrics(characterHeight, characterHalfDepth, chestHeight), slideView);
         }
 
         private static float TowerRadius()
@@ -1021,7 +1094,7 @@ namespace Game.Editor
 
             GameObject winPanel = BuildMenuPanel(canvasRect, "WinPanel", "SUMMIT REACHED");
             winPanel.SetActive(false);
-            Button winMenuButton = AddMenuButton(winPanel.transform, "MenuButton", "Exit", 0, primary: true);
+            Button winMenuButton = AddMenuButton(winPanel.transform, "MenuButton", "Exit", WinButtonSlot, primary: true);
             UnityEventTools.AddPersistentListener(winMenuButton.onClick, session.ReturnToMenu);
 
             GameObject losePanel = BuildMenuPanel(canvasRect, "LosePanel", "GAME OVER");
@@ -1049,6 +1122,7 @@ namespace Game.Editor
             BindPrivate(menuView, "pausePanel", pausePanel);
             BindPrivate(menuView, "winPanel", winPanel);
             BindPrivate(menuView, "losePanel", losePanel);
+            BindPrivate(menuView, "winPanelDelaySeconds", SummitSlideSeconds);
 
             Image flashImage = AddImage(canvasGo.transform, "FlashImage", null, new Color(1f, 1f, 1f, 0f));
             Stretch(flashImage.rectTransform);

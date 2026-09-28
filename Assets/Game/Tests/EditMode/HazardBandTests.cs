@@ -196,7 +196,7 @@ namespace Game.Tests.EditMode
             _motor.Step(_motor.KnockbackSeconds * 0.5f);
 
             _motor.ApplyBump(1.5f);
-            _motor.Step(_motor.KnockbackSeconds + 0.01f);
+            _motor.Step(_motor.BumpMoveSeconds + 0.01f);
 
             Assert.AreEqual(BandHeight - BodyHeight - Clearance + 1.5f, _motor.Height, 0.001f);
         }

@@ -498,3 +498,21 @@ Review follow-ups (same day): rich text off on card lines, single-line ellipsis 
 Merged `claude/bump-types` (`273db0e`) into main after the JSON and hazard changes. Resolved session/setup conflicts without restoring lives, adapted the bump session tests to JSON, and kept hazard clearance targets alongside stacked signed bump displacement. Added a regression for a bump during hazard knockback. Regenerated Level1 through Unity with the JSON level, bump catalog, two event-feed columns and updated hazard body height.
 
 Validation: compilation and scene regeneration succeeded (`/tmp/tower-bump-merge-scene.log`); EditMode **101/101 passed**, zero failed/skipped (`/tmp/tower-bump-merge-editmode.xml`, log `/tmp/tower-bump-merge-editmode.log`). Reference checksums all passed. No Android/device validation or milestone gate change. Pre-existing local documentation edits are preserved separately from this merge.
+
+### 2026-09-28 — G2 follow-up: bumps you can see, tower ends at the finish (Claude)
+
+The candidate watched a device run of the integrated build (APK `4ab1eb8a…`, EditMode 101/101) and reported that bumps did nothing and that the tower continued past the finish. Implemented by two parallel Sonnet 5.5 agents with disjoint file ownership; Claude integrated, ran Unity and tested on the device.
+
+- **Bumps move the climber by a visible distance.** `BumpType` distances are now `liftBodyHeights` / `dropBodyHeights` in climber body heights, per type (boxing = 1, user's choice; previously 1.5 authored units ≈ 0.55 body heights). The move starts when the first glove lands (`GameSession.bumpImpactDelaySeconds` 0.275, the single timing source for `BumpBurstView`), lasts `bumpMoveSeconds` 0.6 (hazard knockback stays 0.35), and the camera follows at 0.25× during it, so the climber visibly travels on screen. Impact glow alpha 0.95→0.5 and scale 1.2→0.8; full-screen flash 0.65→0.3. An upward bump plays a boosted pose (arms overhead) instead of the hit flail. Pending bumps freeze with pause and are dropped on level start.
+- **The tower ends at the finish.** `TowerSummit` places the crown at each level's finish plus a hand-reach lip (0.85 body heights) at runtime, ends the shaft there and hides collars/windows above. The scene is still built for the tallest finish at the fastest pace, so five levels and pace changes need no rebuild. On a win, `SummitSlideView` slides the climber over the lip onto the crown over 0.8 s, turning to face the camera. The win panel waits for the slide and its Exit button moved to the bottom.
+- **Review fixes.** A backgrounded app pauses (`/bump` answers 409 instead of a 503 timeout); returning to the menu resets the climber to the base.
+
+Checks: scene regenerated via `Level1SceneSetup.Build`; EditMode **123/123 passed** (`evidence/bumpfeel_summit_editmode.xml`). One new summit test asserted a piece above the crown stayed visible; the test was wrong (code correct) and was fixed. APK built (Succeeded, Errors=0), SHA-256 `4229fe2d071da42e97bb86019423f8e54f757e4c411bc92260e1acc654b5602c`; the installed base.apk matches. Reference checksums all OK.
+
+Device (moto g 5G plus `0070013699`), no Unity warnings/errors in logcat:
+- Positive POST mid-climb: altitude 701 → 973 (+272 = one body height), gloves from below, boosted pose, camera catches up (`evidence/bumpfeel_positive_frames.png`, 0.2 s steps).
+- Negative POST: gloves from above, climber drops on screen. The same run also recorded the first device hazard hit: the band turned active over the climber during the 0.275 s impact delay (knocked to 701), then the bump stacked (→ 429) (`evidence/bumpfeel_negative_frames.png`, `evidence/bumpfeel_device.mp4`).
+- Summit: tower top comes into view, climber slides onto the crown and stands facing the camera, "SUMMIT REACHED" then appears with Exit below (`evidence/summit_climb_1fps.png`, `evidence/summit_standing.png`, `evidence/summit_device.mp4`).
+- Menu/won/paused/backgrounded requests return 409; Exit returns to the menu with the climber at the base; foregrounding shows the pause panel.
+
+Not verified: impact audio audibility (not listened to); the `MenuView` win-panel delay has no automated test; 1080x1920 layout. Nothing committed yet.

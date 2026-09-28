@@ -20,5 +20,5 @@ MonoBehaviour:
     displayName: Boxing
     icon: {fileID: 21300000, guid: 7d0008652b6a6400dbdf2154fe492c8f, type: 3}
     iconTint: {r: 0.9, g: 0.08, b: 0.08, a: 1}
-    liftDistance: 1.5
-    dropDistance: 1.5
+    liftBodyHeights: 1
+    dropBodyHeights: 1

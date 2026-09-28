@@ -36,20 +36,20 @@ namespace Game.Tests.EditMode
         }
 
         [Test]
-        public void PositiveBump_EasesUpByDistanceTimesScale()
+        public void PositiveBump_EasesUpByTheWorldDistance_IgnoringDistanceScale()
         {
             _motor.DistanceScale = 2f;
             _motor.ResetState(10f);
 
-            _motor.ApplyBump(1.5f);
+            _motor.ApplyBump(3f);
             Assert.AreEqual(10f, _motor.Height, "no teleport on the bump frame");
             _motor.Step(Dt);
             Assert.Greater(_motor.Height, 10f);
             Assert.Less(_motor.Height, 13f);
 
-            RunFor(_motor.KnockbackSeconds + Dt);
+            RunFor(_motor.BumpMoveSeconds + Dt);
 
-            Assert.AreEqual(13f, _motor.Height, 0.001f);
+            Assert.AreEqual(13f, _motor.Height, 0.001f, "a bump's distance is already in world units");
             Assert.IsFalse(_motor.IsInKnockback);
         }
 
@@ -59,7 +59,7 @@ namespace Game.Tests.EditMode
             _motor.ResetState(29.5f);
 
             _motor.ApplyBump(5f);
-            RunFor(_motor.KnockbackSeconds + Dt);
+            RunFor(_motor.BumpMoveSeconds + Dt);
 
             Assert.AreEqual(30f, _motor.Height, 0.001f);
             Assert.AreEqual(1f, _motor.NormalizedProgress, 0.0001f);
@@ -71,7 +71,7 @@ namespace Game.Tests.EditMode
             _motor.ResetState(0.5f);
 
             _motor.ApplyBump(-5f);
-            RunFor(_motor.KnockbackSeconds + Dt);
+            RunFor(_motor.BumpMoveSeconds + Dt);
 
             Assert.AreEqual(0f, _motor.Height, 0.001f);
         }
@@ -89,7 +89,7 @@ namespace Game.Tests.EditMode
 
             _motor.Step(Dt * 6f);
             _motor.ApplyBump(1.5f); // retargets from the current height, mid-move
-            RunFor(_motor.KnockbackSeconds + Dt);
+            RunFor(_motor.BumpMoveSeconds + Dt);
 
             Assert.AreEqual(8.5f + 3f, _motor.Height, 0.001f, "the second bump adds to the first bump's target");
         }
@@ -97,15 +97,14 @@ namespace Game.Tests.EditMode
         [Test]
         public void RapidPositiveBumps_AccumulateFullDistance()
         {
-            _motor.DistanceScale = 2f;
             _motor.ResetState(10f);
 
-            _motor.ApplyBump(1.5f);
+            _motor.ApplyBump(3f);
             _motor.Step(Dt * 3f);
-            _motor.ApplyBump(1.5f);
-            RunFor(_motor.KnockbackSeconds + Dt);
+            _motor.ApplyBump(3f);
+            RunFor(_motor.BumpMoveSeconds + Dt);
 
-            Assert.AreEqual(10f + 3f * 2f, _motor.Height, 0.001f);
+            Assert.AreEqual(10f + 6f, _motor.Height, 0.001f);
         }
 
         [Test]
@@ -126,7 +125,7 @@ namespace Game.Tests.EditMode
             _motor.ResetState(9f);
 
             _motor.ApplyBump(3f);
-            RunFor(_motor.KnockbackSeconds + Dt);
+            RunFor(_motor.BumpMoveSeconds + Dt);
 
             Assert.AreEqual(12f, _motor.Height, 0.001f);
             Assert.AreEqual(0, hits);
@@ -138,7 +137,7 @@ namespace Game.Tests.EditMode
             _motor.ResetState(5f);
 
             _motor.ApplyBump(3f);
-            RunFor(_motor.KnockbackSeconds - 2f * Dt);
+            RunFor(_motor.BumpMoveSeconds - 2f * Dt);
 
             Assert.IsTrue(_motor.IsInKnockback);
             Assert.IsTrue(_motor.IsInvulnerable, "a hit must be refused for the entire move");
@@ -161,10 +160,121 @@ namespace Game.Tests.EditMode
             _motor.ResetState(9f);
 
             _motor.ApplyBump(3f);
-            RunFor(_motor.KnockbackSeconds + Dt);
+            RunFor(_motor.BumpMoveSeconds + Dt);
 
             Assert.Greater(_motor.Height, bandHeight, "the bump carried the climber through the band");
             Assert.AreEqual(0, hits);
+        }
+
+        [Test]
+        public void DelayedBump_DoesNotMoveBeforeTheImpactDelay()
+        {
+            _motor.ResetState(10f);
+
+            _motor.ApplyBump(3f, 0.3f);
+            RunFor(0.25f);
+
+            Assert.AreEqual(10f, _motor.Height);
+            Assert.IsFalse(_motor.IsInKnockback);
+            Assert.IsFalse(_motor.IsInvulnerable);
+            Assert.IsFalse(_motor.IsLockedOut);
+            Assert.AreEqual(1, _motor.PendingBumpCount);
+
+            RunFor(0.1f + Dt);
+            Assert.IsTrue(_motor.IsBumpMove);
+            Assert.AreEqual(0, _motor.PendingBumpCount);
+            RunFor(_motor.BumpMoveSeconds + Dt);
+            Assert.AreEqual(13f, _motor.Height, 0.001f);
+        }
+
+        [Test]
+        public void PendingBump_FreezesWhilePaused()
+        {
+            _motor.ResetState(10f);
+            _motor.ApplyBump(3f, 0.3f);
+            RunFor(0.2f);
+
+            _motor.Paused = true;
+            RunFor(5f);
+            Assert.AreEqual(1, _motor.PendingBumpCount);
+            Assert.IsFalse(_motor.IsInKnockback);
+
+            _motor.Paused = false;
+            RunFor(0.05f);
+            Assert.IsFalse(_motor.IsInKnockback, "only about 0.25 s of the delay has elapsed");
+            RunFor(0.1f);
+            Assert.IsTrue(_motor.IsBumpMove);
+        }
+
+        [Test]
+        public void ResetState_CancelsAPendingBump()
+        {
+            _motor.ResetState(10f);
+            _motor.ApplyBump(3f, 0.3f);
+
+            _motor.ResetState(0f);
+            RunFor(1f + _motor.BumpMoveSeconds);
+
+            Assert.AreEqual(0, _motor.PendingBumpCount);
+            Assert.AreEqual(0f, _motor.Height);
+            Assert.IsFalse(_motor.IsInKnockback);
+        }
+
+        [Test]
+        public void BumpMove_UsesBumpMoveSeconds_AndItsOwnLockout()
+        {
+            _motor.ResetState(10f);
+            _motor.ApplyBump(3f);
+
+            Assert.IsTrue(_motor.IsBumpMove);
+            Assert.AreEqual(1, _motor.BumpMoveDirection);
+            Assert.Greater(_motor.BumpMoveSeconds, _motor.KnockbackSeconds);
+            Assert.AreEqual(_motor.BumpMoveSeconds + (_motor.ClimbLockoutSeconds - _motor.KnockbackSeconds), _motor.BumpLockoutSeconds, 0.0001f);
+
+            RunFor(_motor.KnockbackSeconds + 2f * Dt);
+            Assert.IsTrue(_motor.IsInKnockback, "a bump outlasts a hazard knockback");
+            Assert.Less(_motor.Height, 13f);
+
+            RunFor(_motor.BumpMoveSeconds - _motor.KnockbackSeconds);
+            Assert.IsFalse(_motor.IsInKnockback);
+            Assert.AreEqual(13f, _motor.Height, 0.001f);
+            Assert.IsTrue(_motor.IsLockedOut, "re-grip follows the move");
+
+            RunFor(_motor.BumpLockoutSeconds - _motor.BumpMoveSeconds + 2f * Dt);
+            Assert.IsFalse(_motor.IsLockedOut);
+        }
+
+        [Test]
+        public void HazardHit_IsNotABumpMove_AndUsesKnockbackSeconds()
+        {
+            _motor.ResetState(10f);
+            Assert.IsTrue(_motor.TryApplyHit());
+
+            Assert.IsFalse(_motor.IsBumpMove);
+            Assert.AreEqual(0, _motor.BumpMoveDirection);
+            RunFor(_motor.KnockbackSeconds + 2f * Dt);
+            Assert.IsFalse(_motor.IsInKnockback);
+        }
+
+        [Test]
+        public void NegativeBump_ReportsDownwardDirection()
+        {
+            _motor.ResetState(10f);
+            _motor.ApplyBump(-3f);
+
+            Assert.AreEqual(-1, _motor.BumpMoveDirection);
+        }
+
+        [Test]
+        public void DelayedBumps_StackTheirFullDistances()
+        {
+            _motor.ResetState(10f);
+            _motor.ApplyBump(3f, 0.2f);
+            _motor.ApplyBump(3f, 0.3f);
+
+            RunFor(0.3f + _motor.BumpMoveSeconds + 2f * Dt);
+
+            Assert.AreEqual(16f, _motor.Height, 0.001f);
         }
     }
 }

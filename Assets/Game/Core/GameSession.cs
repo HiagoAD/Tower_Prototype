@@ -23,7 +23,12 @@ namespace Game.Core
         // Both derived at editor time (Level1SceneSetup) from the imported tower/character bounds --
         // see HazardBand.Initialize's doc comment for what each controls.
         [SerializeField] private float hazardVisualDiameter = 2.6f;
+        // The climber's full feet-to-head height in world units. Also the unit a BumpType's
+        // lift/drop distances are measured in. (Name kept: the scene binding serializes it.)
         [SerializeField] private float hazardBodyHeight = 2.7f;
+
+        [Tooltip("Seconds from an accepted bump to its glove impact, when the climber's move starts. BumpBurstView times its first glove's mid-flight to this.")]
+        [SerializeField] private float bumpImpactDelaySeconds = 0.275f;
 
         // How far below a hazard band the knocked-back climber's head must end up, as a share of the body height.
         private const float HazardClearanceToBodyHeight = 0.1f;
@@ -50,6 +55,12 @@ namespace Game.Core
 
         /// <summary>Authored-to-play distance factor for the current level (see ClimbPace).</summary>
         public float DistanceScale => _distanceScale;
+
+        /// <summary>The climber's full body height in world units; the unit bump distances are authored in.</summary>
+        public float BodyHeight => hazardBodyHeight;
+
+        /// <summary>Delay between an accepted bump and its glove impact (the climber's move starting).</summary>
+        public float BumpImpactDelaySeconds => bumpImpactDelaySeconds;
 
         public SessionState State { get; private set; } = SessionState.Menu;
 
@@ -134,7 +145,8 @@ namespace Game.Core
                 }
 
                 // Nonlethal spectacle: never consumes a hit point, never blocks continued play.
-                motor.ApplyBump(bump.Polarity == BumpPolarity.Positive ? bump.Type.liftDistance : -bump.Type.dropDistance);
+                float bodyHeights = bump.Polarity == BumpPolarity.Positive ? bump.Type.liftBodyHeights : -bump.Type.dropBodyHeights;
+                motor.ApplyBump(bodyHeights * hazardBodyHeight, bumpImpactDelaySeconds);
                 BumpAccepted?.Invoke(bump);
             }
         }
@@ -162,7 +174,7 @@ namespace Game.Core
             {
                 Debug.LogError("[GameSession] No BumpCatalog assigned; using a built-in boxing type.");
                 _fallbackCatalog = ScriptableObject.CreateInstance<BumpCatalog>();
-                _fallbackCatalog.types = new[] { new BumpType { id = _fallbackCatalog.defaultTypeId, displayName = "Boxing", liftDistance = 1.5f, dropDistance = 1.5f } };
+                _fallbackCatalog.types = new[] { new BumpType { id = _fallbackCatalog.defaultTypeId, displayName = "Boxing", liftBodyHeights = 1f, dropBodyHeights = 1f } };
             }
 
             return _fallbackCatalog;
@@ -220,8 +232,19 @@ namespace Game.Core
             SetState(SessionState.Playing);
         }
 
+        private void OnApplicationPause(bool pauseStatus)
+        {
+            // A backgrounded app answers /bump with 409 (not a 503 timeout) and the player never
+            // returns mid-level. No auto-resume: the player resumes deliberately.
+            if (pauseStatus)
+            {
+                Pause();
+            }
+        }
+
         public void ReturnToMenu()
         {
+            motor.ResetState(0f); // the menu shows the climber at the base, not wherever the run ended.
             motor.CanClimb = false;
             motor.Paused = true;
             _accepting = false;

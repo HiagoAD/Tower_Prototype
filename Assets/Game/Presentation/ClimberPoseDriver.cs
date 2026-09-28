@@ -79,6 +79,10 @@ namespace Game.Presentation
         [SerializeField] private Vector3 winArmDirection = new Vector3(0.3f, 1f, 0.1f);
         [SerializeField] private Vector3 loseArmDirection = new Vector3(0.5f, -0.8f, -0.4f);
         [SerializeField] private float loseBodyTiltDegrees = 16f;
+        [Tooltip("Arms of the boosted pose, played during an upward bump move: raised overhead.")]
+        [SerializeField] private Vector3 boostArmDirection = new Vector3(0.25f, 1f, 0.05f);
+        [Tooltip("Legs of the boosted pose: hanging, trailing slightly behind the lift (x outward, y up, z into the tower).")]
+        [SerializeField] private Vector3 boostLegDirection = new Vector3(0.08f, -1f, -0.18f);
 
         private struct Limb
         {
@@ -189,6 +193,10 @@ namespace Game.Presentation
 
             _wasKnockedBack = knockedBack;
 
+            // An upward bump is help, not a hit: it gets the boosted pose instead of the flail.
+            bool boosted = knockedBack && motor.IsBumpMove && motor.BumpMoveDirection > 0;
+            bool flailing = knockedBack && !boosted;
+
             bool overridePose = knockedBack || _sessionState == SessionState.Won || _sessionState == SessionState.Lost;
             _overrideWeight = Mathf.MoveTowards(_overrideWeight, overridePose ? 1f : 0f, dt / (knockedBack ? 0.05f : 0.2f));
             if (!overridePose)
@@ -197,9 +205,9 @@ namespace Game.Presentation
             }
 
             StepBody(dt, knockedBack);
-            ApplyBody(knockedBack);
-            ApplyArms(knockedBack);
-            ApplyLegs(knockedBack);
+            ApplyBody(flailing, boosted);
+            ApplyArms(flailing, boosted);
+            ApplyLegs(flailing, boosted);
         }
 
         // ---- grips ---------------------------------------------------------------------------
@@ -328,7 +336,7 @@ namespace Game.Presentation
             }
         }
 
-        private void ApplyBody(bool knockedBack)
+        private void ApplyBody(bool flailing, bool boosted)
         {
             if (bodyRoot == null)
             {
@@ -339,7 +347,13 @@ namespace Game.Presentation
             Vector3 offset = new Vector3(_swayX, _yankY, 0f);
             Vector3 euler = new Vector3(0f, _twist, roll);
 
-            if (knockedBack)
+            if (boosted)
+            {
+                // Upright and squared to the camera; only the springs' yank remains.
+                offset = Vector3.Lerp(offset, new Vector3(0f, _yankY, 0f), _overrideWeight);
+                euler = Vector3.Lerp(euler, Vector3.zero, _overrideWeight);
+            }
+            else if (flailing)
             {
                 float flail = Mathf.Sin(Time.time * hitFlailFrequency);
                 offset = Vector3.Lerp(offset, new Vector3(0f, 0f, -hitPushDistance * _armLength), _overrideWeight);
@@ -357,12 +371,13 @@ namespace Game.Presentation
 
         // ---- limbs ---------------------------------------------------------------------------
 
-        private void ApplyArms(bool knockedBack)
+        private void ApplyArms(bool flailing, bool boosted)
         {
-            Vector3 overrideDirection = knockedBack ? flailArmDirection
+            Vector3 overrideDirection = boosted ? boostArmDirection
+                : flailing ? flailArmDirection
                 : _sessionState == SessionState.Won ? winArmDirection
                 : loseArmDirection;
-            float flail = knockedBack ? Mathf.Sin(Time.time * hitFlailFrequency) * 0.5f : 0f;
+            float flail = flailing ? Mathf.Sin(Time.time * hitFlailFrequency) * 0.5f : 0f;
             AimArm(_armL, _handL, overrideDirection + new Vector3(0f, flail, 0f));
             AimArm(_armR, _handR, overrideDirection - new Vector3(0f, flail, 0f));
         }
@@ -386,11 +401,19 @@ namespace Game.Presentation
             Aim(arm, Vector3.Slerp(gripDirection, overrideDirection, _overrideWeight));
         }
 
-        private void ApplyLegs(bool knockedBack)
+        private void ApplyLegs(bool flailing, bool boosted)
         {
+            if (boosted)
+            {
+                Vector3 hang = Vector3.Slerp(legHangDirection, boostLegDirection, _overrideWeight);
+                Aim(_legL, Mirror(hang, -1f));
+                Aim(_legR, hang);
+                return;
+            }
+
             // The legs' pendulum lags the body's sway, so the feet trail out opposite it.
             float trail = (_legX - _swayX) / Mathf.Max(_legLength, 0.0001f);
-            float flail = knockedBack ? Mathf.Sin(Time.time * hitFlailFrequency) * 0.4f * _overrideWeight : 0f;
+            float flail = flailing ? Mathf.Sin(Time.time * hitFlailFrequency) * 0.4f * _overrideWeight : 0f;
             Aim(_legL, Mirror(legHangDirection, -1f) + new Vector3(trail, 0f, -flail));
             Aim(_legR, legHangDirection + new Vector3(trail, 0f, flail));
         }

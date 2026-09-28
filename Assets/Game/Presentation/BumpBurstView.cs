@@ -257,8 +257,11 @@ namespace Game.Presentation
                 cameraShake.Shake(durationSeconds);
             }
 
-            // The first glove reaches the character halfway through its flight -- that is the impact.
-            float impactTime = _gloveDelays.Length > 0 ? Mathf.Min(_gloveDelays) + gloveFlightSeconds * 0.5f : 0f;
+            // The session owns the impact time (it is when the climber's move starts). Shift the glove
+            // schedule so the first glove is halfway through its flight -- at the character -- then.
+            float impactTime = session.BumpImpactDelaySeconds;
+            float firstGloveMidFlight = _gloveDelays.Length > 0 ? Mathf.Min(_gloveDelays) + gloveFlightSeconds * 0.5f : 0f;
+            float gloveShift = impactTime - firstGloveMidFlight;
             bool impacted = false;
 
             float t = 0f;
@@ -267,7 +270,7 @@ namespace Game.Presentation
                 t += Time.deltaTime;
                 Vector2 target = ComputeTargetLocalPosition();
 
-                UpdateGloves(t, target);
+                UpdateGloves(t - gloveShift, target);
 
                 if (!impacted && t >= impactTime)
                 {
@@ -320,14 +323,14 @@ namespace Game.Presentation
             const float glowSeconds = 0.45f;
             float starSeconds = Mathf.Max(0.05f, durationSeconds - 0.3f);
 
-            SetFlashAlpha(Mathf.Lerp(0.65f, 0f, sinceImpact / flashSeconds));
+            SetFlashAlpha(Mathf.Lerp(0.3f, 0f, sinceImpact / flashSeconds));
 
             float glowP = Mathf.Clamp01(sinceImpact / glowSeconds);
             _glow.gameObject.SetActive(glowP < 1f);
             _glow.anchoredPosition = target;
-            _glow.localScale = Vector3.one * Mathf.Lerp(0.3f, 1.2f, 1f - (1f - glowP) * (1f - glowP));
+            _glow.localScale = Vector3.one * Mathf.Lerp(0.2f, 0.8f, 1f - (1f - glowP) * (1f - glowP));
             Color glowColor = _glowImage.color;
-            glowColor.a = Mathf.Lerp(0.95f, 0f, glowP);
+            glowColor.a = Mathf.Lerp(0.5f, 0f, glowP);
             _glowImage.color = glowColor;
 
             float starP = Mathf.Clamp01(sinceImpact / starSeconds);

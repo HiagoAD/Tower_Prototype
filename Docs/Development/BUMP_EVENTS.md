@@ -25,7 +25,11 @@ Responses:
 - `400 {"error":"invalid_polarity"}`, `{"error":"unknown_type"}`, `{"error":"bad_body"}` (refused before anything is queued)
 - Unchanged: `400 bad_request`, `404`, `405`, `409 not_playing`, `413`, `429`, `503 timeout`
 
-Stacking: a bump that arrives while an earlier bump is still easing adds its distance to that bump's target (two rapid +1.5 bumps end 3.0 up, before pace scaling), clamped to the tower. Bumps always apply, even during a hit's invulnerability, and never cost a hit point. Long tags are cut to one line with an ellipsis; card text is plain, so markup such as `<size=900>` shows literally.
+Timing: an accepted bump does not move the climber at once. The move starts when the first glove lands, `GameSession.bumpImpactDelaySeconds` (0.275 s) after acceptance; `BumpBurstView` times its first glove's mid-flight to that same value. The climber then eases to the new height over `PlayerMotor.bumpMoveSeconds` (0.6 s, longer than a hazard's 0.35 s), and the camera follows at a quarter of its usual rate while the move plays (`CameraFollow.bumpFollowFactor`) so the movement is visible on screen. Input stays locked for `bumpMoveSeconds + regripSeconds`. A bump still waiting for its impact freezes while the game is paused and is dropped when a level starts or restarts. An upward bump plays a boosted pose (arms overhead); a downward one and hazard hits play the flail.
+
+When the app goes to the background the session pauses (it never resumes by itself), so `/bump` answers `409 not_playing` instead of timing out.
+
+Stacking: a bump that arrives while an earlier bump is still easing adds its distance to that bump's target (two rapid +1 body-height bumps end 2 body heights up), clamped to the tower. Bumps always apply, even during a hit's invulnerability, and never cost a hit point. Long tags are cut to one line with an ellipsis; card text is plain, so markup such as `<size=900>` shows literally.
 
 ## Examples
 
@@ -53,6 +57,6 @@ Data only, no code. Open `Assets/Game/Levels/BumpCatalog.asset` and add an entry
 - `id`: what the server sends as `type`
 - `displayName`: card detail line (`<name>*1`)
 - `icon` and `iconTint`: card badge and burst projectiles
-- `liftDistance` / `dropDistance`: authored level units moved up by a positive bump / down by a negative one (scaled by the climb pace like every level distance)
+- `liftBodyHeights` / `dropBodyHeights`: climber body heights (feet to head, `GameSession.hazardBodyHeight` world units) moved up by a positive bump / down by a negative one. The boxing type is 1 / 1. These are not scaled by the climb pace
 
 The scene builder only fills the catalog when it creates it, so rebuilding the scene never overwrites tuned values.

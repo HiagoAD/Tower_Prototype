@@ -22,10 +22,10 @@ namespace Game.Core
         [Tooltip("Tint of the badge and the burst projectiles.")]
         public Color iconTint = Color.white;
 
-        [Tooltip("Distance a positive bump lifts the climber, in the level's authored units (scaled by the climb pace like every level distance).")]
-        [Min(0f)] public float liftDistance;
+        [Tooltip("Distance a positive bump lifts the climber, in climber body heights (feet to head). 1 = one full body height.")]
+        [Min(0f)] public float liftBodyHeights;
 
-        [Tooltip("Distance a negative bump knocks the climber down, in the level's authored units (scaled by the climb pace).")]
-        [Min(0f)] public float dropDistance;
+        [Tooltip("Distance a negative bump knocks the climber down, in climber body heights (feet to head).")]
+        [Min(0f)] public float dropBodyHeights;
     }
 }
