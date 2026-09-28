@@ -1,0 +1,49 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+namespace Game.Gameplay
+{
+    /// <summary>
+    /// Hold-to-climb input: drives PlayerMotor.ClimbHeld from Space/W (Editor) or a touch inside
+    /// the bottom screen region (device). This is a provisional interpretation, not confirmed
+    /// reference behaviour -- see Docs/Development/REFERENCE_OBSERVATION_ADDENDUM.md. Kept in its
+    /// own component so swapping control schemes later does not touch PlayerMotor or GameSession.
+    /// </summary>
+    public sealed class ClimbInputSource : MonoBehaviour
+    {
+        [SerializeField] private PlayerMotor motor;
+        [Range(0f, 1f)][SerializeField] private float touchRegionNormalizedHeight = 0.35f;
+
+        private void Update()
+        {
+            if (motor == null)
+            {
+                return;
+            }
+
+            motor.ClimbHeld = IsHoldDetected();
+        }
+
+        private bool IsHoldDetected()
+        {
+            Keyboard keyboard = Keyboard.current;
+            if (keyboard != null && (keyboard.spaceKey.isPressed || keyboard.wKey.isPressed))
+            {
+                return true;
+            }
+
+            Touchscreen touch = Touchscreen.current;
+            if (touch != null && touch.primaryTouch.press.isPressed)
+            {
+                Vector2 pos = touch.primaryTouch.position.ReadValue();
+                float regionPixels = Screen.height * touchRegionNormalizedHeight;
+                if (pos.y <= regionPixels)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+}
