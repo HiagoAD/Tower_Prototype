@@ -28,7 +28,7 @@ namespace Game.Tests.EditMode
             Assert.AreEqual(2.5f, level.climbSpeed);
             Assert.AreEqual(2, level.hazards.Length);
             Assert.AreEqual(10f, level.hazards[0].height);
-            Assert.AreEqual(2f, level.hazards[1].phaseOffsetSeconds);
+            Assert.AreEqual(2.6f, level.hazards[1].phaseOffsetSeconds);
         }
 
         [Test]

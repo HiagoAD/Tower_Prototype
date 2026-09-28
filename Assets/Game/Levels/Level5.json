@@ -5,58 +5,52 @@
   "climbSpeed": 2.5,
   "hazards": [
     {
-      "height": 8,
-      "periodSeconds": 4.3,
-      "activeSeconds": 2.6,
-      "phaseOffsetSeconds": 2.5
-    },
-    {
-      "height": 14,
-      "periodSeconds": 4.3,
-      "activeSeconds": 2.6,
-      "phaseOffsetSeconds": 3.0
-    },
-    {
-      "height": 22,
-      "periodSeconds": 4.6,
-      "activeSeconds": 2.4,
-      "phaseOffsetSeconds": 1.0
-    },
-    {
-      "height": 29,
-      "periodSeconds": 4.6,
-      "activeSeconds": 2.4,
-      "phaseOffsetSeconds": 3.75
-    },
-    {
-      "height": 37,
-      "periodSeconds": 4.3,
-      "activeSeconds": 2.6,
-      "phaseOffsetSeconds": 2.5
-    },
-    {
-      "height": 43,
-      "periodSeconds": 4.3,
-      "activeSeconds": 2.6,
-      "phaseOffsetSeconds": 1.25
-    },
-    {
-      "height": 51,
-      "periodSeconds": 4.2,
-      "activeSeconds": 2.5,
-      "phaseOffsetSeconds": 0.25
-    },
-    {
-      "height": 57,
-      "periodSeconds": 4.2,
-      "activeSeconds": 2.5,
+      "height": 9,
+      "periodSeconds": 4.8,
+      "activeSeconds": 2,
       "phaseOffsetSeconds": 3.5
     },
     {
-      "height": 64,
-      "periodSeconds": 4.2,
-      "activeSeconds": 2.5,
-      "phaseOffsetSeconds": 4.25
+      "height": 16,
+      "periodSeconds": 4.8,
+      "activeSeconds": 2,
+      "phaseOffsetSeconds": 4.2
+    },
+    {
+      "height": 23,
+      "periodSeconds": 4.8,
+      "activeSeconds": 2,
+      "phaseOffsetSeconds": 0.5
+    },
+    {
+      "height": 34,
+      "periodSeconds": 4.8,
+      "activeSeconds": 2,
+      "phaseOffsetSeconds": 2.1
+    },
+    {
+      "height": 41,
+      "periodSeconds": 4.8,
+      "activeSeconds": 2,
+      "phaseOffsetSeconds": 0.5
+    },
+    {
+      "height": 48,
+      "periodSeconds": 4.8,
+      "activeSeconds": 2,
+      "phaseOffsetSeconds": 0.4
+    },
+    {
+      "height": 55,
+      "periodSeconds": 4.8,
+      "activeSeconds": 2,
+      "phaseOffsetSeconds": 0.3
+    },
+    {
+      "height": 62,
+      "periodSeconds": 4.8,
+      "activeSeconds": 2,
+      "phaseOffsetSeconds": 1.8
     }
   ]
 }

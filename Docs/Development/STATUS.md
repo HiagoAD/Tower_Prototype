@@ -4,9 +4,9 @@ Latest planning update — 2026-09-28, approximately 17:45 Recife: **social setb
 
 Plan: [ACTION_PLAN.md](ACTION_PLAN.md). Implementer handoff: [CLAUDE_HANDOFF.md](CLAUDE_HANDOFF.md). Earlier assessment: [GOALS_REVIEW.md](GOALS_REVIEW.md).
 
-Current state: **G2 PASS — closed September 28 on the user's confirmation that all four current-build acceptance checks passed.** Five sequential levels are implemented; Claude reports campaign tests of 159/159 EditMode and 13/13 PlayMode and Android completion evidence. G3 and later gates retain their existing status pending separate review.
+Current state: **G2 and G3 PASS.** Five distinct sequential levels and campaign/menu flow are accepted for the current baseline. G2 closed on user-confirmed device acceptance; G3 closed after source, saved test and Android evidence review. See [G3 review](G3_REVIEW.md).
 
-Current priority: review G3 campaign completion evidence and player feel/difficulty, then proceed to candidate freeze and final regression. Codex plans/reviews; Claude implements. Preserve one Editor/build/device owner and the quota fallback.
+Current priority: validate the [completed level/gameplay-feel tuning pass](LEVEL_FEEL_PASS.md) on Android, then G4 candidate freeze and G5 final regression. Fresh tuning tests passed 162/162 EditMode and 13/13 PlayMode; subjective device feel remains unverified. Codex plans/reviews; Claude implements. Preserve one Editor/build/device owner and the quota fallback.
 
 Forecast: **4½–6½ hours remaining from implementation resumption**, assuming no major review defects, quota interruption or toolchain/device problem. Baseline start 17:45 Recife → finish **22:15 September 28–00:15 September 29**. Working target **23:00 Recife September 28 / 02:00 UTC September 29**. Previous 22:00 target is a stretch. User deadline remains interpreted as **September 29 09:00 UTC / 06:00 Recife**; no new date confirmation is asserted.
 
@@ -15,7 +15,7 @@ Forecast: **4½–6½ hours remaining from implementation resumption**, assuming
 | G0 — device, baseline, contracts | Completed earlier | PASS | moto g 5G plus `0070013699`, Android 11, arm64-v8a; Unity 6000.3.11f1; immutable hashes verified. |
 | G1 — Android install and HTTP proof | Completed earlier | PASS | Earlier installed APK responded to GET/POST; detailed historical reports below. |
 | G2 — integrated social vertical slice | Closed Sep 28 | PASS | User confirmed all four current-build acceptance checks passed: artifact provenance, real HTTP/social recovery, lifecycle cleanup, and audible impact/current visuals. See closure record below. |
-| G3 — five complete levels and menus | 20:00 | NOT COMPLETE | Five levels and sequential flow implemented; Claude reports all-five Android completion. Separate G3 evidence and feel/difficulty review remains pending. |
+| G3 — five complete levels and menus | Closed Sep 28 | PASS | Five distinct levels, sequential/final/menu flow and Android completion evidence reviewed. User retains a tuning pass before freeze; see G3_REVIEW.md. |
 | G4 — complete candidate; feature freeze | 20:00–21:00 | NOT VERIFIED | Complete content and focused tuning; freeze when candidate actually passes. |
 | G5 — accepted release candidate | 21:00 | NOT VERIFIED | Code-review fixes, final device/lifecycle/performance evidence and APK/source provenance. |
 | G6 — recording and complete package | 22:15 | NOT VERIFIED | All-five final APK video, README/credits, clean source and packaged reinstall. |
@@ -590,3 +590,20 @@ Latest Claude build report identifies APK SHA-256 `261e913853fa13de9da0977d51dd6
 No Editor/build/device operations were performed for this closure. G3–G7 are not promoted by this decision. Earlier PARTIAL assessments and schedule estimates remain historical; next checkpoint is G3 review, including player feel/difficulty and a revised remaining-delivery forecast.
 
 Advisory Jev request prepared at `jev/20260928T230037619018Z-G2`; local APK hash matches the report. API check unavailable because `TYPESAFE_API_KEY` is unset. Per the evidence workflow this is nonblocking; no Jev verdict is claimed.
+
+
+### 2026-09-28 — G3 closure (Codex)
+
+**G3 PASS** for the current five-level campaign. [Review and evidence limits](G3_REVIEW.md): source and saved device evidence support five distinct playable levels, sequential wins, final completion, menu return and restart. Local APK hash matches Claude’s reported installed artifact. Saved results report 159 EditMode / 13 PlayMode passes; the EditMode export needs format cleanup for packaging. No tests or device session rerun.
+
+The user will improve levels and game feel before freeze; this is explicitly retained as tuning work rather than an unfulfilled G3 functional requirement. G4–G7 remain unchanged. Revalidate affected content after that pass. Remaining ETA depends on the user’s tuning scope; the earlier clock schedule is historical, not a refreshed forecast.
+
+Advisory Jev request: `jev/20260928T230555106520Z-G3`. API unavailable (`TYPESAFE_API_KEY` unset); no Jev verdict claimed. Nonblocking per the evidence workflow.
+
+### 2026-09-28 — five-level difficulty and feel tuning (Codex, delegated Sol agents)
+
+Completed a focused data pass requested by the user, keeping exactly five levels and the accepted motor/control feel. Hazard counts now rise **2/3/5/6/8**, with green windows **3.7/3.7/3.4/3.1/2.8 seconds** and longer safe gaps between groups. Finish heights and global pace stay unchanged. The minimum supported pace can now cross every band; former late-level windows were shorter than the body crossing time at that setting. See [tuning rationale and evidence](LEVEL_FEEL_PASS.md).
+
+Fresh executed checks: **162/162 EditMode and 13/13 PlayMode passed**, zero failed/skipped, with XML in `evidence/level_feel_editmode.xml` and `evidence/level_feel_playmode.xml`. Clean simulated durations measured by Unity are **14/19/27/34/43 seconds**. New coverage checks the five-file cap, supported pace range, 30/60 FPS and delayed starts. A stale Level 1 authored-value assertion was updated; an unrelated intermittent HTTP response-body test failure passed on the next full run without a transport change. Independent scoped review approved. All six immutable reference checksums passed.
+
+This is a source/data tuning result, not a new G4/G5 acceptance decision. Final Android touch-play, subjective feel and build-linked device regression remain necessary before freeze. Earlier G2/G3 device evidence applies to the previous APK. Pre-existing STATUS, G3_REVIEW and ProjectSettings edits were preserved.
