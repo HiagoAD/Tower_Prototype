@@ -1,8 +1,18 @@
 # Tower Prototype — same-day delivery plan
 
-Status: ready for Claude to implement. Codex owns planning, prioritization, and milestone review; Claude owns implementation and integration. The candidate owns device access and final submission.
+Status: implementation underway; G2 remains PARTIAL, with image-directed fidelity correction required now. Codex owns planning, prioritization, and milestone review; Claude owns implementation and integration. The candidate owns device access and final submission.
 
 The [immutable brief](../Reference/Unity-technical-test/Unity-technical-test.md), [image](../Reference/Unity-technical-test/attachments/ref.png), and [video](../Reference/Unity-technical-test/attachments/ref.mp4) remain authoritative. This document contains implementation decisions and assumptions, not amendments to that brief.
+
+## Immediate priority — updated 2026-09-28
+
+Follow [CURRENT_FIDELITY_REVIEW.md](CURRENT_FIDELITY_REVIEW.md) now. The candidate identifies the **preview image as the visual target**, with the video's different copy used only as secondary motion/event context. This decision supersedes prior video-based palette/framing choices and the elapsed schedule's automatic five-level expansion instruction.
+
+Current order: **G2 image fidelity → climbing feel and outstanding device checks → G3 five-level expansion → G4 complete candidate → G5 regression → G6 package/recording → G7 submission**. First deliver a corrected device still (tower, sky, character composition, HUD), then the motion/recovery clip. Obtain candidate visual feedback and Codex checkpoint review before repeating the presentation across levels. No new implementation session is launched by this document.
+
+Work already present: licensed presentation, distance-driven pose driver, eased knockback/re-grip, paused/reset level clock, effect-disable cleanup and a meaningful nonzero-height retry test. Saved XML verifies 25/25 passing tests; the latest recorded build succeeded. These are retained progress, not visual acceptance. Only one level configuration exists. Device lose/retry, audible impact and remaining lifecycle/session checks stay open. See the linked review for evidence and limits.
+
+The schedule below is the original baseline. Missed target times do not imply completion; the priority order above controls current work. Re-estimate remaining gates after the first corrected still, keeping the submission target and required scope visible.
 
 ## 1. Delivery target and priorities
 
@@ -42,7 +52,7 @@ Input bindings, five-level structure, obstacle rules, and exact failure rules ca
 **Gameplay validation pending:** see [REFERENCE_BEHAVIOR_REVIEW.md](REFERENCE_BEHAVIOR_REVIEW.md). Input, obstacle-band, and three-mistake rules below are provisional proposals, not verified reference mechanics. The ending includes countdown/trophy imagery before GAME OVER, so that label alone does not establish defeat. Resolve the control/failure interpretation before implementing those rules for G2; Android/webhook proof can proceed independently.
 
 1. Use **3D imported models with constrained vertical gameplay**, the existing URP renderer, and a fixed-azimuth camera following height. Start with a modest perspective camera. Match tower/character screen proportions before adding detail.
-2. Use **portrait on Android**, following the video. Keep the screenshot's pale tower, blue sky, and bold HUD treatment where compatible. This is a deliberate interpretation of two references with different aspect ratios and tower styles.
+2. Use **portrait on Android** as the delivery adaptation, with **ref.png as the art-direction baseline**: pale tower with blue window details, bright cyan clouded sky, compact climber lower in frame, and bold outlined yellow/red HUD. Adapt relative proportions to portrait; do not import the video copy's palette or centered composition as the visual target.
 3. **Hold to climb; release to cling/idle.** Provide a large bottom touch region and Space/W for Editor testing through the installed Input System. Keep menu touches out of gameplay input. Reset held input on pause, focus loss, death, and level changes.
 4. Add simple, telegraphed obstacle bands along the climb: wait below an active band, then climb through its safe interval. These are proposed playable obstacles, not a claim about unseen reference controls. One reusable hazard behavior is enough.
 5. Use **three mistakes per attempt** as the initial failure rule. Normal hazards cause a short hit/fall, reduce height, and consume one mistake. Reaching the summit wins. Give clear remaining-attempt feedback. Tune this after the first playable pass.
@@ -226,7 +236,7 @@ For test runs, capture executed-test counts and result files. A process exit wit
 
 - **No Android transport proof by 09:15:** freeze cosmetic work. Lead and webhook lane fix deployment/listener; presentation can finish independent source work. Keep a minimal visible request counter until transport is proven.
 - **No vertical slice by 11:30:** reduce to a single hazard behavior, the imported glove PNG, one fixed camera view plus small shake, and the simplest readable rig pose. Do not expand architecture or switch render pipelines.
-- **Fewer than five playable levels by 13:30:** lead authors the remaining configurations immediately from the working mechanic. Shorten levels and simplify patterns; retain distinct layouts and clear completion.
+- **Five-level expansion:** the original 13:30 target has elapsed. Complete the current G2 image/feel checkpoint first, then immediately author the remaining configurations. Shorten levels and simplify patterns if necessary; retain distinct layouts and clear completion.
 - **At 16:00:** feature freeze. Drop optional music if not required by the observed reference, additional VFX, elaborate menu transitions, secondary environments, custom shaders, cloud layers, and extra animation polish before cutting required behavior.
 - **At 18:00:** preserve a known-working APK and record it. Any necessary code fix afterward requires rebuilding, retesting affected behavior, and recording the actual replacement artifact.
 - **If less than eight hours remain at kickoff:** first 45 minutes prove Android/HTTP; by two hours get one playable level plus gloves; by four hours have five short authored levels and complete menus; reserve at least two hours for final tests, recording, packaging, and upload. This is a higher-risk recovery plan, not an equal-fidelity promise.

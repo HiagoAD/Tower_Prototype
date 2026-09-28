@@ -1,6 +1,6 @@
 # G2 review — 2026-09-28, Codex
 
-Latest decision: see the **Repair closure review** at the end of this file. Repairs accepted for progression to G3; G2 retains two outstanding device checks.
+Latest direction (2026-09-28): **G2 remains PARTIAL; image-directed fidelity correction is required now, before G3 expansion.** See [CURRENT_FIDELITY_REVIEW.md](CURRENT_FIDELITY_REVIEW.md). The repair closure below remains valid technical progress; it does not accept the current look/feel. Device lose/retry and audible impact remain open.
 
 **Decision: PARTIAL; not accepted yet.** Reviewed source at `e55825a`, Claude's G2 report, and the saved device screenshots. Menu/start, climbing, hazards and a real HTTP-triggered glove effect have reported device evidence. Win/lose/retry and continued play after the effect remain unverified on the latest APK. No new device session, build or automated tests were run by Codex during this review. All six immutable reference checksums passed.
 

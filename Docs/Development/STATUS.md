@@ -2,10 +2,10 @@
 
 Plan: [ACTION_PLAN.md](ACTION_PLAN.md). Implementer handoff: [CLAUDE_HANDOFF.md](CLAUDE_HANDOFF.md).
 
-Current state: **planning complete; implementation not started by Codex**.
-Current implementation priority: **G3 first-level visual/gameplay correction**, following candidate feedback. See [G3_FEEL_CORRECTION.md](G3_FEEL_CORRECTION.md). G2 repairs are accepted for progression; two device checks remain outstanding.
+Current state: **one playable Android level implemented; G2 PARTIAL, image fidelity correction active**.
+Current implementation priority: **preview-image tower/sky/character/HUD correction now**, then climbing feel and outstanding device checks, before five-level expansion. See [CURRENT_FIDELITY_REVIEW.md](CURRENT_FIDELITY_REVIEW.md).
 
-Current implementation owner: **Codex Sol agent**, explicitly authorized by the candidate after Claude reached its usage limit. Main Codex owns oversight/review. Claude's uncommitted work is retained.
+Ownership: Codex owns planning/review; Claude implements when available, with the standing quota fallback retained. The earlier Sol handover is historical; this update does not assert an active Sol session or start a new one. Keep one Editor/build/device owner.
 
 Quota review: **original three-agent option replaced by one Claude Sonnet session by default**. Codex reviews G2/G3/G5/G6 and blockers. Account-specific quota fit remains **NOT VERIFIED**; no usage balances have been supplied. The candidate relays checkpoints by asking Codex to read this file.
 
@@ -16,8 +16,8 @@ User deadline: **09:00 UTC**, interpreted as **2026-09-29 09:00 UTC**; date conf
 | --- | --- | --- | --- |
 | G0 — device, baseline, contracts | 08:15 | PASS | Physical device `0070013699` (Motorola moto_g_5G_plus, codename `nairo`), arm64-v8a, Android 11 (API 30), 1080x2520 portrait, authorized over USB. Unity 6000.3.11f1 + Android/SDK/NDK modules confirmed installed. Reference checksums verified (`shasum -a 256 -c SHA256SUMS`: all OK). Pre-existing working-tree edits to ACTION_PLAN/CLAUDE_HANDOFF/STATUS preserved (not touched by build work). Contracts: see `Assets/Game/Webhook/BumpRequest.cs`. |
 | G1 — Android install and HTTP proof | 09:15 | PASS | See detailed report below. |
-| G2 — Android vertical slice | 11:30 | PARTIAL — repairs accepted; G3 may proceed | HUD/HTTP/glove-target/runtime-error repairs reviewed; 18/18 saved test results verified. Device lose→retry and audible impact confirmation still outstanding. See G2_REVIEW repair closure. |
-| G3 — five complete levels and menus | 13:30 | NOT VERIFIED | Pending. |
+| G2 — Android vertical slice | 11:30 | PARTIAL — technical repairs retained; fidelity checkpoint active | HUD/HTTP/glove-target/runtime-error repairs reviewed; 18/18 saved test results verified. Device lose→retry and audible impact confirmation still outstanding. Current image-directed checkpoint precedes G3; see CURRENT_FIDELITY_REVIEW. |
+| G3 — five complete levels and menus | 13:30 (original target) | NOT COMPLETE — one level authored | Four additional configurations and progression remain; follows current G2 fidelity checkpoint. |
 | G4 — complete candidate; feature freeze | 16:00 | NOT VERIFIED | Pending. |
 | G5 — accepted release candidate | 18:00 | NOT VERIFIED | Pending. |
 | G6 — recording and complete package | 20:00 | NOT VERIFIED | Pending. |
@@ -328,3 +328,33 @@ The candidate reports Claude reached its limit and explicitly authorized a Sol i
 Codex maintains planning/review ownership. One implementation agent exclusively controls Unity scene/build/device mutations; a separate Sol test engineer prepares a read-only test plan and waits for explicit Editor ownership release before running tests. Existing user changes are preserved; no generated assets or immutable-reference edits are authorized.
 
 Jev is now wired into the development process through [Tools/Jev](../../Tools/Jev/README.md): local request preparation, optional direct API execution, Playground response import, input hashes and advisory result documents. Six local tooling tests passed. A G2 request was prepared under `Docs/Development/jev/20260928T150037828597Z-G2`; **no live API call has run**. The candidate will configure `TYPESAFE_API_KEY` locally; it was absent from the invoking process when checked. Jev never changes gate status and cannot replace actual test/device/visual/audio evidence.
+
+### 2026-09-28 — G2 follow-up: visual fidelity pass (Claude, covering Codex's role under the quota fallback)
+
+Candidate direction: make the game look as close to the reference as possible; game feel out of scope for this pass. Candidate clarified that the reference tower is Korin Tower (Dragon Ball) and the climber is Goku, and approved a Goku-styled palette recolour of the CC0 character. The gate hold stays at G2; this is not G3 work.
+
+**Framing baseline changed.** The earlier constants were measured off the landscape `ref.png` (a different, Roblox-style capture), which shrank the tower to ~10% of the width. The portrait `ref.mp4` (576x1080) matches the Android target orientation and shows the glove event, so it is now the baseline: column ~27% of screen width, climber ~1.4x the column width tall, climber at vertical centre. Palette sampled from its frames.
+
+Changes (all in `Level1SceneSetup` output plus the presentation scripts):
+- Sky: screen-space gradient skybox (`Game/GradientSky`, #113CBD top → #2878B8 → #1E72BA) replaces the pale Kenney panorama. Clouds are world-space quads behind the tower that scroll with the climb; `Game/CloudCutout` keys individual clouds out of the licensed skybox texture at render time (no new image files).
+- Tower: flat sage stone material (colormap dropped), squashed pieces for tighter banding, a wide ledge every 5th band, stone pedestal over a finite sea at the base (sea leaves the frame as the camera climbs). Hazard rings are stone flanges when safe and red when active.
+- Climber: Kenney character-b with `texture-b-goku.png` (palette recolour: orange gi, blue sleeves/boots, black hair; recorded in the character LICENSE.md). Arms splay outward in the grip pose so the hands read beside the head, like the reference's V grip. No Dragon Ball asset is used.
+- HUD: reference altitude bar (cyan fill on a dark track, finish label above, live number on a marker; display = world height x100), heart icons built from UI primitives (the built-in font has no heart glyph on Android), small pause button. `EventFeedView` shows reference-style event cards (glove badge, request-ID prefix, "Boxing*1") per accepted bump, replacing the "BUMP!" text. The white touch-region band was removed; the prompt text remains.
+- Menus: GAME OVER layout from the reference (dimmed scene, bold white title at ~22% height, stock Unity buttons: light "Continue", dark "Exit"), applied to main menu, pause, win and lose.
+- Glove event: 14 staggered gloves fountain up from below and the lower sides through the character, plus a white impact glow, 16 yellow stars (Kenney UI star, CC0), flash, shake and SFX, modelled on the reference's barrage.
+- New editor tool `Tower/Capture Scene Previews` (`ScenePreviewCapture`) renders menu/start/climb/bump/lose stills at the reference and device aspects without Play mode.
+
+Checks: EditMode 25/25 passed (last run before the final editor-only text-weight tweak; runtime code unchanged since). Android build Succeeded (`Logs/g2v-android4.log`, APK sha256 `a955adcb14c84624c6b91c2b249129859721b700dc36e817d91d51d09d5a53a7`), installed on device 0070013699. Device screenshots `evidence/g2v_*` show menu, climb, webhook burst (POST → 200 accepted), event card, pause. No Unity exceptions in logcat during that run. Side-by-side with the reference: `evidence/g2v_reference_comparison.png`.
+
+Not verified in this pass: GAME OVER screen on device (checked only in editor previews), audible SFX (unchanged path), five-level expansion (held at G2 by the candidate).
+
+
+### 2026-09-28 — Codex current-work review and roadmap correction
+
+Candidate requested immediate roadmap attention after live-device comparison and clarified that the preview image, not the video copy, is the visual target. **G2 stays PARTIAL; image fidelity is first, climbing feel/device closure next, five-level expansion afterward.** [CURRENT_FIDELITY_REVIEW.md](CURRENT_FIDELITY_REVIEW.md) defines the tasks and acceptance evidence and supersedes the earlier video-baseline decision. ACTION_PLAN and CLAUDE_HANDOFF now use that same order.
+
+Source inspection confirms existing licensed presentation, distance-driven limb posing, eased knockback/re-grip, pause/reset clock, explicit effect-disable cleanup, and a retry test starting at nonzero height. Only one level asset exists. Saved test XML independently checked: **25 total / 25 passed / 0 failed / 0 skipped / 0 inconclusive**, preserved as `evidence/look-review-editmode.xml`; no new test run. Latest build log reports Succeeded / Errors=0; local APK hash matches the earlier `a955adcb...` report. Exact dirty-tree/installed-package provenance is not independently established.
+
+The preceding direct device inspection saved `evidence/look-review-device.png` and `.mp4`: front-of-tower placement, ascent, a hazard hit and recovery observed; image fidelity and convincing climbing remain open. No new audio, webhook or lose/retry check is claimed. No implementation files changed; existing working-tree edits preserved. Original schedule times remain historical targets, not evidence of completion.
+
+Validation for this roadmap update: all six immutable-reference checksums pass; local document links resolve. Jev advisory request prepared at `Docs/Development/jev/20260928T173844040542Z-G2`; no API classification was run or used to approve a gate.
