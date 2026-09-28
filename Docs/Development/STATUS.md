@@ -437,3 +437,34 @@ Checks: APK built (`Logs/anim-android1.log`, Result=Succeeded, Errors=0), SHA-25
 Evidence: `evidence/anim_climb_device.mp4` (14 s, downscaled), `evidence/anim_climb_device_frames.png` (1 s at 16 fps), `evidence/anim_climb_cycle_preview.png` (hold + 8 cycle phases from the editor).
 
 Limits: the limbs are rigid blocks with no elbows or knees, so "pull" is shown by the arm swinging from overhead down to shoulder height. The tower scrolls faster than a hand could stay fixed on it, so the grip is stylised, as in the reference video. Webhook hit/recovery, audible impact, lose/retry and pause-during-recovery were not re-checked in this pass.
+
+### 2026-09-28 — G2 climbing: planted grips and swinging body (Claude)
+
+The candidate said the hand-over-hand pass still slid: hands moved with the body instead of holding the tower. They asked that a grabbing hand stay put while the other reaches, with the body swinging in response. Return point before this change: commit `27a7f32`.
+
+- **Planted grips.** `ClimberPoseDriver` now runs a small state machine per hand. A planted hand keeps a fixed world point on the tower while PlayerMotor raises the character. When its hold falls to shoulder height and the other hand is holding, it lets go, arcs out from the wall and grabs 0.95 arm lengths above the shoulder. If the player stops mid-reach, the hand finishes the reach by time; after a knockback, both hands re-grip. Rigid arms can't change length, so the arm's depth (the camera's view axis) absorbs the changing shoulder-to-grip distance, and the hand stays exactly on its hold on screen.
+- **Swinging body.** Damped springs move the body sideways toward the hand that holds alone and yank it up on every grab, with a matching roll and twist. The legs hang as a lagging pendulum.
+- **Presentation scale.** Real grips cap how fast the climber can go: an arm length of reach per grab. At speed 2.5 against the old 0.6-unit character that would have been about 11 grabs a second. `Level1SceneSetup.WorldScale = 4.5` scales the camera distance, and with it the tower, climber, clouds, sea, shadow distance and camera shake. On screen everything looks the same, except the climb now runs at about 0.9 body heights per second, roughly 3 grabs a second. `LevelDefinition` values (heights, speed, hazards) are untouched. The hazard ring thickness is now a share of its diameter (`HazardBand`).
+- **Verification.** A temporary editor probe (removed) logged arm-tip world positions through a simulated 60 fps climb (`evidence/grip_probe.txt`). While a hand holds, its tip's x and y stay constant to the millimetre (e.g. `(-0.807, 15.554)` over 21 frames); only depth varies. Each hold lasts about 0.35 s and each reach about 0.2 s.
+
+Checks: APK built (`Logs/grip-android1.log`, Succeeded, Errors=0), SHA-256 `93b136718be5a66a17e806a272a258539654565fe4cd852d93c0ae8c5dcaaf54`; the installed base.apk hashes identically. EditMode 25/25 (`evidence/grip_editmode.xml`). Device recording with no Unity errors in logcat.
+
+Evidence: `evidence/grip_climb_device.mp4`, `evidence/grip_climb_device_frames.png` (0.6 s at 30 fps), `evidence/grip_climb_preview.png` (editor simulation at 20 fps).
+
+Consequences to review:
+- On-screen climb pace is about 4.5x slower than before for the same level data. The level's 30 units now span about 11 body heights over 12 s. The parallel difficulty work may want different heights or speeds.
+- PlayerMotor's 1.5-unit knockback is now about 0.55 body heights (was about 2.5), so a hit reads smaller.
+- Webhook hit/recovery, audible impact, lose/retry and pause-during-recovery were not re-checked in this pass.
+
+### 2026-09-28 — Climb pace as a single variable (Claude)
+
+The candidate accepted the planted-grip climb feel and asked for climb speed to be one variable that everything else follows. They chose a global pace, with level heights and hazard spacing scaling so each level keeps its duration.
+
+- **The variable.** `Assets/Game/Levels/ClimbPace.asset` (`Game.Core.ClimbPace`), field `bodyHeightsPerSecond`: the on-screen climb speed in climber body heights per second, range 0.4–2, default 0.92 (the accepted feel). The scene builder writes the climber's measured height into the same asset and keeps the tuned pace across rebuilds.
+- **Gameplay follows.** `GameSession.StartLevel` multiplies the level's authored speed and every authored distance by `ClimbPace.DistanceScaleFor(level)` = pace × body height ÷ authored climbSpeed: finish height, hazard band heights, and PlayerMotor's knockback (`PlayerMotor.DistanceScale`). Each level therefore takes exactly as long as authored, and hazard periods and windows are unchanged. The HUD shows altitude in the level's authored units (`GameSession.DistanceScale`), so its numbers stay the same at any pace (goal "3.000"). Without a pace asset, a level plays as authored.
+- **Presentation follows.** The grab cadence already follows distance climbed. `ClimberPoseDriver` scales its swing, yank and leg-pendulum springs, twist rate and timed reaches by `ClimbPace.PresentationRate` (pace ÷ 0.92), and the springs now substep at 120 Hz so they stay stable at fast paces. `CameraFollow` scales its follow rate the same way, so the camera trails by the same share of the climber at any pace.
+- **Scene sized for any pace.** `Level1SceneSetup` builds the tower and cloud field for the fastest allowed pace (82 units at the current scale), so changing the pace needs no rebuild.
+
+Checks: APK built (`Logs/pace-android2.log`, Succeeded, Errors=0), SHA-256 `f63e51563c87f271d61bd709875bbeabb2efee023db2033cf3900ddcfe65e8e6`; the installed base.apk hashes identically. Device climb at the default pace with no Unity errors; HUD goal reads 3.000 (`evidence/pace_device_hud.png`). EditMode 27/27 (`evidence/pace_editmode.xml`). The two new `ClimbPaceTests` cover the scale factor and a session run at pace 1.5: speed ×1.2, finish ×1.2, unchanged duration, knockback ×1.2. An editor simulation at pace 1.8 (`evidence/pace_1.8_preview.png`) keeps planted reaches and a stable swing; the asset was restored to 0.92 afterwards.
+
+Integration note: `GameSession`'s changes touch the same lines as `codex/sequential-levels` (level speed/finish/hazards). The merge should apply `_distanceScale` to `CurrentLevel` the same way. The difficulty branch's five levels all author climbSpeed 2.5 and finish 30, so they scale uniformly.

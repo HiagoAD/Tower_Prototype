@@ -20,6 +20,7 @@ namespace Game.Editor
     {
         private const string ScenePath = "Assets/Game/Scenes/Level1.unity";
         private const string LevelAssetPath = "Assets/Game/Levels/Level1.asset";
+        private const string ClimbPacePath = "Assets/Game/Levels/ClimbPace.asset";
         private const string GlovePngPath = "Assets/Game/Art/Licensed/BoxingGlove/boxing-glove-white.png";
         private const string ImpactSfxPath = "Assets/Game/Art/Licensed/ImpactSounds/impactPunch_heavy_000.ogg";
         private const string HazardVisualPrefabPath = "Assets/Game/Prefabs/HazardVisual.prefab";
@@ -97,7 +98,13 @@ namespace Game.Editor
         private const float TargetTowerWidthFraction = 0.26f;
         private const float CharacterHeightToTowerDiameter = 0.82f;
         private const float CharacterScreenHeightFraction = 0.34f; // climber's chest, measured up from the bottom of the frame.
-        private const float CameraDistance = 8f;
+        // World units per unit of the original framing. Level data (heights, speed, hazard spacing)
+        // stays in world units; scaling the camera -- and with it the tower and climber, which derive
+        // from the camera's view width -- slows the on-screen climb to a pace where hands can stay
+        // planted on the tower between grabs (see ClimberPoseDriver): about 0.9 body heights/s at
+        // speed 2.5, roughly 3 grabs a second.
+        private const float WorldScale = 4.5f;
+        private const float CameraDistance = 8f * WorldScale;
         private const float CameraVerticalFovDeg = 45f;
         private const float NominalDeviceAspect = 1080f / 2520f;
         private const float TowerHeadroom = 14f; // world units of tower visible above the finish height.
@@ -116,10 +123,11 @@ namespace Game.Editor
 
         private const float PedestalRadiusMultiplier = 1.9f;
         private const float PedestalHeightMultiplier = 0.8f;
-        private const float SeaHalfExtent = 14f;
+        private const float SeaHalfExtent = 14f * WorldScale;
         private const int CloudCount = 30;
-        private const float CloudSpacing = 1.9f;
-        private const float MainLightShadowDistance = 14f;
+        private const float CloudMargin = 10f * WorldScale; // cloud field extends this far above and below the climb, so the frame is never empty.
+        private const float MainLightShadowDistance = 14f * WorldScale;
+        private const float CameraShakeMagnitude = 0.35f * WorldScale;
 
         // Fraction of the character's total (feet-to-head) bounds height used both for HitTarget
         // placement (glove burst aim) and hazard hit-detection contact height (see HazardBand).
@@ -150,16 +158,25 @@ namespace Game.Editor
 
             BuildEnvironment();
 
-            TowerMetrics tower = BuildTower(level.finishHeight);
+            // The climb pace scales level distances at runtime (see ClimbPace); build the tower and
+            // sky tall enough for the fastest pace allowed, so changing it never needs a rebuild.
+            ClimbPace pace = LoadOrCreatePace();
+            float bodyHeight = CharacterHeightToTowerDiameter * 2f * TowerRadius();
+            float climbTop = level.finishHeight * ClimbPace.MaxDistanceScaleFor(level, bodyHeight);
+
+            TowerMetrics tower = BuildTower(climbTop);
             BuildSeaAndPedestal(tower);
-            BuildClouds(level.finishHeight + TowerHeadroom);
+            BuildClouds(climbTop + TowerHeadroom);
             PlayerBuildResult player = BuildPlayer(tower);
-            Camera camera = BuildCamera(player.Motor, player.Metrics.ChestHeight, out CameraShake shake);
+            BindPrivate(pace, "bodyHeight", player.Metrics.Height);
+            EditorUtility.SetDirty(pace);
+            Camera camera = BuildCamera(player.Motor, player.Metrics.ChestHeight, pace, out CameraShake shake);
 
             GameObject sessionGo = new GameObject("GameSession");
             GameSession session = sessionGo.AddComponent<GameSession>();
             BindPrivate(session, "motor", player.Motor);
             BindPrivate(session, "level", level);
+            BindPrivate(session, "pace", pace);
             BindPrivate(session, "startingHitPoints", 3);
             BindPrivate(session, "hazardVisualPrefab", hazardVisualPrefab);
             BindPrivate(session, "hazardActiveMaterial", hazardActiveMaterial);
@@ -168,12 +185,14 @@ namespace Game.Editor
             BindPrivate(session, "hazardContactHeightOffset", player.Metrics.ChestHeight);
 
             BindPrivate(player.PoseDriver, "session", session);
+            BindPrivate(player.PoseDriver, "pace", pace);
 
             var climbInput = player.Motor.gameObject.AddComponent<ClimbInputSource>();
             BindPrivate(climbInput, "motor", player.Motor);
 
             BuildUi(session, player.HitTarget, camera, shake, gloveSprite, starSprite, impactClip);
 
+            AssetDatabase.SaveAssets();
             System.IO.Directory.CreateDirectory("Assets/Game/Scenes");
             EditorSceneManager.SaveScene(scene, ScenePath);
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
@@ -201,6 +220,20 @@ namespace Game.Editor
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             return AssetDatabase.LoadAssetAtPath<LevelDefinition>(LevelAssetPath);
+        }
+
+        /// <summary>Create-if-missing: an existing asset keeps its tuned pace across rebuilds; only its measured body height is rewritten.</summary>
+        private static ClimbPace LoadOrCreatePace()
+        {
+            var pace = AssetDatabase.LoadAssetAtPath<ClimbPace>(ClimbPacePath);
+            if (pace == null)
+            {
+                pace = ScriptableObject.CreateInstance<ClimbPace>();
+                AssetDatabase.CreateAsset(pace, ClimbPacePath);
+                AssetDatabase.SaveAssets();
+            }
+
+            return pace;
         }
 
         private static Sprite LoadSprite(string path)
@@ -550,15 +583,12 @@ namespace Game.Editor
                 cloud.name = "Cloud" + i;
                 cloud.transform.SetParent(root.transform, false);
 
-                float depth = 14f + (float)random.NextDouble() * 16f;
+                float depth = (14f + (float)random.NextDouble() * 16f) * WorldScale;
                 float side = (i % 2 == 0 ? -1f : 1f) * ((float)random.NextDouble() * (depth * 0.2f));
-                float y = -1f + i * CloudSpacing + (float)random.NextDouble() * 1.5f;
-                if (y > topHeight)
-                {
-                    y = (float)random.NextDouble() * topHeight;
-                }
+                float spacing = (topHeight + 2f * CloudMargin) / CloudCount;
+                float y = -CloudMargin + (i + (float)random.NextDouble()) * spacing;
 
-                float width = broad ? 7f + (float)random.NextDouble() * 5f : 3f + (float)random.NextDouble() * 2.5f;
+                float width = (broad ? 7f + (float)random.NextDouble() * 5f : 3f + (float)random.NextDouble() * 2.5f) * WorldScale;
                 cloud.transform.position = new Vector3(side, y, depth);
                 cloud.transform.localScale = new Vector3(width, width / CloudAspects[window], 1f);
                 cloud.GetComponent<Renderer>().sharedMaterial = materials[window];
@@ -626,7 +656,7 @@ namespace Game.Editor
         /// constants above Build().
         /// Everything here is static-batched: several hundred small pieces, a handful of draw calls.
         /// </summary>
-        private static TowerMetrics BuildTower(float finishHeight)
+        private static TowerMetrics BuildTower(float climbTop)
         {
             var root = new GameObject("Tower");
 
@@ -645,14 +675,14 @@ namespace Game.Editor
             float naturalRadius = Mathf.Max(baseBounds.extents.x, baseBounds.extents.z);
             float naturalPieceHeight = baseBounds.size.y;
 
-            float radius = TargetTowerWidthFraction * WorldHalfWidthAtTower();
+            float radius = TowerRadius();
             float diameter = radius * 2f;
             float scaleFactor = naturalRadius > 0f ? radius / naturalRadius : 1f;
 
             float collarHeight = diameter * CollarHeightToDiameter;
             float collarOuterRadius = radius * CollarRadiusToShaftRadius;
 
-            float totalClimbSpan = finishHeight + TowerHeadroom;
+            float totalClimbSpan = climbTop + TowerHeadroom;
             float y = 0f;
             int storey = 0;
             while (y < totalClimbSpan)
@@ -844,6 +874,11 @@ namespace Game.Editor
             return new PlayerBuildResult(motor, poseDriver, hitTargetGo.transform, new CharacterMetrics(characterHeight, characterHalfDepth, chestHeight));
         }
 
+        private static float TowerRadius()
+        {
+            return TargetTowerWidthFraction * WorldHalfWidthAtTower();
+        }
+
         /// <summary>Half the world-space width the camera sees at the tower's depth, on the verification device's aspect.</summary>
         private static float WorldHalfWidthAtTower()
         {
@@ -877,7 +912,7 @@ namespace Game.Editor
             }
         }
 
-        private static Camera BuildCamera(PlayerMotor motor, float characterChestHeight, out CameraShake shake)
+        private static Camera BuildCamera(PlayerMotor motor, float characterChestHeight, ClimbPace pace, out CameraShake shake)
         {
             // A level camera raised above the climber, so their chest sits CharacterScreenHeightFraction
             // up from the bottom of the frame with a long run of tower overhead, as in ref.png. Raising
@@ -892,10 +927,12 @@ namespace Game.Editor
             var follow = rigGo.AddComponent<CameraFollow>();
             BindPrivate(follow, "target", motor);
             BindPrivate(follow, "offset", cameraOffset);
+            BindPrivate(follow, "pace", pace);
 
             var shakeGo = new GameObject("CameraShakeOffset");
             shakeGo.transform.SetParent(rigGo.transform, false);
             shake = shakeGo.AddComponent<CameraShake>();
+            BindPrivate(shake, "magnitude", CameraShakeMagnitude);
 
             var cameraGo = new GameObject("Main Camera", typeof(Camera), typeof(AudioListener));
             cameraGo.tag = "MainCamera";

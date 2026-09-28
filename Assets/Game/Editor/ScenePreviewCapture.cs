@@ -12,7 +12,7 @@ namespace Game.Editor
     /// Renders still frames of the saved Level 1 scene (world + UI) without entering Play mode, for
     /// side-by-side comparison with the reference capture. Poses the player at a few heights, shows
     /// one panel per shot, and writes PNGs at the reference's portrait aspect and the test device's,
-    /// plus one climb cycle frame by frame (cycle_N.png) and the released hold (cycle_hold.png).
+    /// plus a simulated climb frame by frame (cycle_N.png) and the released hold (cycle_hold.png).
     /// Run via -executeMethod Game.Editor.ScenePreviewCapture.Capture; output goes to
     /// Logs/previews (or the -previewOut argument).
     /// </summary>
@@ -29,7 +29,12 @@ namespace Game.Editor
             ("lose", 9f, "LosePanel"),
         };
 
-        private const int CycleFrames = 8;
+        private const int CycleFrames = 16;
+        private const int CycleFrameInterval = 3; // 20 fps at the simulated 60
+        private const float SimulationStep = 1f / 60f;
+        private const string ClimbPacePath = "Assets/Game/Levels/ClimbPace.asset";
+
+        private static float _climbSpeed = 2.5f; // the paced world speed, read from ClimbPace when Capture starts
 
         private static readonly Vector2Int[] Resolutions = { new Vector2Int(1080, 2025), new Vector2Int(1080, 2520) };
 
@@ -40,6 +45,8 @@ namespace Game.Editor
             Directory.CreateDirectory(outDir);
 
             EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+            var pace = AssetDatabase.LoadAssetAtPath<Game.Core.ClimbPace>(ClimbPacePath);
+            _climbSpeed = pace != null ? pace.WorldSpeed : 2.5f;
 
             Camera camera = Camera.main;
             Transform player = GameObject.Find("Player").transform;
@@ -60,13 +67,20 @@ namespace Game.Editor
 
             foreach ((string name, float height, string panel) in Shots)
             {
-                player.position = new Vector3(player.position.x, height, player.position.z);
-                rig.position = player.position + rigOffset;
+                if (poseDriver != null && (name == "climb" || name == "bump"))
+                {
+                    SimulateClimb(poseDriver, player, rig, rigOffset, height - 3f, height, null);
+                }
+                else
+                {
+                    Place(player, rig, rigOffset, height);
+                    poseDriver?.Advance(height, SimulationStep);
+                }
+
                 if (hazard != null)
                 {
                     hazard.position = new Vector3(0f, height + 2.4f, 0f);
                 }
-                poseDriver?.PreviewPose(0.15f, name == "climb" || name == "bump");
                 ShowPanel(canvas.transform, panel);
                 FeedHud(height);
                 ShowEventCards(name == "bump");
@@ -82,7 +96,11 @@ namespace Game.Editor
             Debug.Log("[ScenePreviewCapture] Wrote previews to " + outDir);
         }
 
-        /// <summary>CycleFrames evenly spaced poses through one climb cycle, HUD hidden, at the device aspect.</summary>
+        /// <summary>
+        /// Climbs into a steady rhythm, then keeps climbing at the level's speed and saves a frame
+        /// every CycleFrameInterval simulation steps (cycle_N.png), HUD hidden, at the device aspect.
+        /// Ends released, after the grip has settled (cycle_hold.png).
+        /// </summary>
         private static void CaptureClimbCycle(Camera camera, Canvas canvas, ClimberPoseDriver driver, Transform player, Transform rig, Vector3 rigOffset, string outDir)
         {
             if (driver == null)
@@ -90,17 +108,46 @@ namespace Game.Editor
                 return;
             }
 
-            player.position = new Vector3(player.position.x, 14f, player.position.z);
-            rig.position = player.position + rigOffset;
             ShowPanel(canvas.transform, null);
-            for (int i = 0; i < CycleFrames; i++)
+            SimulateClimb(driver, player, rig, rigOffset, 11f, 14f, null);
+            float end = 14f + _climbSpeed * SimulationStep * CycleFrames * CycleFrameInterval;
+            int step = 0;
+            SimulateClimb(driver, player, rig, rigOffset, 14f, end, () =>
             {
-                driver.PreviewPose((float)i / CycleFrames, climbing: true);
-                Render(camera, canvas, Resolutions[1], Path.Combine(outDir, "cycle_" + i + ".png"));
+                if (step % CycleFrameInterval == 0 && step / CycleFrameInterval < CycleFrames)
+                {
+                    Render(camera, canvas, Resolutions[1], Path.Combine(outDir, "cycle_" + step / CycleFrameInterval + ".png"));
+                }
+
+                step++;
+            });
+
+            for (int i = 0; i < 60; i++)
+            {
+                driver.Advance(end, SimulationStep);
             }
 
-            driver.PreviewPose(0f, climbing: false);
             Render(camera, canvas, Resolutions[1], Path.Combine(outDir, "cycle_hold.png"));
+        }
+
+        /// <summary>Raises the player from one height to another at the paced climb speed, one pose step per simulated frame.</summary>
+        private static void SimulateClimb(ClimberPoseDriver driver, Transform player, Transform rig, Vector3 rigOffset, float from, float to, System.Action afterStep)
+        {
+            for (float h = from; h < to; h += _climbSpeed * SimulationStep)
+            {
+                Place(player, rig, rigOffset, h);
+                driver.Advance(h, SimulationStep);
+                afterStep?.Invoke();
+            }
+
+            Place(player, rig, rigOffset, to);
+            driver.Advance(to, SimulationStep);
+        }
+
+        private static void Place(Transform player, Transform rig, Vector3 rigOffset, float height)
+        {
+            player.position = new Vector3(player.position.x, height, player.position.z);
+            rig.position = player.position + rigOffset;
         }
 
         private static void ShowPanel(Transform canvas, string panelName)
@@ -173,7 +220,7 @@ namespace Game.Editor
             }
 
             GameObject disc = Object.Instantiate(prefab);
-            disc.transform.localScale = new Vector3(diameter, 0.06f, diameter);
+            disc.transform.localScale = new Vector3(diameter, diameter * 0.07f, diameter);
             disc.GetComponent<Renderer>().sharedMaterial = active;
             return disc.transform;
         }

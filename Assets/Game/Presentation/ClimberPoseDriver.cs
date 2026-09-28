@@ -8,22 +8,21 @@ namespace Game.Presentation
     /// Procedurally poses the character's existing rigid limb parts (the Kenney blocky character has no bones --
     /// arm-left/arm-right/leg-left/leg-right/torso/head are separate rigid meshes, each pivoted at
     /// its own joint) from PlayerMotor/GameSession state. Lives on the "Visual" child, well below
-    /// the gameplay root -- LateUpdate only ever writes local rotations/positions on limb and body
-    /// transforms under itself, never PlayerMotor's own transform.
+    /// the gameplay root -- it only ever writes rotations/positions on limb and body transforms
+    /// under itself, never PlayerMotor's own transform.
     ///
-    /// Climbing is hand-over-hand, as in the reference video: each hand in turn reaches straight up,
-    /// grabs, and pulls down to shoulder height while the other reaches, so one hand is always on the
-    /// tower. The body swings and twists toward the pulling hand and the legs hang, swinging behind the
-    /// body like a pendulum, with a small knee lift opposite the reaching arm. Released, the climber
-    /// holds on with both hands in a wide grip.
+    /// Hand-over-hand climbing with planted grips. Each hand holds a fixed point on the tower: as
+    /// PlayerMotor raises the character, the planted hand stays where it grabbed and its arm swings
+    /// down past the shoulder. Once it is low and the other hand is holding, it lets go, arcs away
+    /// from the wall and grabs a new point overhead. The body hangs from the hands on springs: it
+    /// swings toward whichever hand is holding alone, is yanked upward on every grab, and the legs
+    /// trail it like a pendulum. The climb's pace stays PlayerMotor's; this only decides where the
+    /// hands and body are.
     ///
-    /// Limbs are aimed rather than rotated by fixed angles: each pose gives every limb a direction in
-    /// this transform's space (x = the character's right, y = up, z = into the tower), and the limb
-    /// is turned from its measured rest direction to point that way. Arms therefore stay reaching for
-    /// the tower while the torso rolls beneath them.
-    ///
-    /// The cycle advances by ascended distance (deltaHeight / strideLength), not by time, so limbs
-    /// only move while the character is actually rising and freeze the instant it stops.
+    /// The arms are rigid, so the distance from shoulder to grip cannot change as the shoulder moves
+    /// past it. That slack is taken up along the view axis (into the tower, away from the camera):
+    /// the hand stays exactly on its grip on screen while only its depth varies. At the grip's
+    /// sideways offset the tower's curved flank is far enough back that the hand stays in front of it.
     /// </summary>
     public sealed class ClimberPoseDriver : MonoBehaviour
     {
@@ -34,36 +33,49 @@ namespace Game.Presentation
         [SerializeField] private Transform legLeft;
         [SerializeField] private Transform legRight;
         [SerializeField] private Transform bodyRoot;
+        [Tooltip("Swing, yank and reach timings below are tuned at ClimbPace.TunedBodyHeightsPerSecond and scale with the pace.")]
+        [SerializeField] private ClimbPace pace;
 
-        [Tooltip("World height climbed per full cycle: one reach and pull with each hand.")]
-        [SerializeField] private float strideLength = 1.2f;
+        [Header("Grips (arm lengths, relative to the shoulder)")]
+        [Tooltip("How far out to the side each hand grips the tower.")]
+        [SerializeField] private float gripOutward = 0.4f;
+        [Tooltip("A new grip is taken this high above the shoulder.")]
+        [SerializeField] private float gripHigh = 0.95f;
+        [Tooltip("A planted hand lets go once its grip is this far above the shoulder (negative = below).")]
+        [SerializeField] private float gripLow = 0f;
+        [Tooltip("Climbed distance, in arm lengths, over which a reaching hand travels to its new grip.")]
+        [SerializeField] private float reachDistance = 0.4f;
+        [Tooltip("A hand caught mid-reach when the climber stops finishes its reach over this many seconds.")]
+        [SerializeField] private float idleReachSeconds = 0.18f;
+        [SerializeField] private float reachArcOutward = 0.25f;
+        [SerializeField] private float reachArcAway = 0.35f;
 
-        [Tooltip("Share of each hand's cycle spent reaching; for the rest it holds and pulls.")]
-        [Range(0.15f, 0.5f)][SerializeField] private float reachFraction = 0.3f;
+        [Header("Body swing")]
+        [Tooltip("Sideways hang toward the hand holding alone, in arm lengths.")]
+        [SerializeField] private float swayDistance = 0.2f;
+        [SerializeField] private float swayFrequency = 3f;
+        [Range(0f, 1f)][SerializeField] private float swayDamping = 0.45f;
+        [SerializeField] private float rollDegreesPerSway = 6f;
+        [SerializeField] private float twistDegrees = 8f;
+        [Tooltip("Upward velocity given to the body on every grab, in arm lengths per second.")]
+        [SerializeField] private float grabYank = 1.2f;
+        [SerializeField] private float yankFrequency = 3.5f;
+        [Range(0f, 1f)][SerializeField] private float yankDamping = 0.45f;
 
-        [Header("Arm directions (x = outward from that side, y = up, z = into the tower)")]
-        [SerializeField] private Vector3 armReachDirection = new Vector3(0.05f, 1f, 0.2f);
-        [SerializeField] private Vector3 armPulledDirection = new Vector3(1f, 0.15f, 0.3f);
-        [SerializeField] private Vector3 armHoldDirection = new Vector3(0.85f, 0.6f, 0.25f);
-
-        [Header("Leg directions (x = outward from that side)")]
+        [Header("Legs")]
         [SerializeField] private Vector3 legHangDirection = new Vector3(0.1f, -1f, -0.05f);
-        [SerializeField] private Vector3 legLiftDirection = new Vector3(0.35f, -0.65f, -0.65f);
-        [Tooltip("Sideways swing of both legs behind the body, as a direction offset.")]
-        [SerializeField] private float legSwing = 0.3f;
-
-        [Header("Body swing (world units / degrees)")]
-        [SerializeField] private float bodySway = 0.035f;
-        [SerializeField] private float bodyRollDegrees = 8f;
-        [SerializeField] private float bodyTwistDegrees = 12f;
-        [SerializeField] private float bodyPullRise = 0.02f;
+        [SerializeField] private float legPendulumFrequency = 1.6f;
+        [Range(0f, 1f)][SerializeField] private float legPendulumDamping = 0.3f;
 
         [Header("Hit / recovery")]
-        [SerializeField] private float hitPushDistance = 0.12f;
+        [Tooltip("Body thrown back from the wall on a hit, in arm lengths.")]
+        [SerializeField] private float hitPushDistance = 0.3f;
         [SerializeField] private float hitTiltDegrees = 14f;
         [SerializeField] private float hitFlailFrequency = 18f;
+        [SerializeField] private float regripSeconds = 0.2f;
 
-        [Header("Win / lose")]
+        [Header("Override arm directions (x outward, y up, z into the tower)")]
+        [SerializeField] private Vector3 flailArmDirection = new Vector3(0.7f, 0.75f, -0.2f);
         [SerializeField] private Vector3 winArmDirection = new Vector3(0.3f, 1f, 0.1f);
         [SerializeField] private Vector3 loseArmDirection = new Vector3(0.5f, -0.8f, -0.4f);
         [SerializeField] private float loseBodyTiltDegrees = 16f;
@@ -72,36 +84,45 @@ namespace Game.Presentation
         {
             public Transform Transform;
             public Quaternion RestLocalRotation;
-            public Vector3 RestDirection; // in the parent's space
-            public float Side;            // -1 left, +1 right
+            public Vector3 RestDirection;      // parent space
+            public Vector3 RestDirectionLocal; // limb's own space
+            public Vector3 RestPivot;          // this transform's space
+            public float Side;                 // -1 left, +1 right
         }
 
-        private struct Pose
+        private struct Hand
         {
-            public Vector3 ArmLeft;
-            public Vector3 ArmRight;
-            public Vector3 LegLeft;
-            public Vector3 LegRight;
-            public Vector3 BodyOffset;
-            public Vector3 BodyEuler;
+            public bool Reaching;
+            public float GripY;       // world height of the held (or targeted) grip
+            public float FromY;       // world height the reach started from
+            public float Progress;    // 0..1 through the reach
+            public float TimedReach;  // > 0: finishing over this many seconds rather than by climbed distance
         }
 
-        private Limb[] _limbs; // armLeft, armRight, legLeft, legRight
-        private Vector3 _bodyRestPosition;    // in this transform's space
-        private Quaternion _bodyRestRotation; // relative to this transform
+        private Limb _armL, _armR, _legL, _legR;
+        private Hand _handL, _handR;
+        private float _armLength;
+        private float _legLength;
+        private Vector3 _bodyRestPosition;
+        private Quaternion _bodyRestRotation;
         private bool _restCaptured;
+        private bool _seeded;
 
-        private Pose _pose;
-        private float _phase;
         private float _lastHeight;
         private bool _hasLastHeight;
         private SessionState _sessionState = SessionState.Menu;
 
+        private float _swayX, _swayVelocity;
+        private float _yankY, _yankVelocity;
+        private float _legX, _legVelocity;
+        private float _twist;
+        private float _overrideWeight; // 0 = climbing grips, 1 = flail/win/lose directions
+        private bool _wasKnockedBack;
+        private float _rate = 1f; // ClimbPace.PresentationRate: grabs come faster at a quicker pace, so the body responds faster.
+
         private void Awake()
         {
             CaptureRest();
-            // Start already holding on (the character is visible from the menu onwards).
-            _pose = HoldPose();
         }
 
         private void OnEnable()
@@ -126,14 +147,6 @@ namespace Game.Presentation
             _sessionState = state;
         }
 
-        /// <summary>Snaps straight to the climbing pose at a cycle phase (0..1), or to the released hold. For editor previews, which never run LateUpdate.</summary>
-        public void PreviewPose(float climbPhase, bool climbing)
-        {
-            CaptureRest();
-            _pose = climbing ? ClimbPose(climbPhase) : HoldPose();
-            Apply(_pose);
-        }
-
         private void LateUpdate()
         {
             if (motor == null || motor.Paused)
@@ -141,156 +154,261 @@ namespace Game.Presentation
                 return; // paused: hold the frame exactly, flail included.
             }
 
-            float height = motor.Height;
+            Advance(motor.Height, Time.deltaTime);
+        }
+
+        /// <summary>
+        /// One pose step at the given gameplay height. LateUpdate drives it from PlayerMotor; editor
+        /// previews call it directly after moving the player, since they never run LateUpdate.
+        /// </summary>
+        public void Advance(float height, float deltaTime)
+        {
+            CaptureRest();
+            if (_armL.Transform == null || _armR.Transform == null)
+            {
+                return;
+            }
+
+            float dt = Mathf.Min(deltaTime, 0.05f);
+            _rate = pace != null ? pace.PresentationRate : 1f;
             float deltaHeight = _hasLastHeight ? height - _lastHeight : 0f;
             _lastHeight = height;
             _hasLastHeight = true;
 
-            bool ascendingNow = deltaHeight > 0.0001f && !motor.IsInKnockback;
-            if (ascendingNow && strideLength > 0f)
+            bool knockedBack = motor != null && motor.IsInKnockback;
+            // Outside a knockback the motor only ever moves down when a level (re)starts.
+            if (!_seeded || (!knockedBack && deltaHeight < -0.0001f))
             {
-                _phase = Mathf.Repeat(_phase + deltaHeight / strideLength, 1f);
+                SeedGrips();
             }
 
-            Pose target;
-            float smoothTime;
-            if (_sessionState == SessionState.Won)
+            if (_wasKnockedBack && !knockedBack)
             {
-                target = HoldPose();
-                target.ArmLeft = target.ArmRight = winArmDirection;
-                smoothTime = 0.2f;
+                Regrip();
             }
-            else if (_sessionState == SessionState.Lost)
+
+            _wasKnockedBack = knockedBack;
+
+            bool overridePose = knockedBack || _sessionState == SessionState.Won || _sessionState == SessionState.Lost;
+            _overrideWeight = Mathf.MoveTowards(_overrideWeight, overridePose ? 1f : 0f, dt / (knockedBack ? 0.05f : 0.2f));
+            if (!overridePose)
             {
-                target = HoldPose();
-                target.ArmLeft = target.ArmRight = loseArmDirection;
-                target.BodyEuler = new Vector3(loseBodyTiltDegrees, 0f, 0f);
-                smoothTime = 0.25f;
+                StepHands(Mathf.Max(deltaHeight, 0f), dt);
             }
-            else if (motor.IsInKnockback)
+
+            StepBody(dt, knockedBack);
+            ApplyBody(knockedBack);
+            ApplyArms(knockedBack);
+            ApplyLegs(knockedBack);
+        }
+
+        // ---- grips ---------------------------------------------------------------------------
+
+        private float ShoulderRestWorldY(Limb arm)
+        {
+            return transform.TransformPoint(arm.RestPivot).y;
+        }
+
+        private float CycleLength => (gripHigh - gripLow) + reachDistance;
+
+        /// <summary>Both hands holding, one high and the other half a cycle lower.</summary>
+        private void SeedGrips()
+        {
+            _handL = new Hand { GripY = ShoulderRestWorldY(_armL) + gripHigh * _armLength };
+            _handR = new Hand { GripY = ShoulderRestWorldY(_armR) + (gripHigh - CycleLength * 0.5f) * _armLength };
+            _swayX = _swayVelocity = _yankY = _yankVelocity = _legX = _legVelocity = _twist = 0f;
+            _seeded = true;
+        }
+
+        /// <summary>After a knockback, both hands grab fresh holds from wherever they flailed to.</summary>
+        private void Regrip()
+        {
+            StartTimedReach(ref _handL, _armL, gripHigh);
+            StartTimedReach(ref _handR, _armR, gripHigh - CycleLength * 0.5f);
+        }
+
+        private void StartTimedReach(ref Hand hand, Limb arm, float targetAboveShoulder)
+        {
+            Vector3 pointing = arm.Transform.rotation * arm.RestDirectionLocal;
+            hand.FromY = arm.Transform.position.y + pointing.y * _armLength;
+            hand.GripY = ShoulderRestWorldY(arm) + targetAboveShoulder * _armLength;
+            hand.Progress = 0f;
+            hand.Reaching = true;
+            hand.TimedReach = regripSeconds / _rate;
+        }
+
+        private void StepHands(float climbed, float dt)
+        {
+            // The lower hand moves first, so it is the one that lets go when both qualify.
+            if (_handL.GripY <= _handR.GripY)
             {
-                // Knocked off the wall: hands let go and flail, body thrown back. Near-immediate so the
-                // impact reads as abrupt.
-                float flail = Mathf.Sin(Time.time * hitFlailFrequency);
-                target = HoldPose();
-                target.ArmLeft = Vector3.Lerp(armHoldDirection, armReachDirection, 0.5f + 0.5f * flail);
-                target.ArmRight = Vector3.Lerp(armHoldDirection, armReachDirection, 0.5f - 0.5f * flail);
-                target.LegLeft = Vector3.Lerp(legHangDirection, legLiftDirection, 0.5f + 0.5f * flail);
-                target.LegRight = Vector3.Lerp(legHangDirection, legLiftDirection, 0.5f - 0.5f * flail);
-                target.BodyOffset = new Vector3(0f, 0f, -hitPushDistance);
-                target.BodyEuler = new Vector3(-hitTiltDegrees, 0f, flail * bodyRollDegrees);
-                smoothTime = 0.03f;
-            }
-            else if (ascendingNow)
-            {
-                target = ClimbPose(_phase);
-                smoothTime = 0.04f;
+                StepHand(ref _handL, _armL, _handR, climbed, dt);
+                StepHand(ref _handR, _armR, _handL, climbed, dt);
             }
             else
             {
-                // Released, re-gripping after a hit, or waiting on the menu: both hands on the tower.
-                target = HoldPose();
-                smoothTime = 0.12f;
+                StepHand(ref _handR, _armR, _handL, climbed, dt);
+                StepHand(ref _handL, _armL, _handR, climbed, dt);
+            }
+        }
+
+        private void StepHand(ref Hand hand, Limb arm, Hand other, float climbed, float dt)
+        {
+            float shoulderY = ShoulderRestWorldY(arm);
+            if (hand.Reaching)
+            {
+                if (climbed <= 0f && hand.TimedReach <= 0f)
+                {
+                    // Stopped mid-reach: finish by time, onto a hold level with where the shoulder is now.
+                    hand.TimedReach = idleReachSeconds / _rate;
+                    hand.GripY = Mathf.Min(hand.GripY, shoulderY + gripHigh * _armLength);
+                }
+
+                hand.Progress += hand.TimedReach > 0f
+                    ? dt / hand.TimedReach
+                    : climbed / (reachDistance * _armLength);
+
+                if (hand.Progress >= 1f)
+                {
+                    hand.Reaching = false;
+                    hand.TimedReach = 0f;
+                    _yankVelocity += grabYank * _rate * _armLength;
+                }
+
+                return;
             }
 
-            float blend = 1f - Mathf.Exp(-Time.deltaTime / smoothTime);
-            _pose.ArmLeft = Vector3.Slerp(_pose.ArmLeft, target.ArmLeft, blend);
-            _pose.ArmRight = Vector3.Slerp(_pose.ArmRight, target.ArmRight, blend);
-            _pose.LegLeft = Vector3.Slerp(_pose.LegLeft, target.LegLeft, blend);
-            _pose.LegRight = Vector3.Slerp(_pose.LegRight, target.LegRight, blend);
-            _pose.BodyOffset = Vector3.Lerp(_pose.BodyOffset, target.BodyOffset, blend);
-            _pose.BodyEuler = Vector3.Lerp(_pose.BodyEuler, target.BodyEuler, blend);
-            Apply(_pose);
+            bool low = hand.GripY - shoulderY <= gripLow * _armLength;
+            if (climbed > 0f && low && !other.Reaching)
+            {
+                hand.Reaching = true;
+                hand.TimedReach = 0f;
+                hand.Progress = 0f;
+                hand.FromY = hand.GripY;
+                // Aim where the shoulder will be once the reach completes, so the new hold lands gripHigh above it.
+                hand.GripY = shoulderY + (reachDistance + gripHigh) * _armLength;
+            }
         }
 
-        private Pose HoldPose()
+        private static float HandWorldY(Hand hand)
         {
-            return new Pose
+            if (!hand.Reaching)
             {
-                ArmLeft = armHoldDirection,
-                ArmRight = armHoldDirection,
-                LegLeft = legHangDirection,
-                LegRight = legHangDirection,
-            };
-        }
-
-        /// <summary>
-        /// The left hand reaches over [0, reachFraction) of the cycle and grabs at reachFraction; the
-        /// right hand runs half a cycle behind. Swing, twist and leg pendulum all key off the left
-        /// hand's grab so they lean toward whichever hand is pulling.
-        /// </summary>
-        private Pose ClimbPose(float phase)
-        {
-            float leftU = phase;
-            float rightU = Mathf.Repeat(phase + 0.5f, 1f);
-            float swing = Mathf.Sin(2f * Mathf.PI * (phase - reachFraction));     // +1 mid-way through the left hand's pull.
-            float legLag = Mathf.Sin(2f * Mathf.PI * (phase - reachFraction - 0.1f));
-            float pull = Mathf.Sin(Mathf.PI * Mathf.Repeat(2f * (phase - reachFraction), 1f));
-
-            Vector3 legSwingOffset = new Vector3(legSwing * legLag, 0f, 0f); // feet trail the body's sway.
-            return new Pose
-            {
-                ArmLeft = Vector3.Lerp(armPulledDirection, armReachDirection, HandHeight(leftU)),
-                ArmRight = Vector3.Lerp(armPulledDirection, armReachDirection, HandHeight(rightU)),
-                // The leg opposite the reaching arm draws its knee up.
-                LegLeft = Vector3.Lerp(legHangDirection, legLiftDirection, ReachBump(rightU)) + Mirror(legSwingOffset, -1f),
-                LegRight = Vector3.Lerp(legHangDirection, legLiftDirection, ReachBump(leftU)) + legSwingOffset,
-                BodyOffset = new Vector3(-bodySway * swing, bodyPullRise * pull, 0f),
-                BodyEuler = new Vector3(0f, bodyTwistDegrees * swing, bodyRollDegrees * swing),
-            };
-        }
-
-        /// <summary>0 = pulled down to shoulder height, 1 = at full reach. Quick eased reach, then a steady pull.</summary>
-        private float HandHeight(float u)
-        {
-            if (u < reachFraction)
-            {
-                float t = u / reachFraction;
-                return 1f - (1f - t) * (1f - t) * (1f - t);
+                return hand.GripY;
             }
 
-            return 1f - (u - reachFraction) / (1f - reachFraction);
+            float t = Mathf.Clamp01(hand.Progress);
+            return Mathf.Lerp(hand.FromY, hand.GripY, t * t * (3f - 2f * t));
         }
 
-        private float ReachBump(float u)
+        // ---- body ----------------------------------------------------------------------------
+
+        private void StepBody(float dt, bool knockedBack)
         {
-            return u < reachFraction ? Mathf.Sin(Mathf.PI * u / reachFraction) : 0f;
+            // Hang beneath whichever hand holds alone; centred when both hold.
+            float hangSide = (_handL.Reaching ? 1f : 0f) - (_handR.Reaching ? 1f : 0f); // left reaching -> hang right (+x)
+            float swayTarget = knockedBack ? 0f : hangSide * swayDistance * _armLength;
+            Spring(ref _swayX, ref _swayVelocity, swayTarget, swayFrequency * _rate, swayDamping, dt);
+            Spring(ref _yankY, ref _yankVelocity, 0f, yankFrequency * _rate, yankDamping, dt);
+            Spring(ref _legX, ref _legVelocity, _swayX, legPendulumFrequency * _rate, legPendulumDamping, dt);
+            _twist = Mathf.Lerp(_twist, -hangSide * twistDegrees, 1f - Mathf.Exp(-dt * _rate / 0.08f));
         }
 
-        /// <summary>Limb directions are authored per side with x pointing outward; this flips x to the left side's frame (or back).</summary>
+        /// <summary>Damped spring, semi-implicit Euler in fixed substeps so it stays stable at fast paces and low frame rates.</summary>
+        private static void Spring(ref float x, ref float v, float target, float frequency, float damping, float dt)
+        {
+            const float maxStep = 1f / 120f;
+            float omega = 2f * Mathf.PI * frequency;
+            int steps = Mathf.Max(1, Mathf.CeilToInt(dt / maxStep));
+            float h = dt / steps;
+            for (int i = 0; i < steps; i++)
+            {
+                v += (-omega * omega * (x - target) - 2f * damping * omega * v) * h;
+                x += v * h;
+            }
+        }
+
+        private void ApplyBody(bool knockedBack)
+        {
+            if (bodyRoot == null)
+            {
+                return;
+            }
+
+            float roll = -rollDegreesPerSway * _swayX / Mathf.Max(swayDistance * _armLength, 0.0001f);
+            Vector3 offset = new Vector3(_swayX, _yankY, 0f);
+            Vector3 euler = new Vector3(0f, _twist, roll);
+
+            if (knockedBack)
+            {
+                float flail = Mathf.Sin(Time.time * hitFlailFrequency);
+                offset = Vector3.Lerp(offset, new Vector3(0f, 0f, -hitPushDistance * _armLength), _overrideWeight);
+                euler = Vector3.Lerp(euler, new Vector3(-hitTiltDegrees, 0f, flail * rollDegreesPerSway), _overrideWeight);
+            }
+            else if (_sessionState == SessionState.Lost)
+            {
+                euler = Vector3.Lerp(euler, new Vector3(loseBodyTiltDegrees, 0f, 0f), _overrideWeight);
+            }
+
+            // In this transform's unscaled space, not the scaled/axis-converted FBX root's.
+            bodyRoot.position = transform.TransformPoint(_bodyRestPosition + offset);
+            bodyRoot.rotation = transform.rotation * Quaternion.Euler(euler) * _bodyRestRotation;
+        }
+
+        // ---- limbs ---------------------------------------------------------------------------
+
+        private void ApplyArms(bool knockedBack)
+        {
+            Vector3 overrideDirection = knockedBack ? flailArmDirection
+                : _sessionState == SessionState.Won ? winArmDirection
+                : loseArmDirection;
+            float flail = knockedBack ? Mathf.Sin(Time.time * hitFlailFrequency) * 0.5f : 0f;
+            AimArm(_armL, _handL, overrideDirection + new Vector3(0f, flail, 0f));
+            AimArm(_armR, _handR, overrideDirection - new Vector3(0f, flail, 0f));
+        }
+
+        private void AimArm(Limb arm, Hand hand, Vector3 overrideOutward)
+        {
+            // The hold is anchored to the gameplay root, not the body: the body sways, the hold does not.
+            Vector3 shoulder = transform.InverseTransformPoint(arm.Transform.position);
+            float gripX = arm.RestPivot.x + arm.Side * gripOutward * _armLength;
+            float gripY = HandWorldY(hand) - transform.position.y;
+
+            float arc = hand.Reaching ? Mathf.Sin(Mathf.PI * Mathf.Clamp01(hand.Progress)) : 0f;
+            float dx = gripX - shoulder.x + arm.Side * reachArcOutward * arc * _armLength;
+            float dy = gripY - shoulder.y;
+            float minDepth = 0.2f * _armLength;
+            float dz = Mathf.Sqrt(Mathf.Max(_armLength * _armLength - dx * dx - dy * dy, minDepth * minDepth))
+                - reachArcAway * arc * _armLength;
+
+            Vector3 gripDirection = new Vector3(dx, dy, dz).normalized;
+            Vector3 overrideDirection = Mirror(overrideOutward, arm.Side).normalized;
+            Aim(arm, Vector3.Slerp(gripDirection, overrideDirection, _overrideWeight));
+        }
+
+        private void ApplyLegs(bool knockedBack)
+        {
+            // The legs' pendulum lags the body's sway, so the feet trail out opposite it.
+            float trail = (_legX - _swayX) / Mathf.Max(_legLength, 0.0001f);
+            float flail = knockedBack ? Mathf.Sin(Time.time * hitFlailFrequency) * 0.4f * _overrideWeight : 0f;
+            Aim(_legL, Mirror(legHangDirection, -1f) + new Vector3(trail, 0f, -flail));
+            Aim(_legR, legHangDirection + new Vector3(trail, 0f, flail));
+        }
+
         private static Vector3 Mirror(Vector3 direction, float side)
         {
             return new Vector3(direction.x * side, direction.y, direction.z);
         }
 
-        private void Apply(Pose pose)
-        {
-            if (_limbs == null)
-            {
-                return;
-            }
-
-            if (bodyRoot != null)
-            {
-                // In this transform's unscaled space, not the scaled/axis-converted FBX root's.
-                bodyRoot.position = transform.TransformPoint(_bodyRestPosition + pose.BodyOffset);
-                bodyRoot.rotation = transform.rotation * Quaternion.Euler(pose.BodyEuler) * _bodyRestRotation;
-            }
-
-            Aim(_limbs[0], pose.ArmLeft);
-            Aim(_limbs[1], pose.ArmRight);
-            Aim(_limbs[2], pose.LegLeft);
-            Aim(_limbs[3], pose.LegRight);
-        }
-
-        private void Aim(Limb limb, Vector3 outwardDirection)
+        /// <summary>Turns a limb from its rest axis to point along a direction given in this transform's space.</summary>
+        private void Aim(Limb limb, Vector3 direction)
         {
             if (limb.Transform == null)
             {
                 return;
             }
 
-            Vector3 world = transform.TransformDirection(Mirror(outwardDirection, limb.Side).normalized);
+            Vector3 world = transform.TransformDirection(direction.normalized);
             Vector3 parentSpace = limb.Transform.parent.InverseTransformDirection(world);
             limb.Transform.localRotation = Quaternion.FromToRotation(limb.RestDirection, parentSpace) * limb.RestLocalRotation;
         }
@@ -309,22 +427,21 @@ namespace Game.Presentation
             }
 
             Vector3 down = transform.TransformDirection(Vector3.down);
-            _limbs = new[]
-            {
-                MeasureLimb(armLeft, -1f, down),
-                MeasureLimb(armRight, 1f, down),
-                MeasureLimb(legLeft, -1f, down),
-                MeasureLimb(legRight, 1f, down),
-            };
+            _armL = MeasureLimb(armLeft, -1f, down);
+            _armR = MeasureLimb(armRight, 1f, down);
+            _legL = MeasureLimb(legLeft, -1f, down);
+            _legR = MeasureLimb(legRight, 1f, down);
+            _armLength = MeasureLength(armLeft);
+            _legLength = MeasureLength(legLeft);
             _restCaptured = true;
         }
 
         /// <summary>
-        /// The blocky character's limbs hang straight down from their joints at rest, so "down" (in
-        /// the parent's space) is each limb's rest direction. Measuring the mesh centre instead picks
-        /// up the blocks' sideways offset from their pivots and skews every aimed angle.
+        /// The blocky character's limbs hang straight down from their joints at rest, so "down" is
+        /// each limb's rest direction. Measuring the mesh centre instead picks up the blocks'
+        /// sideways offset from their pivots and skews every aimed angle.
         /// </summary>
-        private static Limb MeasureLimb(Transform limb, float side, Vector3 worldDown)
+        private Limb MeasureLimb(Transform limb, float side, Vector3 worldDown)
         {
             var result = new Limb { Transform = limb, Side = side };
             if (limb == null)
@@ -334,7 +451,16 @@ namespace Game.Presentation
 
             result.RestLocalRotation = limb.localRotation;
             result.RestDirection = limb.parent.InverseTransformDirection(worldDown).normalized;
+            result.RestDirectionLocal = limb.InverseTransformDirection(worldDown).normalized;
+            result.RestPivot = transform.InverseTransformPoint(limb.position);
             return result;
+        }
+
+        /// <summary>Joint-to-tip length of a limb hanging at rest, from its mesh bounds.</summary>
+        private static float MeasureLength(Transform limb)
+        {
+            Renderer renderer = limb != null ? limb.GetComponentInChildren<Renderer>() : null;
+            return renderer != null ? Mathf.Max(limb.position.y - renderer.bounds.min.y, 0.01f) : 0.25f;
         }
     }
 }

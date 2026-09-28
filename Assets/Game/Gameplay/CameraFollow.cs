@@ -1,3 +1,4 @@
+using Game.Core;
 using UnityEngine;
 
 namespace Game.Gameplay
@@ -7,7 +8,9 @@ namespace Game.Gameplay
     {
         [SerializeField] private PlayerMotor target;
         [SerializeField] private Vector3 offset = new Vector3(0f, 1.5f, -12f);
+        [Tooltip("Follow rate at the tuned pace; scales with the climb pace so the camera trails by the same share of the climber at any speed.")]
         [SerializeField] private float followLerp = 6f;
+        [SerializeField] private ClimbPace pace;
 
         private void LateUpdate()
         {
@@ -17,7 +20,8 @@ namespace Game.Gameplay
             }
 
             Vector3 desired = new Vector3(offset.x, target.Height + offset.y, offset.z);
-            transform.position = Vector3.Lerp(transform.position, desired, 1f - Mathf.Exp(-followLerp * Time.deltaTime));
+            float rate = followLerp * (pace != null ? pace.PresentationRate : 1f);
+            transform.position = Vector3.Lerp(transform.position, desired, 1f - Mathf.Exp(-rate * Time.deltaTime));
         }
     }
 }

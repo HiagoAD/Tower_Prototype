@@ -21,7 +21,8 @@ namespace Game.Presentation
         [SerializeField] private GameObject[] heartIcons;
 
         // World units are small (a level is tens of units tall); the reference counts altitude in
-        // the thousands, so the readout is scaled for display only.
+        // the thousands, so the readout is scaled for display only. It counts the level's authored
+        // units, so the numbers stay the same at any climb pace.
         [SerializeField] private int displayUnitsPerWorldUnit = 100;
 
         // ref.png groups thousands with a dot ("6.162", "10.000").
@@ -53,8 +54,9 @@ namespace Game.Presentation
                 progressMarker.anchorMax = new Vector2(progressMarker.anchorMax.x, progress);
             }
 
-            int displayHeight = Mathf.FloorToInt(height * displayUnitsPerWorldUnit);
-            int displayFinish = Mathf.FloorToInt(finishHeight * displayUnitsPerWorldUnit);
+            float perWorldUnit = displayUnitsPerWorldUnit / Mathf.Max(session.DistanceScale, 0.0001f);
+            int displayHeight = Mathf.RoundToInt(height * perWorldUnit);
+            int displayFinish = Mathf.RoundToInt(finishHeight * perWorldUnit);
             if (displayHeight == _lastHeight && displayFinish == _lastFinishHeight)
             {
                 return;

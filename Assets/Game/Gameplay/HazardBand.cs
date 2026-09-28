@@ -15,6 +15,9 @@ namespace Game.Gameplay
     /// </summary>
     public sealed class HazardBand : MonoBehaviour
     {
+        // Ring thickness as a share of its diameter, so the band keeps its look at any presentation scale.
+        private const float VisualThicknessToDiameter = 0.07f;
+
         private HazardSpec _spec;
         private PlayerMotor _motor;
         private System.Action _onHit;
@@ -67,7 +70,7 @@ namespace Game.Gameplay
             disc.name = "HazardVisual";
             disc.transform.localPosition = Vector3.zero;
             disc.transform.localRotation = Quaternion.identity;
-            disc.transform.localScale = new Vector3(visualDiameter, 0.06f, visualDiameter);
+            disc.transform.localScale = new Vector3(visualDiameter, visualDiameter * VisualThicknessToDiameter, visualDiameter);
 
             _renderer = disc.GetComponent<Renderer>();
         }

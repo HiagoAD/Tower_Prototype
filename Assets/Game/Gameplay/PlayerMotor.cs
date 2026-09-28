@@ -9,6 +9,7 @@ namespace Game.Gameplay
     /// </summary>
     public sealed class PlayerMotor : MonoBehaviour
     {
+        [Tooltip("Knockback distance in the level's authored units; scaled by DistanceScale.")]
         [SerializeField] private float hitDisplacement = 1.5f;
 
         // A hit no longer teleports the player down -- it eases them down over knockbackSeconds,
@@ -36,6 +37,9 @@ namespace Game.Gameplay
         public float Height { get; private set; }
         public float FinishHeight { get; set; } = 1f;
         public float ClimbSpeed { get; set; } = 4f;
+
+        /// <summary>Authored-to-play distance factor for the current level (see ClimbPace). Scales the knockback like every other level distance.</summary>
+        public float DistanceScale { get; set; } = 1f;
 
         /// <summary>Set every frame by an input source. Movement only applies while CanClimb is true.</summary>
         public bool ClimbHeld { get; set; }
@@ -128,7 +132,7 @@ namespace Game.Gameplay
             }
 
             _knockbackStartHeight = Height;
-            _knockbackTargetHeight = Mathf.Max(0f, Height - hitDisplacement);
+            _knockbackTargetHeight = Mathf.Max(0f, Height - hitDisplacement * DistanceScale);
             _knockbackElapsed = 0f;
             _knockbackActive = true;
 

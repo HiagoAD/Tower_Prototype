@@ -12,6 +12,8 @@ namespace Game.Core
     {
         [SerializeField] private PlayerMotor motor;
         [SerializeField] private LevelDefinition level;
+        [Tooltip("Optional global climb pace; without it the level plays exactly as authored.")]
+        [SerializeField] private ClimbPace pace;
         [SerializeField] private int startingHitPoints = 3;
         [SerializeField] private GameObject hazardVisualPrefab;
         [SerializeField] private Material hazardActiveMaterial;
@@ -33,6 +35,11 @@ namespace Game.Core
         // so pausing never shifts a band's safe/active windows and a retry always starts hazards
         // from the same phase.
         private float _levelClock;
+
+        private float _distanceScale = 1f;
+
+        /// <summary>Authored-to-play distance factor for the current level (see ClimbPace).</summary>
+        public float DistanceScale => _distanceScale;
 
         public SessionState State { get; private set; } = SessionState.Menu;
         public int HitPoints { get; private set; }
@@ -76,7 +83,7 @@ namespace Game.Core
 
             _levelClock += Time.deltaTime;
 
-            HeightUpdated?.Invoke(motor.Height, level.finishHeight);
+            HeightUpdated?.Invoke(motor.Height, motor.FinishHeight);
 
             if (motor.NormalizedProgress >= 1f)
             {
@@ -121,8 +128,11 @@ namespace Game.Core
             _levelInstanceId++;
             _levelClock = 0f;
             HitPoints = startingHitPoints;
-            motor.FinishHeight = level.finishHeight;
-            motor.ClimbSpeed = level.climbSpeed;
+            // The pace scales the level's speed and every distance alike, so its timing is unchanged.
+            _distanceScale = pace != null ? pace.DistanceScaleFor(level) : 1f;
+            motor.DistanceScale = _distanceScale;
+            motor.FinishHeight = level.finishHeight * _distanceScale;
+            motor.ClimbSpeed = level.climbSpeed * _distanceScale;
             motor.ResetState(0f);
             motor.CanClimb = true;
 
@@ -132,7 +142,7 @@ namespace Game.Core
             _accepting = true;
 
             HitPointsChanged?.Invoke(HitPoints);
-            HeightUpdated?.Invoke(0f, level.finishHeight);
+            HeightUpdated?.Invoke(0f, motor.FinishHeight);
         }
 
         public void Retry()
@@ -218,8 +228,10 @@ namespace Game.Core
         {
             ClearHazards();
 
-            foreach (HazardSpec spec in level.hazards)
+            foreach (HazardSpec authored in level.hazards)
             {
+                HazardSpec spec = authored;
+                spec.height *= _distanceScale;
                 var go = new GameObject("HazardBand");
                 go.transform.SetParent(transform, false);
                 HazardBand band = go.AddComponent<HazardBand>();
