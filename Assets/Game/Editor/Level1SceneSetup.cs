@@ -21,11 +21,19 @@ namespace Game.Editor
         private const string ScenePath = "Assets/Game/Scenes/Level1.unity";
         private const string LevelAssetPath = "Assets/Game/Levels/Level1.asset";
         private const string GlovePngPath = "Assets/Game/Art/Licensed/BoxingGlove/boxing-glove-white.png";
+        private const string ImpactSfxPath = "Assets/Game/Art/Licensed/ImpactSounds/impactPunch_heavy_000.ogg";
+        private const string HazardVisualPrefabPath = "Assets/Game/Prefabs/HazardVisual.prefab";
+        private const string HazardActiveMaterialPath = "Assets/Game/Art/Materials/HazardActive.mat";
+        private const string HazardSafeMaterialPath = "Assets/Game/Art/Materials/HazardSafe.mat";
+
+        private static readonly Color HazardActiveColor = new Color(0.9f, 0.15f, 0.1f, 0.85f);
+        private static readonly Color HazardSafeColor = new Color(0.95f, 0.85f, 0.1f, 0.6f);
 
         [MenuItem("Tower/Build Level 1 Scene")]
         public static void Build()
         {
             Sprite gloveSprite = LoadGloveSprite();
+            AudioClip impactClip = LoadImpactClip();
 
             // EditorSceneManager.NewScene unloads not-yet-referenced assets created earlier in this
             // same batch invocation (a freshly created-and-saved ScriptableObject has no scene/asset
@@ -33,6 +41,7 @@ namespace Game.Editor
             // UnityEngine.Object. Build the level asset AFTER the scene reset so it survives.
             Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             LevelDefinition level = BuildLevelAsset();
+            (GameObject hazardVisualPrefab, Material hazardActiveMaterial, Material hazardSafeMaterial) = BuildHazardVisualAssets();
 
             GameObject towerRoot = BuildTower();
             PlayerMotor motor = BuildPlayer(towerRoot);
@@ -43,11 +52,14 @@ namespace Game.Editor
             BindPrivate(session, "motor", motor);
             BindPrivate(session, "level", level);
             BindPrivate(session, "startingHitPoints", 3);
+            BindPrivate(session, "hazardVisualPrefab", hazardVisualPrefab);
+            BindPrivate(session, "hazardActiveMaterial", hazardActiveMaterial);
+            BindPrivate(session, "hazardSafeMaterial", hazardSafeMaterial);
 
             var climbInput = motor.gameObject.AddComponent<ClimbInputSource>();
             BindPrivate(climbInput, "motor", motor);
 
-            BuildUi(session, camera, shake, gloveSprite);
+            BuildUi(session, motor, camera, shake, gloveSprite, impactClip);
 
             System.IO.Directory.CreateDirectory("Assets/Game/Scenes");
             EditorSceneManager.SaveScene(scene, ScenePath);
@@ -90,6 +102,66 @@ namespace Game.Editor
             }
 
             return AssetDatabase.LoadAssetAtPath<Sprite>(GlovePngPath);
+        }
+
+        private static AudioClip LoadImpactClip()
+        {
+            return AssetDatabase.LoadAssetAtPath<AudioClip>(ImpactSfxPath);
+        }
+
+        /// <summary>
+        /// Builds, once at editor time, the shared hazard visual prefab (a plain cylinder mesh, no
+        /// collider) and its two shared materials. HazardBand only ever Instantiates the prefab and
+        /// swaps sharedMaterial between the two -- it never creates a primitive or a Material at
+        /// runtime. Must run after the scene reset in Build(), for the same fake-null reason
+        /// BuildLevelAsset() does. Create-if-missing, update-in-place otherwise, so re-running this
+        /// tool (every level, every scene regeneration) keeps the same GUIDs instead of new assets
+        /// replacing old ones on every run.
+        /// </summary>
+        private static (GameObject prefab, Material active, Material safe) BuildHazardVisualAssets()
+        {
+            System.IO.Directory.CreateDirectory("Assets/Game/Art/Materials");
+            System.IO.Directory.CreateDirectory("Assets/Game/Prefabs");
+
+            Material activeMaterial = CreateOrUpdateMaterial(HazardActiveMaterialPath, HazardActiveColor);
+            Material safeMaterial = CreateOrUpdateMaterial(HazardSafeMaterialPath, HazardSafeColor);
+            GameObject prefab = CreateOrUpdateHazardVisualPrefab(safeMaterial);
+
+            return (prefab, activeMaterial, safeMaterial);
+        }
+
+        private static Material CreateOrUpdateMaterial(string path, Color color)
+        {
+            var existing = AssetDatabase.LoadAssetAtPath<Material>(path);
+            if (existing != null)
+            {
+                existing.color = color;
+                EditorUtility.SetDirty(existing);
+                AssetDatabase.SaveAssets();
+                return existing;
+            }
+
+            var material = new Material(Shader.Find("Universal Render Pipeline/Lit")) { color = color };
+            AssetDatabase.CreateAsset(material, path);
+            AssetDatabase.SaveAssets();
+            return AssetDatabase.LoadAssetAtPath<Material>(path);
+        }
+
+        private static GameObject CreateOrUpdateHazardVisualPrefab(Material defaultMaterial)
+        {
+            GameObject existing = AssetDatabase.LoadAssetAtPath<GameObject>(HazardVisualPrefabPath);
+            if (existing != null)
+            {
+                return existing; // shape/collider-free geometry never changes -- keep the existing asset (and GUID).
+            }
+
+            GameObject disc = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            Object.DestroyImmediate(disc.GetComponent<Collider>());
+            disc.GetComponent<Renderer>().sharedMaterial = defaultMaterial;
+
+            GameObject prefab = PrefabUtility.SaveAsPrefabAsset(disc, HazardVisualPrefabPath);
+            Object.DestroyImmediate(disc);
+            return prefab;
         }
 
         private static GameObject BuildTower()
@@ -158,7 +230,7 @@ namespace Game.Editor
             return camera;
         }
 
-        private static void BuildUi(GameSession session, Camera camera, CameraShake shake, Sprite gloveSprite)
+        private static void BuildUi(GameSession session, PlayerMotor motor, Camera camera, CameraShake shake, Sprite gloveSprite, AudioClip impactClip)
         {
             var canvasGo = new GameObject("Canvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
             var canvas = canvasGo.GetComponent<Canvas>();
@@ -166,6 +238,12 @@ namespace Game.Editor
             var scaler = canvasGo.GetComponent<CanvasScaler>();
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1080, 1920);
+            // Match width only (matchWidthOrHeight = 0): both the reference (1080x1920) and the test
+            // device (1080x2520) share the same 1080 width, so width-matching keeps 1 canvas unit ==
+            // 1 screen pixel on both, and top/bottom-anchored geometry below needs no per-aspect math.
+            // Only the taller device's extra vertical canvas space differs, which anchor-based
+            // placement (rather than centered absolute offsets) already absorbs correctly.
+            scaler.matchWidthOrHeight = 0f;
 
             var eventSystemGo = new GameObject("EventSystem", typeof(UnityEngine.EventSystems.EventSystem));
             var uiModule = eventSystemGo.AddComponent<InputSystemUIInputModule>();
@@ -181,10 +259,24 @@ namespace Game.Editor
 
             GameObject hudPanel = BuildPanel(canvasRect, "HudPanel");
             hudPanel.SetActive(false);
-            Text heightText = AddText(hudPanel.transform, "HeightText", "0m / 0m", 56, TextAnchor.UpperLeft, new Vector2(-350f, 900f));
-            Text hpText = AddText(hudPanel.transform, "HitPointsText", "HP: 3", 56, TextAnchor.UpperRight, new Vector2(350f, 900f));
+            // The test phone has a camera cutout; shrink the whole HUD to Screen.safeArea so every
+            // top/bottom-anchored child below clears it instead of drawing under the notch.
+            hudPanel.AddComponent<SafeAreaFitter>();
+
+            const float hudMargin = 32f;
+            const float topRowHeight = 100f;
+            const float rowGap = 16f;
+
+            Text heightText = AddText(hudPanel.transform, "HeightText", "0m / 0m", 56, TextAnchor.UpperLeft, new Vector2(hudMargin, -hudMargin),
+                anchorMin: new Vector2(0f, 1f), anchorMax: new Vector2(0f, 1f), pivot: new Vector2(0f, 1f), sizeDelta: new Vector2(480f, topRowHeight));
+            Text hpText = AddText(hudPanel.transform, "HitPointsText", "HP: 3", 56, TextAnchor.UpperRight, new Vector2(-hudMargin, -hudMargin),
+                anchorMin: new Vector2(1f, 1f), anchorMax: new Vector2(1f, 1f), pivot: new Vector2(1f, 1f), sizeDelta: new Vector2(280f, topRowHeight));
             Text bumpFeedText = AddText(hudPanel.transform, "BumpFeedText", string.Empty, 64, TextAnchor.UpperCenter, new Vector2(0f, 800f));
-            Button pauseButton = AddButton(hudPanel.transform, "PauseButton", "II", new Vector2(370f, 900f));
+
+            // Second row, top-left: a different row from HeightText and a different corner from
+            // HitPointsText, so Pause never overlaps either HUD label.
+            Button pauseButton = AddButton(hudPanel.transform, "PauseButton", "II", new Vector2(hudMargin, -(hudMargin + topRowHeight + rowGap)),
+                anchorMin: new Vector2(0f, 1f), anchorMax: new Vector2(0f, 1f), pivot: new Vector2(0f, 1f), sizeDelta: new Vector2(160f, 90f));
             UnityEventTools.AddPersistentListener(pauseButton.onClick, session.Pause);
 
             GameObject pausePanel = BuildPanel(canvasRect, "PausePanel");
@@ -247,6 +339,7 @@ namespace Game.Editor
             audioGo.transform.SetParent(canvasGo.transform, false);
             AudioSource audioSource = audioGo.GetComponent<AudioSource>();
             audioSource.playOnAwake = false;
+            audioSource.clip = impactClip;
 
             var gloveBurstGo = new GameObject("GloveBurstView");
             gloveBurstGo.transform.SetParent(canvasGo.transform, false);
@@ -257,6 +350,8 @@ namespace Game.Editor
             BindPrivate(gloveBurst, "cameraShake", shake);
             BindPrivate(gloveBurst, "impactAudioSource", audioSource);
             BindPrivate(gloveBurst, "gloveSprite", gloveSprite);
+            BindPrivate(gloveBurst, "player", motor);
+            BindPrivate(gloveBurst, "worldCamera", camera);
         }
 
         private static GameObject BuildPanel(RectTransform parent, string name)
@@ -270,7 +365,13 @@ namespace Game.Editor
             return go;
         }
 
-        private static Text AddText(Transform parent, string name, string content, int size, TextAnchor anchor, Vector2 anchoredPos)
+        /// <summary>
+        /// Defaults to a centered anchor/pivot at the default 1000x150 size (the original
+        /// center-anchored panel titles/buttons rely on this). Pass explicit anchors/pivot/size for
+        /// anything that needs to sit at a screen edge instead of drifting off it in a taller aspect.
+        /// </summary>
+        private static Text AddText(Transform parent, string name, string content, int size, TextAnchor anchor, Vector2 anchoredPos,
+            Vector2? anchorMin = null, Vector2? anchorMax = null, Vector2? pivot = null, Vector2? sizeDelta = null)
         {
             var go = new GameObject(name, typeof(Text));
             go.transform.SetParent(parent, false);
@@ -281,22 +382,30 @@ namespace Game.Editor
             text.alignment = anchor;
             text.color = Color.white;
             var rect = go.GetComponent<RectTransform>();
-            rect.sizeDelta = new Vector2(1000f, 150f);
+            rect.anchorMin = anchorMin ?? new Vector2(0.5f, 0.5f);
+            rect.anchorMax = anchorMax ?? new Vector2(0.5f, 0.5f);
+            rect.pivot = pivot ?? new Vector2(0.5f, 0.5f);
+            rect.sizeDelta = sizeDelta ?? new Vector2(1000f, 150f);
             rect.anchoredPosition = anchoredPos;
             return text;
         }
 
-        private static Button AddButton(Transform parent, string name, string label, Vector2 anchoredPos)
+        private static Button AddButton(Transform parent, string name, string label, Vector2 anchoredPos,
+            Vector2? anchorMin = null, Vector2? anchorMax = null, Vector2? pivot = null, Vector2? sizeDelta = null)
         {
             var go = new GameObject(name, typeof(Image), typeof(Button));
             go.transform.SetParent(parent, false);
             var rect = go.GetComponent<RectTransform>();
-            rect.sizeDelta = new Vector2(400f, 140f);
+            rect.anchorMin = anchorMin ?? new Vector2(0.5f, 0.5f);
+            rect.anchorMax = anchorMax ?? new Vector2(0.5f, 0.5f);
+            rect.pivot = pivot ?? new Vector2(0.5f, 0.5f);
+            Vector2 size = sizeDelta ?? new Vector2(400f, 140f);
+            rect.sizeDelta = size;
             rect.anchoredPosition = anchoredPos;
             go.GetComponent<Image>().color = new Color(0.15f, 0.15f, 0.2f, 0.9f);
 
             Text text = AddText(go.transform, "Label", label, 48, TextAnchor.MiddleCenter, Vector2.zero);
-            text.rectTransform.sizeDelta = new Vector2(400f, 140f);
+            text.rectTransform.sizeDelta = size;
 
             return go.GetComponent<Button>();
         }

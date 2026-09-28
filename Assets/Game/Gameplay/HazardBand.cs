@@ -7,44 +7,53 @@ namespace Game.Gameplay
     /// One instantiated obstacle band. Checks the full previous-to-next height interval on every
     /// PlayerMotor.HeightChanged event (not a single-frame overlap test), so a slow/fast frame
     /// cannot skip a crossing. Only fires on the upward crossing of its height.
+    ///
+    /// Never creates a primitive or a Material at runtime -- both are baked at editor time
+    /// (Level1SceneSetup) into a shared visual prefab and two shared material assets, because
+    /// GameObject.CreatePrimitive on-device can throw ("class 'CapsuleCollider' doesn't exist")
+    /// when the collider type it implicitly adds has been stripped from the build.
     /// </summary>
     public sealed class HazardBand : MonoBehaviour
     {
-        private static readonly Color DangerColor = new Color(0.9f, 0.15f, 0.1f, 0.85f);
-        private static readonly Color SafeColor = new Color(0.95f, 0.85f, 0.1f, 0.6f);
-
         private HazardSpec _spec;
         private PlayerMotor _motor;
         private System.Action _onHit;
         private Renderer _renderer;
-        private MaterialPropertyBlock _propertyBlock;
+        private Material _activeMaterial;
+        private Material _safeMaterial;
+        private bool? _lastActive;
 
-        public void Initialize(HazardSpec spec, PlayerMotor motor, System.Action onHit)
+        public void Initialize(HazardSpec spec, PlayerMotor motor, System.Action onHit, GameObject visualPrefab, Material activeMaterial, Material safeMaterial)
         {
             _spec = spec;
             _motor = motor;
             _onHit = onHit;
+            _activeMaterial = activeMaterial;
+            _safeMaterial = safeMaterial;
 
             Vector3 pos = transform.position;
             pos.y = spec.height;
             transform.position = pos;
 
-            BuildVisual();
+            BuildVisual(visualPrefab);
 
             _motor.HeightChanged += OnHeightChanged;
         }
 
-        private void BuildVisual()
+        private void BuildVisual(GameObject visualPrefab)
         {
-            GameObject disc = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            if (visualPrefab == null)
+            {
+                return; // no prefab assigned -- hazard still functions (hit detection), just invisible.
+            }
+
+            GameObject disc = Object.Instantiate(visualPrefab, transform);
             disc.name = "HazardVisual";
-            disc.transform.SetParent(transform, false);
+            disc.transform.localPosition = Vector3.zero;
+            disc.transform.localRotation = Quaternion.identity;
             disc.transform.localScale = new Vector3(2.6f, 0.06f, 2.6f);
-            Object.Destroy(disc.GetComponent<Collider>());
 
             _renderer = disc.GetComponent<Renderer>();
-            _renderer.sharedMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-            _propertyBlock = new MaterialPropertyBlock();
         }
 
         private void Update()
@@ -54,9 +63,14 @@ namespace Game.Gameplay
                 return;
             }
 
-            Color color = _spec.IsActiveAt(Time.time) ? DangerColor : SafeColor;
-            _propertyBlock.SetColor("_BaseColor", color);
-            _renderer.SetPropertyBlock(_propertyBlock);
+            bool active = _spec.IsActiveAt(Time.time);
+            if (_lastActive == active)
+            {
+                return;
+            }
+
+            _lastActive = active;
+            _renderer.sharedMaterial = active ? _activeMaterial : _safeMaterial;
         }
 
         private void OnDestroy()

@@ -13,6 +13,9 @@ namespace Game.Core
         [SerializeField] private PlayerMotor motor;
         [SerializeField] private LevelDefinition level;
         [SerializeField] private int startingHitPoints = 3;
+        [SerializeField] private GameObject hazardVisualPrefab;
+        [SerializeField] private Material hazardActiveMaterial;
+        [SerializeField] private Material hazardSafeMaterial;
 
         private readonly System.Collections.Generic.List<HazardBand> _spawnedHazards = new System.Collections.Generic.List<HazardBand>();
         private BumpListener _listener;
@@ -68,18 +71,31 @@ namespace Game.Core
             }
         }
 
+        /// <summary>
+        /// The main thread is the sole authority over whether a queued request gets dispatched.
+        /// Every request is resolved exactly once here (or left to the worker's own bounded
+        /// timeout/expiry) -- the HTTP response the requester sees follows this decision, not the
+        /// other way around. The glove effect only ever fires when our own Accept transition wins.
+        /// </summary>
         private void DrainBumpQueue()
         {
             while (_listener.TryDequeue(out BumpRequest request))
             {
                 if (request.LevelInstanceId != _levelInstanceId)
                 {
-                    continue; // stale request from a previous level/attempt -- discard.
+                    request.TryResolve(BumpRequestState.Rejected); // stale request from a previous level/attempt.
+                    continue;
                 }
 
                 if (State != SessionState.Playing)
                 {
+                    request.TryResolve(BumpRequestState.Rejected);
                     continue;
+                }
+
+                if (!request.TryResolve(BumpRequestState.Accepted))
+                {
+                    continue; // the worker already gave up and expired this one -- never dispatch it.
                 }
 
                 motor.TryApplyHit(); // nonlethal spectacle hit: never consumes a hit point, never blocks continued play.
@@ -188,7 +204,7 @@ namespace Game.Core
                 var go = new GameObject("HazardBand");
                 go.transform.SetParent(transform, false);
                 HazardBand band = go.AddComponent<HazardBand>();
-                band.Initialize(spec, motor, OnHazardHit);
+                band.Initialize(spec, motor, OnHazardHit, hazardVisualPrefab, hazardActiveMaterial, hazardSafeMaterial);
                 _spawnedHazards.Add(band);
             }
         }

@@ -44,6 +44,9 @@ namespace Game.Webhook
             bool changed = false;
             while (_listener.TryDequeue(out request))
             {
+                // G1 smoke path: this runner has no session-state concept, so it accepts everything
+                // it drains. Resolving is what lets the waiting network worker reply 200.
+                request.TryResolve(BumpRequestState.Accepted);
                 _bumpCount++;
                 changed = true;
                 Debug.Log($"[Bump] accepted requestId={request.RequestId} method={request.Method} count={_bumpCount}");

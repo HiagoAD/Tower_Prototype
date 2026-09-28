@@ -3,26 +3,33 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
+
+[assembly: InternalsVisibleTo("Game.Tests.EditMode")]
 
 namespace Game.Webhook
 {
     /// <summary>
     /// Minimal local HTTP listener for POST/GET /bump. Runs entirely on background threads;
-    /// makes no UnityEngine calls. Accepted requests are pushed onto a bounded queue that the
-    /// main thread drains. This is transport only -- it does not know about game/session state.
+    /// makes no UnityEngine calls. Every accepted-for-consideration request is pushed onto a
+    /// bounded queue and the worker blocks (bounded) for the main thread's accept/reject decision
+    /// -- the HTTP response is never sent before that decision is known. This is transport only --
+    /// it does not know about game/session state beyond the StateProvider fast-path below.
     /// </summary>
     public sealed class BumpListener : IDisposable
     {
         public const string BumpPath = "/bump";
 
-        private const int MaxHeaderBytes = 8 * 1024;
-        private const int MaxBodyBytes = 8 * 1024;
-        private const int SocketTimeoutMs = 3000;
-        private const int QueueCapacity = 16;
+        internal const int MaxHeaderBytes = 8 * 1024;
+        internal const int MaxBodyBytes = 8 * 1024;
+        internal const int QueueCapacity = 16;
 
-        private readonly int _port;
+        private const int SocketTimeoutMs = 3000;
+        private const int AcceptWaitTimeoutMs = 750;
+
+        private int _port;
         private readonly ConcurrentQueue<BumpRequest> _queue = new ConcurrentQueue<BumpRequest>();
         private int _queueCount;
 
@@ -35,9 +42,13 @@ namespace Game.Webhook
         /// <summary>
         /// Read synchronously on a background thread for every request -- must not touch
         /// UnityEngine APIs. Returns whether the session is currently accepting gameplay bumps
-        /// and the level instance id to stamp onto the request for later staleness checks.
+        /// and the level instance id to stamp onto the request for later staleness checks. This is
+        /// a fast-path rejection only; the main thread's drain of the queue remains authoritative.
         /// </summary>
         public Func<(bool accepting, int levelInstanceId)> StateProvider { get; set; }
+
+        /// <summary>The bound port. Resolves to the OS-assigned port after Start() when constructed with 0.</summary>
+        public int Port => _port;
 
         public BumpListener(int port = 56789)
         {
@@ -53,6 +64,7 @@ namespace Game.Webhook
 
             _listener = new TcpListener(IPAddress.Loopback, _port);
             _listener.Start();
+            _port = ((IPEndPoint)_listener.LocalEndpoint).Port;
             _running = true;
 
             _acceptThread = new Thread(AcceptLoop)
@@ -78,6 +90,12 @@ namespace Game.Webhook
 
             _acceptThread = null;
             _listener = null;
+
+            // Release any worker threads still blocked in WaitForResolution so shutdown never hangs.
+            while (TryDequeue(out BumpRequest request))
+            {
+                request.TryResolve(BumpRequestState.Rejected);
+            }
         }
 
         public void Dispose()
@@ -85,7 +103,7 @@ namespace Game.Webhook
             Stop();
         }
 
-        /// <summary>Drain one accepted request, if any. Call from the main thread only.</summary>
+        /// <summary>Drain one pending request, if any. Call from the main thread only.</summary>
         public bool TryDequeue(out BumpRequest request)
         {
             if (_queue.TryDequeue(out request))
@@ -95,6 +113,21 @@ namespace Game.Webhook
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Atomically reserves one queue slot. Returns false (reserving nothing) if the queue is
+        /// already at capacity. Pairs with <see cref="TryDequeue"/>, which releases the slot.
+        /// </summary>
+        internal bool TryReserveCapacity()
+        {
+            if (Interlocked.Increment(ref _queueCount) > QueueCapacity)
+            {
+                Interlocked.Decrement(ref _queueCount);
+                return false;
+            }
+
+            return true;
         }
 
         private void AcceptLoop()
@@ -125,20 +158,20 @@ namespace Game.Webhook
                     client.ReceiveTimeout = SocketTimeoutMs;
                     client.SendTimeout = SocketTimeoutMs;
 
-                    using (var stream = client.GetStream())
+                    using (Stream stream = client.GetStream())
                     {
-                        HttpRequestLine requestLine;
-                        int contentLength;
-                        if (!TryReadHeaders(stream, out requestLine, out contentLength))
+                        if (!TryReadRequest(stream, out HttpRequestLine requestLine, out _, out int failureStatusCode))
                         {
-                            WriteResponse(stream, 400, "Bad Request", "{\"error\":\"bad_request\"}");
-                            return;
-                        }
+                            if (failureStatusCode == 413)
+                            {
+                                WriteResponse(stream, 413, "Payload Too Large", "{\"error\":\"payload_too_large\"}");
+                            }
+                            else
+                            {
+                                WriteResponse(stream, 400, "Bad Request", "{\"error\":\"bad_request\"}");
+                            }
 
-                        if (contentLength > 0)
-                        {
-                            // Body is read but not currently inspected -- /bump ignores payload contents.
-                            ReadBody(stream, contentLength);
+                            return;
                         }
 
                         if (!string.Equals(requestLine.Path, BumpPath, StringComparison.Ordinal))
@@ -165,17 +198,38 @@ namespace Game.Webhook
                             return;
                         }
 
-                        if (Volatile.Read(ref _queueCount) >= QueueCapacity)
+                        if (!TryReserveCapacity())
                         {
                             WriteResponse(stream, 429, "Too Many Requests", "{\"error\":\"too_many_requests\"}");
                             return;
                         }
 
                         string requestId = Guid.NewGuid().ToString("N");
-                        _queue.Enqueue(new BumpRequest(requestId, requestLine.Method, DateTime.UtcNow, state.levelInstanceId));
-                        Interlocked.Increment(ref _queueCount);
+                        var request = new BumpRequest(requestId, requestLine.Method, DateTime.UtcNow, state.levelInstanceId);
+                        _queue.Enqueue(request);
 
-                        WriteResponse(stream, 200, "OK", "{\"requestId\":\"" + requestId + "\",\"accepted\":true}");
+                        bool resolvedInTime = request.WaitForResolution(TimeSpan.FromMilliseconds(AcceptWaitTimeoutMs));
+                        if (!resolvedInTime && request.TryResolve(BumpRequestState.Expired))
+                        {
+                            // We won the Pending -> Expired race; the main thread never accepted this one.
+                            WriteResponse(stream, 503, "Service Unavailable", "{\"error\":\"timeout\"}");
+                            return;
+                        }
+
+                        // Either resolved within the wait, or the main thread's Accept/Reject won the
+                        // race against our own expiry attempt above -- read the final state either way.
+                        switch (request.State)
+                        {
+                            case BumpRequestState.Accepted:
+                                WriteResponse(stream, 200, "OK", "{\"requestId\":\"" + requestId + "\",\"accepted\":true}");
+                                break;
+                            case BumpRequestState.Rejected:
+                                WriteResponse(stream, 409, "Conflict", "{\"error\":\"not_playing\"}");
+                                break;
+                            default: // Expired
+                                WriteResponse(stream, 503, "Service Unavailable", "{\"error\":\"timeout\"}");
+                                break;
+                        }
                     }
                 }
             }
@@ -185,7 +239,7 @@ namespace Game.Webhook
             }
         }
 
-        private readonly struct HttpRequestLine
+        internal readonly struct HttpRequestLine
         {
             public readonly string Method;
             public readonly string Path;
@@ -197,10 +251,19 @@ namespace Game.Webhook
             }
         }
 
-        private static bool TryReadHeaders(NetworkStream stream, out HttpRequestLine requestLine, out int contentLength)
+        /// <summary>
+        /// Parses one HTTP request (request line, headers, body) off <paramref name="stream"/>.
+        /// Bytes already read past the header terminator in the same underlying read are treated as
+        /// the start of the body -- a coalesced header+body read (the common case for a small POST)
+        /// never re-reads or waits for bytes that already arrived. Internal and Stream-based (not
+        /// NetworkStream-specific) so tests can drive it with a MemoryStream or a fragmenting Stream
+        /// without opening a socket.
+        /// </summary>
+        internal static bool TryReadRequest(Stream stream, out HttpRequestLine requestLine, out byte[] body, out int failureStatusCode)
         {
             requestLine = default;
-            contentLength = 0;
+            body = Array.Empty<byte>();
+            failureStatusCode = 400;
 
             var buffer = new byte[MaxHeaderBytes];
             int total = 0;
@@ -215,12 +278,12 @@ namespace Game.Webhook
                 }
                 catch (IOException)
                 {
-                    return false;
+                    return false; // socket error/timeout while reading headers
                 }
 
                 if (read <= 0)
                 {
-                    return false;
+                    return false; // connection closed before headers completed
                 }
 
                 total += read;
@@ -234,7 +297,7 @@ namespace Game.Webhook
 
             if (headerEnd < 0)
             {
-                return false;
+                return false; // headers never terminated within MaxHeaderBytes
             }
 
             string headerText = Encoding.ASCII.GetString(buffer, 0, headerEnd);
@@ -252,6 +315,8 @@ namespace Game.Webhook
 
             requestLine = new HttpRequestLine(requestParts[0], requestParts[1]);
 
+            int contentLength = 0;
+            bool hasContentLength = false;
             for (int i = 1; i < lines.Length; i++)
             {
                 string line = lines[i];
@@ -262,40 +327,69 @@ namespace Game.Webhook
                 }
 
                 string name = line.Substring(0, colon).Trim();
-                string value = line.Substring(colon + 1).Trim();
-                if (string.Equals(name, "Content-Length", StringComparison.OrdinalIgnoreCase))
+                if (!string.Equals(name, "Content-Length", StringComparison.OrdinalIgnoreCase))
                 {
-                    int.TryParse(value, out contentLength);
+                    continue;
                 }
+
+                string value = line.Substring(colon + 1).Trim();
+                if (!int.TryParse(value, out int parsed) || parsed < 0)
+                {
+                    return false; // negative or non-numeric Content-Length
+                }
+
+                if (hasContentLength && parsed != contentLength)
+                {
+                    return false; // duplicate, conflicting Content-Length headers
+                }
+
+                contentLength = parsed;
+                hasContentLength = true;
             }
 
-            contentLength = Math.Min(contentLength, MaxBodyBytes);
-            return true;
-        }
+            if (contentLength > MaxBodyBytes)
+            {
+                failureStatusCode = 413;
+                return false;
+            }
 
-        private static void ReadBody(NetworkStream stream, int contentLength)
-        {
-            var body = new byte[contentLength];
-            int total = 0;
-            while (total < contentLength)
+            if (contentLength == 0)
+            {
+                return true;
+            }
+
+            body = new byte[contentLength];
+
+            // Bytes already read past the header terminator in the loop above are the start of the
+            // body -- carry them over instead of discarding them and re-reading from the socket.
+            int alreadyRead = Math.Min(total - headerEnd, contentLength);
+            if (alreadyRead > 0)
+            {
+                Buffer.BlockCopy(buffer, headerEnd, body, 0, alreadyRead);
+            }
+
+            int bodyTotal = alreadyRead;
+            while (bodyTotal < contentLength)
             {
                 int read;
                 try
                 {
-                    read = stream.Read(body, total, contentLength - total);
+                    read = stream.Read(body, bodyTotal, contentLength - bodyTotal);
                 }
                 catch (IOException)
                 {
-                    return;
+                    return false; // timeout/socket error before the full body arrived
                 }
 
                 if (read <= 0)
                 {
-                    return;
+                    return false; // connection closed before the full body arrived
                 }
 
-                total += read;
+                bodyTotal += read;
             }
+
+            return true;
         }
 
         private static int IndexOfHeaderTerminator(byte[] buffer, int length)
@@ -311,7 +405,7 @@ namespace Game.Webhook
             return -1;
         }
 
-        private static void WriteResponse(NetworkStream stream, int statusCode, string statusText, string jsonBody)
+        private static void WriteResponse(Stream stream, int statusCode, string statusText, string jsonBody)
         {
             byte[] bodyBytes = Encoding.UTF8.GetBytes(jsonBody);
             string headers =

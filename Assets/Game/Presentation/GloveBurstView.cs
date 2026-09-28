@@ -19,6 +19,8 @@ namespace Game.Presentation
         [SerializeField] private CameraShake cameraShake;
         [SerializeField] private AudioSource impactAudioSource;
         [SerializeField] private Sprite gloveSprite;
+        [SerializeField] private PlayerMotor player;
+        [SerializeField] private Camera worldCamera;
         [SerializeField] private int gloveCount = 6;
         [SerializeField] private float durationSeconds = 1f;
         [SerializeField] private float gloveSize = 180f;
@@ -26,6 +28,7 @@ namespace Game.Presentation
         private RectTransform[] _gloveGroups;
         private Vector2[] _edgeStarts;
         private Coroutine _routine;
+        private Coroutine _flashRoutine;
 
         private void Awake()
         {
@@ -40,6 +43,12 @@ namespace Game.Presentation
         private void OnDisable()
         {
             session.BumpAccepted -= OnBumpAccepted;
+
+            // Unity already stops every coroutine owned by a disabled component; clear our handles
+            // and the flash opacity so a later re-enable does not inherit a stuck full-opacity flash.
+            _routine = null;
+            _flashRoutine = null;
+            ResetFlashOpacity();
         }
 
         private void OnBumpAccepted(string requestId)
@@ -52,9 +61,52 @@ namespace Game.Presentation
             if (_routine != null)
             {
                 StopCoroutine(_routine);
+                _routine = null;
             }
 
+            // A retrigger must not let a still-running flash from the previous burst fight the new
+            // one over opacity.
+            if (_flashRoutine != null)
+            {
+                StopCoroutine(_flashRoutine);
+                _flashRoutine = null;
+            }
+
+            ResetFlashOpacity();
+
             _routine = StartCoroutine(BurstRoutine());
+        }
+
+        private void ResetFlashOpacity()
+        {
+            if (flashImage == null)
+            {
+                return;
+            }
+
+            Color c = flashImage.color;
+            c.a = 0f;
+            flashImage.color = c;
+        }
+
+        /// <summary>
+        /// Converts the player's current world position to burstRoot's local space, so the glove
+        /// burst converges on the character rather than the canvas origin. Recomputed every frame
+        /// the burst plays, since CameraFollow keeps tracking the player while it's active.
+        /// </summary>
+        private Vector2 ComputeTargetLocalPosition()
+        {
+            if (player == null || worldCamera == null)
+            {
+                return Vector2.zero;
+            }
+
+            Vector3 screenPoint = worldCamera.WorldToScreenPoint(player.transform.position);
+
+            // burstRoot lives on a ScreenSpaceOverlay canvas, so the camera argument must be null --
+            // passing a camera there is only correct for ScreenSpaceCamera/WorldSpace canvases.
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(burstRoot, screenPoint, null, out Vector2 localPoint);
+            return localPoint;
         }
 
         private void BuildGloves()
@@ -118,10 +170,10 @@ namespace Game.Presentation
 
             if (impactAudioSource != null && impactAudioSource.clip != null)
             {
-                impactAudioSource.Play();
+                impactAudioSource.PlayOneShot(impactAudioSource.clip);
             }
 
-            StartCoroutine(FlashRoutine());
+            _flashRoutine = StartCoroutine(FlashRoutine());
 
             float inPhase = durationSeconds * 0.55f;
             float outPhase = Mathf.Max(0.05f, durationSeconds - inPhase);
@@ -131,9 +183,10 @@ namespace Game.Presentation
             {
                 t += Time.deltaTime;
                 float eased = 1f - Mathf.Pow(1f - Mathf.Clamp01(t / inPhase), 3f);
+                Vector2 target = ComputeTargetLocalPosition();
                 for (int i = 0; i < _gloveGroups.Length; i++)
                 {
-                    _gloveGroups[i].anchoredPosition = Vector2.Lerp(_edgeStarts[i], Vector2.zero, eased);
+                    _gloveGroups[i].anchoredPosition = Vector2.Lerp(_edgeStarts[i], target, eased);
                 }
 
                 yield return null;
@@ -144,9 +197,10 @@ namespace Game.Presentation
             {
                 t += Time.deltaTime;
                 float p = Mathf.Clamp01(t / outPhase);
+                Vector2 target = ComputeTargetLocalPosition();
                 for (int i = 0; i < _gloveGroups.Length; i++)
                 {
-                    _gloveGroups[i].anchoredPosition = Vector2.Lerp(Vector2.zero, _edgeStarts[i], p);
+                    _gloveGroups[i].anchoredPosition = Vector2.Lerp(target, _edgeStarts[i], p);
                 }
 
                 yield return null;
@@ -164,6 +218,7 @@ namespace Game.Presentation
         {
             if (flashImage == null)
             {
+                _flashRoutine = null;
                 yield break;
             }
 
@@ -178,9 +233,8 @@ namespace Game.Presentation
                 yield return null;
             }
 
-            Color cleared = flashImage.color;
-            cleared.a = 0f;
-            flashImage.color = cleared;
+            ResetFlashOpacity();
+            _flashRoutine = null;
         }
     }
 }
