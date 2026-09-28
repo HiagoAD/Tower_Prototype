@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -12,7 +13,7 @@ using System.Threading;
 namespace Game.Webhook
 {
     /// <summary>
-    /// Minimal local HTTP listener for POST/GET /bump. Runs entirely on background threads;
+    /// Minimal local HTTP listener for POST/GET /bump (optional ?polarity=&type=&tag= query and body, see BumpCommandParser). Runs entirely on background threads;
     /// makes no UnityEngine calls. Every accepted-for-consideration request is pushed onto a
     /// bounded queue and the worker blocks (bounded) for the main thread's accept/reject decision
     /// -- the HTTP response is never sent before that decision is known. This is transport only --
@@ -38,6 +39,18 @@ namespace Game.Webhook
         private volatile bool _running;
 
         public event Action<string> Faulted;
+
+        private volatile IReadOnlyCollection<string> _knownTypeIds;
+
+        /// <summary>
+        /// Bump type ids the caller may name (case-insensitive); anything else is answered 400
+        /// unknown_type on the worker thread. Set once on the main thread before Start(); null accepts any id.
+        /// </summary>
+        public IReadOnlyCollection<string> KnownTypeIds
+        {
+            get => _knownTypeIds;
+            set => _knownTypeIds = value;
+        }
 
         /// <summary>
         /// Read synchronously on a background thread for every request -- must not touch
@@ -160,7 +173,7 @@ namespace Game.Webhook
 
                     using (Stream stream = client.GetStream())
                     {
-                        if (!TryReadRequest(stream, out HttpRequestLine requestLine, out _, out int failureStatusCode))
+                        if (!TryReadRequest(stream, out HttpRequestLine requestLine, out byte[] body, out int failureStatusCode))
                         {
                             if (failureStatusCode == 413)
                             {
@@ -188,6 +201,18 @@ namespace Game.Webhook
                             return;
                         }
 
+                        if (!BumpCommandParser.TryParse(requestLine.Query, body.Length > 0 ? Encoding.UTF8.GetString(body) : null, out BumpCommand command, out string parseError))
+                        {
+                            WriteResponse(stream, 400, "Bad Request", "{\"error\":\"" + parseError + "\"}");
+                            return;
+                        }
+
+                        if (command.TypeId != null && !IsKnownType(command.TypeId))
+                        {
+                            WriteResponse(stream, 400, "Bad Request", "{\"error\":\"unknown_type\"}");
+                            return;
+                        }
+
                         (bool accepting, int levelInstanceId) state = StateProvider != null
                             ? StateProvider()
                             : (accepting: true, levelInstanceId: 0);
@@ -205,7 +230,7 @@ namespace Game.Webhook
                         }
 
                         string requestId = Guid.NewGuid().ToString("N");
-                        var request = new BumpRequest(requestId, requestLine.Method, DateTime.UtcNow, state.levelInstanceId);
+                        var request = new BumpRequest(requestId, requestLine.Method, DateTime.UtcNow, state.levelInstanceId, command);
                         _queue.Enqueue(request);
 
                         bool resolvedInTime = request.WaitForResolution(TimeSpan.FromMilliseconds(AcceptWaitTimeoutMs));
@@ -221,7 +246,7 @@ namespace Game.Webhook
                         switch (request.State)
                         {
                             case BumpRequestState.Accepted:
-                                WriteResponse(stream, 200, "OK", "{\"requestId\":\"" + requestId + "\",\"accepted\":true}");
+                                WriteResponse(stream, 200, "OK", BuildAcceptedBody(request));
                                 break;
                             case BumpRequestState.Rejected:
                                 WriteResponse(stream, 409, "Conflict", "{\"error\":\"not_playing\"}");
@@ -239,15 +264,55 @@ namespace Game.Webhook
             }
         }
 
+        private bool IsKnownType(string typeId)
+        {
+            IReadOnlyCollection<string> known = _knownTypeIds;
+            if (known == null)
+            {
+                return true;
+            }
+
+            foreach (string id in known)
+            {
+                if (string.Equals(id, typeId, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static string BuildAcceptedBody(BumpRequest request)
+        {
+            var sb = new StringBuilder("{\"requestId\":\"").Append(request.RequestId).Append("\",\"accepted\":true");
+            if (request.TryGetResolvedValues(out BumpPolarity polarity, out string typeId))
+            {
+                sb.Append(",\"polarity\":\"").Append(polarity == BumpPolarity.Positive ? "positive" : "negative").Append('"');
+                sb.Append(",\"type\":\"").Append(EscapeJson(typeId.ToLowerInvariant())).Append('"');
+            }
+
+            return sb.Append('}').ToString();
+        }
+
+        private static string EscapeJson(string value)
+        {
+            return value.Replace("\\", "\\\\").Replace("\"", "\\\"");
+        }
+
         internal readonly struct HttpRequestLine
         {
             public readonly string Method;
+            /// <summary>The request target up to (excluding) any '?'.</summary>
             public readonly string Path;
+            /// <summary>The raw query string after '?', without the '?'; empty when absent.</summary>
+            public readonly string Query;
 
-            public HttpRequestLine(string method, string path)
+            public HttpRequestLine(string method, string path, string query = "")
             {
                 Method = method;
                 Path = path;
+                Query = query;
             }
         }
 
@@ -313,7 +378,11 @@ namespace Game.Webhook
                 return false;
             }
 
-            requestLine = new HttpRequestLine(requestParts[0], requestParts[1]);
+            string target = requestParts[1];
+            int queryStart = target.IndexOf('?');
+            requestLine = queryStart < 0
+                ? new HttpRequestLine(requestParts[0], target)
+                : new HttpRequestLine(requestParts[0], target.Substring(0, queryStart), target.Substring(queryStart + 1));
 
             int contentLength = 0;
             bool hasContentLength = false;

@@ -189,6 +189,19 @@ namespace Game.Tests.EditMode
         }
 
         [Test]
+        public void BumpDuringHazardKnockback_AddsToClearanceTarget()
+        {
+            _motor.ResetState(BandHeight - 0.5f);
+            Assert.IsTrue(_motor.TryApplyHazardHit(BandHeight, BodyHeight, Clearance));
+            _motor.Step(_motor.KnockbackSeconds * 0.5f);
+
+            _motor.ApplyBump(1.5f);
+            _motor.Step(_motor.KnockbackSeconds + 0.01f);
+
+            Assert.AreEqual(BandHeight - BodyHeight - Clearance + 1.5f, _motor.Height, 0.001f);
+        }
+
+        [Test]
         public void BumpKnockback_DistanceIsUnchanged()
         {
             _motor.ResetState(10f);

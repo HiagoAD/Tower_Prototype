@@ -475,3 +475,16 @@ Integration note: `GameSession`'s changes touch the same lines as `codex/sequent
 Merged `claude/level-json` (`85712a8`) and `claude/remove-lives-hazards` (`d30abc0`) into main. Both worktrees were committed before integration. Resolved the retry test to bind JSON without hit points, and regenerated Level1 through `Game.Editor.Level1SceneSetup.Build` with the merged source. Existing local planning/status edits were preserved.
 
 Validation: scene regeneration and compilation succeeded; EditMode **53/53 passed**, zero failed/skipped (`/tmp/tower-merge-editmode.xml`, log `/tmp/tower-merge-editmode.log`). Reference snapshot checksums all passed. No Android build or device acceptance was performed; existing milestone gates are unchanged. The merged branch removes hazard-driven loss, so the brief's expected lose state still needs a gameplay decision. Branches and worktrees remain available.
+
+## 2026-09-28 - Typed bump events (worktree claude/bump-types)
+
+`/bump` now takes optional `polarity`, `type` and `tag` (query, JSON or form body); see `BUMP_EVENTS.md`. `BumpCatalog` holds the types and defaults; `PlayerMotor.ApplyBump` lifts or drops the climber; `GloveBurstView` became `BumpBurstView` (mirrored for negative); the feed is two columns (positive left, negative right). EditMode suite in batch mode: 68 total, 68 passed, 0 failed (`Logs/editmode-results.xml`). Device run not done.
+
+Review follow-ups (same day): rich text off on card lines, single-line ellipsis for long tags, card pop multiplies the built scale, badge cleared for icon-less types, invulnerability covers the whole eased move, stacked bumps accumulate, empty values/BOM/format characters handled by the parser, duplicate defaults removed (catalog owns them), burst direction frames rendered (`Logs/previews/burst_positive.png`, `burst_negative.png`). EditMode 74 total / 74 passed / 0 failed (`Logs/editmode-results.xml`).
+
+
+## 2026-09-28 — bump rework integration
+
+Merged `claude/bump-types` (`273db0e`) into main after the JSON and hazard changes. Resolved session/setup conflicts without restoring lives, adapted the bump session tests to JSON, and kept hazard clearance targets alongside stacked signed bump displacement. Added a regression for a bump during hazard knockback. Regenerated Level1 through Unity with the JSON level, bump catalog, two event-feed columns and updated hazard body height.
+
+Validation: compilation and scene regeneration succeeded (`/tmp/tower-bump-merge-scene.log`); EditMode **101/101 passed**, zero failed/skipped (`/tmp/tower-bump-merge-editmode.xml`, log `/tmp/tower-bump-merge-editmode.log`). Reference checksums all passed. No Android/device validation or milestone gate change. Pre-existing local documentation edits are preserved separately from this merge.

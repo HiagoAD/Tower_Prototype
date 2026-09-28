@@ -1,6 +1,7 @@
 using System.Collections;
 using Game.Core;
 using Game.Gameplay;
+using Game.Webhook;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,13 +9,14 @@ namespace Game.Presentation
 {
     /// <summary>
     /// Full-screen boxing-glove barrage for the webhook event, modelled on the reference capture: a
-    /// staggered fountain of gloves streams up from below and the lower sides, each punching straight
-    /// through the character and out past the far edge, while a white impact glow and a spray of
+    /// staggered fountain of gloves punches straight through the character and out past the far
+    /// edge -- streaming up from below and the lower sides for a positive bump, down from above and
+    /// the upper sides for a negative one -- while a white impact glow and a spray of
     /// yellow stars go off on the character. Bounded: a new trigger while one is already playing
     /// restarts the single coroutine instead of stacking, so accepted requests during an active burst
     /// still produce visible feedback without extending the lock indefinitely.
     /// </summary>
-    public sealed class GloveBurstView : MonoBehaviour
+    public sealed class BumpBurstView : MonoBehaviour
     {
         // The source icon's fist points toward the lower right; rotating by (travel angle + this)
         // makes every glove lead with its fist.
@@ -37,7 +39,12 @@ namespace Game.Presentation
         [SerializeField] private float gloveSize = 230f;
         [SerializeField] private float starSize = 90f;
 
+        private static readonly Color DefaultProjectileTint = new Color(0.9f, 0.08f, 0.08f, 1f);
+
         private RectTransform[] _gloves;
+        private Image[] _gloveFills;
+        private Image[] _gloveOutlines;
+        private float[] _gloveLaunchAngles;
         private Vector2[] _gloveStarts;
         private float[] _gloveDelays;
         private RectTransform[] _stars;
@@ -73,15 +80,37 @@ namespace Game.Presentation
             StopOwnedEffects();
         }
 
-        private void OnBumpAccepted(string requestId)
+        private void OnBumpAccepted(BumpEvent bump)
         {
-            Trigger();
+            Trigger(bump);
         }
 
-        public void Trigger()
+        public void Trigger(BumpEvent bump)
         {
             StopOwnedEffects();
+            ConfigureProjectiles(bump);
             _routine = StartCoroutine(BurstRoutine());
+        }
+
+        /// <summary>Skins every glove with the bump type's icon and tint and mirrors the launch fan: below for positive, above for negative.</summary>
+        private void ConfigureProjectiles(BumpEvent bump)
+        {
+            Sprite sprite = bump.Type != null && bump.Type.icon != null ? bump.Type.icon : gloveSprite;
+            Color tint = bump.Type != null && bump.Type.icon != null ? bump.Type.iconTint : DefaultProjectileTint;
+            float sign = bump.Polarity == BumpPolarity.Positive ? 1f : -1f;
+            float distance = Mathf.Max(_spanX, _spanY) * 0.62f;
+
+            for (int i = 0; i < _gloves.Length; i++)
+            {
+                _gloveFills[i].sprite = sprite;
+                _gloveFills[i].color = tint;
+                _gloveOutlines[i].sprite = sprite;
+
+                // Launch angles are authored for the positive fan below the screen (-160..-20 degrees);
+                // flipping the sine puts the negative fan above it, travelling downward.
+                float rad = _gloveLaunchAngles[i] * Mathf.Deg2Rad;
+                _gloveStarts[i] = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad) * sign) * distance;
+            }
         }
 
         private void StopOwnedEffects()
@@ -161,6 +190,9 @@ namespace Game.Presentation
         private void BuildGloves()
         {
             _gloves = new RectTransform[gloveCount];
+            _gloveFills = new Image[gloveCount];
+            _gloveOutlines = new Image[gloveCount];
+            _gloveLaunchAngles = new float[gloveCount];
             _gloveStarts = new Vector2[gloveCount];
             _gloveDelays = new float[gloveCount];
 
@@ -170,16 +202,14 @@ namespace Game.Presentation
                 glove.SetParent(burstRoot, false);
                 glove.sizeDelta = Vector2.zero;
 
-                CreateImage(glove, "Outline", gloveSprite, gloveSize * 1.12f, new Color(0.12f, 0.02f, 0.02f, 1f));
-                CreateImage(glove, "Glove", gloveSprite, gloveSize, new Color(0.9f, 0.08f, 0.08f, 1f));
+                _gloveOutlines[i] = CreateImage(glove, "Outline", gloveSprite, gloveSize * 1.12f, new Color(0.12f, 0.02f, 0.02f, 1f));
+                _gloveFills[i] = CreateImage(glove, "Glove", gloveSprite, gloveSize, DefaultProjectileTint);
 
                 // Fan the launch points along the bottom edge and up the lower sides, like the
                 // reference's glove fountain, so every glove crosses the character on its way out.
+                // ConfigureProjectiles mirrors the fan for a negative bump.
                 float spread = gloveCount > 1 ? (float)i / (gloveCount - 1) : 0.5f;
-                float angle = Mathf.Lerp(-160f, -20f, spread) + Random.Range(-8f, 8f);
-                float rad = angle * Mathf.Deg2Rad;
-                float distance = Mathf.Max(_spanX, _spanY) * 0.62f;
-                _gloveStarts[i] = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)) * distance;
+                _gloveLaunchAngles[i] = Mathf.Lerp(-160f, -20f, spread) + Random.Range(-8f, 8f);
 
                 // Alternate outer and inner launch slots so the stream reads as continuous.
                 _gloveDelays[i] = ((i * 7) % gloveCount) / (float)gloveCount * 0.4f;

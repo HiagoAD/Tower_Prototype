@@ -12,8 +12,9 @@ namespace Game.Gameplay
         [Tooltip("Knockback distance in the level's authored units; scaled by DistanceScale.")]
         [SerializeField] private float hitDisplacement = 1.5f;
 
-        // A hit no longer teleports the player down -- it eases them down over knockbackSeconds,
-        // then holds for regripSeconds before climb input is accepted again. Both together define
+        // A hit or bump never teleports the player -- it eases them to the new height over
+        // knockbackSeconds (down for a hit or negative bump, up for a positive one), then holds
+        // for regripSeconds before climb input is accepted again. Both together define
         // ClimbLockoutSeconds, the single source of truth for how long input stays locked.
         [SerializeField] private float knockbackSeconds = 0.35f;
         [SerializeField] private float regripSeconds = 0.25f;
@@ -22,8 +23,12 @@ namespace Game.Gameplay
         // re-applied while the player is still being carried through the knockback/re-grip they
         // can't yet respond to, not to grant free passage back through a still-active band. If this
         // outlasts the lockout, a player who holds climb through the whole recovery would pass back
-        // through a still-red band for free (the G3 pass-through bug) -- TryApplyHit clamps against
-        // ClimbLockoutSeconds below so that can't happen even if this is misconfigured.
+        // through a still-red band for free (the G3 pass-through bug) -- StartDisplacement clamps
+        // against ClimbLockoutSeconds below so that can't happen even if this is misconfigured.
+        //
+        // Separately, IsInvulnerable is always true while the eased move is playing, so an upward
+        // bump that carries the climber through a hazard band costs no hit point, even on the
+        // move's final frame.
         [SerializeField] private float invulnerabilitySeconds = 0.6f;
 
         private float _invulnTimer;
@@ -49,9 +54,9 @@ namespace Game.Gameplay
         /// <summary>Set by GameSession while paused. Freezes every timer below, not just movement.</summary>
         public bool Paused { get; set; }
 
-        public bool IsInvulnerable => _invulnTimer > 0f;
+        public bool IsInvulnerable => _invulnTimer > 0f || _knockbackActive;
 
-        /// <summary>True only while the eased knockback displacement is actively playing.</summary>
+        /// <summary>True only while the eased hit/bump displacement is actively playing.</summary>
         public bool IsInKnockback => _knockbackActive;
 
         /// <summary>True from the moment a hit lands until climb input is accepted again (knockback + re-grip).</summary>
@@ -149,6 +154,25 @@ namespace Game.Gameplay
                 return false;
             }
 
+            StartDisplacement(targetHeight);
+            return true;
+        }
+
+        /// <summary>
+        /// Webhook bump: eases the climber by a signed authored distance (positive = up), scaled by
+        /// DistanceScale and clamped to [0, FinishHeight]. Unlike TryApplyHit it always applies, even
+        /// while invulnerable. A bump during an eased move adds to that move's target, so rapid bumps
+        /// stack their full distances. It never
+        /// touches hit points; an upward bump that reaches the finish wins through the normal check.
+        /// </summary>
+        public void ApplyBump(float authoredDistance)
+        {
+            float from = _knockbackActive ? _knockbackTargetHeight : Height;
+            StartDisplacement(Mathf.Clamp(from + authoredDistance * DistanceScale, 0f, FinishHeight));
+        }
+
+        private void StartDisplacement(float targetHeight)
+        {
             _knockbackStartHeight = Height;
             _knockbackTargetHeight = targetHeight;
             _knockbackElapsed = 0f;
@@ -158,7 +182,6 @@ namespace Game.Gameplay
             // never be allowed to outlast the lockout.
             _invulnTimer = Mathf.Min(invulnerabilitySeconds, ClimbLockoutSeconds);
             _lockoutTimer = ClimbLockoutSeconds;
-            return true;
         }
 
         public void ResetState(float startHeight)
@@ -178,7 +201,8 @@ namespace Game.Gameplay
             float eased = 1f - Mathf.Pow(1f - t, 3f); // ease-out cubic
 
             float previous = Height;
-            // Always downward (start >= target), so this can only ever produce previous > next.
+            // Upward bumps do cross HazardBand heights; they are covered by the invulnerability
+            // window, which spans this whole move, so the crossing costs no hit point.
             float next = Mathf.Lerp(_knockbackStartHeight, _knockbackTargetHeight, eased);
             next = Mathf.Clamp(next, 0f, FinishHeight);
 

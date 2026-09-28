@@ -1,6 +1,8 @@
 using System.IO;
 using System.Reflection;
+using Game.Core;
 using Game.Presentation;
+using Game.Webhook;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -34,6 +36,7 @@ namespace Game.Editor
         private const int CycleFrameInterval = 3; // 20 fps at the simulated 60
         private const float SimulationStep = 1f / 60f;
         private const string ClimbPacePath = "Assets/Game/Levels/ClimbPace.asset";
+        private const string BumpCatalogPath = "Assets/Game/Levels/BumpCatalog.asset";
 
         private static float _climbSpeed = 2.5f; // the paced world speed, read from ClimbPace when Capture starts
 
@@ -94,6 +97,7 @@ namespace Game.Editor
                 }
             }
 
+            CaptureBurstFrames(camera, canvas, player, rig, rigOffset, poseDriver, outDir);
             CaptureClimbCycle(camera, canvas, poseDriver, player, rig, rigOffset, outDir);
             Debug.Log("[ScenePreviewCapture] Wrote previews to " + outDir);
         }
@@ -185,24 +189,71 @@ namespace Game.Editor
             onHeight?.Invoke(hud, new object[] { height, 30f });
         }
 
+        /// <summary>Pushes sample bumps through the feeds' real OnBumpAccepted path (tag fitting, badge) so the preview shows what runtime shows.</summary>
         private static void ShowEventCards(bool visible)
         {
-            var feed = Object.FindFirstObjectByType<EventFeedView>(FindObjectsInactive.Include);
-            if (feed == null)
+            string[] tags = { "A very long sender tag here <size=900>x", "Anna_2077", "TikTikBox" };
+            BumpType boxing = AssetDatabase.LoadAssetAtPath<BumpCatalog>(BumpCatalogPath).types[0];
+            foreach (EventFeedView feed in Object.FindObjectsByType<EventFeedView>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            {
+                var so = new SerializedObject(feed);
+                BumpPolarity polarity = (BumpPolarity)so.FindProperty("polarity").enumValueIndex;
+                SerializedProperty cards = so.FindProperty("cards");
+                typeof(EventFeedView).GetMethod("Awake", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(feed, null);
+                MethodInfo push = typeof(EventFeedView).GetMethod("OnBumpAccepted", BindingFlags.Instance | BindingFlags.NonPublic);
+                for (int i = 0; visible && i < tags.Length; i++)
+                {
+                    push.Invoke(feed, new object[] { new BumpEvent("id", polarity, boxing, tags[i]) });
+                }
+
+                for (int i = 0; i < cards.arraySize; i++)
+                {
+                    ((CanvasGroup)cards.GetArrayElementAtIndex(i).objectReferenceValue).alpha = visible ? 1f : 0f;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Poses BumpBurstView mid-flight, once per polarity, by driving its private wiring
+        /// (Awake, ConfigureProjectiles, UpdateGloves) with a fixed time -- deterministic, no Play
+        /// mode. Writes burst_positive.png and burst_negative.png at the device aspect.
+        /// </summary>
+        private static void CaptureBurstFrames(Camera camera, Canvas canvas, Transform player, Transform rig, Vector3 rigOffset, ClimberPoseDriver driver, string outDir)
+        {
+            var view = Object.FindFirstObjectByType<BumpBurstView>(FindObjectsInactive.Include);
+            if (view == null)
             {
                 return;
             }
 
-            var so = new SerializedObject(feed);
-            SerializedProperty cards = so.FindProperty("cards");
-            SerializedProperty senders = so.FindProperty("senderTexts");
-            SerializedProperty details = so.FindProperty("detailTexts");
-            string[] ids = { "3f9c2a71", "b07e44d2", "5a1d9e08" };
-            for (int i = 0; i < cards.arraySize; i++)
+            Place(player, rig, rigOffset, 21f);
+            driver?.Advance(21f, SimulationStep);
+            ShowPanel(canvas.transform, "HudPanel");
+            ShowEventCards(false);
+
+            const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
+            typeof(BumpBurstView).GetMethod("Awake", flags).Invoke(view, null);
+            BumpType boxing = AssetDatabase.LoadAssetAtPath<BumpCatalog>(BumpCatalogPath).types[0];
+            // Project the chest by viewport (the camera has no render size outside Render) into the canvas's local units.
+            var hitTarget = (Transform)new SerializedObject(view).FindProperty("hitTarget").objectReferenceValue;
+            var burstRoot = (RectTransform)new SerializedObject(view).FindProperty("burstRoot").objectReferenceValue;
+            camera.aspect = (float)Resolutions[1].x / Resolutions[1].y;
+            Vector3 viewport = camera.WorldToViewportPoint(hitTarget.position);
+            Rect canvasRect = ((RectTransform)burstRoot.root).rect;
+            var target = new Vector2((viewport.x - 0.5f) * canvasRect.width, (viewport.y - 0.5f) * canvasRect.height);
+            foreach (BumpPolarity polarity in new[] { BumpPolarity.Positive, BumpPolarity.Negative })
             {
-                ((CanvasGroup)cards.GetArrayElementAtIndex(i).objectReferenceValue).alpha = visible ? 1f : 0f;
-                ((Text)senders.GetArrayElementAtIndex(i).objectReferenceValue).text = ids[i % ids.Length];
-                ((Text)details.GetArrayElementAtIndex(i).objectReferenceValue).text = "Boxing*1";
+                typeof(BumpBurstView).GetMethod("ConfigureProjectiles", flags).Invoke(view, new object[] { new BumpEvent("id", polarity, boxing, "Tag") });
+                // Early in the flight, so the gloves are still on their side of the climber.
+                typeof(BumpBurstView).GetMethod("UpdateGloves", flags).Invoke(view, new object[] { 0.18f, target });
+                int active = 0;
+                foreach (Transform child in burstRoot)
+                {
+                    active += child.gameObject.activeSelf ? 1 : 0;
+                }
+
+                Debug.Log("[ScenePreviewCapture] burst " + polarity + " target=" + target + " activeChildren=" + active + " of " + burstRoot.childCount + " rootActive=" + burstRoot.gameObject.activeInHierarchy);
+                Render(camera, canvas, Resolutions[1], Path.Combine(outDir, "burst_" + polarity.ToString().ToLowerInvariant() + ".png"));
             }
         }
 
