@@ -1,64 +1,39 @@
 # Claude implementation handoff
 
-Ownership: Codex plans and reviews; Claude implements. If either one hits its usage limit while the other has quota, the available one covers both roles until the other returns (see the quota fallback rule in AGENTS.md). The same scope, reference and evidence rules apply either way.
+Use [ACTION_PLAN.md](ACTION_PLAN.md), replanned September 28 at approximately 17:45 Recife. Codex owns planning/review; Claude owns implementation/integration. The standing quota fallback and single Editor/build/device owner remain in force. Preserve concurrent work. This handoff updates the plan; it does not launch another agent or restore deleted worktrees.
 
-Milestone evidence now includes an advisory Jev pass using [Tools/Jev](../../Tools/Jev/README.md). Implementer supplies a focused, build-linked report; Codex prepares/runs the evidence classification and independently reviews the underlying artifacts. Jev never changes gate status or substitutes for device/visual/audio checks. API unavailability does not block implementation or ordinary review.
+## Gameplay decision
 
-Implement the project following [ACTION_PLAN.md](ACTION_PLAN.md). Codex is the planner and overall overseer; you own implementation, integration, and evidence. The candidate owns final submission and supplies device access.
+This is a social climbing game: viewers send positive bumps to help or negative bumps to remove progress. **Frustration and recovery from lost height are the loss experience. No lives, death or terminal lose screen is required by the user.** Do not restore the removed failure mechanic. The brief's expected win/lose state wording remains unchanged; document this deliberate interpretation in the README rather than claiming a conventional lose state.
 
-**Current priority — G2 fidelity correction now:** follow [CURRENT_FIDELITY_REVIEW.md](CURRENT_FIDELITY_REVIEW.md). The preview image controls art direction; the video is a different copy and secondary motion/event context. Correct tower/sky/character composition/HUD first and supply a device still, then improve visible climb contact/pull/recovery and close device audio/lose-retry checks. User cancelled parallel Sol level work pending gameplay changes. The campaign worktrees and draft branches have been removed; await new gameplay direction. Main-workspace changes remain preserved. Retain the implemented pose driver, smooth knockback, pause clock, effect cleanup and improved retry test; their existence does not establish visual acceptance. Only Level1 is currently authored. The older G3 correction document is historical diagnosis plus supporting motion guidance; the current review supersedes its framing and gate ordering.
+Hold/release controls, accepted planted grips/body swing, global pace, hazard setbacks and clear summit wins remain. Finite request bursts must end with controllable play; endless hostile requests can intentionally delay progress. Positive help near the summit may win normally. No streaming-platform connector, relay or audience UI is in this scope.
 
-Read the root `AGENTS.md`, the immutable brief, its reference image/video, and the plan before editing. Never modify anything under `Docs/Reference/Unity-technical-test/` or the original Notion page. All implementation assumptions belong in project documentation outside that directory.
+## Current baseline and next work
 
-Target submission: **September 28, 2026 at 22:00 Recife (September 29 at 01:00 UTC)**. The user's 09:00 UTC deadline is interpreted as **September 29**, eight hours later. Confirm the date/device during kickoff without delaying independent work. Update the schedule if starting late; preserve delivery time.
+One JSON level exists. JSON loading, lives removal and typed bumps are merged. Saved integrated tests show 101/101 passed; local APK `f63e5156…` predates those changes. G2 remains partial. Candidate accepted the grip feel; do not redo it because the old fidelity review predates that acceptance.
 
-## First 90 minutes
+1. Finish the active code-quality review and resolve actual blockers. Build/install the integrated source; verify default GET/POST, positive/negative effects, lost height/recovery, rapid-request recovery, pause/menu cleanup, audible impact and current visuals. **30–45 minutes** for the ordinary G2 closure pass; major review repairs use the reserve or require reforecasting.
+2. Implement five distinct JSON difficulty variations using shared visuals, ordered progression, next and final completion. Include meaningful transition tests and all-five Android completion evidence. Size the environment for every scaled finish height. **75–105 minutes.** This is the revised forward plan; do not resurrect the cancelled parallel drafts.
+3. Focused tuning/review fixes, final device regression and five-minute performance observation; freeze and preserve the accepted APK/source. **45–60 minutes.**
+4. Final recording, README, credits, clean package and packaged-APK reinstall. **60–75 minutes.** Prepare documentation during builds where practical.
+5. Upload and verify download/access, then candidate submission. **30–45 minutes.** Allow a further **30–60 minutes** for repairs across the sequence.
 
-1. Confirm actual device/emulator, ABI, and build/install access. Inspect the reference's opening and glove sequence with audio. Record the hold-to-climb, portrait, level/failure-rule assumptions.
-2. Preserve existing user changes and establish a source-control baseline. Keep the installed Unity 6000.3.11f1 / URP / Input System versions. Diagnose the running Editor's Pipeline reachability; it is already installed. Use Unity-supported Editor operations for scene/prefab authoring.
-3. Establish small shared contracts and the folder ownership in the plan. Start the APK smoke build path immediately. A successful host-only test does not resolve Android risk.
-4. Source/import the selected existing free assets, preserving license files. No image/model/audio generation, paid assets, custom art pipeline, or prolonged asset search. The selected character has no climb clip: implement a small pose driver on its existing rig.
-5. Produce **G1**: an installed APK whose in-game diagnostic counter responds to real GET and POST requests through `adb forward`. Replace the diagnostic-only proof with the full effect by G2.
-
-## Pro-plan execution and parallel opportunities
-
-Default to **one active Claude Code session using Sonnet**, implementing all three workstreams below. Check `/usage` or Settings → Usage before beginning and after G1/G2; record remaining session/weekly allowances and reset times in STATUS. No paid overflow or upgrade is included. The current account balances are unknown, so completion within quota is not guaranteed.
-
-Do not start a standing multi-agent team. If measured headroom justifies it, at most one short worker may take a bounded independent task. Follow existing role/model instructions if delegating. Every worker draws from the same Claude allowance.
-
-- **Lead/A:** contracts, game session, climbing/input/camera, level configurations, selected asset imports, scene/prefab wiring, tests/build coordination. Sole owner of the shared Unity Editor and project/package settings.
-- **B:** `Assets/Game/Webhook/` and owned transport tests. Plain C# transport, request parsing, bounded dispatch, responses, cleanup. No Unity calls from network threads. Lead owns this unless explicitly delegated.
-- **C:** `Assets/Game/Presentation/` and owned presentation tests. Menu/HUD view scripts, glove overlay, imported-rig pose, SFX. Lead owns this unless explicitly delegated; a worker sends wiring instructions and does not edit shared scenes/prefabs or import assets independently.
-
-Tell each worker that others are editing the project, to preserve unrelated changes, and to stay inside assigned ownership. Publish contracts before workers depend on them. Integrate compile-ready batches; do not run parallel play-mode/test/build sessions in one project.
-
-Execute A → minimal B → minimal C until the Android vertical slice works, then expand to five levels. Overlap builds with documentation, candidate playtesting, and Codex review of fixed revisions. Keep logs in files, return focused error summaries, and avoid repeated full-plan reads or whole-project scans. Reserve allowance for fixes; use the measured burn at G1/G2 to reassess the schedule. If approaching a limit, checkpoint work and report the reset time instead of silently entering paid usage.
+Total forecast **4½–6½ hours**, assuming toolchain/device/quotas hold and no major review defects. From 17:45 Recife: **22:15–00:15**, working target **23:00 Recife September 28 / 02:00 UTC September 29**. Previous 22:00 target is a stretch. Interpreted user deadline remains September 29 at 09:00 UTC / 06:00 Recife. Delayed implementation start shifts this forecast.
 
 ## Completion contract
 
-- One scene with five explicit, distinct, completable level configurations.
-- Imported modular tower/character, reference-inspired blue sky and camera framing, touch climb/idle, hit/fall and win/lose/retry.
-- Main menu, five sequential difficulty variations sharing visuals, HUD, pause/resume, win/next, final completion, lose/retry, return to menu. No level-select screen required.
-- Both GET and POST `http://localhost:56789/bump` inside Editor and Android; six large boxing gloves, flash/shake/SFX, and reliable continued play. Every accepted request has visible feedback; stale requests cannot carry into a new level.
-- Device evidence, focused tests, APK recording showing all five completions and the real webhook, README, asset licenses, and clean project deliverable.
+- Exactly five distinct, completable sequential levels; shared presentation and one gameplay scene.
+- Main menu, HUD, touch climb/idle, readable hit/setback/recovery, pause/resume, summit/next, final completion and menu return. Voluntary restart if retained resets the active level fully.
+- Existing art direction from ref.png; existing licensed assets only, no generated art/audio. Final device visual approval and audible impact.
+- Editor and Android local GET/POST `http://localhost:56789/bump`; default boxing burst retained. Positive/negative commands, visible feedback for accepted requests, bounded motion, no stale events across levels and continued control after a finite burst.
+- Build-linked tests/device evidence, performance observation, all-five APK recording, README/licenses/attribution, clean source and verified single delivery link.
 
-Use `adb forward` for PC → Android. Document why the brief's `adb reverse` example is the opposite direction, without editing the brief. Stop Editor Play mode before forwarding host port 56789, or use host 56790 mapped to device 56789.
+Use `adb forward` for PC → device; explain the brief's opposite-direction `adb reverse` example in README without editing the brief. Stop Editor Play or use host 56790 forwarded to device 56789.
 
-## Status at every gate; four scheduled Codex reviews
+## Coordination and checkpoints
 
-Update [STATUS.md](STATUS.md) at every gate. Request focused Codex review at **G2, G3, G5, and G6**, plus any blocking issue. The candidate prompts Codex to read STATUS; there is no automatic cross-app monitoring. Supply:
+One implementation session by default. Do not launch a standing team. Keep scene/import/test/build/device operations under one owner. Preserve unrelated changes and use Unity-supported authoring operations. Read AGENTS and the immutable brief/reference media before implementation; never alter the reference snapshot.
 
-```text
-Gate and result: G# — PASS / FAIL / NOT VERIFIED
-Time remaining to 22:00 target:
-Quota remaining and reset times (at G0/G1/G2 and on warnings):
-Source revision / changed files:
-APK path and device / OS / ABI:
-Checks run, executed-test counts, results:
-Screenshots / recording / logs:
-Known gaps or assumptions changed:
-Next action and ETA:
-Decision needed from overseer, if any:
-```
+Update [STATUS.md](STATUS.md) at gates. Codex reviews G2/G3/G5/G6 and blockers. Supply result, source/change manifest, APK hash, device/OS/ABI, executed test counts and XML, screenshot/recording/log paths, unresolved items and next ETA. Advisory [Jev](../../Tools/Jev/README.md) does not replace device/visual/audio review; API unavailability is nonblocking.
 
-Escalate blockers after 15 minutes with a concrete fallback. Continue independent work while Codex reviews. Do not claim a gate passed from compilation alone, and do not start optional features before all required functionality is proven on Android. Feature freeze is 16:00; preserve a tested APK and begin recording by 18:00.
+Escalate blockers after 15 minutes. Reforecast after G2/G3. Freeze once the complete candidate is ready (forecast 20:00–21:00), then fix blockers only. Preserve recording/packaging time and record the actual final APK. No gate passes from compilation or elapsed target time alone.

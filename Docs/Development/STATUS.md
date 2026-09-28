@@ -1,36 +1,36 @@
 # Development status
 
-Plan: [ACTION_PLAN.md](ACTION_PLAN.md). Implementer handoff: [CLAUDE_HANDOFF.md](CLAUDE_HANDOFF.md).
+Latest planning update — 2026-09-28, approximately 17:45 Recife: **social setbacks replace terminal failure**. Viewers help or hinder through signed bumps; lost height/frustration is the intended loss experience. No lives/game-over implementation is outstanding. Document the difference from the brief's expected lose-state wording in README; immutable reference unchanged.
 
-Current state: **one playable Android level implemented; G2 PARTIAL, image-fidelity device still delivered and awaiting candidate/Codex review**.
-Current implementation priority: **review of the corrected still**, then climbing feel and outstanding device checks, before five-level expansion. See [CURRENT_FIDELITY_REVIEW.md](CURRENT_FIDELITY_REVIEW.md).
+Plan: [ACTION_PLAN.md](ACTION_PLAN.md). Implementer handoff: [CLAUDE_HANDOFF.md](CLAUDE_HANDOFF.md). Earlier assessment: [GOALS_REVIEW.md](GOALS_REVIEW.md).
 
-Ownership: Codex owns planning/review; Claude implements when available, with the standing quota fallback retained. The earlier Sol handover is historical; this update does not assert an active Sol session or start a new one. Keep one Editor/build/device owner.
+Current state: **one level; accepted planted-grip feel; JSON/lives/bump changes integrated; G2 PARTIAL pending current-build Android acceptance**. Saved integrated tests confirm 101/101 passed. Local APK `f63e5156…` remains the older pace build. Four levels, progression and final delivery remain outstanding. No milestone promoted by this planning update.
 
-Quota review: **original three-agent option replaced by one Claude Sonnet session by default**. Codex reviews G2/G3/G5/G6 and blockers. Account-specific quota fit remains **NOT VERIFIED**; no usage balances have been supplied. The candidate relays checkpoints by asking Codex to read this file.
+Current priority: finish Claude's active code review, validate the integrated social loop on Android, then implement the revised five-level progression. The prior parallel drafts stay cancelled; this plan creates no agents or worktrees. Codex plans/reviews; Claude implements. Preserve one Editor/build/device owner and the quota fallback.
 
-Submission target: **2026-09-28 22:00 Recife / 2026-09-29 01:00 UTC**.
-User deadline: **09:00 UTC**, interpreted as **2026-09-29 09:00 UTC**; date confirmation remains open.
+Forecast: **4½–6½ hours remaining from implementation resumption**, assuming no major review defects, quota interruption or toolchain/device problem. Baseline start 17:45 Recife → finish **22:15 September 28–00:15 September 29**. Working target **23:00 Recife September 28 / 02:00 UTC September 29**. Previous 22:00 target is a stretch. User deadline remains interpreted as **September 29 09:00 UTC / 06:00 Recife**; no new date confirmation is asserted.
 
-| Gate | Target, Recife | Status | Evidence |
+| Gate | Revised target, Recife Sep 28 | Status | Evidence / remaining acceptance |
 | --- | --- | --- | --- |
-| G0 — device, baseline, contracts | 08:15 | PASS | Physical device `0070013699` (Motorola moto_g_5G_plus, codename `nairo`), arm64-v8a, Android 11 (API 30), 1080x2520 portrait, authorized over USB. Unity 6000.3.11f1 + Android/SDK/NDK modules confirmed installed. Reference checksums verified (`shasum -a 256 -c SHA256SUMS`: all OK). Pre-existing working-tree edits to ACTION_PLAN/CLAUDE_HANDOFF/STATUS preserved (not touched by build work). Contracts: see `Assets/Game/Webhook/BumpRequest.cs`. |
-| G1 — Android install and HTTP proof | 09:15 | PASS | See detailed report below. |
-| G2 — Android vertical slice | 11:30 | PARTIAL — image-fidelity still delivered for review; climbing feel and device closure open | Corrected device still vs ref.png: `evidence/fid_device_vs_ref.png` (APK sha256 `cff0462f…`, installed package hash matched); EditMode 25/25 on the same source. Candidate feedback/Codex review pending. Climb motion clip, device lose→retry and audible impact still outstanding. See the 2026-09-28 fidelity checkpoint report below. |
-| G3 — five complete levels and menus | 13:30 (original target) | NOT COMPLETE — deferred by user | Parallel level work cancelled pending gameplay changes. Campaign worktrees and branches removed; no integration or device acceptance. |
-| G4 — complete candidate; feature freeze | 16:00 | NOT VERIFIED | Pending. |
-| G5 — accepted release candidate | 18:00 | NOT VERIFIED | Pending. |
-| G6 — recording and complete package | 20:00 | NOT VERIFIED | Pending. |
-| G7 — verified link submitted | 22:00 | NOT VERIFIED | Pending. |
+| G0 — device, baseline, contracts | Completed earlier | PASS | moto g 5G plus `0070013699`, Android 11, arm64-v8a; Unity 6000.3.11f1; immutable hashes verified. |
+| G1 — Android install and HTTP proof | Completed earlier | PASS | Earlier installed APK responded to GET/POST; detailed historical reports below. |
+| G2 — integrated social vertical slice | 18:30 | PARTIAL | Accepted grip feel and older Android proof retained; current APK build, signed/default bump recovery, pause/menu cleanup, audible impact and final visual review still required. |
+| G3 — five complete levels and menus | 20:00 | NOT COMPLETE | One JSON level; four configurations, progression and all-five device completion evidence required. Revised social design now recorded; deleted parallel drafts are not restored. |
+| G4 — complete candidate; feature freeze | 20:00–21:00 | NOT VERIFIED | Complete content and focused tuning; freeze when candidate actually passes. |
+| G5 — accepted release candidate | 21:00 | NOT VERIFIED | Code-review fixes, final device/lifecycle/performance evidence and APK/source provenance. |
+| G6 — recording and complete package | 22:15 | NOT VERIFIED | All-five final APK video, README/credits, clean source and packaged reinstall. |
+| G7 — verified link submitted | 23:00 | NOT VERIFIED | Upload/download/access checks and candidate submission. |
+
+Targets are midpoint estimates, not acceptance. Additional 30–60-minute repair reserve is included in the total forecast. Shift by delayed implementation start; reforecast after G2/G3. Historical reports below retain their original findings and assumptions; current social design and schedule above supersede old lose/retry gates and elapsed priorities. The prior Jev request `jev/20260928T203943015475Z-G2` describes the earlier assessment and is not current-plan acceptance evidence.
 
 ## Known risks / decisions
 
 | Item | Owner | Next action |
 | --- | --- | --- |
-| Device/emulator availability | Candidate + Claude lead | Identify target and prove install/recording in kickoff. |
+| Device ownership | Candidate + Claude lead | Known moto g 5G plus; coordinate exclusive build/device time and confirm recording/audio capture. |
 | Deadline date inferred | Candidate + Codex | Confirm September 29 if the interpretation is incorrect; today-end target remains earlier. |
 | Running Editor's Pipeline unreachable in planning session | Claude lead | Diagnose connection/permissions; do not assume missing package. |
-| No climb clip in selected character pack | Presentation lane | Pose imported rig in code; cap initial work at 45 minutes. |
+| Final integrated acceptance | Claude + Codex | Preserve accepted planted-grip feel; verify social recovery, audio and current visuals on Android. |
 | Brief names `adb reverse` for PC-side request | Webhook lane + lead | Implement/test `adb forward`; explain direction in README. Preserve brief. |
 | No asset generation | All | Import existing free art/audio; retain licenses and attribution. |
 | Pro allowances may not cover the full implementation sprint | Candidate + both agents | Record balances/reset times below; measure usage after G1/G2; prioritize required behavior and fixes. |

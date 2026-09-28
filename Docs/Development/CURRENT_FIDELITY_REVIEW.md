@@ -1,5 +1,7 @@
 # Current work review and immediate fidelity checkpoint — 2026-09-28
 
+**Superseding clarification, September 28:** the user defines loss as viewer-induced loss of progress/frustration, with continued play. A terminal lose state is not planned. The updated [action plan](ACTION_PLAN.md) supersedes this review's unresolved failure-rule, deferred-gameplay and lose/retry requirements, and contains fresh estimates. Preserve this document's older findings as historical evidence; it does not establish acceptance of the current Android build.
+
 Codex reviewed the working tree at HEAD `88ef630` with existing staged, unstaged and untracked implementation changes preserved. This is a focused progress/evidence review, not a full code review or milestone PASS. No Unity build or new automated test run was performed for this review.
 
 ## Reference direction
