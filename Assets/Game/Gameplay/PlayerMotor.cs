@@ -10,9 +10,11 @@ namespace Game.Gameplay
     public sealed class PlayerMotor : MonoBehaviour
     {
         [SerializeField] private float hitDisplacement = 1.5f;
-        [SerializeField] private float invulnerabilitySeconds = 0.6f;
+        [SerializeField] private float invulnerabilitySeconds = 1.2f;
+        [SerializeField] private float climbLockoutSeconds = 0.4f;
 
         private float _invulnTimer;
+        private float _lockoutTimer;
 
         public float Height { get; private set; }
         public float FinishHeight { get; set; } = 1f;
@@ -38,7 +40,12 @@ namespace Game.Gameplay
                 _invulnTimer -= dt;
             }
 
-            if (!CanClimb || !ClimbHeld)
+            if (_lockoutTimer > 0f)
+            {
+                _lockoutTimer -= dt;
+            }
+
+            if (!CanClimb || !ClimbHeld || _lockoutTimer > 0f)
             {
                 return;
             }
@@ -67,6 +74,7 @@ namespace Game.Gameplay
             Height = Mathf.Max(0f, Height - hitDisplacement);
             ApplyTransform();
             _invulnTimer = invulnerabilitySeconds;
+            _lockoutTimer = climbLockoutSeconds;
             HeightChanged?.Invoke(previous, Height);
             return true;
         }
@@ -75,6 +83,7 @@ namespace Game.Gameplay
         {
             Height = startHeight;
             _invulnTimer = 0f;
+            _lockoutTimer = 0f;
             ApplyTransform();
         }
 

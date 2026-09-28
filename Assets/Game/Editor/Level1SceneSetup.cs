@@ -2,6 +2,7 @@ using Game.Core;
 using Game.Gameplay;
 using Game.Presentation;
 using UnityEditor;
+using UnityEditor.Events;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem.UI;
@@ -25,9 +26,13 @@ namespace Game.Editor
         public static void Build()
         {
             Sprite gloveSprite = LoadGloveSprite();
-            LevelDefinition level = BuildLevelAsset();
 
+            // EditorSceneManager.NewScene unloads not-yet-referenced assets created earlier in this
+            // same batch invocation (a freshly created-and-saved ScriptableObject has no scene/asset
+            // referrer yet), which silently turns a held C# reference into a destroyed ("fake null")
+            // UnityEngine.Object. Build the level asset AFTER the scene reset so it survives.
             Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            LevelDefinition level = BuildLevelAsset();
 
             GameObject towerRoot = BuildTower();
             PlayerMotor motor = BuildPlayer(towerRoot);
@@ -68,7 +73,9 @@ namespace Game.Editor
 
             AssetDatabase.DeleteAsset(LevelAssetPath);
             AssetDatabase.CreateAsset(level, LevelAssetPath);
-            return level;
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            return AssetDatabase.LoadAssetAtPath<LevelDefinition>(LevelAssetPath);
         }
 
         private static Sprite LoadGloveSprite()
@@ -129,10 +136,12 @@ namespace Game.Editor
 
         private static Camera BuildCamera(PlayerMotor motor, out CameraShake shake)
         {
+            var cameraOffset = new Vector3(2.6f, 1.5f, -12f);
             var rigGo = new GameObject("CameraRig");
+            rigGo.transform.position = cameraOffset; // avoid starting inside the tower and lerping out on frame 1
             var follow = rigGo.AddComponent<CameraFollow>();
             BindPrivate(follow, "target", motor);
-            BindPrivate(follow, "offset", new Vector3(2.6f, 1.5f, -12f));
+            BindPrivate(follow, "offset", cameraOffset);
 
             var shakeGo = new GameObject("CameraShakeOffset");
             shakeGo.transform.SetParent(rigGo.transform, false);
@@ -168,33 +177,37 @@ namespace Game.Editor
             Text title = AddText(mainMenuPanel.transform, "Title", "Tower Prototype", 96, TextAnchor.MiddleCenter, new Vector2(0f, 300f));
             title.rectTransform.sizeDelta = new Vector2(900f, 200f);
             Button startButton = AddButton(mainMenuPanel.transform, "StartButton", "Start", new Vector2(0f, 0f));
-            startButton.onClick.AddListener(session.StartLevel);
+            UnityEventTools.AddPersistentListener(startButton.onClick, session.StartLevel);
 
             GameObject hudPanel = BuildPanel(canvasRect, "HudPanel");
+            hudPanel.SetActive(false);
             Text heightText = AddText(hudPanel.transform, "HeightText", "0m / 0m", 56, TextAnchor.UpperLeft, new Vector2(-350f, 900f));
             Text hpText = AddText(hudPanel.transform, "HitPointsText", "HP: 3", 56, TextAnchor.UpperRight, new Vector2(350f, 900f));
             Text bumpFeedText = AddText(hudPanel.transform, "BumpFeedText", string.Empty, 64, TextAnchor.UpperCenter, new Vector2(0f, 800f));
-            Button pauseButton = AddButton(hudPanel.transform, "PauseButton", "II", new Vector2(0f, -900f));
-            pauseButton.onClick.AddListener(session.Pause);
+            Button pauseButton = AddButton(hudPanel.transform, "PauseButton", "II", new Vector2(370f, 900f));
+            UnityEventTools.AddPersistentListener(pauseButton.onClick, session.Pause);
 
             GameObject pausePanel = BuildPanel(canvasRect, "PausePanel");
+            pausePanel.SetActive(false);
             AddText(pausePanel.transform, "PauseTitle", "Paused", 80, TextAnchor.MiddleCenter, new Vector2(0f, 250f));
             Button resumeButton = AddButton(pausePanel.transform, "ResumeButton", "Resume", new Vector2(0f, 50f));
-            resumeButton.onClick.AddListener(session.Resume);
+            UnityEventTools.AddPersistentListener(resumeButton.onClick, session.Resume);
             Button pauseMenuButton = AddButton(pausePanel.transform, "MenuButton", "Menu", new Vector2(0f, -100f));
-            pauseMenuButton.onClick.AddListener(session.ReturnToMenu);
+            UnityEventTools.AddPersistentListener(pauseMenuButton.onClick, session.ReturnToMenu);
 
             GameObject winPanel = BuildPanel(canvasRect, "WinPanel");
+            winPanel.SetActive(false);
             AddText(winPanel.transform, "WinTitle", "Summit Reached!", 80, TextAnchor.MiddleCenter, new Vector2(0f, 250f));
             Button winMenuButton = AddButton(winPanel.transform, "MenuButton", "Menu", new Vector2(0f, 0f));
-            winMenuButton.onClick.AddListener(session.ReturnToMenu);
+            UnityEventTools.AddPersistentListener(winMenuButton.onClick, session.ReturnToMenu);
 
             GameObject losePanel = BuildPanel(canvasRect, "LosePanel");
+            losePanel.SetActive(false);
             AddText(losePanel.transform, "LoseTitle", "You Fell", 80, TextAnchor.MiddleCenter, new Vector2(0f, 250f));
             Button retryButton = AddButton(losePanel.transform, "RetryButton", "Retry", new Vector2(0f, 50f));
-            retryButton.onClick.AddListener(session.Retry);
+            UnityEventTools.AddPersistentListener(retryButton.onClick, session.Retry);
             Button loseMenuButton = AddButton(losePanel.transform, "MenuButton", "Menu", new Vector2(0f, -100f));
-            loseMenuButton.onClick.AddListener(session.ReturnToMenu);
+            UnityEventTools.AddPersistentListener(loseMenuButton.onClick, session.ReturnToMenu);
 
             var hudViewGo = new GameObject("HudView");
             hudViewGo.transform.SetParent(canvasGo.transform, false);

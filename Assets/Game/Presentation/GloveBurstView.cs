@@ -61,7 +61,13 @@ namespace Game.Presentation
         {
             _gloveGroups = new RectTransform[gloveCount];
             _edgeStarts = new Vector2[gloveCount];
-            float radius = Mathf.Max(Screen.width, Screen.height) * 0.75f;
+
+            // Use the canvas's own local unit space (root RectTransform), not raw Screen pixels --
+            // those only coincide when the reference resolution exactly matches the device width.
+            var canvasRect = burstRoot.root as RectTransform;
+            float spanX = canvasRect != null ? canvasRect.rect.width : Screen.width;
+            float spanY = canvasRect != null ? canvasRect.rect.height : Screen.height;
+            float radius = Mathf.Max(spanX, spanY) * 0.75f;
 
             for (int i = 0; i < gloveCount; i++)
             {

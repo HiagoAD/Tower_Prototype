@@ -13,6 +13,8 @@ namespace Game.Presentation
         [SerializeField] private Text bumpFeedText;
 
         private float _bumpFeedTimer;
+        private int _lastHeight = int.MinValue;
+        private int _lastFinishHeight = int.MinValue;
 
         private void OnEnable()
         {
@@ -44,9 +46,19 @@ namespace Game.Presentation
 
         private void OnHeightUpdated(float height, float finishHeight)
         {
+            int flooredHeight = Mathf.FloorToInt(height);
+            int flooredFinish = Mathf.FloorToInt(finishHeight);
+            if (flooredHeight == _lastHeight && flooredFinish == _lastFinishHeight)
+            {
+                return;
+            }
+
+            _lastHeight = flooredHeight;
+            _lastFinishHeight = flooredFinish;
+
             if (heightText != null)
             {
-                heightText.text = Mathf.FloorToInt(height) + "m / " + Mathf.FloorToInt(finishHeight) + "m";
+                heightText.text = flooredHeight + "m / " + flooredFinish + "m";
             }
         }
 

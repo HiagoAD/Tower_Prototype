@@ -16,6 +16,11 @@ namespace Game.Core
 
         public bool IsActiveAt(float timeSeconds)
         {
+            if (periodSeconds <= 0f)
+            {
+                return false;
+            }
+
             float t = (timeSeconds - phaseOffsetSeconds) % periodSeconds;
             if (t < 0f)
             {

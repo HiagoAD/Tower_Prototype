@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace Game.Gameplay
@@ -35,6 +36,12 @@ namespace Game.Gameplay
             Touchscreen touch = Touchscreen.current;
             if (touch != null && touch.primaryTouch.press.isPressed)
             {
+                int touchId = touch.primaryTouch.touchId.ReadValue();
+                if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject(touchId))
+                {
+                    return false; // a menu/HUD button is being touched, not the climb region.
+                }
+
                 Vector2 pos = touch.primaryTouch.position.ReadValue();
                 float regionPixels = Screen.height * touchRegionNormalizedHeight;
                 if (pos.y <= regionPixels)
