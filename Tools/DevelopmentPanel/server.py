@@ -110,6 +110,14 @@ def snapshot(root=ROOT):
             match = re.search(r"\*\*(G\d+):\*\*\s*(.*)", row[3])
             if match:
                 acceptance[match.group(1)] = match.group(2)
+    # Explicit current checkpoints supersede the original schedule's acceptance text.
+    for row in table(plan, "Checkpoint"):
+        if len(row) >= 2:
+            acceptance[plain(row[0])] = row[1]
+    roadmap = [{"order": plain(r[0]), "work": plain(r[1]), "evidence": plain(r[2])}
+               for r in table(plan, "Order") if len(r) >= 3]
+    priority = re.search(r"^Current implementation priority:\s*(.+)$", status, re.M)
+    priority_text = re.sub(r"\[([^]]+)\]\([^)]+\)", r"\1", plain(priority.group(1))) if priority else ""
     gates = []
     for row in table(status, "Gate"):
         if len(row) < 4:
@@ -119,7 +127,7 @@ def snapshot(root=ROOT):
             continue
         gate_id, name = match.groups()
         reported_state = plain(row[2])
-        state_match = re.fullmatch(r"(NOT VERIFIED|IN PROGRESS|PARTIAL|BLOCKED|PASS|FAIL)(?:\s*[—–:]\s*.*)?",
+        state_match = re.fullmatch(r"(NOT VERIFIED|NOT COMPLETE|IN PROGRESS|PARTIAL|BLOCKED|PASS|FAIL)(?:\s*[—–:]\s*.*)?",
                                   reported_state.upper())
         state = state_match.group(1) if state_match else "NOT VERIFIED"
         if not state_match:
@@ -169,6 +177,7 @@ def snapshot(root=ROOT):
     state = re.search(r"^Current state:\s*(.+)$", status, re.M)
     return {"fetchedAt": datetime.now(timezone.utc).isoformat(), "statusUpdated": updated,
             "sourceState": plain(state.group(1)) if state else "Not recorded",
+            "priority": priority_text, "roadmap": roadmap,
             "target": target, "deadline": hard, "deadlineNote": "Interpreted deadline; date confirmation remains open in STATUS.md.",
             "gates": gates, "risks": risks, "quotas": quotas, "levels": levels,
             "weights": weights, "reports": reports, "documents": docs, "screenshots": screenshots,

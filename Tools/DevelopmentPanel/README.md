@@ -12,7 +12,7 @@ Open **http://127.0.0.1:8765**. Stop the server with Ctrl+C. If that port is occ
 
 ## What it follows
 
-- **Overview:** reported gate progress, the next unpassed gate, submission target, source freshness, repository revision, level configuration count, and reference integrity.
+- **Overview:** immediate priority and ordered execution plan, reported gate progress, the next unpassed gate, submission target, source freshness, repository revision, level configuration count, and reference integrity.
 - **Milestones:** searchable and filterable gate results with acceptance criteria and recorded evidence.
 - **Evidence & builds:** downloadable APKs, screenshot previews, playable recordings, build logs, and imported license records.
 - **Risks & decisions:** the risk/owner/action table and quota observations.
@@ -27,10 +27,11 @@ Continue updating [STATUS.md](../../Docs/Development/STATUS.md) and [ACTION_PLAN
 Keep the existing Markdown table headings and columns:
 
 - STATUS: `Gate`, `Item`, and `Account / observation`.
-- ACTION_PLAN: the schedule table (`Recife, …`) and `Level`.
+- ACTION_PLAN: the schedule table (`Recife, …`) and `Level`; `Order / Current work / Required evidence` supplies the current execution sequence, and `Checkpoint / Current acceptance` overrides historical schedule criteria.
+- STATUS: `Current implementation priority:` supplies the overview priority.
 - Append dated implementation reports with `###` headings in STATUS.
 
-Gate states supported: `PASS`, `FAIL`, `NOT VERIFIED`, `IN PROGRESS`, `PARTIAL`, and `BLOCKED`, including annotations such as `PARTIAL — see report`. Unknown values are shown as NOT VERIFIED with a warning. The original status wording remains in the milestone details. The panel uses the gate table as its status source; an appended report does not silently override that table.
+Gate states supported: `PASS`, `FAIL`, `NOT VERIFIED`, `NOT COMPLETE`, `IN PROGRESS`, `PARTIAL`, and `BLOCKED`, including annotations such as `PARTIAL — see report`. Unknown values are shown as NOT VERIFIED with a warning. The original status wording remains in the milestone details. The panel uses the gate table as its status source; an appended report does not silently override that table.
 
 It scans:
 

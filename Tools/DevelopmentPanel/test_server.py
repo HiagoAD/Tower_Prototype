@@ -53,6 +53,25 @@ Gate and result: G0 — PASS
         path.write_text(path.read_text().replace("NOT VERIFIED", "PASS"))
         self.assertEqual(server.snapshot(self.root)["gates"][1]["status"], "PASS")
 
+    def test_current_plan_overrides_schedule_and_reloads(self):
+        path = self.root / "Docs/Development/ACTION_PLAN.md"
+        path.write_text(path.read_text() + "\n| Checkpoint | Current acceptance |\n| --- | --- |\n| G1 | Corrected device still. |\n\n| Order | Current work | Required evidence |\n| --- | --- | --- |\n| 1 — now | Image fidelity | Device comparison. |\n")
+        status = self.root / "Docs/Development/STATUS.md"
+        status.write_text("Current implementation priority: **Image first**.\n" + status.read_text())
+        result = server.snapshot(self.root)
+        self.assertEqual(result["gates"][1]["acceptance"], "Corrected device still.")
+        self.assertEqual(result["priority"], "Image first.")
+        self.assertEqual(result["roadmap"][0]["work"], "Image fidelity")
+        path.write_text(path.read_text().replace("Image fidelity", "Climbing feel"))
+        self.assertEqual(server.snapshot(self.root)["roadmap"][0]["work"], "Climbing feel")
+
+    def test_not_complete_is_explicit_and_never_passed(self):
+        path = self.root / "Docs/Development/STATUS.md"
+        path.write_text(path.read_text().replace("NOT VERIFIED", "NOT COMPLETE — one level authored"))
+        result = server.snapshot(self.root)
+        self.assertEqual(result["gates"][1]["status"], "NOT COMPLETE")
+        self.assertFalse(result["issues"])
+
     def test_unknown_gate_value_is_not_accepted(self):
         path = self.root / "Docs/Development/STATUS.md"
         path.write_text(path.read_text().replace("NOT VERIFIED", "PROBABLY DONE"))
