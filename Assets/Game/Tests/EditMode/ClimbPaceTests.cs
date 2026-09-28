@@ -31,7 +31,6 @@ namespace Game.Tests.EditMode
             finally
             {
                 Object.DestroyImmediate(pace);
-                Object.DestroyImmediate(level);
             }
         }
 
@@ -42,12 +41,13 @@ namespace Game.Tests.EditMode
             var sessionGo = new GameObject("Session");
             ClimbPace pace = CreatePace(bodyHeightsPerSecond: 1.5f, bodyHeight: 2f);
             LevelDefinition level = CreateLevel();
+            var levelJson = new TextAsset(LevelJson);
             try
             {
                 PlayerMotor motor = motorGo.AddComponent<PlayerMotor>();
                 GameSession session = sessionGo.AddComponent<GameSession>();
                 SetPrivate(session, "motor", motor);
-                SetPrivate(session, "level", level);
+                SetPrivate(session, "levelJson", levelJson);
                 SetPrivate(session, "pace", pace);
 
                 session.StartLevel();
@@ -71,17 +71,16 @@ namespace Game.Tests.EditMode
                 Object.DestroyImmediate(sessionGo);
                 Object.DestroyImmediate(motorGo);
                 Object.DestroyImmediate(pace);
-                Object.DestroyImmediate(level);
+                Object.DestroyImmediate(levelJson);
             }
         }
 
+        private const string LevelJson =
+            "{\"levelId\":1,\"displayName\":\"Test\",\"finishHeight\":30,\"climbSpeed\":2.5,\"hazards\":[]}";
+
         private static LevelDefinition CreateLevel()
         {
-            var level = ScriptableObject.CreateInstance<LevelDefinition>();
-            level.finishHeight = 30f;
-            level.climbSpeed = 2.5f;
-            level.hazards = System.Array.Empty<HazardSpec>();
-            return level;
+            return LevelDefinition.FromJson(LevelJson);
         }
 
         private static ClimbPace CreatePace(float bodyHeightsPerSecond, float bodyHeight)

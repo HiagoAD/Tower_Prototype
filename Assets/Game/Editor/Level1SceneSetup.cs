@@ -19,7 +19,7 @@ namespace Game.Editor
     public static class Level1SceneSetup
     {
         private const string ScenePath = "Assets/Game/Scenes/Level1.unity";
-        private const string LevelAssetPath = "Assets/Game/Levels/Level1.asset";
+        private const string LevelJsonPath = "Assets/Game/Levels/Level1.json";
         private const string ClimbPacePath = "Assets/Game/Levels/ClimbPace.asset";
         private const string GlovePngPath = "Assets/Game/Art/Licensed/BoxingGlove/boxing-glove-white.png";
         private const string ImpactSfxPath = "Assets/Game/Art/Licensed/ImpactSounds/impactPunch_heavy_000.ogg";
@@ -148,12 +148,14 @@ namespace Game.Editor
             Sprite starSprite = LoadSprite(StarPngPath);
             AudioClip impactClip = LoadImpactClip();
 
-            // EditorSceneManager.NewScene unloads not-yet-referenced assets created earlier in this
-            // same batch invocation (a freshly created-and-saved ScriptableObject has no scene/asset
-            // referrer yet), which silently turns a held C# reference into a destroyed ("fake null")
-            // UnityEngine.Object. Build the level asset AFTER the scene reset so it survives.
             Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            LevelDefinition level = BuildLevelAsset();
+            TextAsset levelJson = AssetDatabase.LoadAssetAtPath<TextAsset>(LevelJsonPath);
+            if (levelJson == null)
+            {
+                throw new System.IO.FileNotFoundException("Level data missing", LevelJsonPath);
+            }
+
+            LevelDefinition level = LevelDefinition.FromJson(levelJson.text);
             (GameObject hazardVisualPrefab, Material hazardActiveMaterial, Material hazardSafeMaterial) = BuildHazardVisualAssets();
 
             BuildEnvironment();
@@ -175,7 +177,7 @@ namespace Game.Editor
             GameObject sessionGo = new GameObject("GameSession");
             GameSession session = sessionGo.AddComponent<GameSession>();
             BindPrivate(session, "motor", player.Motor);
-            BindPrivate(session, "level", level);
+            BindPrivate(session, "levelJson", levelJson);
             BindPrivate(session, "pace", pace);
             BindPrivate(session, "startingHitPoints", 3);
             BindPrivate(session, "hazardVisualPrefab", hazardVisualPrefab);
@@ -198,28 +200,6 @@ namespace Game.Editor
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
 
             Debug.Log("[Level1SceneSetup] Built and saved " + ScenePath);
-        }
-
-        private static LevelDefinition BuildLevelAsset()
-        {
-            System.IO.Directory.CreateDirectory("Assets/Game/Levels");
-
-            var level = ScriptableObject.CreateInstance<LevelDefinition>();
-            level.levelId = 1;
-            level.displayName = "First Ascent";
-            level.finishHeight = 30f;
-            level.climbSpeed = 2.5f;
-            level.hazards = new[]
-            {
-                new HazardSpec { height = 10f, periodSeconds = 4f, activeSeconds = 1.5f, phaseOffsetSeconds = 0f },
-                new HazardSpec { height = 20f, periodSeconds = 5f, activeSeconds = 1.5f, phaseOffsetSeconds = 2f },
-            };
-
-            AssetDatabase.DeleteAsset(LevelAssetPath);
-            AssetDatabase.CreateAsset(level, LevelAssetPath);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-            return AssetDatabase.LoadAssetAtPath<LevelDefinition>(LevelAssetPath);
         }
 
         /// <summary>Create-if-missing: an existing asset keeps its tuned pace across rebuilds; only its measured body height is rewritten.</summary>

@@ -33,19 +33,16 @@ namespace Game.Tests.EditMode
         {
             var motorGo = new GameObject("Motor");
             var sessionGo = new GameObject("Session");
-            LevelDefinition level = null;
+            TextAsset level = null;
             try
             {
                 PlayerMotor motor = motorGo.AddComponent<PlayerMotor>();
 
-                level = ScriptableObject.CreateInstance<LevelDefinition>();
-                level.finishHeight = 30f;
-                level.climbSpeed = 2.5f;
-                level.hazards = System.Array.Empty<HazardSpec>();
+                level = new TextAsset("{\"levelId\":1,\"displayName\":\"Test\",\"finishHeight\":30,\"climbSpeed\":2.5,\"hazards\":[]}");
 
                 GameSession session = sessionGo.AddComponent<GameSession>();
                 SetPrivate(session, "motor", motor);
-                SetPrivate(session, "level", level);
+                SetPrivate(session, "levelJson", level);
                 SetPrivate(session, "startingHitPoints", 3);
 
                 session.StartLevel();

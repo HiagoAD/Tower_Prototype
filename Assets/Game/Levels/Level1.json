@@ -1,0 +1,20 @@
+{
+  "levelId": 1,
+  "displayName": "First Ascent",
+  "finishHeight": 30,
+  "climbSpeed": 2.5,
+  "hazards": [
+    {
+      "height": 10,
+      "periodSeconds": 4,
+      "activeSeconds": 1.5,
+      "phaseOffsetSeconds": 0
+    },
+    {
+      "height": 20,
+      "periodSeconds": 5,
+      "activeSeconds": 1.5,
+      "phaseOffsetSeconds": 2
+    }
+  ]
+}
