@@ -11,7 +11,8 @@ namespace Game.Editor
     /// <summary>
     /// Renders still frames of the saved Level 1 scene (world + UI) without entering Play mode, for
     /// side-by-side comparison with the reference capture. Poses the player at a few heights, shows
-    /// one panel per shot, and writes PNGs at the reference's portrait aspect and the test device's.
+    /// one panel per shot, and writes PNGs at the reference's portrait aspect and the test device's,
+    /// plus one climb cycle frame by frame (cycle_N.png) and the released hold (cycle_hold.png).
     /// Run via -executeMethod Game.Editor.ScenePreviewCapture.Capture; output goes to
     /// Logs/previews (or the -previewOut argument).
     /// </summary>
@@ -27,6 +28,8 @@ namespace Game.Editor
             ("bump", 21f, "HudPanel"),
             ("lose", 9f, "LosePanel"),
         };
+
+        private const int CycleFrames = 8;
 
         private static readonly Vector2Int[] Resolutions = { new Vector2Int(1080, 2025), new Vector2Int(1080, 2520) };
 
@@ -47,7 +50,7 @@ namespace Game.Editor
             canvas.worldCamera = camera;
             canvas.planeDistance = 1f;
 
-            ApplyGripPose(Object.FindFirstObjectByType<ClimberPoseDriver>());
+            var poseDriver = Object.FindFirstObjectByType<ClimberPoseDriver>();
             Transform hazard = AddPreviewHazard();
 
             // The first render after opening the scene can run on placeholder shaders while the
@@ -63,6 +66,7 @@ namespace Game.Editor
                 {
                     hazard.position = new Vector3(0f, height + 2.4f, 0f);
                 }
+                poseDriver?.PreviewPose(0.15f, name == "climb" || name == "bump");
                 ShowPanel(canvas.transform, panel);
                 FeedHud(height);
                 ShowEventCards(name == "bump");
@@ -74,7 +78,29 @@ namespace Game.Editor
                 }
             }
 
+            CaptureClimbCycle(camera, canvas, poseDriver, player, rig, rigOffset, outDir);
             Debug.Log("[ScenePreviewCapture] Wrote previews to " + outDir);
+        }
+
+        /// <summary>CycleFrames evenly spaced poses through one climb cycle, HUD hidden, at the device aspect.</summary>
+        private static void CaptureClimbCycle(Camera camera, Canvas canvas, ClimberPoseDriver driver, Transform player, Transform rig, Vector3 rigOffset, string outDir)
+        {
+            if (driver == null)
+            {
+                return;
+            }
+
+            player.position = new Vector3(player.position.x, 14f, player.position.z);
+            rig.position = player.position + rigOffset;
+            ShowPanel(canvas.transform, null);
+            for (int i = 0; i < CycleFrames; i++)
+            {
+                driver.PreviewPose((float)i / CycleFrames, climbing: true);
+                Render(camera, canvas, Resolutions[1], Path.Combine(outDir, "cycle_" + i + ".png"));
+            }
+
+            driver.PreviewPose(0f, climbing: false);
+            Render(camera, canvas, Resolutions[1], Path.Combine(outDir, "cycle_hold.png"));
         }
 
         private static void ShowPanel(Transform canvas, string panelName)
@@ -130,32 +156,6 @@ namespace Game.Editor
                 ((CanvasGroup)cards.GetArrayElementAtIndex(i).objectReferenceValue).alpha = visible ? 1f : 0f;
                 ((Text)senders.GetArrayElementAtIndex(i).objectReferenceValue).text = ids[i % ids.Length];
                 ((Text)details.GetArrayElementAtIndex(i).objectReferenceValue).text = "Boxing*1";
-            }
-        }
-
-        private static void ApplyGripPose(ClimberPoseDriver driver)
-        {
-            if (driver == null)
-            {
-                return;
-            }
-
-            var so = new SerializedObject(driver);
-            float arm = so.FindProperty("armGripAngle").floatValue;
-            float leg = so.FindProperty("legGripAngle").floatValue;
-            float splay = so.FindProperty("armSplayDegrees").floatValue;
-            SetLimb(so, "armLeft", arm + 10f, -splay);
-            SetLimb(so, "armRight", arm - 25f, splay);
-            SetLimb(so, "legLeft", leg, 0f);
-            SetLimb(so, "legRight", leg * 0.4f, 0f);
-        }
-
-        private static void SetLimb(SerializedObject so, string field, float angle, float splay)
-        {
-            var limb = so.FindProperty(field).objectReferenceValue as Transform;
-            if (limb != null)
-            {
-                limb.localRotation = Quaternion.Euler(angle, 0f, splay);
             }
         }
 

@@ -419,3 +419,21 @@ Open (not claimed by this checkpoint): climbing-feel improvement (step 5); the i
 ### 2026-09-28 — Parallel sequential-level implementation authorized
 
 Candidate narrowed levels to difficulty variations with shared visuals and sequential progression, then explicitly requested parallel worktrees using lower-cost Codex agents without Claude. Two Sol implementation agents own `codex/sequential-levels` (`/private/tmp/tower-sequential-levels`) and `codex/level-difficulty` (`/private/tmp/tower-level-difficulty`); a Sol test engineer prepares focused tests alongside runtime work. Base: `1d2781e`. Main workspace visual edits are preserved; campaign agents do not drive the shared Editor/device or edit Level1SceneSetup/scene YAML. New Editor wiring utility will integrate the campaign through supported Unity APIs after visual handoff. Work in progress; no G3 completion claimed.
+
+### 2026-09-28 — G2 climbing animation: hand-over-hand instead of running (Claude)
+
+The candidate reported that the climb read as running. The cause was that both legs swung fore-aft in opposition and the arms made a small symmetric pump. `ClimberPoseDriver` now poses a hand-over-hand climb modelled on the reference video's motion:
+
+- Each hand in turn reaches straight up over 30% of its cycle, then holds and pulls down to shoulder height, so one hand is always on the tower.
+- The body sways, rolls and twists toward the pulling hand.
+- The legs hang and swing together behind the body like a pendulum, with a small knee lift opposite the reaching arm.
+- Released, the climber holds a wide two-handed grip (ref.png's V). Hit, win and lose poses are kept. The pose now freezes while paused.
+- Limbs are aimed at directions in the character's space, turned from their rest axis, instead of set by fixed Euler angles, so arms keep reaching for the tower while the torso rolls.
+- The cycle still advances by climbed distance, not time: 1.2 world units per full cycle, about 0.48 s at climb speed 2.5, close to the reference video's hand switches. Motor height stays authoritative.
+- `ScenePreviewCapture` now renders an 8-frame cycle strip.
+
+Checks: APK built (`Logs/anim-android1.log`, Result=Succeeded, Errors=0), SHA-256 `9a86d99d67dacca00f113db64a0c06962f9ffccbc75a007155eb6d8ee25a9d96`; the installed base.apk hashes identically. EditMode 25/25 (`evidence/anim_editmode.xml`). Device recording of start → climb → release → climb, with no Unity errors in logcat.
+
+Evidence: `evidence/anim_climb_device.mp4` (14 s, downscaled), `evidence/anim_climb_device_frames.png` (1 s at 16 fps), `evidence/anim_climb_cycle_preview.png` (hold + 8 cycle phases from the editor).
+
+Limits: the limbs are rigid blocks with no elbows or knees, so "pull" is shown by the arm swinging from overhead down to shoulder height. The tower scrolls faster than a hand could stay fixed on it, so the grip is stylised, as in the reference video. Webhook hit/recovery, audible impact, lose/retry and pause-during-recovery were not re-checked in this pass.
