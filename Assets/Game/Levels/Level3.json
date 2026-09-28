@@ -1,0 +1,44 @@
+{
+  "levelId": 3,
+  "displayName": "Rhythm",
+  "finishHeight": 50,
+  "climbSpeed": 2.5,
+  "hazards": [
+    {
+      "height": 8,
+      "periodSeconds": 4.4,
+      "activeSeconds": 2,
+      "phaseOffsetSeconds": 3.0
+    },
+    {
+      "height": 15,
+      "periodSeconds": 4.4,
+      "activeSeconds": 2,
+      "phaseOffsetSeconds": 0.8
+    },
+    {
+      "height": 22,
+      "periodSeconds": 4.4,
+      "activeSeconds": 2,
+      "phaseOffsetSeconds": 3.0
+    },
+    {
+      "height": 29,
+      "periodSeconds": 4.4,
+      "activeSeconds": 2,
+      "phaseOffsetSeconds": 0.8
+    },
+    {
+      "height": 36,
+      "periodSeconds": 4.4,
+      "activeSeconds": 2,
+      "phaseOffsetSeconds": 2.0
+    },
+    {
+      "height": 43,
+      "periodSeconds": 4.4,
+      "activeSeconds": 2,
+      "phaseOffsetSeconds": 4.2
+    }
+  ]
+}

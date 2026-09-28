@@ -69,7 +69,9 @@ namespace Game.Editor
         public const float PedestalRadiusMultiplier = 1.9f;
         public const float PedestalHeightMultiplier = 0.8f;
         public const float SeaHalfExtent = 14f * WorldScale;
-        public const int CloudCount = 30;
+        // 30 clouds over Level 1's original span; taller climbs get proportionally more, up to the cap.
+        public const int BaseCloudCount = 30;
+        public const int MaxCloudCount = 150;
         public const float CloudMargin = 10f * WorldScale; // cloud field extends this far above and below the climb, so the frame is never empty.
         public const float MainLightShadowDistance = 14f * WorldScale;
         public const float CameraShakeMagnitude = 0.35f * WorldScale;
@@ -79,6 +81,12 @@ namespace Game.Editor
         public const float CharacterChestHeightFraction = 0.55f;
 
         public const float HazardVisualDiameterMultiplier = 1.15f; // slightly wider than the tower so the band visibly wraps around it.
+
+        /// <summary>Cloud count that keeps Level 1's cloud density per unit of height on a taller (or shorter) cloud field.</summary>
+        public static int CloudCountFor(float span, float referenceSpan)
+        {
+            return Mathf.Clamp(Mathf.RoundToInt(BaseCloudCount * span / referenceSpan), BaseCloudCount, MaxCloudCount);
+        }
 
         public static float TowerRadius()
         {

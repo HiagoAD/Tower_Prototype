@@ -1,0 +1,32 @@
+{
+  "levelId": 2,
+  "displayName": "Higher Climb",
+  "finishHeight": 40,
+  "climbSpeed": 2.5,
+  "hazards": [
+    {
+      "height": 9,
+      "periodSeconds": 5,
+      "activeSeconds": 1.8,
+      "phaseOffsetSeconds": 3.25
+    },
+    {
+      "height": 17,
+      "periodSeconds": 5,
+      "activeSeconds": 1.8,
+      "phaseOffsetSeconds": 0.25
+    },
+    {
+      "height": 25,
+      "periodSeconds": 5.5,
+      "activeSeconds": 2,
+      "phaseOffsetSeconds": 0
+    },
+    {
+      "height": 33,
+      "periodSeconds": 5,
+      "activeSeconds": 1.8,
+      "phaseOffsetSeconds": 4.25
+    }
+  ]
+}

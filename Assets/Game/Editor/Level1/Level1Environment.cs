@@ -74,7 +74,7 @@ namespace Game.Editor
         /// and kept faint, giving ref.png's hazy wisps rather than isolated opaque puffs.
         /// Deterministic layout.
         /// </summary>
-        public static void BuildClouds(float topHeight)
+        public static void BuildClouds(float topHeight, int cloudCount)
         {
             Vector4[] windows = Level1Layout.CloudWindows;
             Texture2D skyTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(Level1Paths.SkyTexture);
@@ -96,7 +96,7 @@ namespace Game.Editor
 
             var root = new GameObject("Clouds");
             var random = new System.Random(7);
-            for (int i = 0; i < Level1Layout.CloudCount; i++)
+            for (int i = 0; i < cloudCount; i++)
             {
                 int window = i % windows.Length;
                 bool broad = window < 2;
@@ -107,7 +107,7 @@ namespace Game.Editor
 
                 float depth = (14f + (float)random.NextDouble() * 16f) * Level1Layout.WorldScale;
                 float side = (i % 2 == 0 ? -1f : 1f) * ((float)random.NextDouble() * (depth * 0.2f));
-                float spacing = (topHeight + 2f * Level1Layout.CloudMargin) / Level1Layout.CloudCount;
+                float spacing = (topHeight + 2f * Level1Layout.CloudMargin) / cloudCount;
                 float y = -Level1Layout.CloudMargin + (i + (float)random.NextDouble()) * spacing;
 
                 float width = (broad ? 7f + (float)random.NextDouble() * 5f : 3f + (float)random.NextDouble() * 2.5f) * Level1Layout.WorldScale;

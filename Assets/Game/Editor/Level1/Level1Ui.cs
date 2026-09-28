@@ -23,14 +23,21 @@ namespace Game.Editor
             // title, and stock Unity buttons -- light for the main action, dark for the way out.
             GameObject mainMenuPanel = BuildMenuPanel(kit, canvasRect, "MainMenuPanel", "TOWER CLIMB");
             Button startButton = AddMenuButton(kit, mainMenuPanel.transform, "StartButton", "Start", 0, primary: true);
-            UnityEventTools.AddPersistentListener(startButton.onClick, session.StartLevel);
+            UnityEventTools.AddPersistentListener(startButton.onClick, session.StartCampaign);
 
             GameObject hudPanel = Level1Hud.Build(kit, canvasRect, session, inputs.GloveSprite);
 
             GameObject winPanel = BuildMenuPanel(kit, canvasRect, "WinPanel", "SUMMIT REACHED");
             winPanel.SetActive(false);
-            Button winMenuButton = AddMenuButton(kit, winPanel.transform, "MenuButton", "Exit", Level1Layout.WinButtonSlot, primary: true);
+            Button nextButton = AddMenuButton(kit, winPanel.transform, "NextButton", "Next Level", Level1Layout.WinButtonSlot - 1, primary: true);
+            UnityEventTools.AddPersistentListener(nextButton.onClick, session.StartNextLevel);
+            Button winMenuButton = AddMenuButton(kit, winPanel.transform, "MenuButton", "Exit", Level1Layout.WinButtonSlot, primary: false);
             UnityEventTools.AddPersistentListener(winMenuButton.onClick, session.ReturnToMenu);
+
+            GameObject finalWinPanel = BuildMenuPanel(kit, canvasRect, "FinalWinPanel", "TOWER CLEARED");
+            finalWinPanel.SetActive(false);
+            Button finalMenuButton = AddMenuButton(kit, finalWinPanel.transform, "MenuButton", "Exit", Level1Layout.WinButtonSlot, primary: true);
+            UnityEventTools.AddPersistentListener(finalMenuButton.onClick, session.ReturnToMenu);
 
             var menuViewGo = new GameObject("MenuView");
             menuViewGo.transform.SetParent(canvasGo.transform, false);
@@ -39,6 +46,7 @@ namespace Game.Editor
             SceneBinding.Bind(menuView, "mainMenuPanel", mainMenuPanel);
             SceneBinding.Bind(menuView, "hudPanel", hudPanel);
             SceneBinding.Bind(menuView, "winPanel", winPanel);
+            SceneBinding.Bind(menuView, "finalWinPanel", finalWinPanel);
             SceneBinding.Bind(menuView, "winPanelDelaySeconds", Level1Layout.SummitSlideSeconds);
 
             Level1Burst.Build(canvasGo.transform, session, hitTarget, camera, inputs);

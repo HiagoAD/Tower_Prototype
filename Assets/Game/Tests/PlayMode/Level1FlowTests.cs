@@ -4,11 +4,12 @@ using Game.Core;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using UnityEngine.UI;
 
 namespace Game.Tests.PlayMode
 {
     /// <summary>
-    /// G2 follow-up: menu/pause/win transitions and HTTP bumps against the real Level1 scene,
+    /// G2 follow-up: menu/pause/win/campaign transitions and HTTP bumps against the real Level1 scene,
     /// driven through real Buttons, the public GameSession API and real HTTP.
     /// </summary>
     public sealed class Level1FlowTests : Level1PlayModeTestBase
@@ -181,6 +182,7 @@ namespace Game.Tests.PlayMode
             yield return Level1Harness.Until(() => winPanel.activeSelf, 5f, "win panel to appear after MenuView's delay");
             Assert.IsFalse(H.FindGameObject("HudPanel").activeSelf);
 
+            Assert.IsNotNull(H.FindButton("WinPanel", "NextButton"), "a non-final win offers the next level");
             H.FindButton("WinPanel", "MenuButton").onClick.Invoke();
             yield return null;
 
@@ -188,6 +190,90 @@ namespace Game.Tests.PlayMode
             Assert.AreEqual(0f, H.Motor.Height, 1e-4f, "climber should be back at the base");
             Assert.IsTrue(H.FindGameObject("MainMenuPanel").activeSelf);
             Assert.IsFalse(winPanel.activeSelf);
+        }
+
+        [UnityTest]
+        public IEnumerator Win_NextButton_StartsLevelTwo_WithItsFinish_Label_AndWorkingBumps()
+        {
+            yield return H.PressStart();
+            Assert.AreEqual(0, H.Session.LevelIndex);
+            Assert.AreEqual(5, H.Session.LevelCount);
+            Assert.AreEqual("LEVEL 1/5", LevelLabelFirstLine());
+
+            yield return WinCurrentLevel("WinPanel");
+            H.FindButton("WinPanel", "NextButton").onClick.Invoke();
+            yield return null;
+
+            Assert.AreEqual(SessionState.Playing, H.Session.State);
+            Assert.AreEqual(1, H.Session.LevelIndex);
+            Assert.AreEqual(H.Session.CurrentLevel.finishHeight * H.Session.DistanceScale, H.Motor.FinishHeight, 1e-3f);
+            Assert.AreEqual(0f, H.Motor.Height, 1e-4f, "level 2 should start at the base");
+            Assert.IsTrue(H.FindGameObject("HudPanel").activeSelf);
+            Assert.IsFalse(H.FindGameObject("WinPanel").activeSelf);
+            Assert.AreEqual("LEVEL 2/5", LevelLabelFirstLine());
+            StringAssert.Contains(H.Session.CurrentLevel.displayName.ToUpperInvariant(), LevelLabel().text);
+
+            float before = H.Motor.Height;
+            int status = 0;
+            yield return H.PostBump(s => status = s, PositiveBump);
+            Assert.AreEqual(200, status, "a real HTTP bump must work on level 2");
+            yield return Level1Harness.Until(() => H.Motor.Height > before + 0.1f * H.Session.BodyHeight,
+                H.Session.BumpImpactDelaySeconds + 3f, "climber to rise after a bump on level 2");
+        }
+
+        [UnityTest]
+        public IEnumerator Campaign_AllLevels_EndsWithFinalWinPanel_ExitReturnsToMenu_AndStartRestartsAtLevelOne()
+        {
+            yield return H.PressStart();
+            int last = H.Session.LevelCount - 1;
+            for (int i = 0; i < last; i++)
+            {
+                Assert.AreEqual(i, H.Session.LevelIndex);
+                yield return WinCurrentLevel("WinPanel");
+                Assert.IsFalse(H.FindGameObject("FinalWinPanel").activeSelf, "the final panel must not show before the last level");
+                H.FindButton("WinPanel", "NextButton").onClick.Invoke();
+                yield return null;
+                Assert.AreEqual(SessionState.Playing, H.Session.State);
+            }
+
+            Assert.AreEqual(last, H.Session.LevelIndex);
+            Assert.IsTrue(H.Session.IsFinalLevel);
+            yield return WinCurrentLevel("FinalWinPanel");
+            Assert.IsFalse(H.FindGameObject("WinPanel").activeSelf, "the plain win panel must not show on the final level");
+
+            H.Session.StartNextLevel(); // no next level: must stay won on the last one.
+            Assert.AreEqual(SessionState.Won, H.Session.State);
+            Assert.AreEqual(last, H.Session.LevelIndex);
+
+            H.FindButton("FinalWinPanel", "MenuButton").onClick.Invoke();
+            yield return null;
+            Assert.AreEqual(SessionState.Menu, H.Session.State);
+            Assert.IsTrue(H.FindGameObject("MainMenuPanel").activeSelf);
+            Assert.IsFalse(H.FindGameObject("FinalWinPanel").activeSelf);
+
+            yield return H.PressStart();
+            Assert.AreEqual(0, H.Session.LevelIndex, "Start from the menu begins the campaign again");
+            Assert.AreEqual("LEVEL 1/5", LevelLabelFirstLine());
+        }
+
+        private Text LevelLabel()
+        {
+            return H.FindGameObject("LevelLabel").GetComponent<Text>();
+        }
+
+        private string LevelLabelFirstLine()
+        {
+            return LevelLabel().text.Split('\n')[0];
+        }
+
+        /// <summary>Forces a win on the current level and waits for the named panel to appear after MenuView's delay.</summary>
+        private IEnumerator WinCurrentLevel(string panelName)
+        {
+            ForceWinThroughPublicMotor();
+            yield return Level1Harness.Until(() => H.Session.State == SessionState.Won, 5f, "session to win");
+            H.Motor.ClimbHeld = false; // let go, as a player does to tap the panel's buttons.
+            GameObject panel = H.FindGameObject(panelName);
+            yield return Level1Harness.Until(() => panel.activeSelf, 5f, panelName + " to appear after MenuView's delay");
         }
 
         /// <summary>

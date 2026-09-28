@@ -1,0 +1,1142 @@
+{
+  "success": true,
+  "command": "command test_status",
+  "data": {
+    "command": "test_status",
+    "parameters": {},
+    "result": {
+      "status": "completed",
+      "duration": 3.9,
+      "summary": {
+        "total": 159,
+        "passed": 159,
+        "failed": 0,
+        "skipped": 0,
+        "inconclusive": 0
+      },
+      "results": [
+        {
+          "FullName": "Game.Tests.EditMode.BumpAcceptanceTests.ConcurrentCapacityReservation_NeverExceedsCapacity",
+          "Status": "Passed",
+          "Duration": 0.0111248,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpAcceptanceTests.LateMainThreadAccept_AfterExpiry_LosesAndDoesNotDispatch",
+          "Status": "Passed",
+          "Duration": 0.0014384,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpAcceptanceTests.MainThreadAccept_ResolvesToAccepted",
+          "Status": "Passed",
+          "Duration": 0.000084,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpAcceptanceTests.MainThreadReject_ResolvesToRejected",
+          "Status": "Passed",
+          "Duration": 0.0000662,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpAcceptanceTests.SecondResolveAttempt_AfterAWinner_AlwaysLoses",
+          "Status": "Passed",
+          "Duration": 0.0000706,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpAcceptanceTests.WorkerTimeout_ThenExpire_WinsWhenStillPending",
+          "Status": "Passed",
+          "Duration": 0.0213061,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandLoopbackTests.BadJson_Returns400_WithoutEnqueueing",
+          "Status": "Passed",
+          "Duration": 0.0094199,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandLoopbackTests.BarePost_Returns200_WithDefaultsFromTheResolver_AndAnEmptyCommand",
+          "Status": "Passed",
+          "Duration": 0.0085012,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandLoopbackTests.GetWithQuery_Returns200_WithResolvedFields_AndCarriesTheCommand",
+          "Status": "Passed",
+          "Duration": 0.0064422,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandLoopbackTests.InvalidPolarity_Returns400_WithoutEnqueueing",
+          "Status": "Passed",
+          "Duration": 0.0006005,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandLoopbackTests.JsonPost_Returns200_AndCarriesTheCommand",
+          "Status": "Passed",
+          "Duration": 0.006289,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandLoopbackTests.UnknownType_Returns400_WithoutEnqueueing",
+          "Status": "Passed",
+          "Duration": 0.000701,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.BodyValuesOverrideQueryValues",
+          "Status": "Passed",
+          "Duration": 0.0007375,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.EmptyEverything_GivesAllNullCommand",
+          "Status": "Passed",
+          "Duration": 0.000193,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.EmptyJsonObject_IsFine",
+          "Status": "Passed",
+          "Duration": 0.0001431,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.EmptyValue_DoesNotClearAnEarlierValue",
+          "Status": "Passed",
+          "Duration": 0.0008417,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.FormBody_ParsesFields",
+          "Status": "Passed",
+          "Duration": 0.0001614,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.InvalidPolarity_IsRejected",
+          "Status": "Passed",
+          "Duration": 0.0001587,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.JsonBody_HandlesEscapes",
+          "Status": "Passed",
+          "Duration": 0.0005069,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.JsonBody_ParsesAllThreeFields_AndIgnoresUnknownKeys",
+          "Status": "Passed",
+          "Duration": 0.0003733,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.LeadingBom_BeforeJson_IsIgnored",
+          "Status": "Passed",
+          "Duration": 0.0001234,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(\"{\\"tag\\":\")",
+          "Status": "Passed",
+          "Duration": 0.0004941,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(\"{\\"tag\\":\\"unterminated}\")",
+          "Status": "Passed",
+          "Duration": 0.0001156,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(\"{\\"tag\\":\\"a\\"\")",
+          "Status": "Passed",
+          "Duration": 0.0000971,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(\"{\\"tag\\":\\"a\\",}\")",
+          "Status": "Passed",
+          "Duration": 0.0001117,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(\"{tag:\\"a\\"}\")",
+          "Status": "Passed",
+          "Duration": 0.0000892,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(\"{\\"tag\\":\\"a\\"} trailing\")",
+          "Status": "Passed",
+          "Duration": 0.0000925,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(\"{\\"tag\\":\\"bad\\q\\"}\")",
+          "Status": "Passed",
+          "Duration": 0.0000887,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(\"{\\"tag\\":\\"bad\\u12\\"}\")",
+          "Status": "Passed",
+          "Duration": 0.0002204,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(\"{\\"tag\\":{\\"nested\\":1}}\")",
+          "Status": "Passed",
+          "Duration": 0.0001342,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(\"{\\"other\\":{\\"nested\\":1}}\")",
+          "Status": "Passed",
+          "Duration": 0.0000827,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(\"{\\"other\\":[1,2]}\")",
+          "Status": "Passed",
+          "Duration": 0.0001014,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(\"{\\"tag\\":5}\")",
+          "Status": "Passed",
+          "Duration": 0.0000964,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(\"{\\"polarity\\":true}\")",
+          "Status": "Passed",
+          "Duration": 0.0000921,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(\"{\\"type\\":null}\")",
+          "Status": "Passed",
+          "Duration": 0.0000935,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.QueryOnly_ParsesAllThreeFields",
+          "Status": "Passed",
+          "Duration": 0.0002728,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.Tag_EmptyAfterCleaning_CountsAsMissing",
+          "Status": "Passed",
+          "Duration": 0.0003405,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.Tag_IsTrimmedStrippedAndCapped",
+          "Status": "Passed",
+          "Duration": 0.0011835,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.Tag_StripsFormatCharactersAndLineSeparators",
+          "Status": "Passed",
+          "Duration": 0.0001704,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.UrlDecoding_PlusAndPercent",
+          "Status": "Passed",
+          "Duration": 0.0001361,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpCommandParserTests.Values_AreCaseInsensitive",
+          "Status": "Passed",
+          "Duration": 0.0002152,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpListenerLoopbackTests.DrainedAndAccepted_Respond200_WellUnderOneSecond",
+          "Status": "Passed",
+          "Duration": 0.0129576,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpListenerLoopbackTests.LeftUndrained_ExpiresTo503_AfterBoundedWait",
+          "Status": "Passed",
+          "Duration": 0.7526607,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpListenerParsingTests.CoalescedHeaderAndBody_ParsesImmediatelyWithoutASecondRead",
+          "Status": "Passed",
+          "Duration": 0.0019054,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpListenerParsingTests.DuplicateConflictingContentLength_RejectedWith400",
+          "Status": "Passed",
+          "Duration": 0.0003339,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpListenerParsingTests.DuplicateMatchingContentLength_IsNotTreatedAsConflicting",
+          "Status": "Passed",
+          "Duration": 0.0003139,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpListenerParsingTests.FragmentedDelivery_OneByteAtATime_StillParses",
+          "Status": "Passed",
+          "Duration": 0.0005384,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpListenerParsingTests.GarbageContentLength_RejectedWith400",
+          "Status": "Passed",
+          "Duration": 0.0002562,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpListenerParsingTests.Get_WithNoBody_Succeeds",
+          "Status": "Passed",
+          "Duration": 0.0002696,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpListenerParsingTests.IncompleteBody_EofBeforeContentLength_Fails",
+          "Status": "Passed",
+          "Duration": 0.0003113,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpListenerParsingTests.NegativeContentLength_RejectedWith400",
+          "Status": "Passed",
+          "Duration": 0.0002318,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpListenerParsingTests.OversizedContentLength_RejectedWith413_NoBodyRead",
+          "Status": "Passed",
+          "Duration": 0.0002396,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpListenerShutdownTests.DoubleStopAndDispose_AreSafe",
+          "Status": "Passed",
+          "Duration": 0.003186,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpListenerShutdownTests.ExceedingConcurrencyCap_GetsImmediate503",
+          "Status": "Passed",
+          "Duration": 0.0105594,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpListenerShutdownTests.StartStopStart_OnTheSameFixedPort_Works",
+          "Status": "Passed",
+          "Duration": 0.001688,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpListenerShutdownTests.Stop_WhileWorkerAwaitsMainThreadDecision_RejectsRequestAndClosesClient",
+          "Status": "Passed",
+          "Duration": 0.0072639,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpListenerShutdownTests.Stop_WithClientStalledMidHeaders_ReturnsPromptlyAndClosesIt",
+          "Status": "Passed",
+          "Duration": 0.0011247,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpSessionTests.AcceptedBump_WaitsForTheImpactDelay_ThenMovesExactlyOneBodyHeight",
+          "Status": "Passed",
+          "Duration": 0.017376,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpSessionTests.ApplicationPause_PausesAPlayingSession_AndResumesOnReturn",
+          "Status": "Passed",
+          "Duration": 0.001943,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpSessionTests.DefaultBodyHeights_UseTheSceneBoundBodyHeight",
+          "Status": "Passed",
+          "Duration": 0.0016111,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpSessionTests.EventFeedView_IgnoresBumpsOfTheOtherPolarity",
+          "Status": "Passed",
+          "Duration": 0.0135276,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpSessionTests.EventFeedView_TypeWithoutIcon_ClearsTheBadgeInsteadOfKeepingThePreviousOne",
+          "Status": "Passed",
+          "Duration": 0.0051017,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpSessionTests.MissingFields_ResolveToCatalogDefaults",
+          "Status": "Passed",
+          "Duration": 0.0075093,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpSessionTests.PositiveBump_RaisesHeight_AndRaisesEventWithPositivePolarity",
+          "Status": "Passed",
+          "Duration": 0.0072356,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpSessionTests.ReturnToMenu_ResetsTheClimberToTheBase",
+          "Status": "Passed",
+          "Duration": 0.0009198,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.BumpSessionTests.StartLevel_DropsABumpStillWaitingForItsImpact",
+          "Status": "Passed",
+          "Duration": 0.0008956,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.CameraShakeTests.Cancel_ResetsOffsetImmediately_AndClearsPause",
+          "Status": "Passed",
+          "Duration": 0.0013984,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.ClimbPaceTests.DistanceScale_MapsAuthoredSpeedToPacedWorldSpeed",
+          "Status": "Passed",
+          "Duration": 0.0009902,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.ClimbPaceTests.StartLevel_ScalesSpeedFinishAndKnockback_KeepingDuration",
+          "Status": "Passed",
+          "Duration": 0.00158,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.GameSessionCampaignTests.BumpQueuedDuringTheFirstLevel_IsRejectedOnceTheNextLevelHasStarted",
+          "Status": "Passed",
+          "Duration": 0.0040973,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.GameSessionCampaignTests.EmptyCampaign_FailsLoudlyOnStart",
+          "Status": "Passed",
+          "Duration": 0.0025944,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.GameSessionCampaignTests.MalformedLevelFile_ThrowsFormatExceptionFromStart",
+          "Status": "Passed",
+          "Duration": 0.0015942,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.GameSessionCampaignTests.Retry_ReplaysTheCurrentLevelNotTheFirst",
+          "Status": "Passed",
+          "Duration": 0.0007702,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.GameSessionCampaignTests.ReturnToMenu_ThenStartCampaign_RestartsFromTheFirstLevel",
+          "Status": "Passed",
+          "Duration": 0.0007225,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.GameSessionCampaignTests.StartCampaign_BeginsAtTheFirstLevel",
+          "Status": "Passed",
+          "Duration": 0.0006786,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.GameSessionCampaignTests.StartNextLevel_AfterAWin_StartsTheNextLevelAndRaisesLevelStarted",
+          "Status": "Passed",
+          "Duration": 0.0010569,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.GameSessionCampaignTests.StartNextLevel_OnTheFinalLevel_DoesNothing",
+          "Status": "Passed",
+          "Duration": 0.0007906,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.GameSessionCampaignTests.StartNextLevel_WhilePlaying_DoesNothing",
+          "Status": "Passed",
+          "Duration": 0.0007541,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.GameSessionPauseTests.PauseFreezesActiveKnockback_ResumeAllowsItToSettle",
+          "Status": "Passed",
+          "Duration": 0.0019431,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.GameSessionRetryTests.PlayDeltaTime_IsZeroUnlessPlaying",
+          "Status": "Passed",
+          "Duration": 0.0029529,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.GameSessionRetryTests.Retry_ResetsHeight",
+          "Status": "Passed",
+          "Duration": 0.0012844,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.GameSessionRetryTests.StartLevelAndRetry_RaiseLevelStarted_EvenWhenAlreadyPlaying",
+          "Status": "Passed",
+          "Duration": 0.0010265,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.HazardBandTests.ActiveBand_AboveHead_DoesNotHit",
+          "Status": "Passed",
+          "Duration": 0.0023982,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.HazardBandTests.ActiveBand_BelowFeet_DoesNotHit",
+          "Status": "Passed",
+          "Duration": 0.0004498,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.HazardBandTests.ActiveBand_InMiddleOfBody_Hits",
+          "Status": "Passed",
+          "Duration": 0.0005146,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.HazardBandTests.BandActivatingWhileOverlappingStationaryClimber_Hits",
+          "Status": "Passed",
+          "Duration": 0.0004181,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.HazardBandTests.BumpDuringHazardKnockback_AddsToClearanceTarget",
+          "Status": "Passed",
+          "Duration": 0.0010049,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.HazardBandTests.BumpKnockback_DistanceIsUnchanged",
+          "Status": "Passed",
+          "Duration": 0.000438,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.HazardBandTests.ClimbingHeadIntoActiveBand_Hits",
+          "Status": "Passed",
+          "Duration": 0.0005341,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.HazardBandTests.FastFrame_SweepingPastActiveBand_StillHits",
+          "Status": "Passed",
+          "Duration": 0.0007851,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.HazardBandTests.HazardKnockback_KeepsUsualDistanceWhenAlreadyClear",
+          "Status": "Passed",
+          "Duration": 0.0004088,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.HazardBandTests.HazardKnockback_LeavesHeadBelowBand",
+          "Status": "Passed",
+          "Duration": 0.000423,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.HazardBandTests.HazardKnockback_NeverGoesBelowZero",
+          "Status": "Passed",
+          "Duration": 0.000437,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.HazardBandTests.HazardKnockback_RespectsInvulnerability",
+          "Status": "Passed",
+          "Duration": 0.0003309,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.HazardBandTests.SafeBand_DoesNotHit",
+          "Status": "Passed",
+          "Duration": 0.0004107,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelCampaignDataTests.AllFiveLevels_ParseInOrderWithProgressionInData",
+          "Status": "Passed",
+          "Duration": 0.0123137,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelCampaignDataTests.EveryBand_SafeWindowComfortablyExceedsCrossingTime",
+          "Status": "Passed",
+          "Duration": 0.0011875,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelCampaignDataTests.EveryLevel_IsCompletableWithoutHelpOrHits_AndGrowsLonger",
+          "Status": "Passed",
+          "Duration": 0.0209694,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionHazardValidationTests.AlwaysActiveBand_MessageShowsTheValue",
+          "Status": "Passed",
+          "Duration": 0.0011957,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionHazardValidationTests.BadHazard_IsRejectedNamingIndexAndField(\"0\",\"4\",\"1\",\"0\",\"hazards[1].height\")",
+          "Status": "Passed",
+          "Duration": 0.0008572,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionHazardValidationTests.BadHazard_IsRejectedNamingIndexAndField(\"-3\",\"4\",\"1\",\"0\",\"hazards[1].height\")",
+          "Status": "Passed",
+          "Duration": 0.000177,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionHazardValidationTests.BadHazard_IsRejectedNamingIndexAndField(\"30\",\"4\",\"1\",\"0\",\"hazards[1].height\")",
+          "Status": "Passed",
+          "Duration": 0.000137,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionHazardValidationTests.BadHazard_IsRejectedNamingIndexAndField(\"45\",\"4\",\"1\",\"0\",\"hazards[1].height\")",
+          "Status": "Passed",
+          "Duration": 0.0001523,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionHazardValidationTests.BadHazard_IsRejectedNamingIndexAndField(\"10\",\"0\",\"1\",\"0\",\"hazards[1].periodSeconds\")",
+          "Status": "Passed",
+          "Duration": 0.0001122,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionHazardValidationTests.BadHazard_IsRejectedNamingIndexAndField(\"10\",\"-1\",\"1\",\"0\",\"hazards[1].periodSeconds\")",
+          "Status": "Passed",
+          "Duration": 0.0001426,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionHazardValidationTests.BadHazard_IsRejectedNamingIndexAndField(\"10\",\"4\",\"0\",\"0\",\"hazards[1].activeSeconds\")",
+          "Status": "Passed",
+          "Duration": 0.0001371,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionHazardValidationTests.BadHazard_IsRejectedNamingIndexAndField(\"10\",\"4\",\"4\",\"0\",\"hazards[1].activeSeconds\")",
+          "Status": "Passed",
+          "Duration": 0.0001127,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionHazardValidationTests.BadHazard_IsRejectedNamingIndexAndField(\"10\",\"4\",\"5\",\"0\",\"hazards[1].activeSeconds\")",
+          "Status": "Passed",
+          "Duration": 0.0001285,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionHazardValidationTests.NonFiniteFinishHeight_FailsValidation",
+          "Status": "Passed",
+          "Duration": 0.0002494,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionHazardValidationTests.NonFiniteValues_FailValidation(float.NaN)",
+          "Status": "Passed",
+          "Duration": 0.0007648,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionHazardValidationTests.NonFiniteValues_FailValidation(float.PositiveInfinity)",
+          "Status": "Passed",
+          "Duration": 0.0001341,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionHazardValidationTests.NonFiniteValues_FailValidation(float.NegativeInfinity)",
+          "Status": "Passed",
+          "Duration": 0.0001148,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionHazardValidationTests.NullHazardEntry_IsRejectedNamingTheIndex",
+          "Status": "Passed",
+          "Duration": 0.0006347,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionHazardValidationTests.ValidHazards_Pass",
+          "Status": "Passed",
+          "Duration": 0.0002769,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionJsonTests.EmptyOrMalformedJson_IsRejected(\"\",\"empty\")",
+          "Status": "Passed",
+          "Duration": 0.0008831,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionJsonTests.EmptyOrMalformedJson_IsRejected(\"   \",\"empty\")",
+          "Status": "Passed",
+          "Duration": 0.0001748,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionJsonTests.EmptyOrMalformedJson_IsRejected(\"{ not json\",\"malformed\")",
+          "Status": "Passed",
+          "Duration": 0.0001843,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionJsonTests.InvalidField_IsRejectedNamingTheField(\"0\",\"\\"A\\"\",\"10\",\"1\",\"levelId\")",
+          "Status": "Passed",
+          "Duration": 0.0013027,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionJsonTests.InvalidField_IsRejectedNamingTheField(\"1\",\"\\"  \\"\",\"10\",\"1\",\"displayName\")",
+          "Status": "Passed",
+          "Duration": 0.0002739,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionJsonTests.InvalidField_IsRejectedNamingTheField(\"1\",\"\\"A\\"\",\"0.5\",\"1\",\"finishHeight\")",
+          "Status": "Passed",
+          "Duration": 0.0002861,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionJsonTests.InvalidField_IsRejectedNamingTheField(\"1\",\"\\"A\\"\",\"10\",\"0.05\",\"climbSpeed\")",
+          "Status": "Passed",
+          "Duration": 0.0001783,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionJsonTests.MissingHazardsKey_MeansNoHazards",
+          "Status": "Passed",
+          "Duration": 0.0005897,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionJsonTests.MissingKey_IsRejectedNamingTheField(\"levelId\")",
+          "Status": "Passed",
+          "Duration": 0.0024794,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionJsonTests.MissingKey_IsRejectedNamingTheField(\"displayName\")",
+          "Status": "Passed",
+          "Duration": 0.001845,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionJsonTests.MissingKey_IsRejectedNamingTheField(\"finishHeight\")",
+          "Status": "Passed",
+          "Duration": 0.001275,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionJsonTests.MissingKey_IsRejectedNamingTheField(\"climbSpeed\")",
+          "Status": "Passed",
+          "Duration": 0.0002371,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionJsonTests.NullJson_IsRejected",
+          "Status": "Passed",
+          "Duration": 0.0004955,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.LevelDefinitionJsonTests.ShippedLevel1_ParsesWithItsAuthoredValues",
+          "Status": "Passed",
+          "Duration": 0.000564,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorBumpTests.Bump_AppliesWhileInvulnerable_AndStacks",
+          "Status": "Passed",
+          "Duration": 0.0015461,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorBumpTests.Bump_InvulnerabilityCoversTheWholeEasedMove",
+          "Status": "Passed",
+          "Duration": 0.0005137,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorBumpTests.BumpMove_UsesBumpMoveSeconds_AndItsOwnLockout",
+          "Status": "Passed",
+          "Duration": 0.0010174,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorBumpTests.DelayedBump_DoesNotMoveBeforeTheImpactDelay",
+          "Status": "Passed",
+          "Duration": 0.0010138,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorBumpTests.DelayedBumps_StackTheirFullDistances",
+          "Status": "Passed",
+          "Duration": 0.0009077,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorBumpTests.HazardHit_IsNotABumpMove_AndUsesKnockbackSeconds",
+          "Status": "Passed",
+          "Duration": 0.0004809,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorBumpTests.NegativeBump_ClampsAtZero",
+          "Status": "Passed",
+          "Duration": 0.0004631,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorBumpTests.NegativeBump_ReportsDownwardDirection",
+          "Status": "Passed",
+          "Duration": 0.0003267,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorBumpTests.PendingBump_FreezesWhilePaused",
+          "Status": "Passed",
+          "Duration": 0.0005222,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorBumpTests.PositiveBump_ClampsAtFinish",
+          "Status": "Passed",
+          "Duration": 0.0004577,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorBumpTests.PositiveBump_EasesUpByTheWorldDistance_IgnoringDistanceScale",
+          "Status": "Passed",
+          "Duration": 0.0005495,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorBumpTests.RapidPositiveBumps_AccumulateFullDistance",
+          "Status": "Passed",
+          "Duration": 0.0004376,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorBumpTests.ResetState_CancelsAPendingBump",
+          "Status": "Passed",
+          "Duration": 0.0003846,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorBumpTests.UpwardBump_AcrossActiveHazardBand_CostsNoHitPoint",
+          "Status": "Passed",
+          "Duration": 0.0007834,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorBumpTests.UpwardBump_CrossingBandOnItsLastStep_CostsNoHitPoint_EvenWithShortInvulnerability",
+          "Status": "Passed",
+          "Duration": 0.0010703,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorKnockbackTests.HeldClimb_ClampsAtFinishHeight",
+          "Status": "Passed",
+          "Duration": 0.0011817,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorKnockbackTests.Knockback_InvulnerabilityEndsBeforeHeldReclimbReachesBandHeight",
+          "Status": "Passed",
+          "Duration": 0.001336,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorKnockbackTests.Knockback_NeverProducesUpwardHeightChangedDuringDisplacement",
+          "Status": "Passed",
+          "Duration": 0.0006601,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorKnockbackTests.Knockback_SettlesAtBoundedTarget(10.0f,8.5f)",
+          "Status": "Passed",
+          "Duration": 0.0011228,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorKnockbackTests.Knockback_SettlesAtBoundedTarget(0.5f,0.0f)",
+          "Status": "Passed",
+          "Duration": 0.0001374,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.PlayerMotorKnockbackTests.Step_WhilePaused_FreezesKnockbackAndTimers",
+          "Status": "Passed",
+          "Duration": 0.0003489,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.SummitTests.MenuDefault_IsAppliedOnEnable",
+          "Status": "Passed",
+          "Duration": 0.001356,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.SummitTests.Place_EndsShaftAtCrownBase",
+          "Status": "Passed",
+          "Duration": 0.0003546,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.SummitTests.Place_HidesPiecesAboveCrownBase_AndShowsThoseBelow",
+          "Status": "Passed",
+          "Duration": 0.000669,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.SummitTests.Place_PutsSurfaceAtFinishPlusLip_AndCrownBaseBelowIt",
+          "Status": "Passed",
+          "Duration": 0.0002711,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.SummitTests.Place_ReappliesForLowerAndHigherFinish",
+          "Status": "Passed",
+          "Duration": 0.0003573,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.SummitTests.PlayingFromMenu_UsesMotorFinishHeight_ButResumeKeepsIt",
+          "Status": "Passed",
+          "Duration": 0.0003026,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.SummitTests.SlideView_ReachesStandingPoseAfterItsDuration_AndHolds",
+          "Status": "Passed",
+          "Duration": 0.0006779,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.SummitTests.SlideView_RisesBeforeMovingInward",
+          "Status": "Passed",
+          "Duration": 0.0003072,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.SummitTests.SlideView_SnapsBackOnPlayingOrMenu(Playing)",
+          "Status": "Passed",
+          "Duration": 0.0010741,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.EditMode.SummitTests.SlideView_SnapsBackOnPlayingOrMenu(Menu)",
+          "Status": "Passed",
+          "Duration": 0.0004554,
+          "Message": null,
+          "StackTrace": null
+        }
+      ]
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "/Volumes/Projects/Tower_Prototype"
+    },
+    "success": true
+  },
+  "errors": [],
+  "warnings": []
+}

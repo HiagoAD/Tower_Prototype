@@ -5,13 +5,18 @@ using UnityEngine;
 namespace Game.Core
 {
     /// <summary>
-    /// Owns menu/playing/paused/won state, the active level instance id, and bump dispatch.
+    /// Owns menu/playing/paused/won state, the campaign (the ordered level files and which one is
+    /// current), the active level instance id, and bump dispatch. Playing -> Won when the climber
+    /// reaches the summit; from Won, StartNextLevel begins the next level or, on the last one, the
+    /// view offers a return to the menu. There is no lose state. Paused exists only for app
+    /// backgrounding (no pause UI).
     /// Sole authority for whether a hit (hazard or webhook) is allowed to apply right now.
     /// </summary>
     public sealed class GameSession : MonoBehaviour
     {
         [SerializeField] private PlayerMotor motor;
-        [SerializeField] private TextAsset levelJson;
+        [Tooltip("The campaign, in play order. Main menu Start begins at the first.")]
+        [SerializeField] private TextAsset[] levelFiles;
         [Tooltip("Optional global climb pace; without it the level plays exactly as authored.")]
         [SerializeField] private ClimbPace pace;
         [Tooltip("Bump types and the defaults for fields a /bump request omits. Without it every bump is a default negative boxing bump.")]
@@ -48,10 +53,49 @@ namespace Game.Core
 
         private float _distanceScale = 1f;
 
-        // Parsed lazily from levelJson on first use: the file is authored data, so a malformed one
-        // throws FormatException from StartLevel rather than falling back to made-up numbers.
-        private LevelDefinition _level;
-        private LevelDefinition Level => _level ??= LevelDefinition.FromJson(levelJson != null ? levelJson.text : null);
+        // Each level is parsed lazily on first use and cached by index: the files are authored data,
+        // so a malformed one throws FormatException from StartLevel rather than falling back to
+        // made-up numbers.
+        private LevelDefinition[] _parsedLevels;
+
+        /// <summary>0-based index of the current level in the campaign.</summary>
+        public int LevelIndex { get; private set; }
+
+        public int LevelCount => levelFiles != null ? levelFiles.Length : 0;
+
+        public bool IsFinalLevel => LevelIndex == LevelCount - 1;
+
+        /// <summary>The current level's definition. Throws if the campaign is empty or the file is malformed.</summary>
+        public LevelDefinition CurrentLevel
+        {
+            get
+            {
+                if (LevelCount == 0)
+                {
+                    throw new System.InvalidOperationException("GameSession has no level files assigned; the campaign is empty.");
+                }
+
+                if (LevelIndex < 0 || LevelIndex >= LevelCount)
+                {
+                    throw new System.InvalidOperationException("Level index " + LevelIndex + " is outside the campaign (" + LevelCount + " levels).");
+                }
+
+                if (_parsedLevels == null || _parsedLevels.Length != LevelCount)
+                {
+                    _parsedLevels = new LevelDefinition[LevelCount];
+                }
+
+                LevelDefinition level = _parsedLevels[LevelIndex];
+                if (level == null)
+                {
+                    TextAsset file = levelFiles[LevelIndex];
+                    level = LevelDefinition.FromJson(file != null ? file.text : null);
+                    _parsedLevels[LevelIndex] = level;
+                }
+
+                return level;
+            }
+        }
 
         /// <summary>Authored-to-play distance factor for the current level (see ClimbPace).</summary>
         public float DistanceScale => _distanceScale;
@@ -193,9 +237,29 @@ namespace Game.Core
             return _fallbackCatalog;
         }
 
+        /// <summary>Begins the campaign at its first level (the main menu's Start).</summary>
+        public void StartCampaign()
+        {
+            LevelIndex = 0;
+            StartLevel();
+        }
+
+        /// <summary>Advances to the next level after a win. No-op unless Won and not on the final level.</summary>
+        public void StartNextLevel()
+        {
+            if (State != SessionState.Won || IsFinalLevel)
+            {
+                return;
+            }
+
+            LevelIndex++;
+            StartLevel();
+        }
+
+        /// <summary>(Re)starts the current level from the base.</summary>
         public void StartLevel()
         {
-            LevelDefinition level = Level;
+            LevelDefinition level = CurrentLevel;
             _levelInstanceId++;
             _levelClock = 0f;
             // The pace scales the level's speed and every distance alike, so its timing is unchanged.
@@ -294,7 +358,7 @@ namespace Game.Core
         {
             ClearHazards();
 
-            foreach (HazardSpec authored in Level.hazards)
+            foreach (HazardSpec authored in CurrentLevel.hazards)
             {
                 HazardSpec spec = authored;
                 spec.height *= _distanceScale;

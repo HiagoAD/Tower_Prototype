@@ -41,6 +41,8 @@ namespace Game.Editor
 
             ProgressBarParts bar = BuildProgressBar(kit, hudPanel.transform);
 
+            Text levelLabel = BuildLevelLabel(kit, hudPanel.transform);
+
             BuildControlsHint(kit, hudPanel, session);
             BuildEventFeed(hudPanel, session, gloveSprite, BumpPolarity.Positive);
             BuildEventFeed(hudPanel, session, gloveSprite, BumpPolarity.Negative);
@@ -53,7 +55,23 @@ namespace Game.Editor
             SceneBinding.Bind(hudView, "progressMarker", bar.Marker);
             SceneBinding.Bind(hudView, "heightLabel", bar.HeightLabel);
             SceneBinding.Bind(hudView, "finishLabel", bar.FinishLabel);
+            SceneBinding.Bind(hudView, "levelLabel", levelLabel);
             return hudPanel;
+        }
+
+        /// <summary>
+        /// "LEVEL n/N" over the level's name, top-centre. The HUD panel is already shrunk to the safe
+        /// area, so a top-anchored label clears a camera cutout; it sits above the altitude meter's
+        /// goal label (left edge, 0.8 of the height) and clear of both event columns (0.46).
+        /// </summary>
+        private static Text BuildLevelLabel(UiKit kit, Transform hudPanel)
+        {
+            Text label = UiKit.AddText(hudPanel, "LevelLabel", "LEVEL 1/1\n", 44, TextAnchor.UpperCenter, new Vector2(0f, -16f),
+                anchorMin: new Vector2(0.5f, 1f), anchorMax: new Vector2(0.5f, 1f), pivot: new Vector2(0.5f, 1f), sizeDelta: new Vector2(640f, 130f));
+            label.horizontalOverflow = HorizontalWrapMode.Overflow;
+            label.verticalOverflow = VerticalWrapMode.Overflow;
+            Level1Ui.StyleHeavyText(kit, label, Level1Palette.HudYellow);
+            return label;
         }
 
         /// <summary>

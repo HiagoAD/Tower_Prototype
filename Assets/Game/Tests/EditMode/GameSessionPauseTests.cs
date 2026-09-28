@@ -21,7 +21,7 @@ namespace Game.Tests.EditMode
 
                 GameSession session = sessionGo.AddComponent<GameSession>();
                 SetObjectReference(session, "motor", motor);
-                SetObjectReference(session, "levelJson", level);
+                SetLevelFiles(session, level);
 
                 session.StartLevel();
                 motor.ResetState(10f);
@@ -53,6 +53,16 @@ namespace Game.Tests.EditMode
                     Object.DestroyImmediate(level);
                 }
             }
+        }
+
+        private static void SetLevelFiles(Object target, Object value)
+        {
+            var so = new SerializedObject(target);
+            SerializedProperty property = so.FindProperty("levelFiles");
+            Assert.IsNotNull(property, "missing serialized field levelFiles");
+            property.arraySize = 1;
+            property.GetArrayElementAtIndex(0).objectReferenceValue = value;
+            so.ApplyModifiedPropertiesWithoutUndo();
         }
 
         private static void SetObjectReference(Object target, string fieldName, Object value)

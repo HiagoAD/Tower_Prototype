@@ -52,7 +52,7 @@ namespace Game.Tests.EditMode
 
             _session = _sessionGo.AddComponent<GameSession>();
             SetObjectReference(_session, "motor", _motor);
-            SetObjectReference(_session, "levelJson", _level);
+            SetArray(new SerializedObject(_session), "levelFiles", _level);
             SetObjectReference(_session, "bumpCatalog", _catalog);
             SetFloat(_session, "hazardBodyHeight", BodyHeight);
             typeof(GameSession).GetMethod("Awake", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(_session, null);
@@ -310,6 +310,14 @@ namespace Game.Tests.EditMode
             }
 
             return sb.ToString();
+        }
+
+        private static void SetArray(SerializedObject so, string fieldName, UnityEngine.Object value)
+        {
+            SerializedProperty property = so.FindProperty(fieldName);
+            Assert.IsNotNull(property, "missing serialized field " + fieldName);
+            SetArray(property, new[] { value });
+            so.ApplyModifiedPropertiesWithoutUndo();
         }
 
         private static void SetArray(SerializedProperty property, UnityEngine.Object[] values)

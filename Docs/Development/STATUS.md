@@ -4,9 +4,9 @@ Latest planning update — 2026-09-28, approximately 17:45 Recife: **social setb
 
 Plan: [ACTION_PLAN.md](ACTION_PLAN.md). Implementer handoff: [CLAUDE_HANDOFF.md](CLAUDE_HANDOFF.md). Earlier assessment: [GOALS_REVIEW.md](GOALS_REVIEW.md).
 
-Current state: **one level; accepted planted-grip feel; JSON/lives/bump changes integrated; G2 PARTIAL pending current-build Android acceptance**. Saved integrated tests confirm 101/101 passed. Local APK `f63e5156…` remains the older pace build. Four levels, progression and final delivery remain outstanding. No milestone promoted by this planning update.
+Current state: **G2 PASS — closed September 28 on the user's confirmation that all four current-build acceptance checks passed.** Five sequential levels are implemented; Claude reports campaign tests of 159/159 EditMode and 13/13 PlayMode and Android completion evidence. G3 and later gates retain their existing status pending separate review.
 
-Current priority: finish Claude's active code review, validate the integrated social loop on Android, then implement the revised five-level progression. The prior parallel drafts stay cancelled; this plan creates no agents or worktrees. Codex plans/reviews; Claude implements. Preserve one Editor/build/device owner and the quota fallback.
+Current priority: review G3 campaign completion evidence and player feel/difficulty, then proceed to candidate freeze and final regression. Codex plans/reviews; Claude implements. Preserve one Editor/build/device owner and the quota fallback.
 
 Forecast: **4½–6½ hours remaining from implementation resumption**, assuming no major review defects, quota interruption or toolchain/device problem. Baseline start 17:45 Recife → finish **22:15 September 28–00:15 September 29**. Working target **23:00 Recife September 28 / 02:00 UTC September 29**. Previous 22:00 target is a stretch. User deadline remains interpreted as **September 29 09:00 UTC / 06:00 Recife**; no new date confirmation is asserted.
 
@@ -14,8 +14,8 @@ Forecast: **4½–6½ hours remaining from implementation resumption**, assuming
 | --- | --- | --- | --- |
 | G0 — device, baseline, contracts | Completed earlier | PASS | moto g 5G plus `0070013699`, Android 11, arm64-v8a; Unity 6000.3.11f1; immutable hashes verified. |
 | G1 — Android install and HTTP proof | Completed earlier | PASS | Earlier installed APK responded to GET/POST; detailed historical reports below. |
-| G2 — integrated social vertical slice | 18:30 | PARTIAL | Accepted grip feel and older Android proof retained; current APK build, signed/default bump recovery, pause/menu cleanup, audible impact and final visual review still required. |
-| G3 — five complete levels and menus | 20:00 | NOT COMPLETE | One JSON level; four configurations, progression and all-five device completion evidence required. Revised social design now recorded; deleted parallel drafts are not restored. |
+| G2 — integrated social vertical slice | Closed Sep 28 | PASS | User confirmed all four current-build acceptance checks passed: artifact provenance, real HTTP/social recovery, lifecycle cleanup, and audible impact/current visuals. See closure record below. |
+| G3 — five complete levels and menus | 20:00 | NOT COMPLETE | Five levels and sequential flow implemented; Claude reports all-five Android completion. Separate G3 evidence and feel/difficulty review remains pending. |
 | G4 — complete candidate; feature freeze | 20:00–21:00 | NOT VERIFIED | Complete content and focused tuning; freeze when candidate actually passes. |
 | G5 — accepted release candidate | 21:00 | NOT VERIFIED | Code-review fixes, final device/lifecycle/performance evidence and APK/source provenance. |
 | G6 — recording and complete package | 22:15 | NOT VERIFIED | All-five final APK video, README/credits, clean source and packaged reinstall. |
@@ -539,3 +539,54 @@ Pause-panel fix (same day, Editor-validated only): the scene builder now makes `
 The user decided to remove the pause feature because neither reference (ref.png, ref.mp4) shows one. The HUD pause button and PausePanel are gone (`Level1Hud`, `Level1Ui`, `MenuView.pausePanel`, preview capture). **Brief note:** §3 lists "pause" among the menus to match; this follows the references over that list and should be stated in the README. `GameSession.Pause/Resume` stay as the internal freeze used when the app is backgrounded; since there is no Continue button, returning to the app now resumes (`OnApplicationPause(false)` → `Resume`), which avoids a frozen game with no way out. The previous pause-panel draw-order fix is superseded.
 
 Editor-validated only: scene rebuilt in the live Editor (wiring check passed; scene diff removes only PauseButton and the PausePanel subtree). Play mode: HUD without pause button, positive POST 200 lifts to 192 with the burst (`evidence/editor_nopause_hud.png`, `evidence/editor_nopause_burst.png`); background → Paused, return → Playing. EditMode 147/147, PlayMode 11/11 (button-driven pause test removed; session-level freeze tests kept for backgrounding). Android APK `8101cfd2…` predates this.
+
+### 2026-09-28 — G2 follow-up: five sequential levels (Claude)
+
+The user asked for sequential levels: four new ones for a total of five, each passed by reaching the summit. (The user withdrew their question about lose behaviour: the game has no lose condition.) Three parallel Sonnet 5.5 agents (`claude-sonnet-5-5`) worked on disjoint files. Claude integrated the work, fixed two test bugs, renamed the final title and ran Unity in the live Editor.
+
+- **Campaign runtime.** `GameSession.levelFiles` (ordered `TextAsset[]`) replaces `levelJson`. New members: `LevelIndex`, `LevelCount`, `CurrentLevel` (parsed lazily per level), `IsFinalLevel`, `StartCampaign()` (main menu Start) and `StartNextLevel()` (only from Won and not on the last level). `StartLevel`/`Retry` restart the current level. Stale `/bump` requests from the previous level are rejected by the existing instance id. An empty campaign throws.
+- **UI.** The win panel "SUMMIT REACHED" has Next Level (primary) and Exit. After level 5, `FinalWinPanel` "TOWER CLEARED" shows Exit only (`MenuView.finalWinPanel`). HUD `LevelLabel`, top centre: "LEVEL n/5" over the level name.
+- **Levels** (`Assets/Game/Levels/Level2..5.json`, all climbSpeed 2.5). Simulated clean runs, per the level-data agent's report:
+  - 2 Higher Climb: finish 40, 4 bands, 20 s
+  - 3 Rhythm: finish 50, 6 bands with alternating phases, 28 s
+  - 4 Pressure: finish 60, 3 close pairs, 33 s
+  - 5 Summit: finish 70, 9 bands, 44 s
+  - Level 1 is unchanged at 15 s.
+
+  The smallest safe window is 1.7 s against a 1.09 s band crossing. Levels 1–4 sit below the plan's duration targets.
+- **Scene.** The tower and clouds are sized for the tallest level at the fastest pace: 54 storeys, 170 units. The cloud count scales with height (cap 150). The scene was regenerated with `Tower/Build Level 1 Scene`, and the wiring check passed.
+- **Tests.** New `GameSessionCampaignTests`: advance, no-ops, retry, menu restart, stale bump, empty/malformed campaign. New `LevelCampaignDataTests`: parse/progression, safe windows, and a cautious-climber simulation proving every level completes without help or hits, with clean-run times increasing. Two PlayMode flow tests: Next to level 2 with a real HTTP bump, and all five levels to the final panel, then Exit and restart at level 1.
+
+Checks (live Editor 6000.3.11f1): EditMode **159/159** (`evidence/campaign_editmode.json`), PlayMode **13/13** (`evidence/campaign_playmode.json`). In Play mode:
+- level 2 HUD (`evidence/campaign_level2_hud.png`)
+- win panel with Next Level/Exit below the standing climber (`evidence/campaign_win_next.png`)
+- level 5 final panel (`evidence/campaign_final_win.png`)
+
+Reference checksums all OK.
+
+Android build + device (same day): APK built through the live Editor (`Tower/Build Android APK`, Succeeded, Errors=0), SHA-256 `261e913853fa13de9da0977d51dd6919a883e087974a157ce5661799cf310bce`; installed base.apk matches. On moto g 5G plus `0070013699` (Android 11), via `adb forward tcp:56790 tcp:56789`, a scripted run used only real touch (tap Start/Next Level; 4 s holds in the climb region, with no hazard timing) and real HTTP:
+- **All five levels completed in sequence.** Blind-hold times including hazard setbacks: about 22, 41, 70, 92 and 103 s (recording lengths minus about 4 s of overhead). Level 4's 6 s frames show red-band knockbacks, stalls and recovery, ending on the crown (`evidence/campaign_device_level4_6s.png`).
+- **Panels.** Win panel with Next Level/Exit after levels 1–4, "TOWER CLEARED" after level 5. Exit returned to the menu with the climber at the base, and Start restarted at "LEVEL 1/5".
+- **Bumps on level 2.** Positive GET 200: gloves from below, 1.292→1.316. Negative POST 200: gloves from above, 1.316→1.044. Default GET 200.
+- **409 responses** in the menu and on every win/final panel. A positive bump after the restart returned 200.
+- **Logs.** No Unity warnings or errors in logcat for the game process.
+
+Evidence: `evidence/campaign_device_sheet.png` and `evidence/campaign_device_all5.mp4` (all five levels, 360p, no audio).
+
+Not done: hand-played feel and difficulty tuning by a person. Audio not listened to. Nothing committed.
+
+
+### 2026-09-28 — G2 closure (Codex; user-confirmed acceptance)
+
+**G2 PASS.** The user reported: “The tests just finished and all your 4 points passed, you can close G2”. This confirms the current-build acceptance checklist:
+
+- Source/build provenance and installed APK hash match.
+- Real bare GET/POST and positive/negative bumps, visible displacement, and continued climbing after a finite rapid burst.
+- Background/foreground recovery and cleanup across menu/restart, with the user-requested pause UI removal respected.
+- Actually heard impact audio and reviewed current device visuals.
+
+Latest Claude build report identifies APK SHA-256 `261e913853fa13de9da0977d51dd6919a883e087974a157ce5661799cf310bce`, matching installed base.apk on moto g 5G plus `0070013699` (Android 11). It records campaign tests of 159/159 EditMode and 13/13 PlayMode and `evidence/campaign_device_all5.mp4` / `evidence/campaign_device_sheet.png`. The recording has no audio; audio acceptance and the complete four-point checklist are attributed to the user's subsequent confirmation, not inferred from that recording or independently rerun by Codex. That confirmation supersedes the preceding report's audio-not-listened-to limitation for G2 acceptance.
+
+No Editor/build/device operations were performed for this closure. G3–G7 are not promoted by this decision. Earlier PARTIAL assessments and schedule estimates remain historical; next checkpoint is G3 review, including player feel/difficulty and a revised remaining-delivery forecast.
+
+Advisory Jev request prepared at `jev/20260928T230037619018Z-G2`; local APK hash matches the report. API check unavailable because `TYPESAFE_API_KEY` is unset. Per the evidence workflow this is nonblocking; no Jev verdict is claimed.

@@ -1,0 +1,120 @@
+{
+  "success": true,
+  "command": "command test_status",
+  "data": {
+    "command": "test_status",
+    "parameters": {},
+    "result": {
+      "status": "completed",
+      "duration": 23.18,
+      "summary": {
+        "total": 13,
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0,
+        "inconclusive": 0
+      },
+      "results": [
+        {
+          "FullName": "Game.Tests.PlayMode.Level1FlowTests.Campaign_AllLevels_EndsWithFinalWinPanel_ExitReturnsToMenu_AndStartRestartsAtLevelOne",
+          "Status": "Passed",
+          "Duration": 5.4789195,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.PlayMode.Level1FlowTests.HttpBump_InMenu_Returns409",
+          "Status": "Passed",
+          "Duration": 0.8777528,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.PlayMode.Level1FlowTests.HttpBump_WhilePaused_Returns409_AndShowsNoBurst",
+          "Status": "Passed",
+          "Duration": 0.9736827,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.PlayMode.Level1FlowTests.HttpBump_WhilePlaying_ShowsBurst_MovesClimber_ThenCleansUp_AndClimbingStillWorks",
+          "Status": "Passed",
+          "Duration": 3.5472202,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.PlayMode.Level1FlowTests.Pause_DuringBurst_FreezesIt_AndResumeFinishesIt",
+          "Status": "Passed",
+          "Duration": 2.5322789,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.PlayMode.Level1FlowTests.Retry_DuringBurst_HidesBurstSynchronously_AndResetsShake",
+          "Status": "Passed",
+          "Duration": 1.2239596,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.PlayMode.Level1FlowTests.ReturnToMenu_DuringBurst_HidesBurstSynchronously_AndResetsShake",
+          "Status": "Passed",
+          "Duration": 1.1425349,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.PlayMode.Level1FlowTests.StartButton_MovesFromMenuToPlaying_WithHudShown",
+          "Status": "Passed",
+          "Duration": 0.8410016,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.PlayMode.Level1FlowTests.StartLevel_DuringBurst_HidesBurstSynchronously_AndResetsShake",
+          "Status": "Passed",
+          "Duration": 0.8122745,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.PlayMode.Level1FlowTests.Win_DuringBurst_HidesBurstAndResetsShake",
+          "Status": "Passed",
+          "Duration": 1.0978069,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.PlayMode.Level1FlowTests.Win_NextButton_StartsLevelTwo_WithItsFinish_Label_AndWorkingBumps",
+          "Status": "Passed",
+          "Duration": 1.9969128,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.PlayMode.Level1FlowTests.Win_ShowsWinPanelAfterDelay_AndExitButtonReturnsToMenuAtHeightZero",
+          "Status": "Passed",
+          "Duration": 1.7189903,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Game.Tests.PlayMode.Level1SceneWiringTests.EveryGameComponent_HasAllObjectReferencesBound_AndNoMissingScripts",
+          "Status": "Passed",
+          "Duration": 0.8809344,
+          "Message": null,
+          "StackTrace": null
+        }
+      ]
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "/Volumes/Projects/Tower_Prototype"
+    },
+    "success": true
+  },
+  "errors": [],
+  "warnings": []
+}

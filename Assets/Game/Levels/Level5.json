@@ -1,0 +1,62 @@
+{
+  "levelId": 5,
+  "displayName": "Summit",
+  "finishHeight": 70,
+  "climbSpeed": 2.5,
+  "hazards": [
+    {
+      "height": 8,
+      "periodSeconds": 4.3,
+      "activeSeconds": 2.6,
+      "phaseOffsetSeconds": 2.5
+    },
+    {
+      "height": 14,
+      "periodSeconds": 4.3,
+      "activeSeconds": 2.6,
+      "phaseOffsetSeconds": 3.0
+    },
+    {
+      "height": 22,
+      "periodSeconds": 4.6,
+      "activeSeconds": 2.4,
+      "phaseOffsetSeconds": 1.0
+    },
+    {
+      "height": 29,
+      "periodSeconds": 4.6,
+      "activeSeconds": 2.4,
+      "phaseOffsetSeconds": 3.75
+    },
+    {
+      "height": 37,
+      "periodSeconds": 4.3,
+      "activeSeconds": 2.6,
+      "phaseOffsetSeconds": 2.5
+    },
+    {
+      "height": 43,
+      "periodSeconds": 4.3,
+      "activeSeconds": 2.6,
+      "phaseOffsetSeconds": 1.25
+    },
+    {
+      "height": 51,
+      "periodSeconds": 4.2,
+      "activeSeconds": 2.5,
+      "phaseOffsetSeconds": 0.25
+    },
+    {
+      "height": 57,
+      "periodSeconds": 4.2,
+      "activeSeconds": 2.5,
+      "phaseOffsetSeconds": 3.5
+    },
+    {
+      "height": 64,
+      "periodSeconds": 4.2,
+      "activeSeconds": 2.5,
+      "phaseOffsetSeconds": 4.25
+    }
+  ]
+}

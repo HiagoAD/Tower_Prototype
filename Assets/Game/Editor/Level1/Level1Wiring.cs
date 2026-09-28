@@ -24,7 +24,7 @@ namespace Game.Editor
             GameObject sessionGo = new GameObject("GameSession");
             GameSession session = sessionGo.AddComponent<GameSession>();
             SceneBinding.Bind(session, "motor", player.Motor);
-            SceneBinding.Bind(session, "levelJson", inputs.LevelJson);
+            SceneBinding.BindArray(session, "levelFiles", inputs.LevelFiles);
             SceneBinding.Bind(session, "pace", pace);
             SceneBinding.Bind(session, "bumpCatalog", bumpCatalog);
             SceneBinding.Bind(session, "hazardVisualPrefab", hazard.Prefab);

@@ -4,7 +4,15 @@ namespace Game.Editor
     internal static class Level1Paths
     {
         public const string Scene = "Assets/Game/Scenes/Level1.unity";
-        public const string LevelJson = "Assets/Game/Levels/Level1.json";
+        // Campaign order; GameSession.levelFiles is bound to these in this order.
+        public static readonly string[] LevelFiles =
+        {
+            "Assets/Game/Levels/Level1.json",
+            "Assets/Game/Levels/Level2.json",
+            "Assets/Game/Levels/Level3.json",
+            "Assets/Game/Levels/Level4.json",
+            "Assets/Game/Levels/Level5.json",
+        };
         public const string ClimbPace = "Assets/Game/Levels/ClimbPace.asset";
         public const string BumpCatalog = "Assets/Game/Levels/BumpCatalog.asset";
         public const string GlovePng = "Assets/Game/Art/Licensed/BoxingGlove/boxing-glove-white.png";

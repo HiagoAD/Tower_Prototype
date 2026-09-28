@@ -9,6 +9,8 @@ namespace Game.Presentation
         [SerializeField] private GameSession session;
         [SerializeField] private GameObject mainMenuPanel;
         [SerializeField] private GameObject hudPanel;
+        [Tooltip("Shown instead of the win panel after the last level: campaign complete, Exit only.")]
+        [SerializeField] private GameObject finalWinPanel;
         [SerializeField] private GameObject winPanel;
         [Tooltip("Seconds after the win before its panel appears, so the climber's slide onto the summit plays first.")]
         [SerializeField] private float winPanelDelaySeconds = 0.8f;
@@ -36,7 +38,7 @@ namespace Game.Presentation
             _winDelayRemaining -= Time.unscaledDeltaTime;
             if (_winDelayRemaining <= 0f && session.State == SessionState.Won)
             {
-                SetActive(winPanel, true);
+                ShowWinPanel();
             }
         }
 
@@ -45,7 +47,19 @@ namespace Game.Presentation
             _winDelayRemaining = state == SessionState.Won ? winPanelDelaySeconds : 0f;
             SetActive(mainMenuPanel, state == SessionState.Menu);
             SetActive(hudPanel, state == SessionState.Playing || state == SessionState.Paused);
-            SetActive(winPanel, state == SessionState.Won && winPanelDelaySeconds <= 0f);
+            SetActive(winPanel, false);
+            SetActive(finalWinPanel, false);
+            if (state == SessionState.Won && winPanelDelaySeconds <= 0f)
+            {
+                ShowWinPanel();
+            }
+        }
+
+        private void ShowWinPanel()
+        {
+            bool campaignComplete = session.IsFinalLevel;
+            SetActive(winPanel, !campaignComplete);
+            SetActive(finalWinPanel, campaignComplete);
         }
 
         private static void SetActive(GameObject go, bool active)

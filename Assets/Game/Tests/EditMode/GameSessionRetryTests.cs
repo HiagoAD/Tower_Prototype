@@ -33,7 +33,7 @@ namespace Game.Tests.EditMode
 
                 GameSession session = sessionGo.AddComponent<GameSession>();
                 SetPrivate(session, "motor", motor);
-                SetPrivate(session, "levelJson", level);
+                SetLevelFiles(session, level);
 
                 session.StartLevel();
                 Assert.AreEqual(Game.Core.SessionState.Playing, session.State);
@@ -69,7 +69,7 @@ namespace Game.Tests.EditMode
                 level = new TextAsset("{\"levelId\":1,\"displayName\":\"Test\",\"finishHeight\":30,\"climbSpeed\":2.5,\"hazards\":[]}");
                 GameSession session = sessionGo.AddComponent<GameSession>();
                 SetPrivate(session, "motor", motor);
-                SetPrivate(session, "levelJson", level);
+                SetLevelFiles(session, level);
 
                 int started = 0;
                 session.LevelStarted += () => started++;
@@ -103,7 +103,7 @@ namespace Game.Tests.EditMode
                 level = new TextAsset("{\"levelId\":1,\"displayName\":\"Test\",\"finishHeight\":30,\"climbSpeed\":2.5,\"hazards\":[]}");
                 GameSession session = sessionGo.AddComponent<GameSession>();
                 SetPrivate(session, "motor", motor);
-                SetPrivate(session, "levelJson", level);
+                SetLevelFiles(session, level);
 
                 Assert.AreEqual(0f, session.PlayDeltaTime, "menu");
 
@@ -126,6 +126,16 @@ namespace Game.Tests.EditMode
                     Object.DestroyImmediate(level);
                 }
             }
+        }
+
+        private static void SetLevelFiles(Object target, Object value)
+        {
+            var so = new SerializedObject(target);
+            SerializedProperty property = so.FindProperty("levelFiles");
+            Assert.IsNotNull(property, "missing serialized field levelFiles");
+            property.arraySize = 1;
+            property.GetArrayElementAtIndex(0).objectReferenceValue = value;
+            so.ApplyModifiedPropertiesWithoutUndo();
         }
 
         private static void SetPrivate(Object target, string fieldName, Object value)

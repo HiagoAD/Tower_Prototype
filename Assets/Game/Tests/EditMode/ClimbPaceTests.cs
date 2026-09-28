@@ -47,7 +47,7 @@ namespace Game.Tests.EditMode
                 PlayerMotor motor = motorGo.AddComponent<PlayerMotor>();
                 GameSession session = sessionGo.AddComponent<GameSession>();
                 SetPrivate(session, "motor", motor);
-                SetPrivate(session, "levelJson", levelJson);
+                SetLevelFiles(session, levelJson);
                 SetPrivate(session, "pace", pace);
 
                 session.StartLevel();
@@ -91,6 +91,16 @@ namespace Game.Tests.EditMode
             so.FindProperty("bodyHeight").floatValue = bodyHeight;
             so.ApplyModifiedPropertiesWithoutUndo();
             return pace;
+        }
+
+        private static void SetLevelFiles(Object target, Object value)
+        {
+            var so = new SerializedObject(target);
+            SerializedProperty property = so.FindProperty("levelFiles");
+            Assert.IsNotNull(property, "missing serialized field levelFiles");
+            property.arraySize = 1;
+            property.GetArrayElementAtIndex(0).objectReferenceValue = value;
+            so.ApplyModifiedPropertiesWithoutUndo();
         }
 
         private static void SetPrivate(Object target, string fieldName, Object value)

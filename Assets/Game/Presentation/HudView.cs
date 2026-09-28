@@ -18,6 +18,7 @@ namespace Game.Presentation
         [SerializeField] private RectTransform progressMarker;
         [SerializeField] private Text heightLabel;
         [SerializeField] private Text finishLabel;
+        [SerializeField] private Text levelLabel;
 
         // World units are small (a level is tens of units tall); the reference counts altitude in
         // the thousands, so the readout is scaled for display only. It counts the level's authored
@@ -33,11 +34,21 @@ namespace Game.Presentation
         private void OnEnable()
         {
             session.HeightUpdated += OnHeightUpdated;
+            session.LevelStarted += OnLevelStarted;
         }
 
         private void OnDisable()
         {
             session.HeightUpdated -= OnHeightUpdated;
+            session.LevelStarted -= OnLevelStarted;
+        }
+
+        private void OnLevelStarted()
+        {
+            if (levelLabel != null)
+            {
+                levelLabel.text = "LEVEL " + (session.LevelIndex + 1) + "/" + session.LevelCount + "\n" + session.CurrentLevel.displayName.ToUpperInvariant();
+            }
         }
 
         private void OnHeightUpdated(float height, float finishHeight)

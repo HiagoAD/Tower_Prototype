@@ -12,16 +12,16 @@ namespace Game.Editor
         public readonly Sprite GloveSprite;
         public readonly Sprite StarSprite;
         public readonly AudioClip ImpactClip;
-        public readonly TextAsset LevelJson;
-        public readonly LevelDefinition Level;
+        public readonly TextAsset[] LevelFiles;
+        public readonly LevelDefinition[] Levels;
 
-        public Level1Inputs(Sprite gloveSprite, Sprite starSprite, AudioClip impactClip, TextAsset levelJson, LevelDefinition level)
+        public Level1Inputs(Sprite gloveSprite, Sprite starSprite, AudioClip impactClip, TextAsset[] levelFiles, LevelDefinition[] levels)
         {
             GloveSprite = gloveSprite;
             StarSprite = starSprite;
             ImpactClip = impactClip;
-            LevelJson = levelJson;
-            Level = level;
+            LevelFiles = levelFiles;
+            Levels = levels;
         }
     }
 
@@ -116,16 +116,24 @@ namespace Game.Editor
             return AssetDatabase.LoadAssetAtPath<AudioClip>(Level1Paths.ImpactSfx);
         }
 
-        /// <summary>Loads and parses the level file. Must run after the scene reset in Build().</summary>
-        public static (TextAsset json, LevelDefinition level) LoadLevel()
+        /// <summary>Loads and parses every campaign level file, in order. Must run after the scene reset in Build().</summary>
+        public static (TextAsset[] files, LevelDefinition[] levels) LoadLevels()
         {
-            TextAsset levelJson = AssetDatabase.LoadAssetAtPath<TextAsset>(Level1Paths.LevelJson);
-            if (levelJson == null)
+            string[] paths = Level1Paths.LevelFiles;
+            var files = new TextAsset[paths.Length];
+            var levels = new LevelDefinition[paths.Length];
+            for (int i = 0; i < paths.Length; i++)
             {
-                throw new System.IO.FileNotFoundException("Level data missing", Level1Paths.LevelJson);
+                files[i] = AssetDatabase.LoadAssetAtPath<TextAsset>(paths[i]);
+                if (files[i] == null)
+                {
+                    throw new System.IO.FileNotFoundException("Level data missing", paths[i]);
+                }
+
+                levels[i] = LevelDefinition.FromJson(files[i].text);
             }
 
-            return (levelJson, LevelDefinition.FromJson(levelJson.text));
+            return (files, levels);
         }
 
         /// <summary>Create-if-missing: an existing asset keeps its tuned pace across rebuilds; only its measured body height is rewritten.</summary>

@@ -31,8 +31,8 @@ namespace Game.Editor
             AudioClip impactClip = Level1Assets.LoadImpactClip();
 
             Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            (TextAsset levelJson, LevelDefinition level) = Level1Assets.LoadLevel();
-            var inputs = new Level1Inputs(gloveSprite, starSprite, impactClip, levelJson, level);
+            (TextAsset[] levelFiles, LevelDefinition[] levels) = Level1Assets.LoadLevels();
+            var inputs = new Level1Inputs(gloveSprite, starSprite, impactClip, levelFiles, levels);
             HazardVisualAssets hazard = Level1Assets.BuildHazardVisualAssets();
 
             Level1Environment.BuildLighting();
@@ -41,11 +41,21 @@ namespace Game.Editor
             // sky tall enough for the fastest pace allowed, so changing it never needs a rebuild.
             ClimbPace pace = Level1Assets.LoadOrCreatePace();
             float bodyHeight = Level1Layout.CharacterHeightToTowerDiameter * 2f * Level1Layout.TowerRadius();
-            float climbTop = level.finishHeight * ClimbPace.MaxDistanceScaleFor(level, bodyHeight);
+            // Tower and sky are sized for the tallest level of the campaign.
+            float climbTop = 0f;
+            foreach (LevelDefinition campaignLevel in levels)
+            {
+                climbTop = Mathf.Max(climbTop, campaignLevel.finishHeight * ClimbPace.MaxDistanceScaleFor(campaignLevel, bodyHeight));
+            }
+
+            LevelDefinition level = levels[0];
+            float level1Top = level.finishHeight * ClimbPace.MaxDistanceScaleFor(level, bodyHeight);
 
             TowerMetrics tower = Level1Tower.Build(climbTop);
             Level1Environment.BuildSeaAndPedestal(tower);
-            Level1Environment.BuildClouds(climbTop + Level1Layout.TowerHeadroom);
+            float cloudSpan = climbTop + Level1Layout.TowerHeadroom + 2f * Level1Layout.CloudMargin;
+            float level1CloudSpan = level1Top + Level1Layout.TowerHeadroom + 2f * Level1Layout.CloudMargin;
+            Level1Environment.BuildClouds(climbTop + Level1Layout.TowerHeadroom, Level1Layout.CloudCountFor(cloudSpan, level1CloudSpan));
             PlayerBuildResult player = Level1Player.Build(tower);
             float summitLip = Level1Wiring.BindPlayerMeasurements(pace, player);
             BumpCatalog bumpCatalog = Level1Assets.LoadOrCreateBumpCatalog(gloveSprite);
