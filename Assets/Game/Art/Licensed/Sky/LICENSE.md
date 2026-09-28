@@ -7,3 +7,5 @@
 - File: `skybox-day.png` (unmodified, 4096x2048 equirectangular/latitude-longitude panorama)
 - Attribution: not required by CC0; credited here anyway per Kenney's request ("Skybox" pack by
   Kenney, www.kenney.nl).
+- Use: not rendered as a skybox. The `Game/CloudCutout` shader windows onto individual clouds in
+  it for the world-space cloud quads (pixels unmodified; keying happens at render time).

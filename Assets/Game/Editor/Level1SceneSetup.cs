@@ -26,45 +26,100 @@ namespace Game.Editor
         private const string HazardActiveMaterialPath = "Assets/Game/Art/Materials/HazardActive.mat";
         private const string HazardSafeMaterialPath = "Assets/Game/Art/Materials/HazardSafe.mat";
 
-        private const string CharacterFbxPath = "Assets/Game/Art/Licensed/Character/character-c.fbx";
-        private const string CharacterTexturePath = "Assets/Game/Art/Licensed/Character/texture-c.png";
-        private const string CharacterMaterialPath = "Assets/Game/Art/Materials/CharacterC.mat";
+        private const string CharacterFbxPath = "Assets/Game/Art/Licensed/Character/character-b.fbx";
+        private const string CharacterTexturePath = "Assets/Game/Art/Licensed/Character/texture-b-goku.png";
+        private const string CharacterMaterialPath = "Assets/Game/Art/Materials/Climber.mat";
 
         private const string TowerBaseFbxPath = "Assets/Game/Art/Licensed/Tower/tower-base.fbx";
         private const string TowerTopFbxPath = "Assets/Game/Art/Licensed/Tower/tower-top.fbx";
-        private const string TowerColormapPath = "Assets/Game/Art/Licensed/Tower/colormap.png";
         private const string TowerMaterialPath = "Assets/Game/Art/Materials/TowerStone.mat";
 
         private const string SkyTexturePath = "Assets/Game/Art/Licensed/Sky/skybox-day.png";
-        private const string SkyMaterialPath = "Assets/Game/Art/Materials/SkyDay.mat";
+        private const string SkyMaterialPath = "Assets/Game/Art/Materials/SkyGradient.mat";
+        private const string CloudMaterialPathFormat = "Assets/Game/Art/Materials/Cloud{0}.mat";
+        private const string SeaMaterialPath = "Assets/Game/Art/Materials/Sea.mat";
+        private const string WindowFrameMaterialPath = "Assets/Game/Art/Materials/WindowFrame.mat";
+        private const string WindowPaneMaterialPath = "Assets/Game/Art/Materials/WindowPane.mat";
+        private const string StarPngPath = "Assets/Game/Art/Licensed/UI/star-yellow.png";
+        private const string UiFontPath = "Assets/Game/Art/Licensed/UI/Fonts/KenneyFuture.ttf";
 
-        private static readonly Color HazardActiveColor = new Color(0.9f, 0.15f, 0.1f, 0.85f);
-        private static readonly Color HazardSafeColor = new Color(0.95f, 0.85f, 0.1f, 0.6f);
+        // Palette sampled from the preview image (ref.png), the art-direction baseline: bright cyan
+        // sky paling toward the bottom, a pale white/light-blue tower with blue windows.
+        private static readonly Color SkyTopColor = new Color32(62, 166, 230, 255);
+        private static readonly Color SkyMidColor = new Color32(112, 199, 238, 255);
+        private static readonly Color SkyBottomColor = new Color32(128, 210, 242, 255);
+        private static readonly Color TowerStoneColor = new Color32(214, 226, 242, 255);
+        private static readonly Color WindowFrameColor = new Color32(70, 104, 158, 255);
+        private static readonly Color WindowPaneColor = new Color32(150, 190, 236, 255);
+        private static readonly Color SeaColor = new Color32(104, 182, 226, 255);
 
-        // The tower's world radius is derived (not hardcoded) from these framing choices: at
-        // CameraDistance world units away, a CameraVerticalFovDeg-tall lens should show the tower
-        // spanning TargetTowerWidthFraction of the portrait width. NominalDeviceAspect is the actual
-        // verification device's portrait aspect (1080x2520) -- the CanvasScaler already matches UI
-        // width the same way across the reference (1080x1920) and the device, so calibrating the 3D
-        // camera against the device we actually verify on keeps the tower reading as "narrow column"
-        // there too.
+        // Safe hazard rings read as one more collar on the column; active ones glow red.
+        private static readonly Color HazardActiveColor = new Color(0.95f, 0.12f, 0.08f, 1f);
+        private static readonly Color HazardSafeColor = TowerStoneColor;
+
+        // HUD palette from ref.png: dark altitude track, yellow fill, yellow current altitude and red
+        // goal altitude, both heavy and outlined in near-black.
+        private static readonly Color BarTrackColor = new Color32(44, 50, 60, 255);
+        private static readonly Color BarFillColor = new Color32(252, 192, 14, 255);
+        private static readonly Color HudYellowColor = new Color32(255, 214, 20, 255);
+        private static readonly Color HudRedColor = new Color32(236, 24, 24, 255);
+        private static readonly Color HudStrokeColor = new Color32(24, 16, 10, 255);
+        private static readonly Color CardBannerColor = new Color32(40, 95, 168, 230);
+        private static readonly Color PrimaryButtonColor = new Color32(240, 240, 240, 255);
+        private static readonly Color PrimaryButtonTextColor = new Color32(50, 50, 50, 255);
+        private static readonly Color SecondaryButtonColor = new Color32(60, 60, 60, 255);
+        private static readonly Color MenuDimColor = new Color(0.02f, 0.04f, 0.1f, 0.6f);
+
+        // Windows inside skybox-day.png (UV scale.xy, offset.zw) that the CloudCutout shader keys a
+        // cloud out of: two broad soft cumulus masses, then four small puffs. Aspect = the window's
+        // pixel aspect.
+        private static readonly Vector4[] CloudWindows =
+        {
+            new Vector4(0.4600f, 0.2830f, 0.1270f, 0.5800f),
+            new Vector4(0.3320f, 0.2640f, 0.5960f, 0.5800f),
+            new Vector4(0.0830f, 0.0733f, 0.2441f, 0.5654f),
+            new Vector4(0.1172f, 0.0732f, 0.0049f, 0.5850f),
+            new Vector4(0.0635f, 0.0342f, 0.7617f, 0.5459f),
+            new Vector4(0.0757f, 0.0439f, 0.9229f, 0.5801f),
+        };
+        private static readonly float[] CloudAspects = { 3.25f, 2.5f, 2.27f, 3.2f, 3.7f, 3.4f };
+
+        // Composition follows ref.png, adapted to portrait rather than copied pixel-for-pixel. In the
+        // landscape image the shaft spans only ~0.10 of the frame width, which would leave a sliver on
+        // a phone; the relationships kept instead are: the climber (hair to feet, hands raised) is
+        // about as tall as the shaft is wide, and sits well below the frame centre with the tower
+        // running on above it. The shaft spans TargetTowerWidthFraction of the portrait width.
         //
-        // TargetTowerWidthFraction is measured directly off
-        // Docs/Reference/Unity-technical-test/attachments/ref.png: the tower's lit+shaded width holds
-        // steady at roughly 150-160px of the image's 1484px width (checked at several clean bands away
-        // from text/character) -- about 0.10-0.11 of the frame. TargetCharacterHeightFraction is the
-        // same kind of measurement, taken on the reference avatar (hair to boot sole, clear of the
-        // tower's window trim) at roughly 180-200px of the image's 1060px height -- about 0.18. The
-        // previous 0.30 tower fraction (and the character's un-scaled raw FBX height) were guessed
-        // constants that made the tower fill most of the frame and the character loom over it edge to
-        // edge; these two replace both with the same at-distance FOV derivation, calibrated once
-        // against the actual reference image instead.
-        private const float TargetTowerWidthFraction = 0.10f;
-        private const float TargetCharacterHeightFraction = 0.18f;
+        // At CameraDistance world units away, a CameraVerticalFovDeg lens on NominalDeviceAspect
+        // gives the world width across the screen; the tower radius and character scale derive from
+        // that. CharacterHeightToTowerDiameter applies to the character's arms-down bounds -- the
+        // raised-arm grip pose adds roughly a fifth to its on-screen height.
+        private const float TargetTowerWidthFraction = 0.26f;
+        private const float CharacterHeightToTowerDiameter = 0.82f;
+        private const float CharacterScreenHeightFraction = 0.34f; // climber's chest, measured up from the bottom of the frame.
         private const float CameraDistance = 8f;
         private const float CameraVerticalFovDeg = 45f;
         private const float NominalDeviceAspect = 1080f / 2520f;
         private const float TowerHeadroom = 14f; // world units of tower visible above the finish height.
+
+        // Tower rhythm from ref.png, as fractions of the shaft diameter: thin collars (a little wider
+        // than the shaft) separating alternating short and tall storeys, each with rows of small
+        // blue windows in two columns whose spacing alternates storey to storey.
+        private static readonly float[] StoreyHeightsToDiameter = { 0.7f, 1.2f };
+        private static readonly int[] StoreyWindowRows = { 2, 3 };
+        private static readonly float[] StoreyWindowAnglesDeg = { 40f, 27f };
+        private const float CollarHeightToDiameter = 0.12f;
+        private const float WindowWidthToDiameter = 0.075f;
+        private const float WindowHeightToDiameter = 0.1f;
+
+        private const float CollarRadiusToShaftRadius = 1.11f;
+
+        private const float PedestalRadiusMultiplier = 1.9f;
+        private const float PedestalHeightMultiplier = 0.8f;
+        private const float SeaHalfExtent = 14f;
+        private const int CloudCount = 30;
+        private const float CloudSpacing = 1.9f;
+        private const float MainLightShadowDistance = 14f;
 
         // Fraction of the character's total (feet-to-head) bounds height used both for HitTarget
         // placement (glove burst aim) and hazard hit-detection contact height (see HazardBand).
@@ -72,12 +127,17 @@ namespace Game.Editor
 
         private const float HazardVisualDiameterMultiplier = 1.15f; // slightly wider than the tower so the band visibly wraps around it.
 
+        private static Font _uiFont;
+
         [MenuItem("Tower/Build Level 1 Scene")]
         public static void Build()
         {
             ConfigureImportSettings();
+            ConfigureMainLightShadows();
+            _uiFont = AssetDatabase.LoadAssetAtPath<Font>(UiFontPath);
 
-            Sprite gloveSprite = LoadGloveSprite();
+            Sprite gloveSprite = LoadSprite(GlovePngPath);
+            Sprite starSprite = LoadSprite(StarPngPath);
             AudioClip impactClip = LoadImpactClip();
 
             // EditorSceneManager.NewScene unloads not-yet-referenced assets created earlier in this
@@ -91,8 +151,10 @@ namespace Game.Editor
             BuildEnvironment();
 
             TowerMetrics tower = BuildTower(level.finishHeight);
+            BuildSeaAndPedestal(tower);
+            BuildClouds(level.finishHeight + TowerHeadroom);
             PlayerBuildResult player = BuildPlayer(tower);
-            Camera camera = BuildCamera(player.Motor, player.Metrics.Height, out CameraShake shake);
+            Camera camera = BuildCamera(player.Motor, player.Metrics.ChestHeight, out CameraShake shake);
 
             GameObject sessionGo = new GameObject("GameSession");
             GameSession session = sessionGo.AddComponent<GameSession>();
@@ -110,7 +172,7 @@ namespace Game.Editor
             var climbInput = player.Motor.gameObject.AddComponent<ClimbInputSource>();
             BindPrivate(climbInput, "motor", player.Motor);
 
-            BuildUi(session, player.HitTarget, camera, shake, gloveSprite, impactClip);
+            BuildUi(session, player.HitTarget, camera, shake, gloveSprite, starSprite, impactClip);
 
             System.IO.Directory.CreateDirectory("Assets/Game/Scenes");
             EditorSceneManager.SaveScene(scene, ScenePath);
@@ -141,9 +203,9 @@ namespace Game.Editor
             return AssetDatabase.LoadAssetAtPath<LevelDefinition>(LevelAssetPath);
         }
 
-        private static Sprite LoadGloveSprite()
+        private static Sprite LoadSprite(string path)
         {
-            var importer = (TextureImporter)AssetImporter.GetAtPath(GlovePngPath);
+            var importer = (TextureImporter)AssetImporter.GetAtPath(path);
             if (importer.textureType != TextureImporterType.Sprite)
             {
                 importer.textureType = TextureImporterType.Sprite;
@@ -152,7 +214,7 @@ namespace Game.Editor
                 importer.SaveAndReimport();
             }
 
-            return AssetDatabase.LoadAssetAtPath<Sprite>(GlovePngPath);
+            return AssetDatabase.LoadAssetAtPath<Sprite>(path);
         }
 
         private static AudioClip LoadImpactClip()
@@ -164,8 +226,8 @@ namespace Game.Editor
         /// Sets import settings once, idempotently, for the licensed character/tower/sky assets.
         /// Materials are never imported from the FBX (we assign our own explicit ones below, the
         /// same pattern the old primitive-based tower/hazard materials already used) -- this avoids
-        /// depending on Unity's relative-path texture search finding texture-c.png/colormap.png,
-        /// which sit flat next to their FBX here rather than in the zip's own Textures subfolder.
+        /// depending on Unity's relative-path texture search finding the character texture, which
+        /// sits flat next to its FBX here rather than in the zip's own Textures subfolder.
         /// </summary>
         private static void ConfigureImportSettings()
         {
@@ -174,8 +236,44 @@ namespace Game.Editor
             ConfigureModelImport(TowerTopFbxPath);
 
             ConfigureWorldTextureImport(CharacterTexturePath, 1024);
-            ConfigureWorldTextureImport(TowerColormapPath, 512);
             ConfigureWorldTextureImport(SkyTexturePath, 2048);
+        }
+
+        /// <summary>
+        /// The climber's soft shadow on the tower face is the reference's main contact cue. Every
+        /// quality level's URP asset gets soft main-light shadows over a short distance, so the one
+        /// 1024 shadow map is spent on the few metres around the climber instead of the whole tower.
+        /// </summary>
+        private static void ConfigureMainLightShadows()
+        {
+            for (int i = 0; i < QualitySettings.count; i++)
+            {
+                UnityEngine.Rendering.RenderPipelineAsset asset = QualitySettings.GetRenderPipelineAssetAt(i);
+                if (asset == null)
+                {
+                    continue;
+                }
+
+                var so = new SerializedObject(asset);
+                SerializedProperty distance = so.FindProperty("m_ShadowDistance");
+                SerializedProperty soft = so.FindProperty("m_SoftShadowsSupported");
+                SerializedProperty supported = so.FindProperty("m_MainLightShadowsSupported");
+                if (distance == null || soft == null || supported == null)
+                {
+                    Debug.LogError("[Level1SceneSetup] Unexpected render pipeline asset layout: " + asset.name);
+                    continue;
+                }
+
+                distance.floatValue = MainLightShadowDistance;
+                soft.boolValue = true;
+                supported.boolValue = true;
+                if (so.ApplyModifiedPropertiesWithoutUndo())
+                {
+                    EditorUtility.SetDirty(asset);
+                }
+            }
+
+            AssetDatabase.SaveAssets();
         }
 
         private static void ConfigureModelImport(string path)
@@ -296,7 +394,7 @@ namespace Game.Editor
             return AssetDatabase.LoadAssetAtPath<Material>(path);
         }
 
-        /// <summary>Shared helper for the character/tower materials: a URP/Lit material with an explicit base map, create-if-missing / update-in-place like CreateOrUpdateColorMaterial.</summary>
+        /// <summary>Character material: a URP/Lit material with an explicit base map, create-if-missing / update-in-place like CreateOrUpdateColorMaterial.</summary>
         private static Material CreateOrUpdateTexturedMaterial(string path, Texture2D texture)
         {
             var existing = AssetDatabase.LoadAssetAtPath<Material>(path);
@@ -331,56 +429,156 @@ namespace Game.Editor
             return prefab;
         }
 
-        /// <summary>Skybox (RenderSettings.skybox, skybox-ambient) + a directional light, so the tower/character read clearly instead of flat-lit.</summary>
+        /// <summary>
+        /// ref.png's bright cyan backdrop (GradientSky skybox) under soft, even daylight: a strong
+        /// fixed trilight ambient -- deterministic without a lighting bake -- does most of the work,
+        /// and a gentle sun from above-right of the camera rounds the shaft and drops the climber's
+        /// soft shadow down-left onto the tower face, as in the reference.
+        /// </summary>
         private static void BuildEnvironment()
         {
-            Texture2D skyTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(SkyTexturePath);
-            Material skyMaterial = CreateOrUpdateSkyMaterial(skyTexture);
+            Material skyMaterial = LoadOrCreateMaterial(SkyMaterialPath, "Game/GradientSky");
+            skyMaterial.SetColor("_TopColor", SkyTopColor);
+            skyMaterial.SetColor("_MidColor", SkyMidColor);
+            skyMaterial.SetColor("_BottomColor", SkyBottomColor);
+            skyMaterial.SetFloat("_MidHeight", 0.45f);
+            SaveMaterial(skyMaterial);
 
             RenderSettings.skybox = skyMaterial;
-            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
+            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Trilight;
+            RenderSettings.ambientSkyColor = new Color(0.6f, 0.66f, 0.76f);
+            RenderSettings.ambientEquatorColor = new Color(0.5f, 0.56f, 0.66f);
+            RenderSettings.ambientGroundColor = new Color(0.4f, 0.45f, 0.54f);
+            RenderSettings.fog = false;
 
             var lightGo = new GameObject("Sun", typeof(Light));
             Light light = lightGo.GetComponent<Light>();
             light.type = LightType.Directional;
-            light.color = new Color(1f, 0.98f, 0.92f);
-            light.intensity = 1.2f;
-            light.shadows = LightShadows.None; // no shadow receivers worth the mobile cost in this scene.
-            lightGo.transform.rotation = Quaternion.Euler(48f, -35f, 0f);
+            light.color = Color.white;
+            light.intensity = 0.8f;
+            light.shadows = LightShadows.Soft;
+            light.shadowStrength = 0.75f;
+            lightGo.transform.rotation = Quaternion.Euler(32f, -18f, 0f);
             RenderSettings.sun = light;
         }
 
-        /// <summary>
-        /// skybox-day.png is a single 4096x2048 (2:1) equirectangular/latitude-longitude panorama,
-        /// not a 6-sided cross -- Skybox/Panoramic with Mapping = Latitude Longitude Layout is the
-        /// matching shader/layout for that image shape.
-        /// </summary>
-        private static Material CreateOrUpdateSkyMaterial(Texture2D skyTexture)
+        private static Material LoadOrCreateMaterial(string path, string shaderName)
         {
-            var existing = AssetDatabase.LoadAssetAtPath<Material>(SkyMaterialPath);
-            Material material = existing;
+            Shader shader = Shader.Find(shaderName);
+            var material = AssetDatabase.LoadAssetAtPath<Material>(path);
             if (material == null)
             {
-                material = new Material(Shader.Find("Skybox/Panoramic"));
-                AssetDatabase.CreateAsset(material, SkyMaterialPath);
+                material = new Material(shader);
+                AssetDatabase.CreateAsset(material, path);
+            }
+            else if (material.shader != shader)
+            {
+                material.shader = shader;
             }
 
-            material.SetTexture("_MainTex", skyTexture);
-            material.SetFloat("_Mapping", 1f); // Latitude Longitude Layout (Cylindrical).
-            material.SetFloat("_ImageType", 0f); // 360 Degrees.
-            material.SetFloat("_Exposure", 1.1f);
+            return material;
+        }
+
+        private static void SaveMaterial(Material material)
+        {
             EditorUtility.SetDirty(material);
             AssetDatabase.SaveAssets();
-            return AssetDatabase.LoadAssetAtPath<Material>(SkyMaterialPath);
+        }
+
+        /// <summary>
+        /// A flat sea to the horizon and a broad stepped pedestal under the column, as in the
+        /// reference's opening frames. The sea is finite on purpose: its far edge falls below the
+        /// bottom of the frame once the camera has climbed, leaving only sky mid-climb.
+        /// </summary>
+        private static void BuildSeaAndPedestal(TowerMetrics tower)
+        {
+            Material seaMaterial = LoadOrCreateMaterial(SeaMaterialPath, "Universal Render Pipeline/Unlit");
+            seaMaterial.SetColor("_BaseColor", SeaColor);
+            SaveMaterial(seaMaterial);
+
+            float pedestalHeight = tower.SegmentHeight * PedestalHeightMultiplier;
+
+            GameObject sea = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            Object.DestroyImmediate(sea.GetComponent<Collider>());
+            sea.name = "Sea";
+            sea.transform.position = new Vector3(0f, -pedestalHeight * 0.6f, 0f);
+            sea.transform.localScale = new Vector3(SeaHalfExtent / 5f, 1f, SeaHalfExtent / 5f); // Plane is 10x10 units.
+            sea.GetComponent<Renderer>().sharedMaterial = seaMaterial;
+
+            GameObject basePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(TowerBaseFbxPath);
+            GameObject pedestal = (GameObject)PrefabUtility.InstantiatePrefab(basePrefab);
+            pedestal.name = "TowerPedestal";
+            float xz = tower.ScaleFactor * PedestalRadiusMultiplier;
+            pedestal.transform.localScale = new Vector3(xz, tower.ScaleFactor * PedestalHeightMultiplier, xz);
+            pedestal.transform.position = new Vector3(0f, -pedestalHeight, 0f);
+            ApplyMaterialToRenderers(pedestal, tower.Material);
+        }
+
+        /// <summary>
+        /// Soft, semi-transparent cloud streaks scattered behind the column along the whole climb, so
+        /// they drift down past the camera as it rises. The broad cumulus windows are keyed gently
+        /// and kept faint, giving ref.png's hazy wisps rather than isolated opaque puffs.
+        /// Deterministic layout.
+        /// </summary>
+        private static void BuildClouds(float topHeight)
+        {
+            Texture2D skyTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(SkyTexturePath);
+            var materials = new Material[CloudWindows.Length];
+            for (int i = 0; i < CloudWindows.Length; i++)
+            {
+                bool broad = i < 2;
+                Material material = LoadOrCreateMaterial(string.Format(CloudMaterialPathFormat, i), "Game/CloudCutout");
+                material.SetTexture("_MainTex", skyTexture);
+                material.SetTextureScale("_MainTex", new Vector2(CloudWindows[i].x, CloudWindows[i].y));
+                material.SetTextureOffset("_MainTex", new Vector2(CloudWindows[i].z, CloudWindows[i].w));
+                material.SetFloat("_KeyLow", broad ? 0.58f : 0.62f);
+                material.SetFloat("_KeyHigh", broad ? 0.95f : 0.9f);
+                material.SetFloat("_Opacity", broad ? 0.6f : 0.75f);
+                material.SetFloat("_Brightness", 1.15f);
+                SaveMaterial(material);
+                materials[i] = material;
+            }
+
+            var root = new GameObject("Clouds");
+            var random = new System.Random(7);
+            for (int i = 0; i < CloudCount; i++)
+            {
+                int window = i % CloudWindows.Length;
+                bool broad = window < 2;
+                GameObject cloud = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                Object.DestroyImmediate(cloud.GetComponent<Collider>());
+                cloud.name = "Cloud" + i;
+                cloud.transform.SetParent(root.transform, false);
+
+                float depth = 14f + (float)random.NextDouble() * 16f;
+                float side = (i % 2 == 0 ? -1f : 1f) * ((float)random.NextDouble() * (depth * 0.2f));
+                float y = -1f + i * CloudSpacing + (float)random.NextDouble() * 1.5f;
+                if (y > topHeight)
+                {
+                    y = (float)random.NextDouble() * topHeight;
+                }
+
+                float width = broad ? 7f + (float)random.NextDouble() * 5f : 3f + (float)random.NextDouble() * 2.5f;
+                cloud.transform.position = new Vector3(side, y, depth);
+                cloud.transform.localScale = new Vector3(width, width / CloudAspects[window], 1f);
+                cloud.GetComponent<Renderer>().sharedMaterial = materials[window];
+                cloud.GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            }
         }
 
         private readonly struct TowerMetrics
         {
             public readonly float Radius;
+            public readonly float ScaleFactor;
+            public readonly float SegmentHeight;
+            public readonly Material Material;
 
-            public TowerMetrics(float radius)
+            public TowerMetrics(float radius, float scaleFactor, float segmentHeight, Material material)
             {
                 Radius = radius;
+                ScaleFactor = scaleFactor;
+                SegmentHeight = segmentHeight;
+                Material = material;
             }
         }
 
@@ -415,12 +613,18 @@ namespace Game.Editor
         }
 
         /// <summary>
-        /// Stacks tower-base pieces along the full climb height plus headroom, capped with one
-        /// tower-top. The piece height and world radius both come from the imported mesh's actual
-        /// Renderer bounds (measured on a freshly instantiated, identity-transform probe) rather than
-        /// the raw FBX unit numbers, so this stays correct regardless of what unit conversion the
-        /// model importer applied. The radius itself is derived from the chosen camera
-        /// distance/FOV/target screen-width fraction -- see the constants above Build().
+        /// ref.png's tower: a smooth pale shaft, thin collars between alternating short and tall
+        /// storeys, and small blue windows in two staggered columns on the camera-facing side.
+        ///
+        /// Asset limitation: the supplied packs have no plain round shaft or single-band collar -- the
+        /// castle kit's tower-base is a spool whose two wide bands fill over half its height (it
+        /// reads as a heavily banded column at full size, and as a double line when squashed into a
+        /// collar). The shaft and collars are therefore Unity's built-in cylinder mesh and each window
+        /// two built-in cube meshes (engine primitives, no new model or texture); the licensed
+        /// tower-top forms the crown and tower-base the pedestal. The crown is sized from its measured
+        /// bounds, and the radius from the camera distance/FOV/target screen-width fraction -- see the
+        /// constants above Build().
+        /// Everything here is static-batched: several hundred small pieces, a handful of draw calls.
         /// </summary>
         private static TowerMetrics BuildTower(float finishHeight)
         {
@@ -428,63 +632,145 @@ namespace Game.Editor
 
             GameObject basePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(TowerBaseFbxPath);
             GameObject topPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(TowerTopFbxPath);
-            Texture2D colormap = AssetDatabase.LoadAssetAtPath<Texture2D>(TowerColormapPath);
-            Material towerMaterial = CreateOrUpdateTexturedMaterial(TowerMaterialPath, colormap);
+            Material towerMaterial = LoadOrCreateMaterial(TowerMaterialPath, "Universal Render Pipeline/Lit");
+            towerMaterial.mainTexture = null;
+            towerMaterial.SetColor("_BaseColor", TowerStoneColor);
+            towerMaterial.SetFloat("_Smoothness", 0.2f);
+            SaveMaterial(towerMaterial);
+            Material frameMaterial = CreateOrUpdateColorMaterial(WindowFrameMaterialPath, WindowFrameColor);
+            Material paneMaterial = CreateOrUpdateColorMaterial(WindowPaneMaterialPath, WindowPaneColor);
 
-            GameObject baseProbe = (GameObject)PrefabUtility.InstantiatePrefab(basePrefab, root.transform);
-            baseProbe.transform.localPosition = Vector3.zero;
-            baseProbe.transform.localRotation = Quaternion.identity;
-            baseProbe.transform.localScale = Vector3.one;
-            Bounds baseBounds = ComputeWorldBounds(baseProbe);
+            Bounds baseBounds = MeasurePrefab(basePrefab, root.transform);
+            Bounds topBounds = MeasurePrefab(topPrefab, root.transform);
             float naturalRadius = Mathf.Max(baseBounds.extents.x, baseBounds.extents.z);
             float naturalPieceHeight = baseBounds.size.y;
-            Object.DestroyImmediate(baseProbe);
 
-            float verticalFovRad = CameraVerticalFovDeg * Mathf.Deg2Rad;
-            float horizontalFovRad = 2f * Mathf.Atan(Mathf.Tan(verticalFovRad * 0.5f) * NominalDeviceAspect);
-            float worldHalfWidthAtTower = CameraDistance * Mathf.Tan(horizontalFovRad * 0.5f);
-            float desiredRadius = TargetTowerWidthFraction * worldHalfWidthAtTower;
+            float radius = TargetTowerWidthFraction * WorldHalfWidthAtTower();
+            float diameter = radius * 2f;
+            float scaleFactor = naturalRadius > 0f ? radius / naturalRadius : 1f;
 
-            float scaleFactor = naturalRadius > 0f ? desiredRadius / naturalRadius : 1f;
-            float segmentHeight = naturalPieceHeight * scaleFactor;
+            float collarHeight = diameter * CollarHeightToDiameter;
+            float collarOuterRadius = radius * CollarRadiusToShaftRadius;
 
             float totalClimbSpan = finishHeight + TowerHeadroom;
-            int segmentCount = Mathf.Max(1, Mathf.CeilToInt(totalClimbSpan / segmentHeight));
-
-            for (int i = 0; i < segmentCount; i++)
+            float y = 0f;
+            int storey = 0;
+            while (y < totalClimbSpan)
             {
-                GameObject seg = (GameObject)PrefabUtility.InstantiatePrefab(basePrefab, root.transform);
-                seg.name = "TowerSegment" + i;
-                seg.transform.localPosition = new Vector3(0f, i * segmentHeight, 0f);
-                seg.transform.localRotation = Quaternion.identity;
-                seg.transform.localScale = Vector3.one * scaleFactor;
-                ApplyMaterialToRenderers(seg, towerMaterial);
+                int kind = storey % StoreyHeightsToDiameter.Length;
+                float storeyHeight = diameter * StoreyHeightsToDiameter[kind];
+
+                GameObject collar = CreateTowerCylinder(root.transform, "Collar" + storey, collarOuterRadius * 2f, collarHeight, y, towerMaterial);
+                collar.GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On; // a soft line of shade under each collar.
+
+                int rows = StoreyWindowRows[kind];
+                for (int row = 0; row < rows; row++)
+                {
+                    float rowY = y + storeyHeight * (row + 0.5f) / rows + collarHeight * 0.1f;
+                    foreach (float side in new[] { -1f, 1f })
+                    {
+                        AddWindow(root.transform, radius, diameter, rowY, side * StoreyWindowAnglesDeg[kind], frameMaterial, paneMaterial);
+                    }
+                }
+
+                y += storeyHeight;
+                storey++;
             }
 
+            CreateTowerCylinder(root.transform, "Shaft", diameter, y, y * 0.5f, towerMaterial);
+
+            float topNaturalRadius = Mathf.Max(topBounds.extents.x, topBounds.extents.z);
+            float topScale = topNaturalRadius > 0f ? collarOuterRadius / topNaturalRadius : scaleFactor;
             GameObject topInstance = (GameObject)PrefabUtility.InstantiatePrefab(topPrefab, root.transform);
             topInstance.name = "TowerTop";
-            topInstance.transform.localPosition = new Vector3(0f, segmentCount * segmentHeight, 0f);
-            topInstance.transform.localRotation = Quaternion.identity;
-            topInstance.transform.localScale = Vector3.one * scaleFactor;
+            topInstance.transform.localPosition = new Vector3(0f, y - topBounds.min.y * topScale, 0f);
+            topInstance.transform.localScale = Vector3.one * topScale;
             ApplyMaterialToRenderers(topInstance, towerMaterial);
+            MakeStatic(topInstance);
 
             Debug.Log(string.Format(
-                "[Level1SceneSetup] Tower: naturalRadius={0:F3} naturalPieceHeight={1:F3} desiredRadius={2:F3} scaleFactor={3:F3} segmentHeight={4:F3} segments={5}",
-                naturalRadius, naturalPieceHeight, desiredRadius, scaleFactor, segmentHeight, segmentCount));
+                "[Level1SceneSetup] Tower: naturalRadius={0:F3} naturalPieceHeight={1:F3} radius={2:F3} collarHeight={3:F3} storeys={4} height={5:F2}",
+                naturalRadius, naturalPieceHeight, radius, collarHeight, storey, y));
 
-            return new TowerMetrics(desiredRadius);
+            return new TowerMetrics(radius, scaleFactor, naturalPieceHeight * scaleFactor, towerMaterial);
+        }
+
+        /// <summary>A static, collider-free built-in cylinder centred at centreY. Casts no shadow unless the caller enables it.</summary>
+        private static GameObject CreateTowerCylinder(Transform parent, string name, float diameter, float height, float centreY, Material material)
+        {
+            GameObject cylinder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            Object.DestroyImmediate(cylinder.GetComponent<Collider>());
+            cylinder.name = name;
+            cylinder.transform.SetParent(parent, false);
+            cylinder.transform.localScale = new Vector3(diameter, height * 0.5f, diameter); // the primitive is 2 units tall.
+            cylinder.transform.localPosition = new Vector3(0f, centreY, 0f);
+            Renderer renderer = cylinder.GetComponent<Renderer>();
+            renderer.sharedMaterial = material;
+            renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            MakeStatic(cylinder);
+            return cylinder;
+        }
+
+        /// <summary>A small blue window: a dark frame with a lighter pane standing just proud of it, set into the shaft at the given angle from its camera-facing (-Z) side.</summary>
+        private static void AddWindow(Transform parent, float radius, float diameter, float y, float angleDeg, Material frameMaterial, Material paneMaterial)
+        {
+            float width = diameter * WindowWidthToDiameter;
+            float height = diameter * WindowHeightToDiameter;
+            float depth = diameter * 0.012f;
+            float angle = angleDeg * Mathf.Deg2Rad;
+            var outward = new Vector3(Mathf.Sin(angle), 0f, -Mathf.Cos(angle));
+            Quaternion facing = Quaternion.LookRotation(outward);
+
+            AddWindowPart(parent, "WindowFrame", frameMaterial, outward * radius + Vector3.up * y, facing, new Vector3(width, height, depth));
+            float inset = diameter * 0.01f;
+            AddWindowPart(parent, "WindowPane", paneMaterial, outward * (radius + depth * 0.2f) + Vector3.up * y, facing,
+                new Vector3(width - inset * 2f, height - inset * 2f, depth));
+        }
+
+        private static void AddWindowPart(Transform parent, string name, Material material, Vector3 position, Quaternion rotation, Vector3 scale)
+        {
+            GameObject part = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            Object.DestroyImmediate(part.GetComponent<Collider>());
+            part.name = name;
+            part.transform.SetParent(parent, false);
+            part.transform.localPosition = position;
+            part.transform.localRotation = rotation;
+            part.transform.localScale = scale;
+            Renderer renderer = part.GetComponent<Renderer>();
+            renderer.sharedMaterial = material;
+            renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            MakeStatic(part);
+        }
+
+        /// <summary>Renderer bounds of a freshly instantiated, identity-transform probe, so sizing never depends on the importer's unit conversion.</summary>
+        private static Bounds MeasurePrefab(GameObject prefab, Transform parent)
+        {
+            GameObject probe = (GameObject)PrefabUtility.InstantiatePrefab(prefab, parent);
+            probe.transform.localPosition = Vector3.zero;
+            probe.transform.localRotation = Quaternion.identity;
+            probe.transform.localScale = Vector3.one;
+            Bounds bounds = ComputeWorldBounds(probe);
+            Object.DestroyImmediate(probe);
+            return bounds;
+        }
+
+        private static void MakeStatic(GameObject go)
+        {
+            foreach (Transform t in go.GetComponentsInChildren<Transform>())
+            {
+                GameObjectUtility.SetStaticEditorFlags(t.gameObject, StaticEditorFlags.BatchingStatic);
+            }
         }
 
         /// <summary>
-        /// Instantiates character-c on the tower's camera-facing (-Z) surface, centered on the
-        /// tower's X, facing +Z (toward the tower, back to the camera). The character's own depth
-        /// bounds (measured the same way as the tower's, on a freshly instantiated identity-transform
-        /// probe) plus the tower radius derive the Z offset -- see the class doc for why this is
-        /// measured rather than assumed. The character is also scaled (see TargetCharacterHeightFraction)
-        /// so its rendered height matches the reference proportion instead of keeping the raw FBX's
-        /// unrelated-to-the-tower size -- left unscaled, character-c renders roughly 3x taller than the
-        /// tower is wide and dominates the frame, nothing like the reference's small climber on a narrow
-        /// column. Also wires up ClimberPoseDriver's limb bindings (character-c has no bones --
+        /// Instantiates the climber (Kenney blocky character-b, palette-recoloured to the reference
+        /// climber's colours: black hair, golden-orange gi, azure sleeves and boots) on the tower's camera-facing (-Z)
+        /// surface, centered on the tower's X, facing +Z (toward the tower, back to the camera). The
+        /// character's own depth bounds (measured on a freshly instantiated identity-transform probe)
+        /// plus the tower radius derive the Z offset. The character is scaled (see
+        /// CharacterHeightToTowerDiameter) so its rendered size matches the reference proportion
+        /// instead of keeping the raw FBX's unrelated-to-the-tower size. Also wires up
+        /// ClimberPoseDriver's limb bindings (the blocky characters have no bones --
         /// root/leg-left, root/leg-right, root/torso/arm-left, root/torso/arm-right are separate rigid
         /// meshes, each pivoted at its own joint) and a chest-height HitTarget child for the glove burst
         /// to aim at.
@@ -510,9 +796,7 @@ namespace Game.Editor
 
             float naturalCharacterHeight = ComputeWorldBounds(characterInstance).size.y;
 
-            float verticalFovRadForHeight = CameraVerticalFovDeg * Mathf.Deg2Rad;
-            float worldHalfHeightAtTower = CameraDistance * Mathf.Tan(verticalFovRadForHeight * 0.5f);
-            float desiredCharacterHeight = TargetCharacterHeightFraction * (2f * worldHalfHeightAtTower);
+            float desiredCharacterHeight = CharacterHeightToTowerDiameter * (2f * tower.Radius);
             float characterScaleFactor = naturalCharacterHeight > 0f ? desiredCharacterHeight / naturalCharacterHeight : 1f;
             characterInstance.transform.localScale = Vector3.one * characterScaleFactor;
 
@@ -521,7 +805,9 @@ namespace Game.Editor
             float characterHalfDepth = characterBounds.extents.z;
             float chestHeight = characterHeight * CharacterChestHeightFraction;
 
-            float characterZ = -(tower.Radius + characterHalfDepth);
+            // Against the collars' outer face rather than the shaft, so they never cut through the
+            // climber's body as it passes them; the soft shadow on the shaft carries the contact.
+            float characterZ = -(tower.Radius * CollarRadiusToShaftRadius + characterHalfDepth);
             playerGo.transform.position = new Vector3(0f, 0f, characterZ);
             playerGo.transform.rotation = Quaternion.identity; // faces +Z (Unity default forward) -- toward the tower, back to the camera behind it at -Z.
 
@@ -558,6 +844,14 @@ namespace Game.Editor
             return new PlayerBuildResult(motor, poseDriver, hitTargetGo.transform, new CharacterMetrics(characterHeight, characterHalfDepth, chestHeight));
         }
 
+        /// <summary>Half the world-space width the camera sees at the tower's depth, on the verification device's aspect.</summary>
+        private static float WorldHalfWidthAtTower()
+        {
+            float verticalFovRad = CameraVerticalFovDeg * Mathf.Deg2Rad;
+            float horizontalFovRad = 2f * Mathf.Atan(Mathf.Tan(verticalFovRad * 0.5f) * NominalDeviceAspect);
+            return CameraDistance * Mathf.Tan(horizontalFovRad * 0.5f);
+        }
+
         private static Bounds ComputeWorldBounds(GameObject root)
         {
             Renderer[] renderers = root.GetComponentsInChildren<Renderer>();
@@ -583,12 +877,15 @@ namespace Game.Editor
             }
         }
 
-        private static Camera BuildCamera(PlayerMotor motor, float characterHeight, out CameraShake shake)
+        private static Camera BuildCamera(PlayerMotor motor, float characterChestHeight, out CameraShake shake)
         {
-            // Places the character in the lower-middle third of the portrait frame with plenty of
-            // tower visible above, tuned against Docs/Reference/Unity-technical-test/attachments/ref.png.
-            float cameraHeightAboveFeet = characterHeight * 1.35f;
-            var cameraOffset = new Vector3(0f, cameraHeightAboveFeet, -CameraDistance);
+            // A level camera raised above the climber, so their chest sits CharacterScreenHeightFraction
+            // up from the bottom of the frame with a long run of tower overhead, as in ref.png. Raising
+            // rather than tilting keeps the shaft vertical on screen.
+            float playerDistance = CameraDistance + motor.transform.position.z;
+            float visibleHeight = 2f * playerDistance * Mathf.Tan(CameraVerticalFovDeg * 0.5f * Mathf.Deg2Rad);
+            float raise = (0.5f - CharacterScreenHeightFraction) * visibleHeight;
+            var cameraOffset = new Vector3(0f, characterChestHeight + raise, -CameraDistance);
 
             var rigGo = new GameObject("CameraRig");
             rigGo.transform.position = cameraOffset; // avoid starting inside the tower and lerping out on frame 1
@@ -610,7 +907,7 @@ namespace Game.Editor
             return camera;
         }
 
-        private static void BuildUi(GameSession session, Transform hitTarget, Camera camera, CameraShake shake, Sprite gloveSprite, AudioClip impactClip)
+        private static void BuildUi(GameSession session, Transform hitTarget, Camera camera, CameraShake shake, Sprite gloveSprite, Sprite starSprite, AudioClip impactClip)
         {
             var canvasGo = new GameObject("Canvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
             var canvas = canvasGo.GetComponent<Canvas>();
@@ -631,10 +928,10 @@ namespace Game.Editor
 
             RectTransform canvasRect = canvasGo.GetComponent<RectTransform>();
 
-            GameObject mainMenuPanel = BuildPanel(canvasRect, "MainMenuPanel");
-            Text title = AddText(mainMenuPanel.transform, "Title", "Tower Prototype", 96, TextAnchor.MiddleCenter, new Vector2(0f, 300f));
-            title.rectTransform.sizeDelta = new Vector2(900f, 200f);
-            Button startButton = AddButton(mainMenuPanel.transform, "StartButton", "Start", new Vector2(0f, 0f));
+            // Every full-screen menu follows the reference's GAME OVER screen: dimmed scene, bold white
+            // title, and stock Unity buttons -- light for the main action, dark for the way out.
+            GameObject mainMenuPanel = BuildMenuPanel(canvasRect, "MainMenuPanel", "TOWER CLIMB");
+            Button startButton = AddMenuButton(mainMenuPanel.transform, "StartButton", "Start", 0, primary: true);
             UnityEventTools.AddPersistentListener(startButton.onClick, session.StartLevel);
 
             GameObject hudPanel = BuildPanel(canvasRect, "HudPanel");
@@ -643,53 +940,49 @@ namespace Game.Editor
             // top/bottom-anchored child below clears it instead of drawing under the notch.
             hudPanel.AddComponent<SafeAreaFitter>();
 
+            ProgressBarParts bar = BuildProgressBar(hudPanel.transform);
+
             const float hudMargin = 32f;
-            const float topRowHeight = 100f;
-            const float rowGap = 16f;
-
-            Text heightText = AddText(hudPanel.transform, "HeightText", "0m / 0m", 56, TextAnchor.UpperLeft, new Vector2(hudMargin, -hudMargin),
-                anchorMin: new Vector2(0f, 1f), anchorMax: new Vector2(0f, 1f), pivot: new Vector2(0f, 1f), sizeDelta: new Vector2(480f, topRowHeight));
-            Text hpText = AddText(hudPanel.transform, "HitPointsText", "HP: 3", 56, TextAnchor.UpperRight, new Vector2(-hudMargin, -hudMargin),
-                anchorMin: new Vector2(1f, 1f), anchorMax: new Vector2(1f, 1f), pivot: new Vector2(1f, 1f), sizeDelta: new Vector2(280f, topRowHeight));
-            Text bumpFeedText = AddText(hudPanel.transform, "BumpFeedText", string.Empty, 64, TextAnchor.UpperCenter, new Vector2(0f, 800f));
-
-            // Second row, top-left: a different row from HeightText and a different corner from
-            // HitPointsText, so Pause never overlaps either HUD label.
-            Button pauseButton = AddButton(hudPanel.transform, "PauseButton", "II", new Vector2(hudMargin, -(hudMargin + topRowHeight + rowGap)),
-                anchorMin: new Vector2(0f, 1f), anchorMax: new Vector2(0f, 1f), pivot: new Vector2(0f, 1f), sizeDelta: new Vector2(160f, 90f));
+            const float pauseSize = 110f;
+            Button pauseButton = AddButton(hudPanel.transform, "PauseButton", "II", new Vector2(-hudMargin, -hudMargin),
+                new Color(BarTrackColor.r, BarTrackColor.g, BarTrackColor.b, 0.85f), HudYellowColor, anchorMin: Vector2.one, anchorMax: Vector2.one, pivot: Vector2.one,
+                sizeDelta: new Vector2(pauseSize, pauseSize));
+            StyleHeavyText(pauseButton.GetComponentInChildren<Text>(), HudYellowColor);
             UnityEventTools.AddPersistentListener(pauseButton.onClick, session.Pause);
 
-            BuildControlsHint(hudPanel, session);
+            GameObject[] hearts = BuildHearts(hudPanel.transform, hudMargin + pauseSize + 16f, hudMargin, pauseSize);
 
-            GameObject pausePanel = BuildPanel(canvasRect, "PausePanel");
+            BuildControlsHint(hudPanel, session);
+            BuildEventFeed(hudPanel, session, gloveSprite);
+
+            GameObject pausePanel = BuildMenuPanel(canvasRect, "PausePanel", "PAUSED");
             pausePanel.SetActive(false);
-            AddText(pausePanel.transform, "PauseTitle", "Paused", 80, TextAnchor.MiddleCenter, new Vector2(0f, 250f));
-            Button resumeButton = AddButton(pausePanel.transform, "ResumeButton", "Resume", new Vector2(0f, 50f));
+            Button resumeButton = AddMenuButton(pausePanel.transform, "ResumeButton", "Continue", 0, primary: true);
             UnityEventTools.AddPersistentListener(resumeButton.onClick, session.Resume);
-            Button pauseMenuButton = AddButton(pausePanel.transform, "MenuButton", "Menu", new Vector2(0f, -100f));
+            Button pauseMenuButton = AddMenuButton(pausePanel.transform, "MenuButton", "Exit", 1, primary: false);
             UnityEventTools.AddPersistentListener(pauseMenuButton.onClick, session.ReturnToMenu);
 
-            GameObject winPanel = BuildPanel(canvasRect, "WinPanel");
+            GameObject winPanel = BuildMenuPanel(canvasRect, "WinPanel", "SUMMIT REACHED");
             winPanel.SetActive(false);
-            AddText(winPanel.transform, "WinTitle", "Summit Reached!", 80, TextAnchor.MiddleCenter, new Vector2(0f, 250f));
-            Button winMenuButton = AddButton(winPanel.transform, "MenuButton", "Menu", new Vector2(0f, 0f));
+            Button winMenuButton = AddMenuButton(winPanel.transform, "MenuButton", "Exit", 0, primary: true);
             UnityEventTools.AddPersistentListener(winMenuButton.onClick, session.ReturnToMenu);
 
-            GameObject losePanel = BuildPanel(canvasRect, "LosePanel");
+            GameObject losePanel = BuildMenuPanel(canvasRect, "LosePanel", "GAME OVER");
             losePanel.SetActive(false);
-            AddText(losePanel.transform, "LoseTitle", "You Fell", 80, TextAnchor.MiddleCenter, new Vector2(0f, 250f));
-            Button retryButton = AddButton(losePanel.transform, "RetryButton", "Retry", new Vector2(0f, 50f));
+            Button retryButton = AddMenuButton(losePanel.transform, "RetryButton", "Continue", 0, primary: true);
             UnityEventTools.AddPersistentListener(retryButton.onClick, session.Retry);
-            Button loseMenuButton = AddButton(losePanel.transform, "MenuButton", "Menu", new Vector2(0f, -100f));
+            Button loseMenuButton = AddMenuButton(losePanel.transform, "MenuButton", "Exit", 1, primary: false);
             UnityEventTools.AddPersistentListener(loseMenuButton.onClick, session.ReturnToMenu);
 
             var hudViewGo = new GameObject("HudView");
-            hudViewGo.transform.SetParent(canvasGo.transform, false);
+            hudViewGo.transform.SetParent(hudPanel.transform, false);
             HudView hudView = hudViewGo.AddComponent<HudView>();
             BindPrivate(hudView, "session", session);
-            BindPrivate(hudView, "heightText", heightText);
-            BindPrivate(hudView, "hitPointsText", hpText);
-            BindPrivate(hudView, "bumpFeedText", bumpFeedText);
+            BindPrivate(hudView, "progressFill", bar.Fill);
+            BindPrivate(hudView, "progressMarker", bar.Marker);
+            BindPrivate(hudView, "heightLabel", bar.HeightLabel);
+            BindPrivate(hudView, "finishLabel", bar.FinishLabel);
+            BindPrivateArray(hudView, "heartIcons", hearts);
 
             var menuViewGo = new GameObject("MenuView");
             menuViewGo.transform.SetParent(canvasGo.transform, false);
@@ -701,15 +994,8 @@ namespace Game.Editor
             BindPrivate(menuView, "winPanel", winPanel);
             BindPrivate(menuView, "losePanel", losePanel);
 
-            GameObject flashGo = new GameObject("FlashImage", typeof(Image));
-            flashGo.transform.SetParent(canvasGo.transform, false);
-            var flashRect = flashGo.GetComponent<RectTransform>();
-            flashRect.anchorMin = Vector2.zero;
-            flashRect.anchorMax = Vector2.one;
-            flashRect.sizeDelta = Vector2.zero;
-            var flashImage = flashGo.GetComponent<Image>();
-            flashImage.color = new Color(1f, 1f, 1f, 0f);
-            flashImage.raycastTarget = false;
+            Image flashImage = AddImage(canvasGo.transform, "FlashImage", null, new Color(1f, 1f, 1f, 0f));
+            Stretch(flashImage.rectTransform);
 
             GameObject burstRootGo = new GameObject("GloveBurstRoot", typeof(RectTransform));
             burstRootGo.transform.SetParent(canvasGo.transform, false);
@@ -732,58 +1018,298 @@ namespace Game.Editor
             BindPrivate(gloveBurst, "cameraShake", shake);
             BindPrivate(gloveBurst, "impactAudioSource", audioSource);
             BindPrivate(gloveBurst, "gloveSprite", gloveSprite);
+            BindPrivate(gloveBurst, "starSprite", starSprite);
+            BindPrivate(gloveBurst, "glowSprite", KnobSprite);
             BindPrivate(gloveBurst, "hitTarget", hitTarget);
             BindPrivate(gloveBurst, "worldCamera", camera);
         }
 
         /// <summary>
-        /// A faint bottom band plus a short prompt over ClimbInputSource's exact touch region
-        /// (ClimbInputSource.TouchRegionNormalizedHeight, not a copy of the value), both
-        /// raycastTarget = false so neither ever intercepts a real UI button underneath. Fades out
-        /// once the player has climbed a little (see ControlsHintView).
+        /// One heart per starting hit point, right-aligned left of the pause button. Each heart is
+        /// built from UI primitives (a 45-degree square under two circles), because the built-in
+        /// font has no heart glyph on Android.
+        /// </summary>
+        private static GameObject[] BuildHearts(Transform hudPanel, float rightOffset, float top, float rowHeight)
+        {
+            const int count = 3;
+            const float heartSize = 40f;
+            const float spacing = 78f;
+
+            var rowGo = new GameObject("Hearts", typeof(RectTransform));
+            rowGo.transform.SetParent(hudPanel, false);
+            var row = rowGo.GetComponent<RectTransform>();
+            row.anchorMin = row.anchorMax = row.pivot = Vector2.one;
+            row.sizeDelta = new Vector2(count * spacing, rowHeight);
+            row.anchoredPosition = new Vector2(-rightOffset, -top);
+
+            var hearts = new GameObject[count];
+            for (int i = 0; i < count; i++)
+            {
+                var heartGo = new GameObject("Heart" + i, typeof(RectTransform));
+                heartGo.transform.SetParent(row, false);
+                var heart = heartGo.GetComponent<RectTransform>();
+                heart.anchorMin = heart.anchorMax = new Vector2(1f, 0.5f);
+                heart.sizeDelta = Vector2.zero;
+                heart.anchoredPosition = new Vector2(-(spacing * 0.5f + i * spacing), -heartSize * 0.07f);
+
+                AddHeartShape(heart, heartSize * 1.22f, new Color(0.2f, 0f, 0.02f, 0.9f));
+                AddHeartShape(heart, heartSize, new Color32(235, 30, 40, 255));
+                hearts[i] = heartGo;
+            }
+
+            return hearts;
+        }
+
+        private static void AddHeartShape(RectTransform parent, float size, Color color)
+        {
+            Image square = AddImage(parent, "Point", null, color);
+            square.rectTransform.sizeDelta = new Vector2(size, size);
+            square.rectTransform.localRotation = Quaternion.Euler(0f, 0f, 45f);
+
+            float lobeOffset = size * 0.354f; // midpoints of the rotated square's two upper edges.
+            foreach (float side in new[] { -1f, 1f })
+            {
+                Image lobe = AddImage(parent, "Lobe", KnobSprite, color);
+                lobe.rectTransform.sizeDelta = new Vector2(size, size);
+                lobe.rectTransform.anchoredPosition = new Vector2(side * lobeOffset, lobeOffset);
+            }
+        }
+
+        private readonly struct ProgressBarParts
+        {
+            public readonly RectTransform Fill;
+            public readonly RectTransform Marker;
+            public readonly Text HeightLabel;
+            public readonly Text FinishLabel;
+
+            public ProgressBarParts(RectTransform fill, RectTransform marker, Text heightLabel, Text finishLabel)
+            {
+                Fill = fill;
+                Marker = marker;
+                HeightLabel = heightLabel;
+                FinishLabel = finishLabel;
+            }
+        }
+
+        /// <summary>
+        /// ref.png's altitude meter: a substantial dark rounded track down the left edge filling
+        /// yellow from the bottom, the goal altitude in heavy outlined red above it, and the current
+        /// altitude in heavy outlined yellow riding beside the top of the fill. Proportions are the
+        /// image's relative to screen height, on the taller portrait frame.
+        /// </summary>
+        private static ProgressBarParts BuildProgressBar(Transform hudPanel)
+        {
+            const float barLeft = 40f;
+            const float barWidth = 48f;
+            const float barBottom = 0.1f;
+            const float barTop = 0.8f;
+
+            Image track = AddImage(hudPanel, "AltitudeBar", UiSprite, BarTrackColor);
+            RectTransform trackRect = track.rectTransform;
+            trackRect.anchorMin = new Vector2(0f, barBottom);
+            trackRect.anchorMax = new Vector2(0f, barTop);
+            trackRect.pivot = new Vector2(0f, 0.5f);
+            trackRect.sizeDelta = new Vector2(barWidth, 0f);
+            trackRect.anchoredPosition = new Vector2(barLeft, 0f);
+
+            Image fill = AddImage(trackRect, "Fill", UiSprite, BarFillColor);
+            Stretch(fill.rectTransform);
+            fill.rectTransform.anchorMax = new Vector2(1f, 0f);
+
+            var markerGo = new GameObject("Marker", typeof(RectTransform));
+            markerGo.transform.SetParent(trackRect, false);
+            var marker = markerGo.GetComponent<RectTransform>();
+            marker.anchorMin = marker.anchorMax = new Vector2(1f, 0f);
+            marker.sizeDelta = Vector2.zero;
+
+            Text heightLabel = AddText(marker, "HeightLabel", "0", 60, TextAnchor.MiddleLeft, new Vector2(10f, 0f),
+                pivot: new Vector2(0f, 0.5f), sizeDelta: new Vector2(320f, 90f));
+            StyleHeavyText(heightLabel, HudYellowColor);
+
+            Text finishLabel = AddText(hudPanel, "FinishLabel", "0", 54, TextAnchor.LowerLeft, new Vector2(barLeft - 22f, 14f),
+                anchorMin: new Vector2(0f, barTop), anchorMax: new Vector2(0f, barTop), pivot: Vector2.zero, sizeDelta: new Vector2(360f, 80f));
+            StyleHeavyText(finishLabel, HudRedColor);
+
+            return new ProgressBarParts(fill.rectTransform, marker, heightLabel, finishLabel);
+        }
+
+        /// <summary>ref.png's heavy HUD lettering: coloured fill inside a thick near-black stroke, plus a soft drop shadow.</summary>
+        private static void StyleHeavyText(Text text, Color fill)
+        {
+            UseDisplayFont(text);
+            text.color = fill;
+            AddOutline(text, HudStrokeColor, 3f);
+            AddOutline(text, HudStrokeColor, 2f);
+            text.gameObject.AddComponent<Shadow>().effectColor = new Color(0f, 0f, 0f, 0.35f);
+        }
+
+        /// <summary>
+        /// Three pre-built event-card slots on the right edge, styled on the reference's gift cards:
+        /// a glove badge overlapping a blue banner, a sender line above and the event line inside.
+        /// EventFeedView only shifts text/alpha between them.
+        /// </summary>
+        private static void BuildEventFeed(GameObject hudPanel, GameSession session, Sprite gloveSprite)
+        {
+            const int slotCount = 3;
+            const float slotSpacing = 190f;
+            const float cardScale = 0.8f;
+
+            var cards = new CanvasGroup[slotCount];
+            var senders = new Text[slotCount];
+            var details = new Text[slotCount];
+
+            for (int i = 0; i < slotCount; i++)
+            {
+                var cardGo = new GameObject("EventCard" + i, typeof(RectTransform), typeof(CanvasGroup));
+                cardGo.transform.SetParent(hudPanel.transform, false);
+                var card = cardGo.GetComponent<RectTransform>();
+                // Right-hand sky, clear of the altitude meter and its labels on the left.
+                card.anchorMin = card.anchorMax = new Vector2(1f, 0.72f);
+                card.pivot = new Vector2(1f, 0.5f);
+                card.sizeDelta = new Vector2(520f, 150f);
+                card.localScale = Vector3.one * cardScale;
+                card.anchoredPosition = new Vector2(-16f, -i * slotSpacing * cardScale);
+
+                var group = cardGo.GetComponent<CanvasGroup>();
+                group.alpha = 0f;
+                group.interactable = false;
+                group.blocksRaycasts = false;
+
+                Image banner = AddImage(card, "Banner", UiSprite, CardBannerColor);
+                banner.rectTransform.anchorMin = banner.rectTransform.anchorMax = new Vector2(0f, 0.5f);
+                banner.rectTransform.pivot = new Vector2(0f, 0.5f);
+                banner.rectTransform.sizeDelta = new Vector2(400f, 72f);
+                banner.rectTransform.anchoredPosition = new Vector2(70f, -22f);
+
+                Image badgeOutline = AddImage(card, "BadgeOutline", gloveSprite, new Color(0.12f, 0.02f, 0.02f, 1f));
+                badgeOutline.rectTransform.anchorMin = badgeOutline.rectTransform.anchorMax = new Vector2(0f, 0.5f);
+                badgeOutline.rectTransform.sizeDelta = new Vector2(128f, 128f);
+                badgeOutline.rectTransform.anchoredPosition = new Vector2(66f, -12f);
+                Image badge = AddImage(card, "Badge", gloveSprite, new Color(0.9f, 0.08f, 0.08f, 1f));
+                badge.rectTransform.anchorMin = badge.rectTransform.anchorMax = new Vector2(0f, 0.5f);
+                badge.rectTransform.sizeDelta = new Vector2(114f, 114f);
+                badge.rectTransform.anchoredPosition = new Vector2(66f, -12f);
+
+                senders[i] = AddText(card, "Sender", string.Empty, 38, TextAnchor.MiddleLeft, new Vector2(140f, 38f),
+                    anchorMin: new Vector2(0f, 0.5f), anchorMax: new Vector2(0f, 0.5f), pivot: new Vector2(0f, 0.5f), sizeDelta: new Vector2(380f, 52f));
+                AddOutline(senders[i], new Color(0f, 0f, 0f, 0.6f), 2f);
+
+                details[i] = AddText(card, "Detail", string.Empty, 34, TextAnchor.MiddleLeft, new Vector2(146f, -22f),
+                    anchorMin: new Vector2(0f, 0.5f), anchorMax: new Vector2(0f, 0.5f), pivot: new Vector2(0f, 0.5f), sizeDelta: new Vector2(320f, 60f));
+
+                cards[i] = group;
+            }
+
+            var feedGo = new GameObject("EventFeedView");
+            feedGo.transform.SetParent(hudPanel.transform, false);
+            EventFeedView feed = feedGo.AddComponent<EventFeedView>();
+            BindPrivate(feed, "session", session);
+            BindPrivateArray(feed, "cards", cards);
+            BindPrivateArray(feed, "senderTexts", senders);
+            BindPrivateArray(feed, "detailTexts", details);
+        }
+
+        /// <summary>
+        /// A short prompt laid out over ClimbInputSource's exact touch region
+        /// (ClimbInputSource.TouchRegionNormalizedHeight, not a copy of the value). No band graphic:
+        /// the reference frame is clean sky. Never a raycast target. Fades out once the player has
+        /// climbed a little (see ControlsHintView).
         /// </summary>
         private static void BuildControlsHint(GameObject hudPanel, GameSession session)
         {
             float regionFraction = ClimbInputSource.TouchRegionNormalizedHeight;
 
-            var bandGo = new GameObject("ClimbHintBand", typeof(Image));
-            bandGo.transform.SetParent(hudPanel.transform, false);
-            var bandRect = bandGo.GetComponent<RectTransform>();
-            bandRect.anchorMin = new Vector2(0f, 0f);
-            bandRect.anchorMax = new Vector2(1f, regionFraction);
-            bandRect.offsetMin = Vector2.zero;
-            bandRect.offsetMax = Vector2.zero;
-            var bandImage = bandGo.GetComponent<Image>();
-            bandImage.color = new Color(1f, 1f, 1f, 0.08f);
-            bandImage.raycastTarget = false;
-
-            Text hintText = AddText(hudPanel.transform, "ClimbHintText", "Hold below to climb · release to grip", 40, TextAnchor.LowerCenter,
+            Text hintText = AddText(hudPanel.transform, "ClimbHintText", "Hold below to climb - release to grip", 32, TextAnchor.LowerCenter,
                 new Vector2(0f, 20f), anchorMin: new Vector2(0f, 0f), anchorMax: new Vector2(1f, regionFraction), pivot: new Vector2(0.5f, 0f), sizeDelta: new Vector2(0f, 90f));
-            hintText.raycastTarget = false;
+            UseDisplayFont(hintText);
+            AddOutline(hintText, new Color(0f, 0f, 0f, 0.5f), 2f);
 
             var hintViewGo = new GameObject("ControlsHintView");
             hintViewGo.transform.SetParent(hudPanel.transform, false);
             ControlsHintView hintView = hintViewGo.AddComponent<ControlsHintView>();
             BindPrivate(hintView, "session", session);
-            BindPrivate(hintView, "hintBand", bandImage);
             BindPrivate(hintView, "hintText", hintText);
         }
+
+        private static Sprite UiSprite => AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
+
+        private static Sprite KnobSprite => AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Knob.psd");
 
         private static GameObject BuildPanel(RectTransform parent, string name)
         {
             var go = new GameObject(name, typeof(RectTransform));
             go.transform.SetParent(parent, false);
-            var rect = go.GetComponent<RectTransform>();
-            rect.anchorMin = Vector2.zero;
-            rect.anchorMax = Vector2.one;
-            rect.sizeDelta = Vector2.zero;
+            Stretch(go.GetComponent<RectTransform>());
             return go;
         }
 
         /// <summary>
-        /// Defaults to a centered anchor/pivot at the default 1000x150 size (the original
-        /// center-anchored panel titles/buttons rely on this). Pass explicit anchors/pivot/size for
-        /// anything that needs to sit at a screen edge instead of drifting off it in a taller aspect.
+        /// Full-screen dimmed panel with a bold title at the reference GAME OVER title's height
+        /// (~22% down the screen). The dim also blocks touches to the HUD/climb region beneath.
+        /// </summary>
+        private static GameObject BuildMenuPanel(RectTransform parent, string name, string title)
+        {
+            GameObject panel = BuildPanel(parent, name);
+            Image dim = AddImage(panel.transform, "Dim", null, MenuDimColor);
+            dim.raycastTarget = true;
+            Stretch(dim.rectTransform);
+
+            Text titleText = AddText(panel.transform, "Title", title, 92, TextAnchor.MiddleCenter, Vector2.zero,
+                anchorMin: new Vector2(0.5f, 0.78f), anchorMax: new Vector2(0.5f, 0.78f), sizeDelta: new Vector2(1040f, 160f));
+            StyleHeavyText(titleText, HudYellowColor);
+            return panel;
+        }
+
+        /// <summary>Stacked menu buttons at the reference GAME OVER screen's size and spacing, from the screen centre down.</summary>
+        private static Button AddMenuButton(Transform parent, string name, string label, int slot, bool primary)
+        {
+            return AddButton(parent, name, label, new Vector2(0f, -slot * 217f),
+                primary ? PrimaryButtonColor : SecondaryButtonColor, primary ? PrimaryButtonTextColor : Color.white,
+                sizeDelta: new Vector2(608f, 120f));
+        }
+
+        /// <summary>Kenney Future for titles, numbers, buttons and prompts; small event-card text keeps the built-in font, whose lowercase stays legible at that size.</summary>
+        private static void UseDisplayFont(Text text)
+        {
+            if (_uiFont != null)
+            {
+                text.font = _uiFont;
+            }
+        }
+
+        private static void Stretch(RectTransform rect, float inset = 0f)
+        {
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.offsetMin = new Vector2(inset, inset);
+            rect.offsetMax = new Vector2(-inset, -inset);
+        }
+
+        private static void AddOutline(Text text, Color color, float distance)
+        {
+            var outline = text.gameObject.AddComponent<Outline>();
+            outline.effectColor = color;
+            outline.effectDistance = new Vector2(distance, -distance);
+        }
+
+        /// <summary>Non-interactive by default (raycastTarget = false) so decoration never swallows climb touches.</summary>
+        private static Image AddImage(Transform parent, string name, Sprite sprite, Color color)
+        {
+            var go = new GameObject(name, typeof(Image));
+            go.transform.SetParent(parent, false);
+            var image = go.GetComponent<Image>();
+            image.sprite = sprite;
+            image.type = sprite != null && sprite.border != Vector4.zero ? Image.Type.Sliced : Image.Type.Simple;
+            image.color = color;
+            image.raycastTarget = false;
+            return image;
+        }
+
+        /// <summary>
+        /// Defaults to a centered anchor/pivot at the default 1000x150 size. Pass explicit
+        /// anchors/pivot/size for anything that needs to sit at a screen edge instead of drifting off
+        /// it in a taller aspect. Never a raycast target.
         /// </summary>
         private static Text AddText(Transform parent, string name, string content, int size, TextAnchor anchor, Vector2 anchoredPos,
             Vector2? anchorMin = null, Vector2? anchorMax = null, Vector2? pivot = null, Vector2? sizeDelta = null)
@@ -796,6 +1322,7 @@ namespace Game.Editor
             text.fontSize = size;
             text.alignment = anchor;
             text.color = Color.white;
+            text.raycastTarget = false;
             var rect = go.GetComponent<RectTransform>();
             rect.anchorMin = anchorMin ?? new Vector2(0.5f, 0.5f);
             rect.anchorMax = anchorMax ?? new Vector2(0.5f, 0.5f);
@@ -805,7 +1332,8 @@ namespace Game.Editor
             return text;
         }
 
-        private static Button AddButton(Transform parent, string name, string label, Vector2 anchoredPos,
+        /// <summary>A stock Unity button (default UISprite skin), as the reference's menus use.</summary>
+        private static Button AddButton(Transform parent, string name, string label, Vector2 anchoredPos, Color background, Color textColor,
             Vector2? anchorMin = null, Vector2? anchorMax = null, Vector2? pivot = null, Vector2? sizeDelta = null)
         {
             var go = new GameObject(name, typeof(Image), typeof(Button));
@@ -817,12 +1345,37 @@ namespace Game.Editor
             Vector2 size = sizeDelta ?? new Vector2(400f, 140f);
             rect.sizeDelta = size;
             rect.anchoredPosition = anchoredPos;
-            go.GetComponent<Image>().color = new Color(0.15f, 0.15f, 0.2f, 0.9f);
 
-            Text text = AddText(go.transform, "Label", label, 48, TextAnchor.MiddleCenter, Vector2.zero);
+            var image = go.GetComponent<Image>();
+            image.sprite = UiSprite;
+            image.type = Image.Type.Sliced;
+            image.color = background;
+
+            Text text = AddText(go.transform, "Label", label, 50, TextAnchor.MiddleCenter, Vector2.zero);
+            UseDisplayFont(text);
             text.rectTransform.sizeDelta = size;
+            text.color = textColor;
 
             return go.GetComponent<Button>();
+        }
+
+        private static void BindPrivateArray(Object target, string fieldName, Object[] values)
+        {
+            var so = new SerializedObject(target);
+            SerializedProperty prop = so.FindProperty(fieldName);
+            if (prop == null || !prop.isArray)
+            {
+                Debug.LogError("[Level1SceneSetup] Missing array field " + fieldName + " on " + target.GetType());
+                return;
+            }
+
+            prop.arraySize = values.Length;
+            for (int i = 0; i < values.Length; i++)
+            {
+                prop.GetArrayElementAtIndex(i).objectReferenceValue = values[i];
+            }
+
+            so.ApplyModifiedPropertiesWithoutUndo();
         }
 
         private static void BindPrivate(object target, string fieldName, object value)

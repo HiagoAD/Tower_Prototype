@@ -1,0 +1,1367 @@
+--------- beginning of main
+09-28 15:10:17.162 19129 19129 W Settings: Setting data_roaming has moved from android.provider.Settings.Secure to android.provider.Settings.Global.
+09-28 15:10:17.165  5091  5091 W Settings: Setting data_roaming has moved from android.provider.Settings.Secure to android.provider.Settings.Global.
+09-28 15:10:17.166  7071  7104 I Finsky  : [5124] [ContentSync] finished, scheduled=true
+09-28 15:10:17.504  7972  7972 D NetworkSecurityConfig: No Network Security Config specified, using platform default
+09-28 15:10:17.505  7972  7972 D NetworkSecurityConfig: No Network Security Config specified, using platform default
+--------- beginning of system
+09-28 15:10:17.606  1403  1426 W ActivityTaskManager: Activity top resumed state loss timeout for ActivityRecord{9b487d9 u0 com.towerprototype.game/com.unity3d.player.UnityPlayerGameActivity t38935}
+09-28 15:10:17.606  1403  1426 W ActivityTaskManager: Activity pause timeout for ActivityRecord{9b487d9 u0 com.towerprototype.game/com.unity3d.player.UnityPlayerGameActivity t38935}
+09-28 15:10:17.621  7972  7972 W linker  : Warning: "/data/app/~~MMzGWAKl-rKzEuk3iJyZIg==/com.towerprototype.game-PU_M51sGFHfGGbdmYyia9g==/lib/arm64/libc++_shared.so" unused DT entry: unknown processor-specific (type 0x70000001 arg 0x0) (ignoring)
+09-28 15:10:17.658  1403  2358 D BatteryService: uevent={POWER_SUPPLY_DP_DM=0, POWER_SUPPLY_TEMP_HOT=0, POWER_SUPPLY_VOLTAGE_QNOVO=-22, POWER_SUPPLY_VOLTAGE_NOW=4324834, POWER_SUPPLY_SW_JEITA_ENABLED=0, POWER_SUPPLY_CHARGE_CONTROL_LIMIT_MAX=10, POWER_SUPPLY_RECHARGE_SOC=99, POWER_SUPPLY_HEALTH=Good, POWER_SUPPLY_TECHNOLOGY=Li-ion, POWER_SUPPLY_CHARGER_TEMP_MAX=800, POWER_SUPPLY_FCC_STEPPER_ENABLE=0, SEQNUM=16514, POWER_SUPPLY_INPUT_CURRENT_LIMITED=1, POWER_SUPPLY_CHARGE_CONTROL_LIMIT=0, POWER_SUPPLY_STATUS=Charging, POWER_SUPPLY_CURRENT_MAX=3600000, POWER_SUPPLY_CYCLE_COUNT=0, POWER_SUPPLY_CHARGE_TERM_CURRENT=-100, POWER_SUPPLY_CAPACITY=91, DEVPATH=/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-02/c440000.qcom,spmi:qcom,pm7250b@2:qcom,qpnp-smb5-mmi/power_supply/battery, POWER_SUPPLY_CHARGE_DONE=0, POWER_SUPPLY_CHARGE_TYPE=Fast, POWER_SUPPLY_CHARGER_TEMP=349, POWER_SUPPLY_CHARGE_RATE=Normal, POWER_SUPPLY_CURRENT_QNOVO=-22, POWER_SUPPLY_CURRENT_NOW=267334, POWER_SUPPLY_PRESENT=1, POWER_SUPPLY_PARALLEL_DISABLE=0, POWER_SUPPLY_CHARGE_FULL=4043000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT=3600000, SUBSYSTEM=power_supply, POWER_SUPPLY_SET_SHIP_MODE=0, POWER_SUPPLY_TEMP=328, ACTION=change, POWER_SUPPLY_RERUN_AICL=0, POWER_SUPPLY_NAME=battery, POWER_SUPPLY_VOLTAGE_MAX=4450000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT_MAX=4000000, POWER_SUPPLY_CHARGE_COUNTER=2385370, POWER_SUPPLY_STEP_CHARGING_ENABLED=0, POWER_SUPPLY_DIE_HEALTH=Cool, POWER_SUPPLY_INPUT_SUSPEND=0}
+09-28 15:10:17.678 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:10:17.702  7972  7972 D AppCompatDelegate: Checking for metadata for AppLocalesMetadataHolderService : Service not found
+09-28 15:10:17.757  7972  7972 D gti.InputConnection: InputConnection created
+09-28 15:10:17.808  7972  7972 W rprototype.gam: Accessing hidden method Landroid/view/View;->computeFitSystemWindows(Landroid/graphics/Rect;Landroid/graphics/Rect;)Z (greylist, reflection, allowed)
+09-28 15:10:17.810  7972  7972 W rprototype.gam: Accessing hidden method Landroid/view/ViewGroup;->makeOptionalFitsSystemWindows()V (greylist, reflection, allowed)
+09-28 15:10:17.829  7972  7972 I Unity   : applyWindowUIChanges fullScreen = true, renderOutsideSafeArea = true
+09-28 15:10:17.893  7972  7972 I IL2CPP  : JNI_OnLoad
+09-28 15:10:17.893  7972  7972 V Unity   : Context Type: GameActivity
+09-28 15:10:17.895  7972  7972 D Unity   : CommandLine:  
+09-28 15:10:17.927  7972  7972 I GameActivity: Looking for library libgame.so
+09-28 15:10:17.928  7972  7972 I GameActivity: Found library libgame.so. Loading...
+09-28 15:10:17.933  7972  7972 D GameActivity: GameActivity_register
+09-28 15:10:17.934  7972  7972 D GameActivity: SDK version: 30
+09-28 15:10:17.935  7972  8006 I Unity   : UnityApplication::CreateInstance
+09-28 15:10:17.935  7972  8006 I Unity   : GameActivity Package Version '3.0.5'
+09-28 15:10:17.936  7972  8006 I Unity   : Starting Game Loop
+09-28 15:10:18.009  7972  8006 I Unity   : Handle cmd APP_CMD_START(11)
+09-28 15:10:18.012  7972  7972 I Unity   : onResume
+09-28 15:10:18.020  7972  8006 I Unity   : Handle cmd APP_CMD_RESUME(12)
+09-28 15:10:18.033  1403  4673 D ActivityTaskManager: onkeyguardOccludedChanged true for display 0
+09-28 15:10:18.036  1403  4673 I PowerManagerService: Waking up from Dozing (uid=1000, reason=WAKE_REASON_APPLICATION, details=android.server.am:TURN_ON:turnScreenOnFlag)...
+09-28 15:10:18.038  1140  1140 I QTI PowerHAL: Power setBoost: 0, duration: 0
+09-28 15:10:18.039  1140  1140 I QTI PowerHAL: Power setMode: 7 to: 1
+09-28 15:10:18.039  1403  1929 I WindowManager: Screen turning on...
+09-28 15:10:18.039  1140  1140 I QTI PowerHAL: Got set_interactive hint
+09-28 15:10:18.040  1140  1140 I QTI PowerHAL: Got set_interactive hint on= 1, count= 43
+09-28 15:10:18.046  2668  6187 D KeyguardViewMediator: notifyScreenOn
+09-28 15:10:18.046  2668  6187 V KeyguardViewMediator: notifyDrawn
+09-28 15:10:18.047  1403  4673 D WindowManager: mKeyguardDelegate.ShowListener.onDrawn.
+09-28 15:10:18.047  3767  3767 D GameMode: isScreenUnlocked: false
+09-28 15:10:18.047  3767  3767 D GameMode: already exited game mode
+09-28 15:10:18.047  1403  1424 W WindowManager: Setting mKeyguardDrawComplete
+09-28 15:10:18.048 31588 31630 E SensorManager: sensor or listener is null
+09-28 15:10:18.058  7972  7972 I Unity   : onPause
+09-28 15:10:18.060  7972  7972 I Unity   : pauseUnity
+09-28 15:10:18.061  7972  8006 I Unity   : Handle cmd APP_CMD_PAUSE(14)
+09-28 15:10:18.063  7972  8006 I Unity   : Handle cmd APP_CMD_LOW_MEMORY(10)
+09-28 15:10:18.066  7972  8006 I Unity   : Handle cmd APP_CMD_STOP(15)
+09-28 15:10:18.068  7972  8006 I Unity   : Handle cmd APP_CMD_SAVE_STATE(13)
+09-28 15:10:18.077  1403  1598 E KernelCpuSpeedReader: Failed to read cpu-freq stats for CPUs 7-7
+09-28 15:10:18.077  1403  1598 E KernelCpuSpeedReader: Failed to read cpu-freq stats for CPUs 6-6
+09-28 15:10:18.077  1403  1598 E KernelCpuSpeedReader: Failed to read cpu-freq stats for CPUs 0-5
+09-28 15:10:18.080   887   887 W Binder:887_2: type=1400 audit(0.0:129643): avc: denied { read } for name="wakeup34" dev="sysfs" ino=58512 scontext=u:r:system_suspend:s0 tcontext=u:object_r:vendor_sysfs_battery_supply:s0 tclass=dir permissive=0
+09-28 15:10:18.080   887   887 W Binder:887_2: type=1400 audit(0.0:129644): avc: denied { read } for name="wakeup62" dev="sysfs" ino=69973 scontext=u:r:system_suspend:s0 tcontext=u:object_r:vendor_sysfs_battery_supply:s0 tclass=dir permissive=0
+09-28 15:10:18.082  7972  7972 D gti.InputConnection: onApplyWindowInsetsfalse
+09-28 15:10:18.082  7972  7972 V GameActivity: onImeInsetsChanged from Text Listener
+09-28 15:10:18.084  7972  8006 I Unity   : Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+09-28 15:10:18.084   887   894 E android.system.suspend@1.0-service: Error opening kernel wakelock stats for: wakeup34: Permission denied
+09-28 15:10:18.084   887   894 E android.system.suspend@1.0-service: Error opening kernel wakelock stats for: wakeup62: Permission denied
+09-28 15:10:18.086  2668  6187 D KeyguardViewMediator: setOccluded true
+09-28 15:10:18.086  2668  2668 D KeyguardViewMediator: handleSetOccluded: mOccluded=false isOccluded=true animate=false
+09-28 15:10:18.086  2668  2668 D StatusBar: disable<e i a s b h R c s > disable2<q i n >
+09-28 15:10:18.087  2668  2668 D KeyguardViewMediator: adjustStatusBarLocked: mShowing=true mOccluded=true isSecure=true force=false --> flags=0x0
+09-28 15:10:18.094  2668  2668 D StatusBar: disable<e i a s b h r!c s > disable2<q i n >
+09-28 15:10:18.097   887   887 W Binder:887_2: type=1400 audit(0.0:129645): avc: denied { read } for name="wakeup61" dev="sysfs" ino=69901 scontext=u:r:system_suspend:s0 tcontext=u:object_r:vendor_sysfs_battery_supply:s0 tclass=dir permissive=0
+09-28 15:10:18.098   887   894 E android.system.suspend@1.0-service: Error opening kernel wakelock stats for: wakeup61: Permission denied
+09-28 15:10:18.099  7972  7972 D gti.InputConnection: onApplyWindowInsetsfalse
+09-28 15:10:18.099  7972  7972 V GameActivity: onImeInsetsChanged from Text Listener
+09-28 15:10:18.100  7972  8006 I Unity   : Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+09-28 15:10:18.102  1403  1929 V DisplayPowerController: Brightness [0.28845134] reason changing to: 'manual', previous reason: 'screen_off'.
+09-28 15:10:18.102  1403  1403 I WindowManager: Started waking up... (why=ON_BECAUSE_OF_APPLICATION)
+09-28 15:10:18.102  2668  6187 D KeyguardViewMediator: onStartedWakingUp, seq = 42
+09-28 15:10:18.102  2668  6187 D KeyguardViewMediator: notifyStartedWakingUp
+09-28 15:10:18.103  2668  2668 I MotoDisplayManager: mMotoDisplayService.hide com.android.systemui.doze.IMotoDisplay$Stub$Proxy@2ffabd7
+09-28 15:10:18.103 31588 31630 E SensorManager: sensor or listener is null
+09-28 15:10:18.103  1197  1197 D SurfaceFlinger: Setting power mode 2 on display 19260729149824129
+09-28 15:10:18.104  1154  1302 I SDM     : DisplayBase::SetDisplayState: Set state = 1, display 29-0, teardown = 0
+09-28 15:10:18.104  1110  1110 I sensors-hal: batch:242, android.sensor.proximity/82, period=20000000, max_latency=0
+09-28 15:10:18.104  1110  1110 I sensors-hal: set_config:63, sample_period_ns is adjusted to 0 based on min/max delay_ns
+09-28 15:10:18.104  1110  1110 I sensors-hal: batch:251, android.sensor.proximity/82, period=20000000, max_latency=0 request completed
+09-28 15:10:18.104 14573 14573 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():2404 
+09-28 15:10:18.104  7972  8006 I Unity   : Handle cmd APP_CMD_START(11)
+09-28 15:10:18.105 14573 14573 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1552 onStartInput(EditorInfo{EditorInfo{packageName=com.motorola.motodisplay, inputType=0, inputTypeString=NULL, enableLearning=false, autoCorrection=false, autoComplete=false, imeOptions=0, privateImeOptions=null, actionName=UNSPECIFIED, actionLabel=null, initialSelStart=-1, initialSelEnd=-1, initialCapsMode=0, label=null, fieldId=-1, fieldName=null, extras=null, hintText=null, hintLocales=[]}}, false)
+09-28 15:10:18.106  7972  7972 I Unity   : onResume
+09-28 15:10:18.106 14573 14573 W LatinInputMethodServiceBase: LatinInputMethodServiceBase.updateInputViewCoverNavigation():362 Null input view, cannot update padding!
+09-28 15:10:18.107  2668  2668 D KeyguardViewMediator: handleNotifyWakingUp
+09-28 15:10:18.109  2668  2668 D StatusBar: disable<e i a s b h r c s > disable2<q i n >
+09-28 15:10:18.109  2668  2668 D StatusBar: disable<e i a s b h r c s > disable2<q i n >
+09-28 15:10:18.109  2668  2668 D StatusBar: updateQsExpansionEnabled - QS Expand enabled: true
+09-28 15:10:18.110 14573  8013 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatusInternal():119 repeatCheckTimes = 0, locked = true
+09-28 15:10:18.111 14573  8013 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatusInternal():119 repeatCheckTimes = 1, locked = true
+09-28 15:10:18.111 14573  8013 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatusInternal():126 Scheduled to recheck device lock status
+09-28 15:10:18.116  2668  2810 D KeyguardViewMediator: updateActivityLockScreenState(true, false)
+09-28 15:10:18.116  2668  2668 D StatusBar: updateQsExpansionEnabled - QS Expand enabled: true
+09-28 15:10:18.116  2668  2668 W MotoDisplayManager: can't hide: mMotoDisplayService has been null
+09-28 15:10:18.117  7972  8006 I Unity   : Handle cmd APP_CMD_RESUME(12)
+09-28 15:10:18.118  2668  2668 D StatusBar: updateQsExpansionEnabled - QS Expand enabled: true
+09-28 15:10:18.118  2668  2668 W MotoDisplayManager: can't hide: mMotoDisplayService has been null
+09-28 15:10:18.119  1403  5055 D ActivityTaskManager: Top Process State changed to PROCESS_STATE_TOP
+09-28 15:10:18.122  1403  1426 I WindowManager: All windows ready for display!
+09-28 15:10:18.122  1110  1110 I sensors-hal: batch:242, android.sensor.proximity/82, period=200000000, max_latency=0
+09-28 15:10:18.122  1110  1110 I sensors-hal: set_config:63, sample_period_ns is adjusted to 0 based on min/max delay_ns
+09-28 15:10:18.122  1110  1110 I sensors-hal: batch:251, android.sensor.proximity/82, period=200000000, max_latency=0 request completed
+09-28 15:10:18.123  1403  1426 I DisplayManagerService: Display device changed state: "Tela integrada", ON
+09-28 15:10:18.124  1403  1424 W WindowManager: Setting mWindowManagerDrawComplete
+09-28 15:10:18.125  1110  1110 I sensors-hal: batch:242, android.sensor.device_orientation/271, period=66667000, max_latency=0
+09-28 15:10:18.125  1110  1110 I sensors-hal: set_config:63, sample_period_ns is adjusted to 0 based on min/max delay_ns
+09-28 15:10:18.125  1110  1110 I sensors-hal: batch:251, android.sensor.device_orientation/271, period=66667000, max_latency=0 request completed
+09-28 15:10:18.125  1110  1110 I sensors-hal: activate:209, android.sensor.device_orientation/271 en=1
+09-28 15:10:18.126  1110  1110 I sensors-hal: get_qmi_debug_flag:241, support_qmi_debug : false
+09-28 15:10:18.127  2668  2668 D StatusBar: disable<e i a s b h r c s > disable2<q i n >
+09-28 15:10:18.130  1110  1110 I sensors-hal: activate:220, android.sensor.device_orientation/271 en=1 completed
+09-28 15:10:18.132  1403  4673 I ActivityTaskManager: Activity reported stop, but no longer stopping: ActivityRecord{9b487d9 u0 com.towerprototype.game/com.unity3d.player.UnityPlayerGameActivity t38935}
+09-28 15:10:18.132  1110  8017 I sensors-hal: ssc_conn_resp_cb:662, resp_value = 0
+09-28 15:10:18.132  1110  8017 I sensors-hal: handle_indication_realtime:466,  SCHED_FIFO(10) for qmi_cbk
+09-28 15:10:18.132  1110  8017 E sensors-hal: handle_sns_client_event:62, mot_disprot_event: now=25451445339008 ts=24920923141403, type=16, status=3
+09-28 15:10:18.136  1403  4678 D CompatibilityChangeReporter: Compat change id reported: 135634846; UID 10229; state: DISABLED
+09-28 15:10:18.136  1403  4678 D CompatibilityChangeReporter: Compat change id reported: 135754954; UID 10229; state: ENABLED
+09-28 15:10:18.137  1403  1455 D CompatibilityChangeReporter: Compat change id reported: 143937733; UID 10229; state: ENABLED
+09-28 15:10:18.143  1403  5052 V WindowManager: Changing focus from Window{5f4d3d4 u0 AOD} to null displayId=0
+09-28 15:10:18.151  1403  5055 I PowerManagerService: Waking up from Awake (uid=1000, reason=WAKE_REASON_APPLICATION, details=android.server.wm:SCREEN_ON_FLAG)...
+09-28 15:10:18.151 31588 31632 E SensorManager: sensor or listener is null
+09-28 15:10:18.152 31588 31588 I MotoDisplay: onDestroy: isFolioActive = false
+09-28 15:10:18.152  1140  1140 I QTI PowerHAL: Power setBoost: 0, duration: 0
+09-28 15:10:18.152  1027  1027 D Zygote  : Forked child process 8021
+09-28 15:10:18.152 31588 31632 E SensorManager: sensor or listener is null
+09-28 15:10:18.153  1403  5055 V WindowManager: Changing focus from null to Window{cf5838b u0 com.towerprototype.game/com.unity3d.player.UnityPlayerGameActivity} displayId=0
+09-28 15:10:18.154  1403  1426 I InputManager-JNI: Viewport [0] to add: local:19260729149824129, isActive: true
+09-28 15:10:18.155 31588 31588 I MotoDisplay: Releasing wakelock: MotoDisplayWakeLock
+09-28 15:10:18.156  1403  2428 I InputReader: Reconfiguring input devices, changes=DISPLAY_INFO | 
+09-28 15:10:18.156  1403  2428 I InputReader: Device reconfigured: id=4, name='NVTCapacitiveTouchScreen', size 1080x2520, orientation 0, mode 1, display id 0
+09-28 15:10:18.156  2653  3137 I BtGatt.ScanManager: msg.what = 8
+09-28 15:10:18.157  7972  7972 D gti.InputConnection: onApplyWindowInsetsfalse
+09-28 15:10:18.157  7972  7972 V GameActivity: onImeInsetsChanged from Text Listener
+09-28 15:10:18.157  7972  7972 D gti.InputConnection: onApplyWindowInsetsfalse
+09-28 15:10:18.157  7972  8006 I Unity   : Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+09-28 15:10:18.158  2653  3137 I BtGatt.ScanManager: msg.what = 5
+09-28 15:10:18.158  7972  7972 V GameActivity: onImeInsetsChanged from Text Listener
+09-28 15:10:18.159  7972  8006 I Unity   : Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+09-28 15:10:18.159  7972  8006 I Unity   : Handle cmd APP_CMD_CONTENT_RECT_CHANGED(5)
+09-28 15:10:18.159  2668  2668 D StatusBar: disable<e i a s b h r c s > disable2<q i n >
+09-28 15:10:18.161  1403  1455 I ActivityManager: Start proc 8021:com.motorola.timeweatherwidget/u0a229 for content provider {com.motorola.timeweatherwidget/com.motorola.commandcenter.providers.MainConfigProvider}
+09-28 15:10:18.161  7972  8006 I Unity   : Handle cmd APP_CMD_INIT_WINDOW(1)
+09-28 15:10:18.163  4489  4489 I NearbyDiscovery: (REDACTED) FastPairDisplayObserver: %s -> %s
+09-28 15:10:18.168  4489  4910 I NearbyDiscovery: (REDACTED) ApFastPairScanner: isScreenOn=%s, isLocationEnabled=%s, disableLocationRequirement=%s, isDiscoveryScanningEnabled=%s, during24GhzWifiWarmingUpPeriod=%s
+09-28 15:10:18.169 31588 31588 I MotoDisplay: finishScreen
+09-28 15:10:18.169 31588 31588 I MotoDisplay: onDestroy
+09-28 15:10:18.170  1110  1110 I sensors-hal: activate:209, com.motorola.sensor.glance/65658 en=0
+09-28 15:10:18.170  1110  1110 I sensors-hal: deactivate:166, deactivate glance 65548
+09-28 15:10:18.171  1110  1110 I sensors-hal: activate:220, com.motorola.sensor.glance/65658 en=0 completed
+09-28 15:10:18.173  1110  1110 I sensors-hal: activate:209, com.motorola.sensor.ltv/65738 en=0
+09-28 15:10:18.173  8021  8021 E meweatherwidge: Not starting debugger since process cannot load the jdwp agent.
+09-28 15:10:18.176  1110  1110 I sensors-hal: activate:220, com.motorola.sensor.ltv/65738 en=0 completed
+09-28 15:10:18.180 14573 14573 I PkModeUpdater: PkModeUpdater.refreshDevices():206 refreshing devices
+09-28 15:10:18.181  4489  4910 D BluetoothAdapter: isLeEnabled(): ON
+09-28 15:10:18.181  4489  4910 I NearbyDiscovery: (REDACTED) ApFastPairScanner: eventType=%s, intReq=%s, scanning=%s, scanAllowed=%s, bleEnabled=%s, lockScanRate=%s, startScanningByLowPowerMode=%s
+09-28 15:10:18.186 31588 31588 V f       : onSurfaceTextureDestroyed
+09-28 15:10:18.186  1520 19909 D NuPlayerDriver: stop(0xedf40a10)
+09-28 15:10:18.186 31588 31588 V MediaPlayer: resetDrmState:  mDrmInfo=null mDrmProvisioningThread=null mPrepareDrmInProgress=false mActiveDrmScheme=false
+09-28 15:10:18.186 31588 31588 V MediaPlayer: cleanDrmObj: mDrmObj=null mDrmSessionId=null
+09-28 15:10:18.186  1520 19909 D NuPlayerDriver: reset(0xedf40a10) at state 8
+09-28 15:10:18.187  2653  3328 D Avrcp_ext: AudioManager Player: AudioPlaybackConfiguration piid:15 type:android.media.SoundPool u/pid:1000/1403 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null
+09-28 15:10:18.187  2653  3328 D Avrcp_ext: AudioManager Player: AudioPlaybackConfiguration piid:47 type:android.media.SoundPool u/pid:1027/4612 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null
+09-28 15:10:18.187  2653  3328 D Avrcp_ext: AudioManager Player: AudioPlaybackConfiguration piid:23 type:android.media.SoundPool u/pid:10147/2668 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null
+09-28 15:10:18.187  2653  3328 D Avrcp_ext: AudioManager isPlaying: false
+09-28 15:10:18.187  7972  8006 I Unity   : MemoryManager: Using 'Dynamic Heap' Allocator.
+09-28 15:10:18.187  1520  6824 I MediaCodec: (0xeb243290) flush
+09-28 15:10:18.187  7972  8006 D Unity   : [UnityMemory] Configuration Parameters - Can be set up in boot.config
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-allocator-temp-initial-block-size-main=262144"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-allocator-temp-initial-block-size-worker=262144"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-temp-allocator-size-background-worker=32768"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-temp-allocator-size-job-worker=262144"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-temp-allocator-size-preload-manager=262144"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-temp-allocator-size-audio-worker=65536"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-temp-allocator-size-cloud-worker=32768"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-bucket-allocator-granularity=16"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-bucket-allocator-bucket-count=8"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-bucket-allocator-block-size=4194304"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-bucket-allocator-block-count=1"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-main-allocator-block-size=16777216"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-thread-allocator-block-size=16777216"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-gfx-main-allocator-block-size=16777216"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-gfx-thread-allocator-block-size=16777216"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-cache-allocator-block-size=4194304"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-typetree-allocator-block-size=2097152"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-profiler-bucket-allocator-granularity=16"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-profiler-bucket-allocator-bucket-count=8"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-profiler-bucket-allocator-block-size=4194304"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-profiler-bucket-allocator-block-count=1"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-profiler-allocator-block-size=16777216"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-profiler-editor-allocator-block-size=1048576"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-temp-allocator-size-main=4194304"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-job-temp-allocator-block-size=2097152"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-job-temp-allocator-block-size-background=1048576"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+09-28 15:10:18.187  7972  8006 D Unity   :     "memorysetup-temp-allocator-size-gfx=262144"
+09-28 15:10:18.188  1403  1427 I LaunchCheckinHandler: Displayed com.towerprototype.game/com.unity3d.player.UnityPlayerGameActivity,cp,ca,1176
+09-28 15:10:18.189  1403  1427 I WindowManager: SURFACE show Surface(name=com.towerprototype.game/com.unity3d.player.UnityPlayerGameActivity)/@0x13b3ee0 on display:0
+09-28 15:10:18.191  1520  6824 I MediaCodec: (0xeb243290) release
+09-28 15:10:18.192  7972  7972 D gti.InputConnection: onApplyWindowInsetsfalse
+09-28 15:10:18.192  7972  7972 V GameActivity: onImeInsetsChanged from Text Listener
+09-28 15:10:18.192  7972  7972 D gti.InputConnection: onApplyWindowInsetsfalse
+09-28 15:10:18.193  7972  7972 V GameActivity: onImeInsetsChanged from Text Listener
+09-28 15:10:18.206  4489  4489 D BoundBrokerSvc: onRebind: Intent { act=com.google.android.gms.findmydevice.spot.service.locationreport.START dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentApiService }
+09-28 15:10:18.209  7972  8006 E libprocessgroup: set_timerslack_ns write failed: Operation not permitted
+09-28 15:10:18.215  1532 12119 I OMX-VDEC-1080P: omx_vdec::component_deinit() complete
+09-28 15:10:18.218  7972  8006 D Unity   : Enabling Unity systrace
+09-28 15:10:18.218  7972  8006 D Unity   : Starting Unity systrace
+09-28 15:10:18.218  1532 12119 I OMX-VDEC-1080P: Exit OMX vdec Destructor: fd=7
+09-28 15:10:18.219  1520  6825 D SurfaceUtils: disconnecting from surface 0xe8c43278, reason disconnectFromSurface
+09-28 15:10:18.221  4489  4489 D BoundBrokerSvc: onRebind: Intent { act=com.google.android.gms.onboardingconsent.api.ConsentManagerApiService.START dat=chimera-action: cmp=com.google.android.gms/.chimera.GmsApiService }
+09-28 15:10:18.223  1520  6824 D SurfaceUtils: connecting to surface 0xe8c43278, reason onShutdown
+09-28 15:10:18.223  8021  8021 I meweatherwidge: The ClassLoaderContext is a special shared library.
+09-28 15:10:18.226  8021  8021 I meweatherwidge: The ClassLoaderContext is a special shared library.
+09-28 15:10:18.228  1520  6820 D NuPlayerDriver: notifyResetComplete(0xedf40a10)
+09-28 15:10:18.228  4489  4643 I ConsentManagerApiServic: (REDACTED) ConsentManagerApiService onGetService success %s
+09-28 15:10:18.228  1520 19909 D SurfaceUtils: disconnecting from surface 0xe8c41948, reason disconnectNativeWindow
+09-28 15:10:18.228  1520 19909 W AMessage: failed to post message as target looper for handler 0 is gone.
+09-28 15:10:18.229 31588 31588 V MediaPlayer: resetDrmState:  mDrmInfo=null mDrmProvisioningThread=null mPrepareDrmInProgress=false mActiveDrmScheme=false
+09-28 15:10:18.229 31588 31588 V MediaPlayer: cleanDrmObj: mDrmObj=null mDrmSessionId=null
+09-28 15:10:18.230 31588 31588 E MotoDisplay: receiver is already disconnected
+09-28 15:10:18.230 31588 31588 E MotoDisplay: receiver is already disconnected
+09-28 15:10:18.237 31588 31588 W MediaPlayer: mediaplayer went away with unhandled events
+09-28 15:10:18.242  4489  4910 I NearbyDiscovery: (REDACTED) ApFastPairScanner: isScreenOn=%s, isLocationEnabled=%s, disableLocationRequirement=%s, isDiscoveryScanningEnabled=%s, during24GhzWifiWarmingUpPeriod=%s
+09-28 15:10:18.242  4489  4910 I NearbyDiscovery: (REDACTED) ApFastPairScanner: Start scanning internally, %s
+09-28 15:10:18.243  4489  4910 D BluetoothAdapter: isLeEnabled(): ON
+09-28 15:10:18.245  2653  2702 D BtGatt.GattService: registerScanner() - UUID=6e8cefd8-cf7c-4f98-bb42-10d5c7ed345d
+09-28 15:10:18.247  2653  3315 I bt_stack: [INFO:gatt_api.cc(950)] GATT_Register 9605f54a-8b3e-7584-d437-84e249be63c8
+09-28 15:10:18.247  2653  3315 I bt_stack: [INFO:gatt_api.cc(970)] allocated gatt_if=6
+09-28 15:10:18.247  2653  2728 D BtGatt.GattService: onScannerRegistered() - UUID=6e8cefd8-cf7c-4f98-bb42-10d5c7ed345d, scannerId=6, status=0
+09-28 15:10:18.247  4489  4658 D BluetoothLeScanner: onScannerRegistered() - status=0 scannerId=6 mScannerId=0
+09-28 15:10:18.248  2653  2702 D BtGatt.GattService: start scan with filters. callingPackage: com.google.android.gms
+09-28 15:10:18.254  2653  3137 I BtGatt.ScanManager: msg.what = 0
+09-28 15:10:18.254  2653  3137 D BtGatt.ScanManager: handling starting scan
+09-28 15:10:18.256  2653  3137 D BtGatt.ScanManager: isAptXLowLatencyModeEnabled: false
+09-28 15:10:18.257  1113  1113 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK ON
+09-28 15:10:18.257  4489  4910 I NearbyDiscovery: (REDACTED) ApFastPairScanner: Start scanning, mode=%s
+09-28 15:10:18.257  1113  1113 D vendor.qti.bluetooth@1.0-wake_lock: Acquire wakelock is acquired 
+09-28 15:10:18.257  1113  1113 I vendor.qti.bluetooth@1.0-ibs_handler: DeviceWakeUp: Writing IBS_WAKE_IND
+09-28 15:10:18.258  7972  8006 D Unity   : [VFS] Mount /data/app/~~MMzGWAKl-rKzEuk3iJyZIg==/com.towerprototype.game-PU_M51sGFHfGGbdmYyia9g==/base.apk
+09-28 15:10:18.260  1113  3313 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_WAKE_ACK: 0xFC
+09-28 15:10:18.261  1113  3313 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_WAKE_IND: 0xFD
+09-28 15:10:18.261  1113  3313 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Writing IBS_WAKE_ACK
+09-28 15:10:18.261  2653  2728 D BtGatt.GattService: onScanFilterEnableDisabled() - clientIf=6, status=0, action=1
+09-28 15:10:18.262  2653  2728 D BtGatt.ScanManager: callback done for scannerId - 6 status - 0
+09-28 15:10:18.262  2653  3137 D BtGatt.ScanManager: Available Filter size: 29
+09-28 15:10:18.262  2653  2728 D BtGatt.GattService: onScanFilterConfig() - clientIf=6, action = 0 status = 0, filterType=0, availableSpace=0
+09-28 15:10:18.262  2653  2728 D BtGatt.ScanManager: callback done for scannerId - 6 status - 0
+09-28 15:10:18.263  2653  3137 D BtGatt.ScanManager: configureFilterParamter 500 10000 1 0, deliveryMode=0
+09-28 15:10:18.264  2653  2728 D BtGatt.GattService: onScanFilterParamsConfigured() - clientIf=6, status=0, action=0, availableSpace=31
+09-28 15:10:18.264  2653  2728 D BtGatt.ScanManager: callback done for scannerId - 6 status - 0
+09-28 15:10:18.264  2653  2728 D BtGatt.GattService: onScanFilterConfig() - clientIf=6, action = 0 status = 0, filterType=0, availableSpace=0
+09-28 15:10:18.264  2653  2728 D BtGatt.ScanManager: callback done for scannerId - 6 status - 0
+09-28 15:10:18.264  2653  3137 D BtGatt.ScanManager: configureFilterParamter 500 10000 1 0, deliveryMode=0
+09-28 15:10:18.266  2653  2728 D BtGatt.GattService: onScanFilterParamsConfigured() - clientIf=6, status=0, action=0, availableSpace=30
+09-28 15:10:18.266  2653  2728 D BtGatt.ScanManager: callback done for scannerId - 6 status - 0
+09-28 15:10:18.267  2653  2728 D BtGatt.GattService: onScanFilterConfig() - clientIf=6, action = 0 status = 0, filterType=0, availableSpace=0
+09-28 15:10:18.267  2653  2728 D BtGatt.ScanManager: callback done for scannerId - 6 status - 0
+09-28 15:10:18.267  2653  3137 D BtGatt.ScanManager: configureFilterParamter 500 10000 1 0, deliveryMode=0
+09-28 15:10:18.268  2653  2728 D BtGatt.GattService: onScanFilterParamsConfigured() - clientIf=6, status=0, action=0, availableSpace=29
+09-28 15:10:18.268  2653  2728 D BtGatt.ScanManager: callback done for scannerId - 6 status - 0
+09-28 15:10:18.268  2653  3137 D BtGatt.ScanManager: configureRegularScanParams() - queue=1
+09-28 15:10:18.268  2653  3137 D BtGatt.ScanManager: configureRegularScanParams() - ScanSetting LE 1M Scan mode=1ScanSetting LE Coded Scan mode=-2147483648 mLastConfiguredScanSettingLE1M=-2147483648 mLastConfiguredScanSettingLECoded=-2147483648scanPhy=1
+09-28 15:10:18.268  2653  3137 D BtGatt.ScanManager: configureRegularScanParams() - queue emtpy, scan stopped
+09-28 15:10:18.269  2653  3137 D BtGatt.ScanManager: configureRegularScanParams - scanInterval LE 1M = 730configureRegularScanParams - scanWindow LE 1M= 183configureRegularScanParams - scanInterval LE Coded= -2147483648configureRegularScanParams - scanWindow LE Coded= -2147483648
+09-28 15:10:18.269  2653  2728 D BtGatt.GattService: onScanParamSetupCompleted : 0
+09-28 15:10:18.271  7972  8006 I Unity   : SystemInfo CPU = ARM64 FP ASIMD AES, Cores = 8, Memory = 7456mb
+09-28 15:10:18.271  7972  8006 I Unity   : SystemInfo ARM big.LITTLE configuration: 2 big (mask: 0xc0), 6 little (mask: 0x3f)
+09-28 15:10:18.271  7972  8006 I Unity   : ApplicationInfo 'com.towerprototype.game', Version '0.1.0', Min API Level '25', Target API Level '36'
+09-28 15:10:18.271  7972  8006 I Unity   : Built from '6000.3/staging' branch, Version '6000.3.11f1 (3000ef702840)', Build type 'Development', Scripting Backend 'il2cpp', CPU 'arm64-v8a', Stripping 'Enabled'
+09-28 15:10:18.271  7972  8006 I Unity   : Device Model 'motorola moto g 5G plus', OS 'Android OS 11 (API 30)'
+09-28 15:10:18.272  7972  8006 D Unity   : Determine if il2cpp resources need to extracted:
+09-28 15:10:18.279  7972  8006 D Unity   :     Guid in '/storage/emulated/0/Android/data/com.towerprototype.game/files/il2cpp/unity.ver' is invalid, expected 'fa83c7fd-a984-4d2d-8b19-7ad94da863d7' was 'df92f634-e683-4ee4-82af-1abdc47a84d3'
+09-28 15:10:18.279  7972  8006 D Unity   :     Extracting il2cpp resources
+09-28 15:10:18.285  7972  7972 D gti.InputConnection: onApplyWindowInsetsfalse
+09-28 15:10:18.285  7972  7972 V GameActivity: onImeInsetsChanged from Text Listener
+09-28 15:10:18.291  7972  7972 D gti.InputConnection: onApplyWindowInsetsfalse
+09-28 15:10:18.291  7972  7972 V GameActivity: onImeInsetsChanged from Text Listener
+09-28 15:10:18.291  7972  7972 D gti.InputConnection: onApplyWindowInsetsfalse
+09-28 15:10:18.291  7972  7972 V GameActivity: onImeInsetsChanged from Text Listener
+09-28 15:10:18.291  7972  7972 I Unity   : applyWindowUIChanges fullScreen = true, renderOutsideSafeArea = true
+09-28 15:10:18.300  8021  8021 D NetworkSecurityConfig: No Network Security Config specified, using platform default
+09-28 15:10:18.300  8021  8021 D NetworkSecurityConfig: No Network Security Config specified, using platform default
+09-28 15:10:18.304 31588 31600 I ola.motodispla: NativeAlloc concurrent copying GC freed 238032(9281KB) AllocSpace objects, 75(4332KB) LOS objects, 49% free, 9403KB/18MB, paused 114us total 120.818ms
+09-28 15:10:18.304 31588 31600 W ola.motodispla: Reducing the number of considered missed Gc histogram windows from 377 to 100
+09-28 15:10:18.310  7972  7972 D gti.InputConnection: onApplyWindowInsetsfalse
+09-28 15:10:18.310  7972  7972 V GameActivity: onImeInsetsChanged from Text Listener
+09-28 15:10:18.315  1154  1302 I SDM     : StrategyImpl::SetIdleTimeoutMs: Idle timeout: active = 0, inactive = 520
+09-28 15:10:18.316  1197  1197 D SurfaceFlinger: Finished setting power mode 2 on display 19260729149824129
+09-28 15:10:18.316  1403  2623 D SurfaceControl: Excessive delay in setPowerMode()
+09-28 15:10:18.317  2668  4652 D KeyguardViewMediator: notifyScreenTurnedOn
+09-28 15:10:18.317  1403  1929 I DreamManagerService: Gently waking up from dream.
+09-28 15:10:18.317  1403  1423 I DreamManagerService: Performing gentle wake from dream.
+09-28 15:10:18.317  1403  1403 I WindowManager: Finished waking up... (why=ON_BECAUSE_OF_APPLICATION)
+09-28 15:10:18.318  8021  8021 I SSS3_SettingsVariables: config: register=null store= cid0=false
+09-28 15:10:18.320  7972  7972 I Unity   : windowFocusChanged: true
+09-28 15:10:18.320  7972  7972 I Unity   : resumeUnity
+09-28 15:10:18.324  8021  8021 I SSS3_FirebaseInitProvider: FirebaseApp init
+09-28 15:10:18.328 14573 14573 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():2404 
+09-28 15:10:18.329 14573 14573 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1552 onStartInput(EditorInfo{EditorInfo{packageName=com.towerprototype.game, inputType=0, inputTypeString=NULL, enableLearning=false, autoCorrection=false, autoComplete=false, imeOptions=0, privateImeOptions=null, actionName=UNSPECIFIED, actionLabel=null, initialSelStart=-1, initialSelEnd=-1, initialCapsMode=0, label=null, fieldId=-1, fieldName=null, extras=null, hintText=null, hintLocales=[]}}, false)
+09-28 15:10:18.329 14573 14573 W LatinInputMethodServiceBase: LatinInputMethodServiceBase.updateInputViewCoverNavigation():362 Null input view, cannot update padding!
+09-28 15:10:18.333 14573  8052 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatusInternal():119 repeatCheckTimes = 0, locked = true
+09-28 15:10:18.334 14573  8052 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatusInternal():119 repeatCheckTimes = 1, locked = true
+09-28 15:10:18.334 14573  8052 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatusInternal():126 Scheduled to recheck device lock status
+09-28 15:10:18.334 31588 31602 W System  : A resource failed to call dispose. 
+09-28 15:10:18.334 31588 31602 W System  : A resource failed to call release. 
+09-28 15:10:18.338 31588 31602 W System  : A resource failed to call dispose. 
+09-28 15:10:18.339 31588 31602 W System  : A resource failed to call release. 
+09-28 15:10:18.339 31588 31602 W System  : A resource failed to call dispose. 
+09-28 15:10:18.341  7972  8006 D Unity   : Unable to find library path for 'il2cpp.usym'.
+09-28 15:10:18.341 31588 31602 W System  : A resource failed to call release. 
+09-28 15:10:18.342 31588 31602 W System  : A resource failed to call dispose. 
+09-28 15:10:18.342 31588 31602 W System  : A resource failed to call release. 
+09-28 15:10:18.345  7972  8006 D Unity   : Starting managed debugger on port 56117
+09-28 15:10:18.353  1113  3313 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_SLEEP_IND: 0xFE
+09-28 15:10:18.368  8021  8021 I FirebaseApp: Device unlocked: initializing all Firebase APIs for app [DEFAULT]
+09-28 15:10:18.374  1403  5054 I DreamManagerService: Leaving dreamland.
+09-28 15:10:18.374  1403  1423 I DreamManagerService: Performing gentle wake from dream.
+09-28 15:10:18.374  1403  1423 I DreamController: Stopping dream: name=ComponentInfo{com.android.systemui/com.android.systemui.doze.DozeService}, isTest=false, canDoze=true, userId=0, reason='finished self'(from 'requested stopDream')
+09-28 15:10:18.389  1403  3109 V FingerprintService: cancelAuthentication(com.android.systemui)
+09-28 15:10:18.389  2668  2668 D KeyguardUpdateMonitor: fingerprintRunningState: 2
+09-28 15:10:18.391  1403  1403 V FingerprintService: Stopping client com.android.systemui, fromClient: true
+09-28 15:10:18.391  1809  1809 D android.hardware.biometrics.fingerprint@2.1-service-fpc: fpc_cancel
+09-28 15:10:18.391  1809  1809 D fpc_tac : fpc_tee_set_cancel
+09-28 15:10:18.391  1809  1809 D android.hardware.biometrics.fingerprint@2.1-service-fpc: fpc_worker_join_task
+09-28 15:10:18.391  1809  2034 E fpc_tac : fpc_irq_wait {{19,10,0},{12,1,1}}
+09-28 15:10:18.391  1809  2034 E fpc_tac : fpc_irq_wait error -7
+09-28 15:10:18.391  1809  2034 D fpc_tac : Waited more than 500 ms, reset qualification counter
+09-28 15:10:18.403  1809  2034 D fpc_tac : <-- fpc_tee_capture_image_with_time
+09-28 15:10:18.403  1809  2034 E android.hardware.biometrics.fingerprint@2.1-service-fpc: do_authenticate failed FPC_ERROR_CANCELLED
+09-28 15:10:18.403  1809  2034 D android.hardware.biometrics.fingerprint@2.1-service-fpc: fpc_navigation_resume
+09-28 15:10:18.403  1809  2034 D android.hardware.biometrics.fingerprint@2.1-service-fpc: fpc_worker_run_task
+09-28 15:10:18.404  1809  2035 D android.hardware.biometrics.fingerprint@2.1-service-fpc: nav_loop
+09-28 15:10:18.404  1809  1809 D fpc_tac : fpc_tee_clear_cancel
+09-28 15:10:18.404  1809  1809 D android.hardware.biometrics.fingerprint@2.1-service-fpc: fpc_navigation_pause
+09-28 15:10:18.404  1809  1809 D android.hardware.biometrics.fingerprint@2.1-service-fpc: fpc_worker_join_task
+09-28 15:10:18.414  8021  8021 I SSS3_Analytics: Properties: {ssmodel=moto g 5G plus, ssInternalProductName=nairo, ssfamily=moto g, ssenvironment=prod, channelId=amxbr, sdkVersionCode=1.10.101}
+09-28 15:10:18.419  8021  8021 D ContextReference: ContextReference - updateContext - applicationContext: com.motorola.commandcenter.WidgetApplication@bf681a8
+09-28 15:10:18.419  8021  8021 D ContextReference: ContextReference - registerApplicationCallbacks - hit
+09-28 15:10:18.420  8021  8021 I FirebaseInitProvider: FirebaseApp initialization successful
+09-28 15:10:18.427  8021  8057 W meweatherwidge: ClassLoaderContext classpath size mismatch. expected=15, found=0 (DLC[];PCL[base.apk*2901734070:base.apk!classes2.dex*3863472492:base.apk!classes3.dex*1397067179:base.apk!classes4.dex*3875809456:base.apk!classes5.dex*3603101469:base.apk!classes6.dex*316682956:base.apk!classes7.dex*2564663986:base.apk!classes8.dex*2459249356:base.apk!classes9.dex*1625709819:base.apk!classes10.dex*751917205:base.apk!classes11.dex*501439769:base.apk!classes12.dex*596501151:base.apk!classes13.dex*334042869:base.apk!classes14.dex*763808385:base.apk!classes15.dex*3963926167]{PCL[/system/framework/org.apache.http.legacy.jar*1522375157]#PCL[/apex/com.android.extservices/javalib/android.ext.adservices.jar*3549398241]#PCL[/system/framework/com.android.location.provider.jar*1664931834]#PCL[/system/framework/com.android.media.remotedisplay.jar*1573936315]#PCL[/apex/com.android.extservices/javalib/android.ext.adservices.jar*3549398241]} | DLC[];PCL[])
+09-28 15:10:18.430  8021  8057 I DynamiteModule: Considering local module com.google.android.gms.measurement.dynamite:117 and remote module com.google.android.gms.measurement.dynamite:207
+09-28 15:10:18.430  8021  8057 I DynamiteModule: Selected remote version of com.google.android.gms.measurement.dynamite, version >= 207
+09-28 15:10:18.430  8021  8057 V DynamiteModule: Dynamite loader version >= 2, using loadModule2NoCrashUtils
+09-28 15:10:18.435  8021  8057 W System  : ClassLoader referenced unknown path: 
+09-28 15:10:18.439  8021  8021 D MotoWidget: Hello Moto Widget - 413310 isChildProcess: false
+09-28 15:10:18.440  1809  1809 D android.hardware.biometrics.fingerprint@2.1-service-fpc: fpc_worker_join_task
+09-28 15:10:18.440  1809  1809 D android.hardware.biometrics.fingerprint@2.1-service-fpc: fpc_navigation_resume
+09-28 15:10:18.440  1809  1809 D android.hardware.biometrics.fingerprint@2.1-service-fpc: fpc_worker_run_task
+09-28 15:10:18.440  1809  2035 D android.hardware.biometrics.fingerprint@2.1-service-fpc: nav_loop
+09-28 15:10:18.440  1809  1809 D fpc_hidl: onError(error=5, vendor=0)
+09-28 15:10:18.440  1403  1403 W FingerprintService: client com.android.systemui is no longer authenticating
+09-28 15:10:18.440  1403  1403 V FingerprintService: handleError(client=com.android.systemui, error = 5)
+09-28 15:10:18.440  1403  1403 V BiometricStats: Error latency: -1
+09-28 15:10:18.440  1403  1403 W BiometricStats: found a negative latency : -1
+09-28 15:10:18.441  1403  1403 V FingerprintService: Done with client: com.android.systemui
+09-28 15:10:18.447  8021  8057 W meweatherwidge: ClassLoaderContext classpath size mismatch. expected=15, found=2 (DLC[];PCL[base.apk*2901734070:base.apk!classes2.dex*3863472492:base.apk!classes3.dex*1397067179:base.apk!classes4.dex*3875809456:base.apk!classes5.dex*3603101469:base.apk!classes6.dex*316682956:base.apk!classes7.dex*2564663986:base.apk!classes8.dex*2459249356:base.apk!classes9.dex*1625709819:base.apk!classes10.dex*751917205:base.apk!classes11.dex*501439769:base.apk!classes12.dex*596501151:base.apk!classes13.dex*334042869:base.apk!classes14.dex*763808385:base.apk!classes15.dex*3963926167]{PCL[/system/framework/org.apache.http.legacy.jar*1522375157]#PCL[/apex/com.android.extservices/javalib/android.ext.adservices.jar*3549398241]#PCL[/system/framework/com.android.location.provider.jar*1664931834]#PCL[/system/framework/com.android.media.remotedisplay.jar*1573936315]#PCL[/apex/com.android.extservices/javalib/android.ext.adservices.jar*3549398241]} | DLC[];PCL[/data/app/~~DkD-Eq8tq_PeGhWC_uDT2Q==/com.motorola.timeweatherwidget-cx1juVxbtljwCifZt8ArYg==/base.apk*3126438454:/data/app/~~DkD-Eq8tq_PeGhWC_uDT2Q==/com.motorola.timeweatherwidget-cx1juVxbtljwCifZt8ArYg==/base.apk!classes2.dex*1291475867]{PCL[/system/framework/com.motorola.motosignature.jar*464638696]#PCL[/system/framework/moto-checkin.jar*1889437142]#PCL[/apex/com.android.extservices/javalib/android.ext.adservices.jar*3549398241]})
+09-28 15:10:18.448  8021  8057 W meweatherwidge: Found duplicate classes, falling back to extracting from APK : /data/app/~~_L4rFrz8xZ5JlFzRmAn4yg==/com.google.android.gms-la2SlSeFdPAWeeHkwhClhw==/split_MeasurementDynamite_installtime.apk
+09-28 15:10:18.448  8021  8057 W meweatherwidge: NOTE: This wastes RAM and hurts startup performance.
+09-28 15:10:18.448  8021  8057 W meweatherwidge: Found duplicated class when checking oat files: 'Landroid/support/v4/graphics/drawable/IconCompatParcelizer;' in /data/app/~~_L4rFrz8xZ5JlFzRmAn4yg==/com.google.android.gms-la2SlSeFdPAWeeHkwhClhw==/split_MeasurementDynamite_installtime.apk!classes2.dex and /data/app/~~DkD-Eq8tq_PeGhWC_uDT2Q==/com.motorola.timeweatherwidget-cx1juVxbtljwCifZt8ArYg==/base.apk
+09-28 15:10:18.452  8021  8042 D LBMUtils: sendBroadcast: isChildProcess==false
+09-28 15:10:18.455  2668  2668 D KeyguardUpdateMonitor: fingerprintRunningState: 0
+09-28 15:10:18.460  4835  4835 I WeatherApp: Creating weather service
+09-28 15:10:18.462  4835  5014 D RowWeatherInitializer: showTimeAndWeather:getWidgetState== 0
+09-28 15:10:18.463  1110  1110 I sensors-hal: batch:242, android.sensor.accelerometer/11, period=200000000, max_latency=0
+09-28 15:10:18.463  1110  1110 I sensors-hal: set_config:63, sample_period_ns is adjusted to 200000000 based on min/max delay_ns
+09-28 15:10:18.463  1110  1110 I sensors-hal: batch:251, android.sensor.accelerometer/11, period=200000000, max_latency=0 request completed
+09-28 15:10:18.464  1110  1110 I sensors-hal: activate:209, android.sensor.accelerometer/11 en=1
+09-28 15:10:18.464  1110  1110 I sensors-hal: get_qmi_debug_flag:241, support_qmi_debug : false
+09-28 15:10:18.465  4835  5014 D RowWeatherInitializer: showTimeAndWeather:getWidgetState== 0
+09-28 15:10:18.466  4835  5014 D RowWeatherInitializer: showTimeAndWeather:getWidgetState== 0
+09-28 15:10:18.468  1110  1110 E Diag_Lib:  Diag_LSM_Init: Failed to open handle to diag driver, error = 13
+09-28 15:10:18.469  1110  1110 I sensors-hal: get_qmi_debug_flag:241, support_qmi_debug : false
+09-28 15:10:18.471  4835  5014 D RowWeatherInitializer: showTimeAndWeather:getWidgetState== 0
+09-28 15:10:18.472  4835  5014 I chatty  : uid=10229(com.motorola.timeweatherwidget) u5.C identical 1 line
+09-28 15:10:18.473  4835  5014 D RowWeatherInitializer: showTimeAndWeather:getWidgetState== 0
+09-28 15:10:18.474  1110  8078 I sensors-hal: handle_indication_realtime:466,  SCHED_FIFO(10) for qmi_cbk
+09-28 15:10:18.475  1110  1110 I sensors-hal: activate:220, android.sensor.accelerometer/11 en=1 completed
+09-28 15:10:18.476  1109  1945 D audio_hw_primary: adev_set_parameters: enter: screen_state=on
+09-28 15:10:18.476  1109  1945 V msm8974_platform: platform_set_parameters: enter: screen_state=on
+09-28 15:10:18.476  1109  1945 V msm8974_platform: platform_set_parameters: exit with code(0)
+09-28 15:10:18.476  1109  1945 D audio_hw_primary: adev_set_parameters: exit with code(0) takes 0.04 ms
+09-28 15:10:18.477  1110  8082 I sensors-hal: ssc_conn_resp_cb:662, resp_value = 0
+09-28 15:10:18.478  1110  8082 I sensors-hal: handle_indication_realtime:466,  SCHED_FIFO(10) for qmi_cbk
+09-28 15:10:18.485  4835  9178 W JobInfo : Requested flex +1s0ms for job 914 is too small; raising to +5m0s0ms
+09-28 15:10:18.486  1809  2035 D android.hardware.biometrics.fingerprint@2.1-service-fpc: nav_loop FPC_NAV_REQUEST_WAIT_IRQ_HIGH
+09-28 15:10:18.488  4835  9178 D WeatherApi: isOWeather: false
+09-28 15:10:18.488  4835  9178 I WeatherApp: Try to get last known location from : network
+09-28 15:10:18.489  4835  9178 I WeatherApp: locationAge form getElapsedRealtimeNanos, Real Age of Location is 3635706
+09-28 15:10:18.489  4835  9178 I WeatherApp: Location is older then 30 minutes.
+09-28 15:10:18.489  4835  9178 I WeatherApp: But location is too old
+09-28 15:10:18.489  4835  9178 I WeatherApp: Try to get last known location from : gps
+09-28 15:10:18.489  4835  9178 I WeatherApp: locationAge form getElapsedRealtimeNanos, Real Age of Location is 25147489
+09-28 15:10:18.489  4835  9178 I WeatherApp: Location is older then 30 minutes.
+09-28 15:10:18.489  4835  9178 I WeatherApp: But location is too old
+09-28 15:10:18.489  4835  9178 I WeatherApp: acquireLocationAfterAndroidR: network
+09-28 15:10:18.494  4835  9178 D WeatherServiceBridge: sendBroadcast: com.motorola.timeweatherwidget.start.location.req.alarm,true
+09-28 15:10:18.494  4835  9178 D LBMUtils: sendBroadcast: isChildProcess==true
+09-28 15:10:18.494  4835  9178 I WeatherService: getCurrentLocation is null. update for old location.
+09-28 15:10:18.495  4835  5014 W JobInfo : Requested interval +5m0s0ms for job 905 is too small; raising to +15m0s0ms
+09-28 15:10:18.495  4835  5014 W JobInfo : Requested flex +1s0ms for job 905 is too small; raising to +5m0s0ms
+09-28 15:10:18.496  4835  9178 I WeatherApp: Current city info is old.
+09-28 15:10:18.496  4835  9178 D WeatherApi: isOWeather: false
+09-28 15:10:18.513  4835  9178 E WeatherApp: processGetRequest:https://api.accuweather.com/locations/v1/cities/geoposition/search.json?q=-8.029,-34.900&apikey=97844031ef524209b55dd0ca6b4d5e3d&language=pt-br
+09-28 15:10:18.531  4489  4806 W Settings: Setting airplane_mode_on has moved from android.provider.Settings.System to android.provider.Settings.Global, returning read-only value.
+09-28 15:10:18.545  4489  4658 I FontLog : (REDACTED) Received query %s, URI %s
+09-28 15:10:18.545  4489  4658 I FontLog : (REDACTED) Query [%s] resolved to %s
+09-28 15:10:18.547  4489  4658 I FontLog : (REDACTED) Fetch %s end status %s
+09-28 15:10:18.547  2653  3137 I BtGatt.ScanManager: msg.what = 6
+09-28 15:10:18.552  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:10:18.555  4489  4658 I FontLog : (REDACTED) Pulling font file for id = %d, cache size = %d
+09-28 15:10:18.556  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:10:18.558  4612  4612 D NfcService: BroadcastReceiver - SCREEN_STATE_ON_LOCKED
+09-28 15:10:18.559  4489  4658 I FontLog : (REDACTED) Pulling font file for id = %d, cache size = %d
+09-28 15:10:18.559  4612  4612 D NfcService: NfcServiceHandler - handleMessage(MSG_APPLY_SCREEN_STATE) - state: ON_LOCKED
+09-28 15:10:18.559  1660  1660 D StNfcHal: HAL st21nfc: StNfc_hal_write
+09-28 15:10:18.559  1660  5917 D StNfcHal: (#000E8) Tx 20 09 01 02 
+09-28 15:10:18.562  1660  5918 D StNfcHal: (#000E9) Rx 40 09 01 00 
+09-28 15:10:18.565  1660  1660 D StNfcHal: HAL st21nfc: StNfc_hal_write
+09-28 15:10:18.565  1660  5917 D StNfcHal: (#000EA) Tx 20 02 04 01 02 01 00 
+09-28 15:10:18.567  1660  5918 D StNfcHal: (#000EB) Rx 40 02 02 00 00 
+09-28 15:10:18.571 19129 19186 D Fota    : ConnectivityActionReceiver:NetworkCallback:networkCapabilities=[ Transports: WIFI Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED LinkUpBandwidth>=12000Kbps LinkDnBandwidth>=22490Kbps SignalStrength: -60 AdministratorUids: [] RequestorUid: -1 RequestorPackageName: null]
+09-28 15:10:18.571 19129 19186 D OtaApp  : PollingManagerService:NetworkCallback:networkCapabilities=[ Transports: WIFI Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED LinkUpBandwidth>=12000Kbps LinkDnBandwidth>=22490Kbps SignalStrength: -60 AdministratorUids: [] RequestorUid: -1 RequestorPackageName: null]
+09-28 15:10:18.583  4489  4489 W ThreadPoolForeg: type=1400 audit(0.0:129646): avc: denied { write } for name="traced_producer" dev="tmpfs" ino=39187 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:traced_producer_socket:s0 tclass=sock_file permissive=0 app=com.google.android.gms
+09-28 15:10:18.585  7912  7992 I BugleRcsEngine: handleMessage processing message:[NOTIFY_UPTIME_IGNORE_STATE_CHANGED] with [non-null]:RcsEngineImpl reference [CONTEXT log_prefix="RcsEngineImpl:[26a792f9-8c44]>Handler" thread_id=4437 ]
+09-28 15:10:18.586 19461 19485 D QCNEJ/WlanStaInfoRelay: Received action: android.net.wifi.RSSI_CHANGED
+09-28 15:10:18.586  7912  7980 I BugleRcsEngine: Connected state: [1], networkType: [WIFI] [CONTEXT thread_id=4432 ]
+09-28 15:10:18.593  2996  3462 E PhoneInterfaceManager: [PhoneIntfMgr] getCarrierPrivilegeStatus: Invalid subId
+09-28 15:10:18.632  4489 14267 I PhenotypeResourceReader: unable to find any Phenotype resource metadata for com.motorola.timeweatherwidget
+09-28 15:10:18.649 20412 20426 W System  : A resource failed to call end. 
+09-28 15:10:18.697  8021  8089 E meweatherwidge: No package ID 6b found for ID 0x6b0b0013.
+09-28 15:10:18.698  8021  8089 I FA      : App measurement initialized, version: 183005
+09-28 15:10:18.698  8021  8089 I FA      : To enable debug logging run: adb shell setprop log.tag.FA VERBOSE
+09-28 15:10:18.699  8021  8089 I FA      : To enable faster debug mode event logging run:
+09-28 15:10:18.699  8021  8089 I FA      :   adb shell setprop debug.firebase.analytics.app com.motorola.timeweatherwidget
+09-28 15:10:18.727  4835  9178 D TAG     : loadFromJson: 
+09-28 15:10:18.727  4835  9178 E WeatherApp: processGetRequest:https://api.accuweather.com/currentconditions/v1/2726154.json?apikey=97844031ef524209b55dd0ca6b4d5e3d&language=pt-br&details=true
+09-28 15:10:18.737  4489  4489 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.measurement.START pkg=com.google.android.gms }
+09-28 15:10:18.737  4489  4489 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.measurement.START pkg=com.google.android.gms }
+09-28 15:10:18.856  4835  9178 E WeatherApp: processGetRequest:https://api.accuweather.com/alerts/v1/2726154?apikey=97844031ef524209b55dd0ca6b4d5e3d&language=pt-br
+09-28 15:10:18.887  3767  3767 D GameMode: isScreenUnlocked: false
+09-28 15:10:18.901  4489  4910 I NearbyDiscovery: (REDACTED) FastPairHandler: Received action %s
+09-28 15:10:18.902  4489  4910 I NearbyDiscovery: (REDACTED) ApFastPairScanner: isScreenOn=%s, isLocationEnabled=%s, disableLocationRequirement=%s, isDiscoveryScanningEnabled=%s, during24GhzWifiWarmingUpPeriod=%s
+09-28 15:10:18.903  4489  4910 D BluetoothAdapter: isLeEnabled(): ON
+09-28 15:10:18.903  4489  4910 I NearbyDiscovery: (REDACTED) ApFastPairScanner: eventType=%s, intReq=%s, scanning=%s, scanAllowed=%s, bleEnabled=%s, lockScanRate=%s, startScanningByLowPowerMode=%s
+09-28 15:10:18.904  4489  4910 I NearbyDiscovery: FastPairController: onSystemStateChanged: skip due to flag disabled [CONTEXT service_id=265 ]
+09-28 15:10:18.912 14573  8097 I DeviceStatusMonitor: DeviceStatusMonitor.handleBroadcast():184 onReceive() : Action = android.intent.action.SCREEN_ON
+09-28 15:10:18.912 14573  8097 I DeviceStatusMonitor: DeviceStatusMonitor.updateCountryInfo():200 updateCountryInfo(), notifyAnyway = false
+09-28 15:10:18.912 14573 14573 I InputBundle: InputBundle.switchToKeyboardDirectly():531 switchToKeyboardDirectly(): KeyboardTypeAndPayload(keyboardType=prime, payload=null)
+09-28 15:10:18.913 14573 14573 I chatty  : uid=10216(com.google.android.inputmethod.latin) identical 4 lines
+09-28 15:10:18.913 14573 14573 I InputBundle: InputBundle.switchToKeyboardDirectly():531 switchToKeyboardDirectly(): KeyboardTypeAndPayload(keyboardType=prime, payload=null)
+09-28 15:10:18.992  4835  9178 E WeatherApp: processGetRequest:https://api.accuweather.com/airquality/v2/currentconditions/2726154?apikey=97844031ef524209b55dd0ca6b4d5e3d&language=pt-br
+09-28 15:10:19.078  4489 14266 I NearbySharing: Network state changed: NetworkState(isRestricted=false, isOnline=true, isCongested=false, isMetered=false, isWifiConnected=true)
+09-28 15:10:19.096  7972  8006 D Unity   : [EGL] Attaching window :0xb40000734f35ad00
+09-28 15:10:19.096  7972  8006 D Unity   : InitializeScriptEngine OK (0x71b2e19fc0)
+09-28 15:10:19.097  7972  8006 D Unity   : Found 1 interfaces on host :
+09-28 15:10:19.097  7972  8006 D Unity   :  0) 192.168.1.24
+09-28 15:10:19.097  7972  8006 D Unity   : 
+09-28 15:10:19.098  7972  8006 D Unity   : Player connection [487000726656]  Target information:
+09-28 15:10:19.098  7972  8006 D Unity   : 
+09-28 15:10:19.098  7972  8006 D Unity   : Player connection [487000726656]  * "[IP] 192.168.1.24 [Port] 55000 [Flags] 2 [Guid] 2672091117 [EditorId] 1480020756 [Version] 1048832 [Id] AndroidPlayer(11,motorola_moto_g_5G_plus@192.168.1.24) [Debug] 1 [PackageName] AndroidPlayer [ProjectName] Tower_Prototype" 
+09-28 15:10:19.098  7972  8006 D Unity   : 
+09-28 15:10:19.098  7972  8006 D Unity   : Player connection [487000726656] Started UDP target info broadcast (1) on [225.0.0.222:54997].
+09-28 15:10:19.098  7972  8006 D Unity   : 
+09-28 15:10:19.101  7972  8006 E libprocessgroup: set_timerslack_ns write failed: Operation not permitted
+09-28 15:10:19.103  7972  8006 I chatty  : uid=10037(com.towerprototype.game) UnityMain identical 14 lines
+09-28 15:10:19.103  7972  8006 E libprocessgroup: set_timerslack_ns write failed: Operation not permitted
+09-28 15:10:19.106  7972  8006 D Unity   : Input System module state changed to: Initialized.
+09-28 15:10:19.110  7972  8006 D Unity   : [Physics::Module] Initialized fallback backend.
+09-28 15:10:19.110  7972  8006 D Unity   : [Physics::Module] Id: 0xdecafbad
+09-28 15:10:19.111  7972  8006 D Unity   : PlayerInitEngineNoGraphics OK
+09-28 15:10:19.111  7972  8006 I Unity   : Company Name: DefaultCompany
+09-28 15:10:19.111  7972  8006 I Unity   : Product Name: Tower_Prototype
+09-28 15:10:19.111  7972  8006 D Unity   : AndroidGraphics::Startup window =  0xb40000734f35ad00
+09-28 15:10:19.111  7972  8006 D Unity   : [EGL] Attaching window :0xb40000734f35ad00
+09-28 15:10:19.114  7972  8006 D Unity   : [Subsystems] Discovering subsystems at path /data/app/~~MMzGWAKl-rKzEuk3iJyZIg==/com.towerprototype.game-PU_M51sGFHfGGbdmYyia9g==/base.apk/assets/bin/Data/UnitySubsystems
+09-28 15:10:19.115  2653  3137 I BtGatt.ScanManager: msg.what = 8
+09-28 15:10:19.116  2653  3137 I BtGatt.ScanManager: msg.what = 5
+09-28 15:10:19.121  7972  8006 D vulkan  : searching for layers in '/data/app/~~MMzGWAKl-rKzEuk3iJyZIg==/com.towerprototype.game-PU_M51sGFHfGGbdmYyia9g==/lib/arm64'
+09-28 15:10:19.122  7972  8006 D vulkan  : searching for layers in '/data/app/~~MMzGWAKl-rKzEuk3iJyZIg==/com.towerprototype.game-PU_M51sGFHfGGbdmYyia9g==/base.apk!/lib/arm64-v8a'
+09-28 15:10:19.122  7972  8006 D Unity   : [Vulkan init] extensions: count=10
+09-28 15:10:19.122  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_debug_report [enabled=1, external=0]
+09-28 15:10:19.122  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_swapchain_colorspace [enabled=1, external=0]
+09-28 15:10:19.122  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_android_surface [enabled=1, external=0]
+09-28 15:10:19.122  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_device_group_creation [enabled=0, external=0]
+09-28 15:10:19.122  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_external_fence_capabilities [enabled=1, external=0]
+09-28 15:10:19.122  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_external_memory_capabilities [enabled=1, external=0]
+09-28 15:10:19.122  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_external_semaphore_capabilities [enabled=1, external=0]
+09-28 15:10:19.122  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_get_physical_device_properties2 [enabled=1, external=0]
+09-28 15:10:19.122  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_get_surface_capabilities2 [enabled=0, external=0]
+09-28 15:10:19.122  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_surface [enabled=1, external=0]
+09-28 15:10:19.123  7972  7972 D gti.InputConnection: onApplyWindowInsetsfalse
+09-28 15:10:19.123  7972  7972 V GameActivity: onImeInsetsChanged from Text Listener
+09-28 15:10:19.128  7972  7972 I Unity   : applyWindowUIChanges fullScreen = true, renderOutsideSafeArea = true
+09-28 15:10:19.130  7972  8006 I AdrenoVK-0: ===== BEGIN DUMP OF OVERRIDDEN SETTINGS =====
+09-28 15:10:19.130  7972  8006 I AdrenoVK-0: ===== END DUMP OF OVERRIDDEN SETTINGS =====
+09-28 15:10:19.130  7972  8006 I AdrenoVK-0: QUALCOMM build          : 191610ae03, Ic907de5ed0
+09-28 15:10:19.130  7972  8006 I AdrenoVK-0: Build Date              : 09/17/20
+09-28 15:10:19.130  7972  8006 I AdrenoVK-0: Shader Compiler Version : EV031.32.02.01
+09-28 15:10:19.130  7972  8006 I AdrenoVK-0: Local Branch            : 
+09-28 15:10:19.130  7972  8006 I AdrenoVK-0: Remote Branch           : refs/tags/AU_LINUX_ANDROID_LA.UM.9.12.10.00.00.582.274
+09-28 15:10:19.130  7972  8006 I AdrenoVK-0: Remote Branch           : NONE
+09-28 15:10:19.130  7972  8006 I AdrenoVK-0: Reconstruct Branch      : NOTHING
+09-28 15:10:19.130  7972  8006 I AdrenoVK-0: Build Config            : S P 10.0.5 AArch64
+09-28 15:10:19.130  7972  8006 I AdrenoVK-0: Driver Path             : /vendor/lib64/hw/vulkan.adreno.so
+09-28 15:10:19.132  7972  8006 D Unity   : [Vulkan init] SelectPhysicalDevice requestedDeviceIndex=-1 xrDevice=0x0
+09-28 15:10:19.132  7972  8006 D Unity   : [Vulkan init] Physical Device 0xb4000071df351e70 [0]: "Adreno (TM) 620" deviceType=1 vendorID=5143 deviceID=6020000
+09-28 15:10:19.132  7972  8006 D Unity   : [VULKAN] Android Device Info:
+09-28 15:10:19.132  7972  8006 D Unity   : {"Vendor": "Qualcomm","Device Name": "Adreno (TM) 620","Brand": "motorola","Product Name": "nairo_retail","Android OS Version": "11","Vulkan API Version": "Variant: 0 major.minor.patch:1.1.128","Driver Version": "2149539840"}
+09-28 15:10:19.132  7972  8006 D Unity   : Vulkan detection: 2
+09-28 15:10:19.133  7972  8006 D Unity   : GfxDevice: creating device client; kGfxThreadingModeThreaded
+09-28 15:10:19.133  7972  8006 D Unity   : [Vulkan init] extensions: count=10
+09-28 15:10:19.133  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_debug_report [enabled=1, external=0]
+09-28 15:10:19.133  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_swapchain_colorspace [enabled=1, external=0]
+09-28 15:10:19.133  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_android_surface [enabled=1, external=0]
+09-28 15:10:19.133  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_device_group_creation [enabled=0, external=0]
+09-28 15:10:19.133  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_external_fence_capabilities [enabled=1, external=0]
+09-28 15:10:19.133  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_external_memory_capabilities [enabled=1, external=0]
+09-28 15:10:19.133  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_external_semaphore_capabilities [enabled=1, external=0]
+09-28 15:10:19.133  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_get_physical_device_properties2 [enabled=1, external=0]
+09-28 15:10:19.133  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_get_surface_capabilities2 [enabled=0, external=0]
+09-28 15:10:19.133  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_surface [enabled=1, external=0]
+09-28 15:10:19.133  4835  9178 I WeatherApp: update success for content://com.motorola.commandcenter.weather/forecast
+09-28 15:10:19.134  7972  8006 I AdrenoVK-0: QUALCOMM build          : 191610ae03, Ic907de5ed0
+09-28 15:10:19.134  7972  8006 I AdrenoVK-0: Build Date              : 09/17/20
+09-28 15:10:19.134  7972  8006 I AdrenoVK-0: Shader Compiler Version : EV031.32.02.01
+09-28 15:10:19.134  7972  8006 I AdrenoVK-0: Local Branch            : 
+09-28 15:10:19.134  7972  8006 I AdrenoVK-0: Remote Branch           : refs/tags/AU_LINUX_ANDROID_LA.UM.9.12.10.00.00.582.274
+09-28 15:10:19.134  7972  8006 I AdrenoVK-0: Remote Branch           : NONE
+09-28 15:10:19.134  7972  8006 I AdrenoVK-0: Reconstruct Branch      : NOTHING
+09-28 15:10:19.134  7972  8006 I AdrenoVK-0: Build Config            : S P 10.0.5 AArch64
+09-28 15:10:19.134  7972  8006 I AdrenoVK-0: Driver Path             : /vendor/lib64/hw/vulkan.adreno.so
+09-28 15:10:19.135  4835  9178 D WeatherApi: isOWeather: false
+09-28 15:10:19.135  4835  9178 I chatty  : uid=10229(com.motorola.timeweatherwidget) DefaultDispatch identical 1 line
+09-28 15:10:19.135  4835  9178 D WeatherApi: isOWeather: false
+09-28 15:10:19.135  4835  9178 E CCPreferences: isNotificationSwitchOn return false
+09-28 15:10:19.138  7972  7972 D gti.InputConnection: onApplyWindowInsetsfalse
+09-28 15:10:19.138  7972  7972 V GameActivity: onImeInsetsChanged from Text Listener
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] SelectPhysicalDevice requestedDeviceIndex=-1 xrDevice=0x0
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] Physical Device 0xb4000071df3400f0 [0]: "Adreno (TM) 620" deviceType=1 vendorID=5143 deviceID=6020000
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] Selected physical device 0xb4000071df3400f0
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] Graphics queue count=1
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: count=62
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_ANDROID_external_memory_android_hardware_buffer [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_astc_decode_mode [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_device_memory_report [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_filter_cubic [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_global_priority [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_hdr_metadata [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_host_query_reset [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_index_type_uint8 [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_line_rasterization [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_pipeline_creation_cache_control [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_pipeline_creation_feedback [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_queue_family_foreign [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_sample_locations [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_sampler_filter_minmax [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_scalar_block_layout [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_separate_stencil_usage [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_subgroup_size_control [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_texture_compression_astc_hdr [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_EXT_vertex_attribute_divisor [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_GOOGLE_display_timing [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_IMG_filter_cubic [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_16bit_storage [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_bind_memory2 [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_buffer_device_address [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_create_renderpass2 [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_dedicated_allocation [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_depth_stencil_resolve [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_descriptor_update_template [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_device_group [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_draw_indirect_count [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_driver_properties [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_external_fence [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_external_fence_fd [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_external_memory [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_external_memory_fd [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_external_semaphore [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_external_semaphore_fd [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_get_memory_requirements2 [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_image_format_list [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_incremental_present [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_maintenance1 [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_maintenance2 [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_maintenance3 [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_multiview [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_push_descriptor [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_relaxed_block_layout [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_sampler_mirror_clamp_to_edge [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_sampler_ycbcr_conversion [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_separate_depth_stencil_layouts [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_shader_draw_parameters [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_shader_float16_int8 [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_shader_float_controls [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_shader_subgroup_extended_types [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_shared_presentable_image [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_spirv_1_4 [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_storage_buffer_storage_class [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_swapchain [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_uniform_buffer_standard_layout [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_variable_pointers [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_KHR_vulkan_memory_model [enabled=0, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_QCOM_render_pass_shader_resolve [enabled=1, external=0]
+09-28 15:10:19.140  7972  8006 D Unity   : [Vulkan init] extensions: name=VK_QCOM_render_pass_store_ops [enabled=1, external=0]
+09-28 15:10:19.145  7972  8006 D Unity   : Vulkan API version 1.1.0 (1.1.128 supported by driver, 1.1.0 requested)
+09-28 15:10:19.145  7972  8006 D Unity   : Vulkan vendor=[Qualcomm] id=[5143]
+09-28 15:10:19.145  7972  8006 D Unity   : Vulkan renderer=[Adreno (TM) 620] id=[6020000]
+09-28 15:10:19.145  7972  8006 D Unity   : Vulkan device type 1
+09-28 15:10:19.145  7972  8006 D Unity   : Vulkan driverversion=[512.502.0 (0x801f6000)] uint=[-2145427456]
+09-28 15:10:19.145  7972  8006 D Unity   : Vulkan driverLibraryString=[Qualcomm Technologies Inc. Adreno Vulkan Driver (8), Driver Build: 191610ae03, Ic907de5ed0, 1600323700
+09-28 15:10:19.145  7972  8006 D Unity   : Date: 09/17/20
+09-28 15:10:19.145  7972  8006 D Unity   : Compiler Version: EV031.32.02.01
+09-28 15:10:19.145  7972  8006 D Unity   : Driver Branch: 
+09-28 15:10:19.145  7972  8006 D Unity   : ]
+09-28 15:10:19.145  7972  8006 D Unity   : VK use pretransform: 1
+09-28 15:10:19.151  7972  8006 D Unity   : Vulkan PSO: Cache data successfully loaded [size=119787,path=/storage/emulated/0/Android/data/com.towerprototype.game/cache/vulkan_pso_cache.bin]
+09-28 15:10:19.153  7972  8006 D Unity   : [EGL] Attaching window :0x0
+09-28 15:10:19.153  7972  8006 D Unity   : AndroidDisplayManagerVulkan::AttachWindow(0xb40000734f35ad00, 0)
+09-28 15:10:19.154  7972  7972 I Unity   : applyWindowUIChanges fullScreen = true, renderOutsideSafeArea = true
+09-28 15:10:19.154  7972  8006 D Unity   : InitializeOrResetSwapChain 1080x2520 hdr=0 samples=0
+09-28 15:10:19.168  7972  8006 V MediaRouter: Selecting route: RouteInfo{ name=Telefone, description=null, status=null, category=RouteCategory{ name=Sistema types=ROUTE_TYPE_LIVE_AUDIO ROUTE_TYPE_LIVE_VIDEO  groupable=false }, supportedTypes=ROUTE_TYPE_LIVE_AUDIO ROUTE_TYPE_LIVE_VIDEO , presentationDisplay=null }
+09-28 15:10:19.169  7972  8006 D Unity   : AndroidDisplayManagerVulkan::AttachWindow(0xb40000734f35ad00, 0)
+09-28 15:10:19.169  7972  8006 D Unity   : Initialize engine version: 6000.3.11f1 (3000ef702840)
+09-28 15:10:19.171  7972  7972 D gti.InputConnection: onApplyWindowInsetsfalse
+09-28 15:10:19.171  7972  7972 V GameActivity: onImeInsetsChanged from Text Listener
+09-28 15:10:19.177  1403  2701 I system_server: oneway function results will be dropped but finished with status OK and parcel size 4
+09-28 15:10:19.177  7972  8006 I AAudio  : AAudioStreamBuilder_openStream() called ----------------------------------------
+09-28 15:10:19.177  7972  8006 I AudioStreamBuilder: rate   =  24000, channels  = 2, format   = 5, sharing = SH, dir = OUTPUT
+09-28 15:10:19.177  7972  8006 I AudioStreamBuilder: device =      0, sessionId = 0, perfMode = 12, callback: ON with frames = 512
+09-28 15:10:19.177  7972  8006 I AudioStreamBuilder: usage  =      0, contentType = 0, inputPreset = 0, allowedCapturePolicy = 0
+09-28 15:10:19.177  7972  8006 I AudioStreamBuilder: privacy sensitive = false
+09-28 15:10:19.178  7972  8006 D AudioStreamBuilder: build() MMAP not used because sessionId specified.
+09-28 15:10:19.178  7972  8006 D rprototype.gam: PlayerBase::PlayerBase()
+09-28 15:10:19.179  1403  2701 I chatty  : uid=1000(system) Binder:1403_6 expire 3 lines
+09-28 15:10:19.179  1403  2701 I system_server: oneway function results will be dropped but finished with status OK and parcel size 4
+09-28 15:10:19.179  7972  8006 D AudioStreamTrack: open(), request notificationFrames = 512, frameCount = 8192
+09-28 15:10:19.179  1403  2701 I system_server: oneway function results will be dropped but finished with status OK and parcel size 4
+09-28 15:10:19.179  1403  2701 I system_server: oneway function results will be dropped but finished with status OK and parcel size 4
+09-28 15:10:19.179  1190  1645 D APM_AudioPolicyManager: getOutputForAttrInt() attributes={ Content type: AUDIO_CONTENT_TYPE_MUSIC Usage: AUDIO_USAGE_MEDIA Source: AUDIO_SOURCE_DEFAULT Flags: 0x0 Tags:  } stream=AUDIO_STREAM_MUSIC session 601 selectedDeviceId 0
+09-28 15:10:19.179  1403  3109 I system_server: oneway function results will be dropped but finished with status OK and parcel size 4
+09-28 15:10:19.180  1190  1645 W AudioFlinger: Client adjusted notificationFrames from 512 to 480 for frameCount 8192
+09-28 15:10:19.181  1190  1645 D AF::TrackHandle: OpPlayAudio: track:90 usage:1 not muted
+09-28 15:10:19.182  7972  8006 D AudioTrack: createTrack_l(): RelativeVolumeFeature, mStreamType -1, streamType 3, attributes: usage=1 content=2 flags=0x0 tags=[]
+09-28 15:10:19.182  1190  1645 D AudioFlinger: AudioFlinger::registerAudioTrackClient AudioClient uid 10037, pid 7972
+09-28 15:10:19.182  1190  1645 D AudioFlinger: AudioFlinger::updateItemInPackageInfos, after adding, mPackageInfos size is 1
+09-28 15:10:19.182  7972  7998 D AudioTrack: onSetVolume: RelativeVolumeFeature, mPercentage:-1.000000, newPercentage:1.000000
+09-28 15:10:19.183  7972  8006 D AudioTrack: createTrack_l(0): AUDIO_OUTPUT_FLAG_FAST denied by server; frameCount 8192 -> 8192
+09-28 15:10:19.183  7972  8006 D AAudioStream: setState(s#1) from 0 to 2
+09-28 15:10:19.183  7972  8006 W AudioStreamTrack: open() flags changed from 0x00000004 to 0x00000000
+09-28 15:10:19.183  7972  8006 W AudioStreamTrack: open() perfMode changed from 12 to 10
+09-28 15:10:19.184  7972  8006 I AAudio  : AAudioStreamBuilder_openStream() returns 0 = AAUDIO_OK for s#1 ----------------
+09-28 15:10:19.184  7972  8006 D AAudio  : AAudioStream_requestStart(s#1) called --------------
+09-28 15:10:19.184  7972  8006 D AAudioStream: setState(s#1) from 2 to 3
+09-28 15:10:19.185  1190  1645 D APM_AudioPolicyManager: startOutput() output 13, stream 3, session 601
+09-28 15:10:19.185  1190  1645 W APM::AudioPolicyEngine: getDevicesForStrategy() unknown strategy: -1
+09-28 15:10:19.185  1190  1645 W APM::AudioPolicyEngine: getDevicesForStrategy() unknown strategy: -1
+09-28 15:10:19.185  7972  8006 D rprototype.gam: PlayerBase::start() from IPlayer
+09-28 15:10:19.185  7972  8028 D AudioStreamLegacy: onAudioDeviceUpdate() devId 3 => 3
+09-28 15:10:19.185  7972  8006 D AAudio  : AAudioStream_requestStart(s#1) returned 0 ---------
+09-28 15:10:19.186  1403  4776 I system_server: oneway function results will be dropped but finished with status OK and parcel size 4
+09-28 15:10:19.186  7972  7972 V MediaRouter: Selecting route: RouteInfo{ name=Telefone, description=null, status=null, category=RouteCategory{ name=Sistema types=ROUTE_TYPE_LIVE_AUDIO ROUTE_TYPE_LIVE_VIDEO  groupable=false }, supportedTypes=ROUTE_TYPE_LIVE_AUDIO ROUTE_TYPE_LIVE_VIDEO , presentationDisplay=null }
+09-28 15:10:19.186  2653  3328 D Avrcp_ext: AudioManager Player: AudioPlaybackConfiguration piid:15 type:android.media.SoundPool u/pid:1000/1403 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null
+09-28 15:10:19.187  2653  3328 D Avrcp_ext: AudioManager Player: AudioPlaybackConfiguration piid:47 type:android.media.SoundPool u/pid:1027/4612 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null
+09-28 15:10:19.187  2653  3328 D Avrcp_ext: AudioManager Player: AudioPlaybackConfiguration piid:23 type:android.media.SoundPool u/pid:10147/2668 state:idle attr:AudioAttributes: usage=USAGE_ASSISTANCE_SONIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null
+09-28 15:10:19.187  2653  3328 D Avrcp_ext: AudioManager Player: AudioPlaybackConfiguration piid:695 type:AAudio u/pid:10037/7972 state:started attr:AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_UNKNOWN flags=0x0 tags= bundle=null
+09-28 15:10:19.187  2653  3328 D Avrcp_ext: AudioManager isPlaying: true
+09-28 15:10:19.187  2653  3328 V Avrcp_ext: updateCurrentMediaState: mMediaController: null
+09-28 15:10:19.187  2653  3328 V Avrcp_ext: isMusicActive: true getBluetoothPlayState: 2
+09-28 15:10:19.187  2653  3328 V Avrcp_ext: updateCurrentMediaState: isPlaying = false
+09-28 15:10:19.187  2653  3328 V Avrcp_ext: Media update: id -1➡-1? [MediaAttributes: none] : [MediaAttributes: none]
+09-28 15:10:19.187  2653  3328 D Avrcp_ext: isPackageNameValid: browsedPackage = isValid = false
+09-28 15:10:19.187  2653  3328 V Avrcp_ext: newPlayStatus:2mReportedPlayStatus:-1
+09-28 15:10:19.187  2653  3328 V Avrcp_ext: updatePlaybackState, state: PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=25452499, actions=0, custom actions=[], active item id=-1, error=null} device: null
+09-28 15:10:19.187  2653  3328 V Avrcp_ext: Device: no name: 
+09-28 15:10:19.187  2653  3328 I chatty  : uid=1002(bluetooth) BluetoothAvrcpH identical 3 lines
+09-28 15:10:19.187  2653  3328 V Avrcp_ext: Device: no name: 
+09-28 15:10:19.187  2653  3328 V Avrcp_ext: updatePlayerStateAndPosition, old=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=25449856, actions=0, custom actions=[], active item id=-1, error=null}, state=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=25452499, actions=0, custom actions=[], active item id=-1, error=null}
+09-28 15:10:19.187  2653  3328 V Avrcp_ext: old state = PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=25449856, actions=0, custom actions=[], active item id=-1, error=null}, new state= PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=25452499, actions=0, custom actions=[], active item id=-1, error=null}
+09-28 15:10:19.187  2653  3328 D HeadsetService: getHeadsetService(): returning com.android.bluetooth.hfp.HeadsetService@df2a96e
+09-28 15:10:19.188  2653  3328 D HeadsetService:  isAudioOn: The number of audio connected devices 0
+09-28 15:10:19.188  2653  3328 D HeadsetService: isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+09-28 15:10:19.189  2653  3328 D HeadsetService:  isAudioOn: The number of audio connected devices 0
+09-28 15:10:19.189  2653  3328 I Avrcp_ext: updatePlayStatusForDevice: device: null
+09-28 15:10:19.189  2653  3328 V Avrcp_ext: updatePlaybackState (1): old=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=25449856, actions=0, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=25452499, actions=0, custom actions=[], active item id=-1, error=null}(2)
+09-28 15:10:19.189  2653  3328 I Avrcp_ext: Exit updatePlayStatusForDevice
+09-28 15:10:19.190  2653  3328 D HeadsetService:  isAudioOn: The number of audio connected devices 0
+09-28 15:10:19.190  2653  3328 D HeadsetService: isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+09-28 15:10:19.190  2653  3328 D HeadsetService:  isAudioOn: The number of audio connected devices 0
+09-28 15:10:19.190  2653  3328 I Avrcp_ext: updatePlayStatusForDevice: device: null
+09-28 15:10:19.190  2653  3328 V Avrcp_ext: updatePlaybackState (1): old=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=25449856, actions=0, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=25452499, actions=0, custom actions=[], active item id=-1, error=null}(2)
+09-28 15:10:19.190  2653  3328 I Avrcp_ext: Exit updatePlayStatusForDevice
+09-28 15:10:19.190  2653  3328 D HeadsetService:  isAudioOn: The number of audio connected devices 0
+09-28 15:10:19.190  2653  3328 D HeadsetService: isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+09-28 15:10:19.190  2653  3328 D HeadsetService:  isAudioOn: The number of audio connected devices 0
+09-28 15:10:19.190  2653  3328 I Avrcp_ext: updatePlayStatusForDevice: device: null
+09-28 15:10:19.190  2653  3328 V Avrcp_ext: updatePlaybackState (1): old=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=25449856, actions=0, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=25452499, actions=0, custom actions=[], active item id=-1, error=null}(2)
+09-28 15:10:19.190  2653  3328 I Avrcp_ext: Exit updatePlayStatusForDevice
+09-28 15:10:19.191  2653  3328 D HeadsetService:  isAudioOn: The number of audio connected devices 0
+09-28 15:10:19.191  2653  3328 D HeadsetService: isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+09-28 15:10:19.191  2653  3328 D HeadsetService:  isAudioOn: The number of audio connected devices 0
+09-28 15:10:19.191  2653  3328 I Avrcp_ext: updatePlayStatusForDevice: device: null
+09-28 15:10:19.191  2653  3328 V Avrcp_ext: updatePlaybackState (1): old=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=25449856, actions=0, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=25452499, actions=0, custom actions=[], active item id=-1, error=null}(2)
+09-28 15:10:19.191  2653  3328 I Avrcp_ext: Exit updatePlayStatusForDevice
+09-28 15:10:19.191  2653  3328 D HeadsetService:  isAudioOn: The number of audio connected devices 0
+09-28 15:10:19.191  2653  3328 D HeadsetService: isScoOrCallActive(): Call Active:falseCall is Ringing:falseSCO is Active:false
+09-28 15:10:19.191  1140  1140 I QTI PowerHAL: Power setBoost: 3, duration: 2000
+09-28 15:10:19.191  2653  3328 D HeadsetService:  isAudioOn: The number of audio connected devices 0
+09-28 15:10:19.191  2653  3328 I Avrcp_ext: updatePlayStatusForDevice: device: null
+09-28 15:10:19.191  2653  3328 V Avrcp_ext: updatePlaybackState (1): old=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=25449856, actions=0, custom actions=[], active item id=-1, error=null}(2), new=PlaybackState {state=2, position=-1, buffered position=0, speed=0.0, updated=25452499, actions=0, custom actions=[], active item id=-1, error=null}(2)
+09-28 15:10:19.191  2653  3328 I Avrcp_ext: Exit updatePlayStatusForDevice
+09-28 15:10:19.191  2653  3328 D Avrcp_ext: Enter sendPlayPosNotificationRsp
+09-28 15:10:19.191  2653  3328 D Avrcp_ext: sendPlayPosNotificationRsp: Not registered or requesting.
+09-28 15:10:19.191  2653  3328 D Avrcp_ext: Enter sendPlayPosNotificationRsp
+09-28 15:10:19.191  2653  3328 D Avrcp_ext: sendPlayPosNotificationRsp: Not registered or requesting.
+09-28 15:10:19.191  2653  3328 D Avrcp_ext: Enter sendPlayPosNotificationRsp
+09-28 15:10:19.191  2653  3328 D Avrcp_ext: sendPlayPosNotificationRsp: Not registered or requesting.
+09-28 15:10:19.191  2653  3328 D Avrcp_ext: Enter sendPlayPosNotificationRsp
+09-28 15:10:19.191  2653  3328 D Avrcp_ext: sendPlayPosNotificationRsp: Not registered or requesting.
+09-28 15:10:19.191  2653  3328 D Avrcp_ext: Enter sendPlayPosNotificationRsp
+09-28 15:10:19.191  2653  3328 D Avrcp_ext: sendPlayPosNotificationRsp: Not registered or requesting.
+09-28 15:10:19.191  2653  3328 V Avrcp_ext: Exit updatePlayerStateAndPosition
+09-28 15:10:19.192  1109  1743 V msm8974_platform: platform_get_output_snd_device: enter: output devices(0x2)
+09-28 15:10:19.192  1109  1743 V msm8974_platform: platform_get_output_snd_device: exit: snd_device(speaker)
+09-28 15:10:19.193  1109  1743 V msm8974_platform: platform_get_backend_index:napb: backend port - 0 device - 2 
+09-28 15:10:19.193  1109  1743 V msm8974_platform: platform_check_and_set_playback_backend_cfg: usecase->stream.out->config.format (0)
+09-28 15:10:19.193  1109  1743 V msm8974_platform: platform_check_and_set_playback_backend_cfg:becf: afe: bitwidth 16, samplerate 48000 channels 2, backend_idx 0 usecase = 1 device (speaker)
+09-28 15:10:19.193  1109  1743 V msm8974_platform: platform_check_and_set_playback_backend_cfg: new_snd_devices[0] is 2
+09-28 15:10:19.193  1109  1743 V msm8974_platform: platform_get_backend_index:napb: backend port - 0 device - 2 
+09-28 15:10:19.193  1109  1743 V msm8974_platform: platform_check_playback_backend_cfg:becf: afe: bitwidth 16, samplerate 48000 channels 2, backend_idx 0 usecase = 1 device (speaker)
+09-28 15:10:19.193  1109  1743 V msm8974_platform: platform_check_playback_backend_cfg:becf: afe: Codec selected backend: 0 updated bit width: 16 andsample rate: 48000
+09-28 15:10:19.193  1109  1743 V msm8974_platform: platform_send_audio_calibration: sending audio calibration for snd_device(2) acdb_id(14)
+09-28 15:10:19.194  1109  1743 D ACDB-LOADER: ACDB -> send_audio_cal, acdb_id = 14, path = 0, app id = 0x11130, sample rate = 48000, afe_sample_rate = 48000
+09-28 15:10:19.194  1109  1743 D ACDB-LOADER: ACDB -> send_asm_topology
+09-28 15:10:19.194  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_AUDPROC_STREAM_TOPOLOGY_ID
+09-28 15:10:19.194  1109  1743 D ACDB-LOADER: ACDB -> send_adm_topology
+09-28 15:10:19.194  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_AUDPROC_COMMON_TOPOLOGY_ID
+09-28 15:10:19.194  1109  1743 D ACDB-LOADER: ACDB -> send_audtable
+09-28 15:10:19.194  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_AUDPROC_INSTANCE_COMMON_TABLE_SIZE
+09-28 15:10:19.194  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_AUDPROC_INSTANCE_COMMON_TABLE
+09-28 15:10:19.194  1109  1743 D ACDB-LOADER: ACDB -> AUDIO_SET_AUDPROC_CAL cal_type[11] acdb_id[14] app_type[69936]
+09-28 15:10:19.194  1109  1743 D ACDB-LOADER: ACDB -> send_audvoltable
+09-28 15:10:19.194  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_AUDPROC_INSTANCE_GAIN_DEP_STEP_TABLE_SIZE
+09-28 15:10:19.195  1109  1743 D android.hardware.audio.service: Failed to fetch the lookup information of the device 0000000E 
+09-28 15:10:19.195  1109  1743 D ACDB-LOADER: Error: ACDB_CMD_GET_AUDPROC_INSTANCE_GAIN_DEP_STEP_TABLE_SIZE Returned = -19
+09-28 15:10:19.195  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_AUDPROC_INSTANCE_GAIN_DEP_STEP_TABLE, vol index 0
+09-28 15:10:19.195  1109  1743 D android.hardware.audio.service: Failed to fetch the lookup information of the device 0000000E 
+09-28 15:10:19.195  1109  1743 D ACDB-LOADER: Error: ACDB AudProc vol returned = -19
+09-28 15:10:19.195  1109  1743 D ACDB-LOADER: ACDB -> AUDIO_SET_VOL_CAL cal type = 12
+09-28 15:10:19.195  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_AUDPROC_INSTANCE_STREAM_TABLE_SIZE
+09-28 15:10:19.195  1109  1743 D ACDB-LOADER: ACDB -> send_audstrmtable
+09-28 15:10:19.195  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_AUDPROC_INSTANCE_STREAM_TABLE
+09-28 15:10:19.195  1109  1743 D ACDB-LOADER: ACDB -> audstrm_cal->cal_type.cal_data.cal_size = 20
+09-28 15:10:19.195  1109  1743 D ACDB-LOADER: ACDB -> send_afe_topology
+09-28 15:10:19.195  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_AFE_TOPOLOGY_ID
+09-28 15:10:19.195  1109  1743 D ACDB-LOADER: ACDB -> GET_AFE_TOPOLOGY_ID for adcd_id 14, Topology Id 1000ff01
+09-28 15:10:19.195  1109  1743 D ACDB-LOADER: ACDB -> send_afe_cal
+09-28 15:10:19.195  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_AFE_INSTANCE_COMMON_TABLE_SIZE
+09-28 15:10:19.195  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_AFE_INSTANCE_COMMON_TABLE
+09-28 15:10:19.195  1109  1743 D ACDB-LOADER: ACDB -> AUDIO_SET_AFE_CAL cal_type[16] acdb_id[14]
+09-28 15:10:19.195  1109  1743 D ACDB-LOADER: ACDB -> send_hw_delay : acdb_id = 14 path = 0
+09-28 15:10:19.195  1109  1743 D ACDB-LOADER: ACDB -> ACDB_AVSYNC_INFO: ACDB_CMD_GET_DEVICE_PROPERTY
+09-28 15:10:19.196  1109  1743 I soundtrigger: audio_extn_sound_trigger_update_device_status: device 0x2 of type 0 for Event 1, with Raise=0
+09-28 15:10:19.196  1109  1743 V msm8974_platform: platform_send_audio_calibration: sending audio calibration for snd_device(163) acdb_id(102)
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> send_audio_cal, acdb_id = 102, path = 1, app id = 0x11130, sample rate = 48000, afe_sample_rate = 48000
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> send_asm_topology
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_AUDPROC_STREAM_TOPOLOGY_ID
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> send_adm_topology
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_AUDPROC_COMMON_TOPOLOGY_ID
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> send_audtable
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_AUDPROC_INSTANCE_COMMON_TABLE_SIZE
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_AUDPROC_INSTANCE_COMMON_TABLE
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> AUDIO_SET_AUDPROC_CAL cal_type[11] acdb_id[102] app_type[69936]
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_PERSISTENT_AUDPROC_INSTANCE_COMMON_TABLE_SIZE
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: ACDBFILE_MGR: Property for the pid 000133B7 not found
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: [Data Manager] -> Failed to fetch the property info for pid 000133B7 
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: ACDBFILE_MGR: Property for the pid 000133B7 not found
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: [Data Manager] -> Failed to fetch the property info for pid 000133B7 
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: ACDBFILE_MGR: Property for the pid 000133B7 not found
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: [Data Manager] -> Failed to fetch the property info for pid 000133B7 
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: ACDBFILE_MGR: Property for the pid 000133B7 not found
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: [Data Manager] -> Failed to fetch the property info for pid 000133B7 
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: ACDBFILE_MGR: Property for the pid 000133B7 not found
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: [Data Manager] -> Failed to fetch the property info for pid 000133B7 
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: ACDBFILE_MGR: Property for the pid 000133B7 not found
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: [Data Manager] -> Failed to fetch the property info for pid 000133B7 
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: ACDBFILE_MGR: Property for the pid 000133B7 not found
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: [Data Manager] -> Failed to fetch the property info for pid 000133B7 
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: ACDBFILE_MGR: Property for the pid 000133B7 not found
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: [Data Manager] -> Failed to fetch the property info for pid 000133B7 
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: ACDBFILE_MGR: Property for the pid 000133B7 not found
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: [Data Manager] -> Failed to fetch the property info for pid 000133B7 
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: ACDBFILE_MGR: Property for the pid 000133B7 not found
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: [Data Manager] -> Failed to fetch the property info for pid 000133B7 
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: ACDBFILE_MGR: Property for the pid 000133B7 not found
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: [Data Manager] -> Failed to fetch the property info for pid 000133B7 
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: ACDBFILE_MGR: Property for the pid 000133B7 not found
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: [Data Manager] -> Failed to fetch the property info for pid 000133B7 
+09-28 15:10:19.196  1109  1743 D android.hardware.audio.service: [Data Manager]-> No data found
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: Error: ACDB_CMD_GET_PERSISTENT_AUDPROC_INSTANCE_COMMON_TABLE_SIZE returned -18
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> send_audproc_persist_table -18 
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: Error: Invalid Audproc persist size = -18
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_AUDPROC_INSTANCE_STREAM_TABLE_SIZE
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> send_audstrmtable
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_AUDPROC_INSTANCE_STREAM_TABLE
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> audstrm_cal->cal_type.cal_data.cal_size = 20
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> send_afe_topology
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_AFE_TOPOLOGY_ID
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> GET_AFE_TOPOLOGY_ID for adcd_id 102, Topology Id 1000ff00
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> send_afe_cal
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_AFE_INSTANCE_COMMON_TABLE_SIZE
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> ACDB_CMD_GET_AFE_INSTANCE_COMMON_TABLE
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> AUDIO_SET_AFE_CAL cal_type[17] acdb_id[102]
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> send_hw_delay : acdb_id = 102 path = 1
+09-28 15:10:19.196  1109  1743 D ACDB-LOADER: ACDB -> ACDB_AVSYNC_INFO: ACDB_CMD_GET_DEVICE_PROPERTY
+09-28 15:10:19.196  1109  1743 V msm8974_platform: platform_check_all_backends_match: be_itf1 = TX_CDC_DMA_TX_3, be_itf2 = SEC_MI2S_TX, match 0
+09-28 15:10:19.196  1109  1743 I soundtrigger: audio_extn_sound_trigger_update_device_status: device 0xa3 of type 1 for Event 1, with Raise=0
+09-28 15:10:19.196  1109  1743 D audio_hw_primary: enable_snd_device: snd_device(163: vi-feedback)
+09-28 15:10:19.196  1109  1743 D audio_route: Apply path: vi-feedback
+09-28 15:10:19.196  1109  1743 V msm8974_platform: platform_check_all_backends_match: be_itf1 = TX_CDC_DMA_TX_3, be_itf2 = SEC_MI2S_TX, match 0
+09-28 15:10:19.196  1109  1743 V msm8974_platform: platform_sound_trigger_usecase_needs_event:usecase_id[26] no need to raise event.
+09-28 15:10:19.196  1109  1743 D soundtrigger: audio_extn_sound_trigger_update_stream_status: uc_info->id 26 of type 1 for Event 3, with Raise=0
+09-28 15:10:19.196  1109  1743 D audio_hw_primary: enable_audio_route: usecase(26) apply and update mixer path: spkr-vi-record
+09-28 15:10:19.196  1109  1743 D audio_route: Apply path: spkr-vi-record
+09-28 15:10:19.199  4835  9178 I WeatherApp: update success for content://com.motorola.commandcenter.weather/widget
+09-28 15:10:19.202  4835  9178 I WeatherApp: update success for content://com.motorola.commandcenter.weather/forecast
+09-28 15:10:19.203  4835  9178 I WeatherApp: update success for content://com.motorola.commandcenter.weather/widget
+09-28 15:10:19.206  4835  4835 D LocationUtil: stopLocation: 
+09-28 15:10:19.212  1109  1743 D audio_hw_primary: enable_snd_device: snd_device(2: speaker)
+09-28 15:10:19.212  1109  1743 D audio_route: Apply path: speaker
+09-28 15:10:19.212  1109  1743 E soundtrigger: audio_extn_sound_trigger_update_stream_status: invalid input device 0x0, for event 3
+09-28 15:10:19.212  1109  1743 V msm8974_platform: platform_sound_trigger_usecase_needs_event:usecase_id[1] no need to raise event.
+09-28 15:10:19.212  1109  1743 D soundtrigger: audio_extn_sound_trigger_update_stream_status: uc_info->id 1 of type 0 for Event 3, with Raise=0
+09-28 15:10:19.212  1109  1743 V msm8974_platform: platform_get_snd_device_backend_index: enter with device 2
+09-28 15:10:19.212  1109  1743 V msm8974_platform: platform_get_backend_index:napb: backend port - 0 device - 2 
+09-28 15:10:19.212  1109  1743 I audio_hw_utils: Set Audio Stream 9 App Type Cfg: app_type 69936, acdb_dev_id 14, sample_rate 48000, snd_device_be_idx 41
+09-28 15:10:19.213  1109  1743 D audio_hw_primary: enable_audio_route: usecase(1) apply and update mixer path: low-latency-playback
+09-28 15:10:19.213  1109  1743 D audio_route: Apply path: low-latency-playback
+09-28 15:10:19.215  1109  1907 D MotSpeakerHelper: Speaker ON: volume 0.500000 (step 12), usecase SAFE
+09-28 15:10:19.237  1140  1140 I QTI PowerHAL: Power setBoost: 3, duration: -1
+09-28 15:10:19.237  1109  1743 D audio_hw_primary: out_write: retry previous failed cal level set
+09-28 15:10:19.259  7972  8123 D AAudioStream: setState(s#1) from 3 to 4
+09-28 15:10:19.272  1113  3318 I vendor.qti.bluetooth@1.0-ibs_handler: DeviceSleep: TX Awake, Sending SLEEP_IND
+09-28 15:10:19.273  1113  3318 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK OFF
+09-28 15:10:19.327  7972  8006 D Unity   : [Physics::Module] Selected backend.
+09-28 15:10:19.327  7972  8006 D Unity   : [Physics::Module] Name: PhysX
+09-28 15:10:19.327  7972  8006 D Unity   : [Physics::Module] Id: 0xf2b8ea05
+09-28 15:10:19.327  7972  8006 D Unity   : [Physics::Module] SDK Version: 4.1.2
+09-28 15:10:19.327  7972  8006 D Unity   : [Physics::Module] Integration Version: 1.0.0
+09-28 15:10:19.327  7972  8006 D Unity   : [Physics::Module] Threading Mode: Multi-Threaded
+09-28 15:10:19.336 14573  8013 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatusInternal():119 repeatCheckTimes = 0, locked = true
+09-28 15:10:19.423  1113  3142 D vendor.qti.bluetooth@1.0-wake_lock: Release wakelock is released 
+09-28 15:10:19.485  7972  8006 I IL2CPP  : Locale pt-BR
+09-28 15:10:19.508  7972  8006 D Unity   : PlayerInitEngineGraphics OK
+09-28 15:10:19.518  1403  3109 I AppsFilter: interaction: PackageSetting{1b5c07c com.towerprototype.game/10037} -> PackageSetting{f0b509c com.motorola.motosignature.app/10092} BLOCKED
+09-28 15:10:19.523  1110  1110 I sensors-hal: flush:271, android.sensor.accelerometer/11
+09-28 15:10:19.524  1110  1110 I sensors-hal: flush:277, android.sensor.accelerometer/11 completed
+09-28 15:10:19.524  1110  8082 I sensors-hal: ssc_conn_resp_cb:662, resp_value = 0
+09-28 15:10:19.524  7972  8006 I Unity   :     HasWindow = 1, HasFocus = 0
+09-28 15:10:19.524  7972  8006 I Unity   : Handle cmd APP_CMD_WINDOW_RESIZED(3)
+09-28 15:10:19.525  7972  8006 D Unity   : NativeWindow resized 1080x2520
+09-28 15:10:19.525  7972  8006 I Unity   : Handle cmd APP_CMD_WINDOW_REDRAW_NEEDED(4)
+09-28 15:10:19.525  7972  8006 I Unity   : Handle cmd APP_CMD_LOW_MEMORY(10)
+09-28 15:10:19.525  7972  8006 I Unity   : Handle cmd APP_CMD_LOW_MEMORY(10)
+09-28 15:10:19.525  7972  8006 I Unity   : Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+09-28 15:10:19.525  7972  7972 D gti.InputConnection: onApplyWindowInsetsfalse
+09-28 15:10:19.525  7972  7972 V GameActivity: onImeInsetsChanged from Text Listener
+09-28 15:10:19.525  7972  7972 D gti.InputConnection: onApplyWindowInsetsfalse
+09-28 15:10:19.525  7972  7972 V GameActivity: onImeInsetsChanged from Text Listener
+09-28 15:10:19.525  7972  8006 I Unity   : Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+09-28 15:10:19.526  7972  8006 I chatty  : uid=10037(com.towerprototype.game) UnityMain identical 3 lines
+09-28 15:10:19.526  7972  8006 I Unity   : Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+09-28 15:10:19.526  7972  8006 I Unity   : Handle cmd APP_CMD_GAINED_FOCUS(7)
+09-28 15:10:19.526  7972  8006 I Unity   : Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+09-28 15:10:19.526  7972  8006 I chatty  : uid=10037(com.towerprototype.game) UnityMain identical 3 lines
+09-28 15:10:19.526  7972  8006 I Unity   : Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+09-28 15:10:19.528  7972  8006 D Unity   : InitializeOrResetSwapChain 1080x2520 hdr=0 samples=0
+09-28 15:10:19.594  2653  3137 I BtGatt.ScanManager: msg.what = 6
+09-28 15:10:19.635  4489  4489 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.common.telemetry.service.START dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentApiService }
+09-28 15:10:19.639  7972  7972 D gti.InputConnection: onApplyWindowInsetsfalse
+09-28 15:10:19.639  7972  7972 V GameActivity: onImeInsetsChanged from Text Listener
+09-28 15:10:19.639  7972  7972 D gti.InputConnection: onApplyWindowInsetsfalse
+09-28 15:10:19.639  7972  7972 V GameActivity: onImeInsetsChanged from Text Listener
+09-28 15:10:19.649  7972  8006 I Unity   : Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+09-28 15:10:19.649  7972  8006 I Unity   : Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+09-28 15:10:19.706  4835  4835 D WeatherApi: isOWeather: false
+09-28 15:10:19.707  4835  4835 D CmdCenter: - RainNotificationHelper: precipitation==20,the possibility of precipitation is too low. so skip the update.
+09-28 15:10:19.726  4835  5030 D WeatherApi: isOWeather: false
+09-28 15:10:19.737  4835  5014 D RowWeatherInitializer: showTimeAndWeather:getWidgetState== 0
+09-28 15:10:19.739  4835  5014 I chatty  : uid=10229(com.motorola.timeweatherwidget) u5.C identical 1 line
+09-28 15:10:19.742  4835  5014 D RowWeatherInitializer: showTimeAndWeather:getWidgetState== 0
+09-28 15:10:20.190 19989 20072 I DynamicVolume-DynamicVolumeService: recordCurrentConfigs: AppPlayerState: piid=695, playerState=STARTED, packageName=com.towerprototype.game, clientPid=7972, clientUid=10037, createdTime=2026-09-28 15:10:20.189
+09-28 15:10:20.190 19989 20072 I DynamicVolume-DynamicVolumeService: recordCurrentConfigs: Start com.towerprototype.game
+09-28 15:10:20.263  1681  3906 I LOWI-9.0.0.72: [LOWI-Scan] lowi_close_record:Scan done in 25438429ms, 6 APs in scan results
+09-28 15:10:20.266  1403  3109 D WifiNl80211Manager: Scan result ready event
+09-28 15:10:20.266  1403  3109 D WifiNative: Scan result ready event
+09-28 15:10:20.295  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:10:20.301  4489  7680 I FrewleTileCacheManagerV: (REDACTED) Fetched %d AP models from cache
+09-28 15:10:20.326  4835  4835 D WeatherApp: acquireLocationAfterAndroidR: Location[network -8,029003,-34,899563 hAcc=21 et=+7h4m12s173ms alt=1.2999999523162842 vAcc=2 sAcc=??? bAcc=??? {Bundle[EMPTY_PARCEL]}]
+09-28 15:10:20.326  4835  4835 I WeatherApp: locationAge form getElapsedRealtimeNanos, Real Age of Location is 1466
+09-28 15:10:20.327  4489  4695 I FusedLocation: (REDACTED) location delivery to %s blocked - too close
+09-28 15:10:20.327  4489  4695 I FusedLocation: (REDACTED) location delivery to %s blocked - too fast
+09-28 15:10:20.327  4489  4695 I FusedLocation: (REDACTED) location delivery to %s blocked - too close
+09-28 15:10:20.328  4489  4695 I chatty  : uid=10176(com.google.android.gms) FlpThread identical 1 line
+09-28 15:10:20.328  4489  4695 I FusedLocation: (REDACTED) location delivery to %s blocked - too close
+09-28 15:10:20.331  4835  4835 I WeatherApp: Creating weather service
+09-28 15:10:20.338  1403  2534 I HalDevMgr: bestIfaceCreationProposal is null, requestIface=STA, existingIface=[name=wlan0 type=STA]
+09-28 15:10:20.358  4835  9163 D LocationUtil: stopLocation: 
+09-28 15:10:20.358  4835  9163 D WeatherApi: isOWeather: false
+09-28 15:10:20.359  4835  9163 I WeatherService: Location provider disable OR Location update available.
+09-28 15:10:20.360  4835  9163 I WeatherApp: Current city info is old.
+09-28 15:10:20.360  4835  9163 D WeatherApi: isOWeather: false
+09-28 15:10:20.362  4835  9163 E WeatherApp: processGetRequest:https://api.accuweather.com/locations/v1/cities/geoposition/search.json?q=-8.029,-34.900&apikey=97844031ef524209b55dd0ca6b4d5e3d&language=pt-br
+09-28 15:10:20.387  4489  7908 I TFLite-in-PlayServices: Created interpreter.
+09-28 15:10:20.398  4489  7908 I TFLite-in-PlayServices: Created interpreter.
+09-28 15:10:20.403  4489  7908 I SemanticLocation: (REDACTED) [Inferrer] %s%s
+09-28 15:10:20.420  4835  9163 D TAG     : loadFromJson: 
+09-28 15:10:20.420  4835  9163 E WeatherApp: processGetRequest:https://api.accuweather.com/currentconditions/v1/2726154.json?apikey=97844031ef524209b55dd0ca6b4d5e3d&language=pt-br&details=true
+09-28 15:10:20.453  4835  9163 E WeatherApp: processGetRequest:https://api.accuweather.com/alerts/v1/2726154?apikey=97844031ef524209b55dd0ca6b4d5e3d&language=pt-br
+09-28 15:10:20.476  4835  9163 E WeatherApp: processGetRequest:https://api.accuweather.com/airquality/v2/currentconditions/2726154?apikey=97844031ef524209b55dd0ca6b4d5e3d&language=pt-br
+09-28 15:10:20.521  4835  9163 I WeatherApp: update success for content://com.motorola.commandcenter.weather/forecast
+09-28 15:10:20.524  4835  9163 D WeatherApi: isOWeather: false
+09-28 15:10:20.525  4835  9163 I chatty  : uid=10229(com.motorola.timeweatherwidget) DefaultDispatch identical 1 line
+09-28 15:10:20.526  4835  9163 D WeatherApi: isOWeather: false
+09-28 15:10:20.526  4835  9163 E CCPreferences: isNotificationSwitchOn return false
+09-28 15:10:20.534  4835  9163 I WeatherApp: update success for content://com.motorola.commandcenter.weather/widget
+09-28 15:10:20.537  4835  9163 I WeatherApp: update success for content://com.motorola.commandcenter.weather/forecast
+09-28 15:10:20.538  4835  9163 I WeatherApp: update success for content://com.motorola.commandcenter.weather/widget
+09-28 15:10:20.548  4835  4835 D LocationUtil: stopLocation: 
+09-28 15:10:20.619  1113  1113 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK ON
+09-28 15:10:20.619  1113  1113 D vendor.qti.bluetooth@1.0-wake_lock: Acquire wakelock is acquired 
+09-28 15:10:20.619  1113  1113 I vendor.qti.bluetooth@1.0-ibs_handler: DeviceWakeUp: Writing IBS_WAKE_IND
+09-28 15:10:20.620  1113  3313 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_WAKE_ACK: 0xFC
+09-28 15:10:20.620  1113  3313 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_WAKE_IND: 0xFD
+09-28 15:10:20.620  1113  3313 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Writing IBS_WAKE_ACK
+09-28 15:10:20.625  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:10:20.651  1403  1598 E KernelCpuSpeedReader: Failed to read cpu-freq stats for CPUs 7-7
+09-28 15:10:20.652  1403  1598 E KernelCpuSpeedReader: Failed to read cpu-freq stats for CPUs 6-6
+09-28 15:10:20.653  1403  1598 E KernelCpuSpeedReader: Failed to read cpu-freq stats for CPUs 0-5
+09-28 15:10:20.663   887   887 W Binder:887_2: type=1400 audit(0.0:129647): avc: denied { read } for name="wakeup34" dev="sysfs" ino=58512 scontext=u:r:system_suspend:s0 tcontext=u:object_r:vendor_sysfs_battery_supply:s0 tclass=dir permissive=0
+09-28 15:10:20.667   887   887 W Binder:887_2: type=1400 audit(0.0:129648): avc: denied { read } for name="wakeup62" dev="sysfs" ino=69973 scontext=u:r:system_suspend:s0 tcontext=u:object_r:vendor_sysfs_battery_supply:s0 tclass=dir permissive=0
+09-28 15:10:20.668   887   894 E android.system.suspend@1.0-service: Error opening kernel wakelock stats for: wakeup34: Permission denied
+09-28 15:10:20.668   887   894 E android.system.suspend@1.0-service: Error opening kernel wakelock stats for: wakeup62: Permission denied
+09-28 15:10:20.687   887   887 W Binder:887_2: type=1400 audit(0.0:129649): avc: denied { read } for name="wakeup61" dev="sysfs" ino=69901 scontext=u:r:system_suspend:s0 tcontext=u:object_r:vendor_sysfs_battery_supply:s0 tclass=dir permissive=0
+09-28 15:10:20.688   887   894 E android.system.suspend@1.0-service: Error opening kernel wakelock stats for: wakeup61: Permission denied
+09-28 15:10:20.691   826   826 I hwservicemanager: getTransport: Cannot find entry android.hardware.power.stats@1.0::IPowerStats/default in either framework or device manifest.
+09-28 15:10:20.692   826   826 I hwservicemanager: getTransport: Cannot find entry android.hardware.power@1.0::IPower/default in either framework or device manifest.
+09-28 15:10:20.692  1403  1598 E BatteryStatsService: Unable to load Power Hal or power.stats HAL
+09-28 15:10:20.705  1113  3313 I vendor.qti.bluetooth@1.0-ibs_handler: ProcessIbsCmd: Received IBS_SLEEP_IND: 0xFE
+09-28 15:10:21.023  3473  3473 W Thread-744: type=1400 audit(0.0:129650): avc: denied { getattr } for path="/proc/fb" dev="proc" ino=4026531973 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:21.023  3473  3473 W Thread-744: type=1400 audit(0.0:129651): avc: denied { getattr } for path="/proc/keys" dev="proc" ino=4026532291 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_keys:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:21.023  3473  3473 W Thread-744: type=1400 audit(0.0:129652): avc: denied { getattr } for path="/proc/kmsg" dev="proc" ino=4026532241 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_kmsg:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:21.039  4835  4835 D WeatherApi: isOWeather: false
+09-28 15:10:21.040  4835  4835 D CmdCenter: - RainNotificationHelper: precipitation==20,the possibility of precipitation is too low. so skip the update.
+09-28 15:10:21.046  4835  5030 D WeatherApi: isOWeather: false
+09-28 15:10:21.052  4835  5014 D RowWeatherInitializer: showTimeAndWeather:getWidgetState== 0
+09-28 15:10:21.054  4835  5014 I chatty  : uid=10229(com.motorola.timeweatherwidget) u5.C identical 1 line
+09-28 15:10:21.056  4835  5014 D RowWeatherInitializer: showTimeAndWeather:getWidgetState== 0
+09-28 15:10:21.342  4489  4489 D BoundBrokerSvc: onRebind: Intent { act=com.google.android.gms.libs.gmscorelogger.service.START dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentDirectBootAwareApiService }
+09-28 15:10:21.428  8021  8089 I FA      : Tag Manager is not found and thus will not be used
+09-28 15:10:21.519  4489  4489 D BoundBrokerSvc: onRebind: Intent { act=com.google.android.gms.common.telemetry.service.START dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentApiService }
+09-28 15:10:21.519  4489  4489 D BoundBrokerSvc: onRebind: Intent { act=com.google.android.gms.presencemanager.service.START dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentApiService }
+09-28 15:10:21.522  4489  4489 D BoundBrokerSvc: onRebind: Intent { act=com.google.android.gms.presencemanager.service.INTERNAL_IDENTITY dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentApiService }
+09-28 15:10:21.538  4489  7908 I NetworkScheduler: (REDACTED) Error inserting %s
+09-28 15:10:21.570  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:10:21.589  7794  7913 V ClearcutMetricXmitter: Transmission is done.
+09-28 15:10:21.604  7794  7913 V ClearcutMetricXmitter: Transmission is done.
+09-28 15:10:21.612  7972  7972 D GameActivity: ************** mainWorkCallback *********
+09-28 15:10:21.613  7972  8006 D Unity   : UnloadTime: 1.318074 ms
+09-28 15:10:21.620  1113  3318 I vendor.qti.bluetooth@1.0-ibs_handler: DeviceSleep: TX Awake, Sending SLEEP_IND
+09-28 15:10:21.620  1113  3318 D vendor.qti.bluetooth@1.0-ibs_handler: SerialClockVote: vote for UART CLK OFF
+09-28 15:10:21.780  1113  3142 D vendor.qti.bluetooth@1.0-wake_lock: Release wakelock is released 
+09-28 15:10:21.817  7972  8006 D CompatibilityChangeReporter: Compat change id reported: 147600208; UID 10037; state: ENABLED
+09-28 15:10:21.818  7972  8006 D Unity   : Using NDK Choreographer.
+09-28 15:10:21.833  1140  1140 I QTI PowerHAL: Power setBoost: 0, duration: 0
+09-28 15:10:21.835  1140  1140 I QTI PowerHAL: Power setBoost: 0, duration: 0
+09-28 15:10:21.843  7972  8006 D Unity   : Stopping Unity systrace
+09-28 15:10:21.844  7972  7972 D gti.InputConnection: onApplyWindowInsetsfalse
+09-28 15:10:21.844  7972  7972 V GameActivity: onImeInsetsChanged from Text Listener
+09-28 15:10:21.845  7972  7972 D gti.InputConnection: onApplyWindowInsetsfalse
+09-28 15:10:21.845  7972  7972 V GameActivity: onImeInsetsChanged from Text Listener
+09-28 15:10:22.112  7972  8006 I Unity   : Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+09-28 15:10:22.112  7972  8006 I Unity   : Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+09-28 15:10:22.181  1403  5055 I system_server: oneway function results will be dropped but finished with status OK and parcel size 4
+09-28 15:10:22.182  1403  5055 I chatty  : uid=1000(system) Binder:1403_1B identical 1 line
+09-28 15:10:22.183  1403  5055 I system_server: oneway function results will be dropped but finished with status OK and parcel size 4
+09-28 15:10:22.485  4835  4835 D WidgetApplication: updateExistWidget: android.intent.action.BATTERY_CHANGED
+09-28 15:10:22.486  4835  5030 D CmdCenter: - RowBase2: sPrevModStatus: 1, modStatus: 1
+09-28 15:10:22.486  4835  5030 D CmdCenter: - RowBase2: sPrevBatStatus: 1, status: 2
+09-28 15:10:22.486  4835  5030 D CmdCenter: - RowBase2: sPrevChargeRate = 0, new = 1
+09-28 15:10:22.486  4835  5030 D CmdCenter: - RowBase2: batteryChanged return true - logTrack = 4
+09-28 15:10:22.486  4835  5030 D CmdCenter: - RowBase2: sPrevPlugType: 2 plugType: 2
+09-28 15:10:22.486  4835  5030 D CmdCenter: - RowBase2: show charging
+09-28 15:10:22.486 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:10:22.781  1403  2358 D BatteryService: uevent={POWER_SUPPLY_DP_DM=0, POWER_SUPPLY_TEMP_HOT=0, POWER_SUPPLY_VOLTAGE_QNOVO=-22, POWER_SUPPLY_VOLTAGE_NOW=4291551, POWER_SUPPLY_SW_JEITA_ENABLED=0, POWER_SUPPLY_CHARGE_CONTROL_LIMIT_MAX=10, POWER_SUPPLY_RECHARGE_SOC=99, POWER_SUPPLY_HEALTH=Good, POWER_SUPPLY_TECHNOLOGY=Li-ion, POWER_SUPPLY_CHARGER_TEMP_MAX=800, POWER_SUPPLY_FCC_STEPPER_ENABLE=0, SEQNUM=16520, POWER_SUPPLY_INPUT_CURRENT_LIMITED=1, POWER_SUPPLY_CHARGE_CONTROL_LIMIT=0, POWER_SUPPLY_STATUS=Charging, POWER_SUPPLY_CURRENT_MAX=3600000, POWER_SUPPLY_CYCLE_COUNT=0, POWER_SUPPLY_CHARGE_TERM_CURRENT=-100, POWER_SUPPLY_CAPACITY=91, DEVPATH=/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-02/c440000.qcom,spmi:qcom,pm7250b@2:qcom,qpnp-smb5-mmi/power_supply/battery, POWER_SUPPLY_CHARGE_DONE=0, POWER_SUPPLY_CHARGE_TYPE=Fast, POWER_SUPPLY_CHARGER_TEMP=357, POWER_SUPPLY_CHARGE_RATE=Normal, POWER_SUPPLY_CURRENT_QNOVO=-22, POWER_SUPPLY_CURRENT_NOW=150451, POWER_SUPPLY_PRESENT=1, POWER_SUPPLY_PARALLEL_DISABLE=0, POWER_SUPPLY_CHARGE_FULL=4043000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT=3600000, SUBSYSTEM=power_supply, POWER_SUPPLY_SET_SHIP_MODE=0, POWER_SUPPLY_TEMP=328, ACTION=change, POWER_SUPPLY_RERUN_AICL=0, POWER_SUPPLY_NAME=battery, POWER_SUPPLY_VOLTAGE_MAX=4450000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT_MAX=4000000, POWER_SUPPLY_CHARGE_COUNTER=2385370, POWER_SUPPLY_STEP_CHARGING_ENABLED=0, POWER_SUPPLY_DIE_HEALTH=Cool, POWER_SUPPLY_INPUT_SUSPEND=0}
+09-28 15:10:22.802 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:10:22.804  4835  4835 D WidgetApplication: updateExistWidget: android.intent.action.BATTERY_CHANGED
+09-28 15:10:22.805  4835  5030 D CmdCenter: - RowBase2: sPrevModStatus: 1, modStatus: 1
+09-28 15:10:22.805  4835  5030 D CmdCenter: - RowBase2: sPrevBatStatus: 2, status: 2
+09-28 15:10:22.805  4835  5030 D CmdCenter: - RowBase2: sPrevChargeRate = 1, new = 1
+09-28 15:10:22.805  4835  5030 D CmdCenter: - RowBase2: sPrevPlugType: 2 plugType: 2
+09-28 15:10:23.136  1546  1824 I ThermalEngine: ACTION: freeze_rule - Setting freeze_rule to 0
+09-28 15:10:23.136  1546  1824 I ThermalEngine: Monitor:INACTIVE:FREEZE-CHG:freeze_rule=1:DETECT-STANDBY=0
+09-28 15:10:23.137  1546  1822 I ThermalEngine: Thermal-Server: Thermal received msg from  freezing
+09-28 15:10:23.139  1546  8136 I Thermal-Lib: Thermal-Lib-Client: Client request sent
+09-28 15:10:23.664  8021  8137 D ProfileInstaller: Skipping profile installation for com.motorola.timeweatherwidget
+09-28 15:10:24.584  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:10:24.592  7794  7913 D CompatibilityChangeReporter: Compat change id reported: 150939131; UID 11013; state: ENABLED
+09-28 15:10:25.064 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:10:25.065  4835  4835 D WidgetApplication: updateExistWidget: android.intent.action.BATTERY_CHANGED
+09-28 15:10:25.066  4835  5030 D CmdCenter: - RowBase2: sPrevModStatus: 1, modStatus: 1
+09-28 15:10:25.066  4835  5030 D CmdCenter: - RowBase2: sPrevBatStatus: 2, status: 2
+09-28 15:10:25.066  4835  5030 D CmdCenter: - RowBase2: sPrevChargeRate = 1, new = 1
+09-28 15:10:25.066  4835  5030 D CmdCenter: - RowBase2: sPrevPlugType: 2 plugType: 2
+09-28 15:10:25.787  5125  5125 W ThreadPoolForeg: type=1400 audit(0.0:129704): avc: denied { write } for name="traced_producer" dev="tmpfs" ino=39187 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:traced_producer_socket:s0 tclass=sock_file permissive=0 app=com.google.android.gms
+09-28 15:10:26.555  4489  4489 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.common.telemetry.service.START dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentApiService }
+09-28 15:10:26.997  4489  7908 I NetworkScheduler.Stats: (REDACTED) Task %s/%s started execution. cause:%s exec_start_elapsed_seconds: %s
+09-28 15:10:27.015  4489  7680 I PlayGamesServices[GamesSyncAdapter]: Starting sync for 37b68e3a
+09-28 15:10:27.017  3473  3473 W Thread-746: type=1400 audit(0.0:129705): avc: denied { getattr } for path="/proc/fb" dev="proc" ino=4026531973 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:27.017  4489  7680 I PlayGamesServices[GamesSyncAdapter]: Sync duration for 37b68e3a: 2
+09-28 15:10:27.020  3473  3473 W Thread-746: type=1400 audit(0.0:129706): avc: denied { getattr } for path="/proc/keys" dev="proc" ino=4026532291 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_keys:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:27.020  3473  3473 W Thread-746: type=1400 audit(0.0:129707): avc: denied { getattr } for path="/proc/kmsg" dev="proc" ino=4026532241 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_kmsg:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:27.020  3473  3473 W Thread-746: type=1400 audit(0.0:129708): avc: denied { getattr } for path="/proc/misc" dev="proc" ino=4026531974 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_misc:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:27.020  3473  3473 W Thread-746: type=1400 audit(0.0:129709): avc: denied { getattr } for path="/proc/stat" dev="proc" ino=4026532237 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_stat:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:27.020  3473  3473 W Thread-746: type=1400 audit(0.0:129710): avc: denied { getattr } for path="/proc/iomem" dev="proc" ino=4026532275 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_iomem:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:27.020  3473  3473 W Thread-746: type=1400 audit(0.0:129711): avc: denied { getattr } for path="/proc/locks" dev="proc" ino=4026532229 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_locks:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:27.020  3473  3473 W Thread-746: type=1400 audit(0.0:129712): avc: denied { getattr } for path="/proc/swaps" dev="proc" ino=4026532286 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_swaps:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:27.020  3473  3473 W Thread-746: type=1400 audit(0.0:129713): avc: denied { getattr } for path="/proc/NVTSPI" dev="proc" ino=4026534459 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:27.040  4489  7838 I PlayGamesServices[GamesSyncAdapter]: Starting sync for dc68a238
+09-28 15:10:27.041  4489  7835 I NetworkScheduler.Stats: (REDACTED) Task %s/%s started execution. cause:%s exec_start_elapsed_seconds: %s
+09-28 15:10:27.043  4489  7680 W PlayGamesServices[DataBroker]: No player ID found when refreshing
+09-28 15:10:27.043  4489  7838 I PlayGamesServices[GamesSyncAdapter]: Sync duration for dc68a238: 1
+09-28 15:10:27.048  4489  7835 I NetworkScheduler.Stats: (REDACTED) Task %s/%s finished executing. cause:%s result: %s elapsed_millis: %s uptime_millis: %s exec_start_elapsed_seconds: %s
+09-28 15:10:27.056  4489  7838 W PlayGamesServices[DataBroker]: No player ID found when refreshing
+09-28 15:10:27.067  4489  4956 I GetServiceValidatorImpl: (REDACTED) onGetService() from Client SDK version [%s], Module version [%s], PGA version [%s], Account [%s], Calling package [%s], Game package [%s]
+09-28 15:10:27.067  4489  4956 I GetGamesServiceReqFacto: (REDACTED) Parsing request with ignored arguments. signInOptionsBundle [%s], isRetryingSignIn [%s], skipWelcomePopup [%s], requireGooglePlus [%s]
+09-28 15:10:27.067  4489  4956 I GetGamesServiceReqFacto: Replacing request for `games` scope with `games_lite`
+09-28 15:10:27.075  4489  8149 I SignInPerformer-15: (REDACTED) Handling request [%s], isFirstPartyCaller [%s]
+09-28 15:10:27.077  4489  4489 D BoundBrokerSvc: onRebind: Intent { act=com.google.android.contextmanager.service.ContextManagerLogsUploadBoundService.ACTION_TASK_READY dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentInternalBoundBrokerService }
+09-28 15:10:27.078  4489  8149 I SignInPerformer-15: Successfully brokered first-party unauthenticated GamesService [CONTEXT service_id=1 ]
+09-28 15:10:27.080  4489  8149 I GetGamesServiceV2Op: (REDACTED) Successfully brokered GamesService for request %s
+09-28 15:10:27.083  4489  4489 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.contextmanager.service.ContextManagerLogsUploadBoundService.ACTION_TASK_READY dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentInternalBoundBrokerService }
+09-28 15:10:27.084  4489  7835 I NetworkScheduler.Stats: (REDACTED) Task %s/%s finished executing. cause:%s result: %s elapsed_millis: %s uptime_millis: %s exec_start_elapsed_seconds: %s
+09-28 15:10:27.089  4489  7835 I NetworkScheduler.Stats: (REDACTED) Task %s/%s started execution. cause:%s exec_start_elapsed_seconds: %s
+09-28 15:10:27.090  4489  7835 I NetworkScheduler.Stats: (REDACTED) Task %s/%s finished executing. cause:%s result: %s elapsed_millis: %s uptime_millis: %s exec_start_elapsed_seconds: %s
+09-28 15:10:27.596  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:10:27.899  1403  2358 D BatteryService: uevent={POWER_SUPPLY_DP_DM=0, POWER_SUPPLY_TEMP_HOT=0, POWER_SUPPLY_VOLTAGE_QNOVO=-22, POWER_SUPPLY_VOLTAGE_NOW=4297390, POWER_SUPPLY_SW_JEITA_ENABLED=0, POWER_SUPPLY_CHARGE_CONTROL_LIMIT_MAX=10, POWER_SUPPLY_RECHARGE_SOC=99, POWER_SUPPLY_HEALTH=Good, POWER_SUPPLY_TECHNOLOGY=Li-ion, POWER_SUPPLY_CHARGER_TEMP_MAX=800, POWER_SUPPLY_FCC_STEPPER_ENABLE=0, SEQNUM=16522, POWER_SUPPLY_INPUT_CURRENT_LIMITED=1, POWER_SUPPLY_CHARGE_CONTROL_LIMIT=0, POWER_SUPPLY_STATUS=Charging, POWER_SUPPLY_CURRENT_MAX=3600000, POWER_SUPPLY_CYCLE_COUNT=0, POWER_SUPPLY_CHARGE_TERM_CURRENT=-100, POWER_SUPPLY_CAPACITY=91, DEVPATH=/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-02/c440000.qcom,spmi:qcom,pm7250b@2:qcom,qpnp-smb5-mmi/power_supply/battery, POWER_SUPPLY_CHARGE_DONE=0, POWER_SUPPLY_CHARGE_TYPE=Fast, POWER_SUPPLY_CHARGER_TEMP=357, POWER_SUPPLY_CHARGE_RATE=Normal, POWER_SUPPLY_CURRENT_QNOVO=-22, POWER_SUPPLY_CURRENT_NOW=130310, POWER_SUPPLY_PRESENT=1, POWER_SUPPLY_PARALLEL_DISABLE=0, POWER_SUPPLY_CHARGE_FULL=4043000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT=3600000, SUBSYSTEM=power_supply, POWER_SUPPLY_SET_SHIP_MODE=0, POWER_SUPPLY_TEMP=328, ACTION=change, POWER_SUPPLY_RERUN_AICL=0, POWER_SUPPLY_NAME=battery, POWER_SUPPLY_VOLTAGE_MAX=4450000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT_MAX=4000000, POWER_SUPPLY_CHARGE_COUNTER=2385370, POWER_SUPPLY_STEP_CHARGING_ENABLED=0, POWER_SUPPLY_DIE_HEALTH=Cool, POWER_SUPPLY_INPUT_SUSPEND=0}
+09-28 15:10:27.915  4835  4835 D WidgetApplication: updateExistWidget: android.intent.action.BATTERY_CHANGED
+09-28 15:10:27.916  4835  5030 D CmdCenter: - RowBase2: sPrevModStatus: 1, modStatus: 1
+09-28 15:10:27.916  4835  5030 D CmdCenter: - RowBase2: sPrevBatStatus: 2, status: 2
+09-28 15:10:27.916  4835  5030 D CmdCenter: - RowBase2: sPrevChargeRate = 1, new = 1
+09-28 15:10:27.916 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:10:27.916  4835  5030 D CmdCenter: - RowBase2: sPrevPlugType: 2 plugType: 2
+09-28 15:10:28.495  4835  5030 D LBMUtils: sendBroadcast: isChildProcess==true
+09-28 15:10:28.500  4835  5014 D RowWeatherInitializer: showTimeAndWeather:getWidgetState== 0
+09-28 15:10:28.505  4835  5014 I chatty  : uid=10229(com.motorola.timeweatherwidget) u5.C identical 1 line
+09-28 15:10:28.510  4835  5014 D RowWeatherInitializer: showTimeAndWeather:getWidgetState== 0
+09-28 15:10:28.907  4489 14267 I NearbyPresence: (REDACTED) %s verified [==] new request %s equals to the old request
+09-28 15:10:29.624  4489  4489 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.time.trustedtime.singleuserapi.service.START dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentSingleUserInternalApiService }
+09-28 15:10:29.632  4489  4489 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.time.trustedtime.service.START dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentDirectBootAwareApiService }
+09-28 15:10:30.620  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:10:30.839  4489  4489 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.safetynet.service.START pkg=com.google.android.gms }
+09-28 15:10:31.430  3473  3473 W Thread-8: type=1400 audit(0.0:129757): avc: denied { getattr } for path="/system/etc/cgroups.json" dev="dm-6" ino=567 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:cgroup_desc_file:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:31.440  3473  3473 W Thread-8: type=1400 audit(0.0:129758): avc: denied { getattr } for path="/system/lib/bootstrap" dev="dm-6" ino=1669 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:system_bootstrap_lib_file:s0 tclass=dir permissive=0 app=br.com.bb.android
+09-28 15:10:31.534  4489  4489 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.measurement.START pkg=com.google.android.gms }
+09-28 15:10:31.748  7071  7071 I Finsky  : [2] SCH: job service start with id 9943.
+09-28 15:10:31.755  7071  7868 I Finsky  : [5204] SCH: Satisfied jobs for 9943 are: 12-1
+09-28 15:10:31.756  7071  8151 I Finsky  : [5209] SCH: Job 12-1 starting
+09-28 15:10:31.756  7071  7071 I Finsky  : [2] WM::SCH: Logging work start for 12-1
+09-28 15:10:31.757  7071  7071 I Finsky  : [2] [ContentSync] job started
+09-28 15:10:31.759  7071  8152 I Finsky  : [5210] PSR: Package cache is empty, setup cache.
+09-28 15:10:31.934  4489  4489 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.feedback.internal.IFeedbackService dat=chimera-action: cmp=com.google.android.gms/.chimera.GmsBoundBrokerService }
+09-28 15:10:32.160  7071  8152 W Finsky  : [5210] SLM: no metadata property com.android.vending.derived.apk.id found for shared library com.google.android.trichromelibrary_424018533:
+09-28 15:10:32.160  7071  8152 W Finsky  : [5210] SLM: no metadata property com.android.vending.sdk.version.patch found for shared library com.google.android.trichromelibrary_424018533:
+09-28 15:10:32.767  1403  1413 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.AlarmManagerService$2
+09-28 15:10:32.767  1403  1413 I BpBinder: onLastStrongRef automatically unlinking death recipients: <uncached descriptor>
+09-28 15:10:32.770  1403  1414 W System  : A resource failed to call release. 
+09-28 15:10:32.770  1403  1414 I chatty  : uid=1000(system) FinalizerDaemon identical 11 lines
+09-28 15:10:32.770  1403  1414 W System  : A resource failed to call release. 
+09-28 15:10:32.939  7071  8152 W Finsky  : [5210] PSR: Package com.android.art not installed
+09-28 15:10:32.943  7071  8152 W Finsky  : [5210] PSR: Package com.android.apex.cts.shim not installed
+09-28 15:10:32.951  7071  8152 W Finsky  : [5210] PSR: Package com.android.i18n not installed
+09-28 15:10:32.961  7071  8152 W Finsky  : [5210] PSR: Package com.android.runtime not installed
+09-28 15:10:32.967  7071  8152 W Finsky  : [5210] PSR: Package com.android.vndk.v30 not installed
+09-28 15:10:33.017  1403  2358 D BatteryService: uevent={POWER_SUPPLY_DP_DM=0, POWER_SUPPLY_TEMP_HOT=0, POWER_SUPPLY_VOLTAGE_QNOVO=-22, POWER_SUPPLY_VOLTAGE_NOW=4294276, POWER_SUPPLY_SW_JEITA_ENABLED=0, POWER_SUPPLY_CHARGE_CONTROL_LIMIT_MAX=10, POWER_SUPPLY_RECHARGE_SOC=99, POWER_SUPPLY_HEALTH=Good, POWER_SUPPLY_TECHNOLOGY=Li-ion, POWER_SUPPLY_CHARGER_TEMP_MAX=800, POWER_SUPPLY_FCC_STEPPER_ENABLE=0, SEQNUM=16523, POWER_SUPPLY_INPUT_CURRENT_LIMITED=1, POWER_SUPPLY_CHARGE_CONTROL_LIMIT=0, POWER_SUPPLY_STATUS=Charging, POWER_SUPPLY_CURRENT_MAX=3600000, POWER_SUPPLY_CYCLE_COUNT=0, POWER_SUPPLY_CHARGE_TERM_CURRENT=-100, POWER_SUPPLY_CAPACITY=91, DEVPATH=/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-02/c440000.qcom,spmi:qcom,pm7250b@2:qcom,qpnp-smb5-mmi/power_supply/battery, POWER_SUPPLY_CHARGE_DONE=0, POWER_SUPPLY_CHARGE_TYPE=Fast, POWER_SUPPLY_CHARGER_TEMP=357, POWER_SUPPLY_CHARGE_RATE=Normal, POWER_SUPPLY_CURRENT_QNOVO=-22, POWER_SUPPLY_CURRENT_NOW=87280, POWER_SUPPLY_PRESENT=1, POWER_SUPPLY_PARALLEL_DISABLE=0, POWER_SUPPLY_CHARGE_FULL=4043000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT=3600000, SUBSYSTEM=power_supply, POWER_SUPPLY_SET_SHIP_MODE=0, POWER_SUPPLY_TEMP=328, ACTION=change, POWER_SUPPLY_RERUN_AICL=0, POWER_SUPPLY_NAME=battery, POWER_SUPPLY_VOLTAGE_MAX=4450000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT_MAX=4000000, POWER_SUPPLY_CHARGE_COUNTER=2385370, POWER_SUPPLY_STEP_CHARGING_ENABLED=0, POWER_SUPPLY_DIE_HEALTH=Cool, POWER_SUPPLY_INPUT_SUSPEND=0}
+09-28 15:10:33.035  4835  4835 D WidgetApplication: updateExistWidget: android.intent.action.BATTERY_CHANGED
+09-28 15:10:33.036  4835  5030 D CmdCenter: - RowBase2: sPrevModStatus: 1, modStatus: 1
+09-28 15:10:33.036  4835  5030 D CmdCenter: - RowBase2: sPrevBatStatus: 2, status: 2
+09-28 15:10:33.036  4835  5030 D CmdCenter: - RowBase2: sPrevChargeRate = 1, new = 1
+09-28 15:10:33.036  4835  5030 D CmdCenter: - RowBase2: sPrevPlugType: 2 plugType: 2
+09-28 15:10:33.037 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:10:33.230  4489  4489 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.findmydevice.spot.service.locationreport.START dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentApiService }
+09-28 15:10:33.233  4489  4489 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.onboardingconsent.api.ConsentManagerApiService.START dat=chimera-action: cmp=com.google.android.gms/.chimera.GmsApiService }
+09-28 15:10:33.253  4835  4835 D WidgetApplication: updateExistWidget: android.intent.action.BATTERY_CHANGED
+09-28 15:10:33.254  4835  5030 D CmdCenter: - RowBase2: sPrevModStatus: 1, modStatus: 1
+09-28 15:10:33.254  4835  5030 D CmdCenter: - RowBase2: sPrevBatStatus: 2, status: 2
+09-28 15:10:33.254  4835  5030 D CmdCenter: - RowBase2: sPrevChargeRate = 1, new = 1
+09-28 15:10:33.254  4835  5030 D CmdCenter: - RowBase2: sPrevPlugType: 2 plugType: 2
+09-28 15:10:33.255 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:10:33.371  7071  7071 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.tzdata2' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+09-28 15:10:33.381  7071  7071 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.permission' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+09-28 15:10:33.437  7071  7071 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.wifi' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+09-28 15:10:33.641  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:10:33.687  7071  7071 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.media.swcodec' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+09-28 15:10:33.762  7071  7071 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.mediaprovider' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+09-28 15:10:33.804  7071  7071 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.adbd' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+09-28 15:10:33.807  7071  7071 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.resolv' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+09-28 15:10:33.824  7071  7071 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.media' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+09-28 15:10:33.825  7071  7071 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.conscrypt' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+09-28 15:10:33.856  7071  7071 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.neuralnetworks' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+09-28 15:10:33.867  7071  7071 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.ipsec' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+09-28 15:10:33.895  7071  7071 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.sdkext' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+09-28 15:10:33.913  7071  7071 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.tethering' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+09-28 15:10:33.925  7071  7071 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.extservices' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+09-28 15:10:33.947  7071  7071 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.os.statsd' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+09-28 15:10:33.957  7071  7071 W Finsky  : [2] STU: Failed to get storage stats for package 'com.google.android.cellbroadcast' (1601: Error getting stats: android.content.pm.PackageManager.NameNotFoundException)
+09-28 15:10:34.005  7071  7071 I Finsky  : [2] App states replicator found 18 unowned apps
+09-28 15:10:34.030  3473  3473 W Thread-748: type=1400 audit(0.0:129759): avc: denied { getattr } for path="/proc/fb" dev="proc" ino=4026531973 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:34.030  3473  3473 W Thread-748: type=1400 audit(0.0:129760): avc: denied { getattr } for path="/proc/keys" dev="proc" ino=4026532291 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_keys:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:34.030  3473  3473 W Thread-748: type=1400 audit(0.0:129761): avc: denied { getattr } for path="/proc/kmsg" dev="proc" ino=4026532241 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_kmsg:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:34.030  3473  3473 W Thread-748: type=1400 audit(0.0:129762): avc: denied { getattr } for path="/proc/misc" dev="proc" ino=4026531974 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_misc:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:34.032  7071  7113 I Finsky  : [5132] Completed 0 account content syncs with 0 successful.
+09-28 15:10:34.032  7071  7071 I Finsky  : [2] [ContentSync] Installation state replication succeeded.
+09-28 15:10:34.032  7071  7071 I Finsky  : [2] SCH: jobFinished: 12-1. TimeElapsed: 2275ms.
+09-28 15:10:34.032  7071  7071 I Finsky  : [2] WM::SCH: Logging work end for 12-1
+09-28 15:10:34.033  3473  3473 W Thread-748: type=1400 audit(0.0:129763): avc: denied { getattr } for path="/proc/stat" dev="proc" ino=4026532237 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_stat:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:34.033  3473  3473 W Thread-748: type=1400 audit(0.0:129764): avc: denied { getattr } for path="/proc/iomem" dev="proc" ino=4026532275 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_iomem:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:34.033  3473  3473 W Thread-748: type=1400 audit(0.0:129765): avc: denied { getattr } for path="/proc/locks" dev="proc" ino=4026532229 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_locks:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:34.033  3473  3473 W Thread-748: type=1400 audit(0.0:129766): avc: denied { getattr } for path="/proc/swaps" dev="proc" ino=4026532286 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_swaps:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:34.047  7071  7113 I Finsky  : [5132] SCH: Scheduling phonesky job Id: 1-1337, CT: 1790616640356, Constraints: [{ L: 43197145, D: 86397145, C: CHARGING_NONE, I: IDLE_NONE, N: NET_ANY, B: BATTERY_ANY }]
+09-28 15:10:34.047  7071  7113 I Finsky  : [5132] SCH: Scheduling phonesky job Id: 34-4609, CT: 1790616642421, Constraints: [{ L: 604800000, D: 2569161831, C: CHARGING_NONE, I: IDLE_NONE, N: NET_ANY, B: BATTERY_ANY }]
+09-28 15:10:34.047  7071  7113 I Finsky  : [5132] SCH: Scheduling phonesky job Id: 34-4615, CT: 1790616642422, Constraints: [{ L: 56360284, D: 1352360284, C: CHARGING_NONE, I: IDLE_NONE, N: NET_ANY, B: BATTERY_ANY }]
+09-28 15:10:34.051  7071  7115 I Finsky  : [5134] SCH: Scheduling 1 system job(s)
+09-28 15:10:34.051  7071  7115 I Finsky  : [5134] SCH: Scheduling system job Id: 9958, L: 40803450, D: 84003450, C: false, I: false, N: 1
+09-28 15:10:34.058  7071  8151 I Finsky  : [5209] SCH: job service finished with id 9943.
+09-28 15:10:34.977  8165  8167 I cmd     : oneway function results will be dropped but finished with status OK and parcel size 4
+09-28 15:10:35.356  4489  4489 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.auth.aang.events.services.START dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentApiService }
+09-28 15:10:36.369  4489  4489 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.libs.gmscorelogger.service.START dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentDirectBootAwareApiService }
+09-28 15:10:36.532  4489  4489 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.presencemanager.service.START dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentApiService }
+09-28 15:10:36.536  4489  4489 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.presencemanager.service.INTERNAL_IDENTITY dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentApiService }
+09-28 15:10:36.658  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:10:38.139  1403  2358 D BatteryService: uevent={POWER_SUPPLY_DP_DM=0, POWER_SUPPLY_TEMP_HOT=0, POWER_SUPPLY_VOLTAGE_QNOVO=-22, POWER_SUPPLY_VOLTAGE_NOW=4310431, POWER_SUPPLY_SW_JEITA_ENABLED=0, POWER_SUPPLY_CHARGE_CONTROL_LIMIT_MAX=10, POWER_SUPPLY_RECHARGE_SOC=99, POWER_SUPPLY_HEALTH=Good, POWER_SUPPLY_TECHNOLOGY=Li-ion, POWER_SUPPLY_CHARGER_TEMP_MAX=800, POWER_SUPPLY_FCC_STEPPER_ENABLE=0, SEQNUM=16525, POWER_SUPPLY_INPUT_CURRENT_LIMITED=1, POWER_SUPPLY_CHARGE_CONTROL_LIMIT=0, POWER_SUPPLY_STATUS=Charging, POWER_SUPPLY_CURRENT_MAX=3600000, POWER_SUPPLY_CYCLE_COUNT=0, POWER_SUPPLY_CHARGE_TERM_CURRENT=-100, POWER_SUPPLY_CAPACITY=91, DEVPATH=/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-02/c440000.qcom,spmi:qcom,pm7250b@2:qcom,qpnp-smb5-mmi/power_supply/battery, POWER_SUPPLY_CHARGE_DONE=0, POWER_SUPPLY_CHARGE_TYPE=Fast, POWER_SUPPLY_CHARGER_TEMP=358, POWER_SUPPLY_CHARGE_RATE=Normal, POWER_SUPPLY_CURRENT_QNOVO=-22, POWER_SUPPLY_CURRENT_NOW=148925, POWER_SUPPLY_PRESENT=1, POWER_SUPPLY_PARALLEL_DISABLE=0, POWER_SUPPLY_CHARGE_FULL=4043000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT=3600000, SUBSYSTEM=power_supply, POWER_SUPPLY_SET_SHIP_MODE=0, POWER_SUPPLY_TEMP=328, ACTION=change, POWER_SUPPLY_RERUN_AICL=0, POWER_SUPPLY_NAME=battery, POWER_SUPPLY_VOLTAGE_MAX=4450000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT_MAX=4000000, POWER_SUPPLY_CHARGE_COUNTER=2385370, POWER_SUPPLY_STEP_CHARGING_ENABLED=0, POWER_SUPPLY_DIE_HEALTH=Cool, POWER_SUPPLY_INPUT_SUSPEND=0}
+09-28 15:10:38.157 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:10:38.159  4835  4835 D WidgetApplication: updateExistWidget: android.intent.action.BATTERY_CHANGED
+09-28 15:10:38.159  4835  5030 D CmdCenter: - RowBase2: sPrevModStatus: 1, modStatus: 1
+09-28 15:10:38.159  4835  5030 D CmdCenter: - RowBase2: sPrevBatStatus: 2, status: 2
+09-28 15:10:38.159  4835  5030 D CmdCenter: - RowBase2: sPrevChargeRate = 1, new = 1
+09-28 15:10:38.159  4835  5030 D CmdCenter: - RowBase2: sPrevPlugType: 2 plugType: 2
+09-28 15:10:39.680  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:10:40.490  3473  3473 W Thread-8: type=1400 audit(0.0:129811): avc: denied { getattr } for path="/system/etc/cgroups.json" dev="dm-6" ino=567 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:cgroup_desc_file:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:40.500  3473  3473 W Thread-8: type=1400 audit(0.0:129812): avc: denied { getattr } for path="/system/lib/bootstrap" dev="dm-6" ino=1669 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:system_bootstrap_lib_file:s0 tclass=dir permissive=0 app=br.com.bb.android
+09-28 15:10:41.452  4835  4835 D WidgetApplication: updateExistWidget: android.intent.action.BATTERY_CHANGED
+09-28 15:10:41.453 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:10:41.453  4835  5030 D CmdCenter: - RowBase2: sPrevModStatus: 1, modStatus: 1
+09-28 15:10:41.453  4835  5030 D CmdCenter: - RowBase2: sPrevBatStatus: 2, status: 2
+09-28 15:10:41.453  4835  5030 D CmdCenter: - RowBase2: sPrevChargeRate = 1, new = 1
+09-28 15:10:41.453  4835  5030 D CmdCenter: - RowBase2: sPrevPlugType: 2 plugType: 2
+09-28 15:10:41.592  3473  3473 D WM-DelayedWorkTracker: Scheduling work f10cf168-dc84-4073-bb11-72b973789796
+09-28 15:10:41.593  3473  3473 D WM-GreedyScheduler: Starting tracking for f10cf168-dc84-4073-bb11-72b973789796
+09-28 15:10:41.602  3473  3556 D WM-ConstraintTracker: NetworkStateTracker24: initial state = NetworkState(isConnected=true, isValidated=true, isMetered=false, isNotRoaming=true, isBlocked=false)
+09-28 15:10:41.602  3473  3556 D WM-NetworkStateTracker: Registering network callback
+09-28 15:10:41.604  1403  3191 D ConnectivityService: requestNetwork for uid/pid:10281/3473 NetworkRequest [ TRACK_DEFAULT id=804, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10281 AdministratorUids: [] RequestorUid: 10281 RequestorPackageName: br.com.bb.android] ]
+09-28 15:10:41.606  1403  2566 D ConnectivityService: NetReassign [804 : null → 100]
+09-28 15:10:41.606  1403  2534 D MultiInternetWifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=804, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10281 AdministratorUids: [] RequestorUid: 10281 RequestorPackageName: br.com.bb.android] ] with score 60 and providerId 5
+09-28 15:10:41.606  1403  2534 D RestrictedWifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=804, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10281 AdministratorUids: [] RequestorUid: 10281 RequestorPackageName: br.com.bb.android] ] with score 60 and providerId 5
+09-28 15:10:41.606  1403  2619 D Ethernet: got request NetworkRequest [ TRACK_DEFAULT id=804, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10281 AdministratorUids: [] RequestorUid: 10281 RequestorPackageName: br.com.bb.android] ] with score 60 and providerId 5
+09-28 15:10:41.607  1403  2534 D WifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=804, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10281 AdministratorUids: [] RequestorUid: 10281 RequestorPackageName: br.com.bb.android] ] with score 60 and providerId 5
+09-28 15:10:41.607  1403  2534 D UntrustedWifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=804, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10281 AdministratorUids: [] RequestorUid: 10281 RequestorPackageName: br.com.bb.android] ] with score 60 and providerId 5
+09-28 15:10:41.607  1403  2534 D OemPaidWifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=804, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10281 AdministratorUids: [] RequestorUid: 10281 RequestorPackageName: br.com.bb.android] ] with score 60 and providerId 5
+09-28 15:10:41.608  2996  2996 D PhoneSwitcherNetworkRequstListener: got request NetworkRequest [ TRACK_DEFAULT id=804, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10281 AdministratorUids: [] RequestorUid: 10281 RequestorPackageName: br.com.bb.android] ] with score 60 and providerId 5
+09-28 15:10:41.608  3473  3768 D WM-NetworkStateTracker: Network capabilities changed: [ Transports: WIFI Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED LinkUpBandwidth>=12000Kbps LinkDnBandwidth>=22490Kbps SignalStrength: -60 AdministratorUids: [] RequestorUid: -1 RequestorPackageName: null]
+09-28 15:10:41.609  3473  3768 D WM-NetworkStateTracker: Network blocked status changed: false
+09-28 15:10:41.611  3473  3531 D WM-GreedyScheduler: Constraints met: Scheduling work ID WorkGenerationalId(workSpecId=f10cf168-dc84-4073-bb11-72b973789796, generation=0)
+09-28 15:10:41.622  3473  3551 D WM-Processor: Processor: processing WorkGenerationalId(workSpecId=f10cf168-dc84-4073-bb11-72b973789796, generation=0)
+09-28 15:10:41.638  3473  3473 D WM-WorkerWrapper: Starting work for br.com.topaz.heartbeat.service.ScanAppsWorker
+09-28 15:10:41.653  3473  3551 I WM-WorkerWrapper: Worker result SUCCESS for Work [ id=f10cf168-dc84-4073-bb11-72b973789796, tags={ br.com.topaz.heartbeat.service.ScanAppsWorker } ]
+09-28 15:10:41.669  3473  3473 D WM-Processor: Processor f10cf168-dc84-4073-bb11-72b973789796 executed; reschedule = false
+09-28 15:10:41.670  3473  3473 D WM-GreedyScheduler: Stopping tracking for WorkGenerationalId(workSpecId=f10cf168-dc84-4073-bb11-72b973789796, generation=0)
+09-28 15:10:41.674  3473  3551 D WM-GreedyScheduler: Cancelling work ID f10cf168-dc84-4073-bb11-72b973789796
+09-28 15:10:41.688  3473  3551 D WM-SystemJobScheduler: Scheduling work ID f10cf168-dc84-4073-bb11-72b973789796Job ID 5554
+09-28 15:10:41.692  3473  3551 D WM-NetworkStateTracker: Unregistering network callback
+09-28 15:10:41.693  1403  2566 D ConnectivityService: releasing NetworkRequest [ TRACK_DEFAULT id=804, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10281 AdministratorUids: [] RequestorUid: 10281 RequestorPackageName: br.com.bb.android] ] (release request)
+09-28 15:10:42.033  3473  3473 W Thread-751: type=1400 audit(0.0:129813): avc: denied { getattr } for path="/proc/fb" dev="proc" ino=4026531973 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:42.033  3473  3473 W Thread-751: type=1400 audit(0.0:129814): avc: denied { getattr } for path="/proc/keys" dev="proc" ino=4026532291 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_keys:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:42.033  3473  3473 W Thread-751: type=1400 audit(0.0:129815): avc: denied { getattr } for path="/proc/kmsg" dev="proc" ino=4026532241 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_kmsg:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:42.033  3473  3473 W Thread-751: type=1400 audit(0.0:129816): avc: denied { getattr } for path="/proc/misc" dev="proc" ino=4026531974 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_misc:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:42.033  3473  3473 W Thread-751: type=1400 audit(0.0:129817): avc: denied { getattr } for path="/proc/stat" dev="proc" ino=4026532237 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_stat:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:42.033  3473  3473 W Thread-751: type=1400 audit(0.0:129818): avc: denied { getattr } for path="/proc/iomem" dev="proc" ino=4026532275 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_iomem:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:42.033  3473  3473 W Thread-751: type=1400 audit(0.0:129819): avc: denied { getattr } for path="/proc/locks" dev="proc" ino=4026532229 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_locks:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:42.033  3473  3473 W Thread-751: type=1400 audit(0.0:129820): avc: denied { getattr } for path="/proc/swaps" dev="proc" ino=4026532286 scontext=u:r:untrusted_app:s0:c25,c257,c512,c768 tcontext=u:object_r:proc_swaps:s0 tclass=file permissive=0 app=br.com.bb.android
+09-28 15:10:42.085  1403  5055 I ActivityManager: Killing 3473:br.com.bb.android/u0a281 (adj 999): empty for 1800s
+09-28 15:10:42.173  1027  1027 I Zygote  : Process 3473 exited due to signal 9 (Killed)
+09-28 15:10:42.175  1403  1538 I libprocessgroup: Successfully killed process cgroup uid 10281 pid 3473 in 87ms
+09-28 15:10:42.701  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:10:43.259  1403  2358 D BatteryService: uevent={POWER_SUPPLY_DP_DM=0, POWER_SUPPLY_TEMP_HOT=0, POWER_SUPPLY_VOLTAGE_QNOVO=-22, POWER_SUPPLY_VOLTAGE_NOW=4314323, POWER_SUPPLY_SW_JEITA_ENABLED=0, POWER_SUPPLY_CHARGE_CONTROL_LIMIT_MAX=10, POWER_SUPPLY_RECHARGE_SOC=99, POWER_SUPPLY_HEALTH=Good, POWER_SUPPLY_TECHNOLOGY=Li-ion, POWER_SUPPLY_CHARGER_TEMP_MAX=800, POWER_SUPPLY_FCC_STEPPER_ENABLE=0, SEQNUM=16527, POWER_SUPPLY_INPUT_CURRENT_LIMITED=1, POWER_SUPPLY_CHARGE_CONTROL_LIMIT=0, POWER_SUPPLY_STATUS=Charging, POWER_SUPPLY_CURRENT_MAX=3600000, POWER_SUPPLY_CYCLE_COUNT=0, POWER_SUPPLY_CHARGE_TERM_CURRENT=-100, POWER_SUPPLY_CAPACITY=91, DEVPATH=/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-02/c440000.qcom,spmi:qcom,pm7250b@2:qcom,qpnp-smb5-mmi/power_supply/battery, POWER_SUPPLY_CHARGE_DONE=0, POWER_SUPPLY_CHARGE_TYPE=Fast, POWER_SUPPLY_CHARGER_TEMP=358, POWER_SUPPLY_CHARGE_RATE=Normal, POWER_SUPPLY_CURRENT_QNOVO=-22, POWER_SUPPLY_CURRENT_NOW=198669, POWER_SUPPLY_PRESENT=1, POWER_SUPPLY_PARALLEL_DISABLE=0, POWER_SUPPLY_CHARGE_FULL=4043000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT=3600000, SUBSYSTEM=power_supply, POWER_SUPPLY_SET_SHIP_MODE=0, POWER_SUPPLY_TEMP=329, ACTION=change, POWER_SUPPLY_RERUN_AICL=0, POWER_SUPPLY_NAME=battery, POWER_SUPPLY_VOLTAGE_MAX=4450000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT_MAX=4000000, POWER_SUPPLY_CHARGE_COUNTER=2385370, POWER_SUPPLY_STEP_CHARGING_ENABLED=0, POWER_SUPPLY_DIE_HEALTH=Cool, POWER_SUPPLY_INPUT_SUSPEND=0}
+09-28 15:10:43.277  4835  4835 D WidgetApplication: updateExistWidget: android.intent.action.BATTERY_CHANGED
+09-28 15:10:43.277  4835  5030 D CmdCenter: - RowBase2: sPrevModStatus: 1, modStatus: 1
+09-28 15:10:43.278  4835  5030 D CmdCenter: - RowBase2: sPrevBatStatus: 2, status: 2
+09-28 15:10:43.278  4835  5030 D CmdCenter: - RowBase2: sPrevChargeRate = 1, new = 1
+09-28 15:10:43.278  4835  5030 D CmdCenter: - RowBase2: sPrevPlugType: 2 plugType: 2
+09-28 15:10:43.285 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:10:44.299  8173  8173 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+09-28 15:10:44.300  8173  8173 W app_process: type=1400 audit(0.0:129865): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=22100 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+09-28 15:10:44.300  8173  8173 W app_process: type=1400 audit(0.0:129866): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=22100 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+09-28 15:10:44.300  8173  8173 I chatty  : uid=2000(shell) app_process identical 1 line
+09-28 15:10:44.300  8173  8173 W app_process: type=1400 audit(0.0:129868): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=22100 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+09-28 15:10:44.302  8173  8173 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.profilebootclasspath"
+09-28 15:10:44.302  8173  8173 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.enable_apex_image"
+09-28 15:10:44.302  8173  8173 I AndroidRuntime: Using default boot image
+09-28 15:10:44.302  8173  8173 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.disable_lock_profiling"
+09-28 15:10:44.302  8173  8173 I AndroidRuntime: Leaving lock profiling enabled
+09-28 15:10:44.302  8173  8173 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.enable_generational_cc"
+09-28 15:10:44.384  8173  8173 D app_process: Time zone APEX ICU file found: /apex/com.android.tzdata/etc/icu/icu_tzdata.dat
+09-28 15:10:44.384  8173  8173 D app_process: I18n APEX ICU file found: /apex/com.android.i18n/etc/icu/icudt66l.dat
+09-28 15:10:44.391  8173  8173 I app_process: The ClassLoaderContext is a special shared library.
+09-28 15:10:44.405  8173  8173 W app_process: JNI RegisterNativeMethods: attempt to register 0 native methods for android.media.AudioAttributes
+09-28 15:10:44.409  8173  8173 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+09-28 15:10:44.414  1140  1140 I QTI PowerHAL: Power setBoost: 0, duration: 0
+09-28 15:10:44.416  1140  1140 I QTI PowerHAL: Power setBoost: 0, duration: 0
+09-28 15:10:44.420  8173  8173 D AndroidRuntime: Shutting down VM
+09-28 15:10:45.723  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:10:47.020  8195  8195 W app_process: type=1400 audit(0.0:129869): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=22100 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+09-28 15:10:47.020  8195  8195 W app_process: type=1400 audit(0.0:129870): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=22100 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+09-28 15:10:47.020  8195  8195 I chatty  : uid=2000(shell) app_process identical 1 line
+09-28 15:10:47.020  8195  8195 W app_process: type=1400 audit(0.0:129872): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=22100 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+09-28 15:10:47.020  8195  8195 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+09-28 15:10:47.023  8195  8195 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.profilebootclasspath"
+09-28 15:10:47.023  8195  8195 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.enable_apex_image"
+09-28 15:10:47.023  8195  8195 I AndroidRuntime: Using default boot image
+09-28 15:10:47.023  8195  8195 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.disable_lock_profiling"
+09-28 15:10:47.023  8195  8195 I AndroidRuntime: Leaving lock profiling enabled
+09-28 15:10:47.023  8195  8195 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.enable_generational_cc"
+09-28 15:10:47.105  8195  8195 D app_process: Time zone APEX ICU file found: /apex/com.android.tzdata/etc/icu/icu_tzdata.dat
+09-28 15:10:47.106  8195  8195 D app_process: I18n APEX ICU file found: /apex/com.android.i18n/etc/icu/icudt66l.dat
+09-28 15:10:47.112  8195  8195 I app_process: The ClassLoaderContext is a special shared library.
+09-28 15:10:47.127  8195  8195 W app_process: JNI RegisterNativeMethods: attempt to register 0 native methods for android.media.AudioAttributes
+09-28 15:10:47.131  8195  8195 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+09-28 15:10:47.137  1140  1140 I QTI PowerHAL: Power setBoost: 0, duration: 0
+09-28 15:10:48.375  1140  1140 I chatty  : uid=1000(system) android.hardwar identical 24 lines
+09-28 15:10:48.375  1140  1140 I QTI PowerHAL: Power setBoost: 0, duration: 0
+09-28 15:10:48.379  1403  2358 D BatteryService: uevent={POWER_SUPPLY_DP_DM=0, POWER_SUPPLY_TEMP_HOT=0, POWER_SUPPLY_VOLTAGE_QNOVO=-22, POWER_SUPPLY_VOLTAGE_NOW=4312182, POWER_SUPPLY_SW_JEITA_ENABLED=0, POWER_SUPPLY_CHARGE_CONTROL_LIMIT_MAX=10, POWER_SUPPLY_RECHARGE_SOC=99, POWER_SUPPLY_HEALTH=Good, POWER_SUPPLY_TECHNOLOGY=Li-ion, POWER_SUPPLY_CHARGER_TEMP_MAX=800, POWER_SUPPLY_FCC_STEPPER_ENABLE=0, SEQNUM=16528, POWER_SUPPLY_INPUT_CURRENT_LIMITED=1, POWER_SUPPLY_CHARGE_CONTROL_LIMIT=0, POWER_SUPPLY_STATUS=Charging, POWER_SUPPLY_CURRENT_MAX=3600000, POWER_SUPPLY_CYCLE_COUNT=0, POWER_SUPPLY_CHARGE_TERM_CURRENT=-100, POWER_SUPPLY_CAPACITY=91, DEVPATH=/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-02/c440000.qcom,spmi:qcom,pm7250b@2:qcom,qpnp-smb5-mmi/power_supply/battery, POWER_SUPPLY_CHARGE_DONE=0, POWER_SUPPLY_CHARGE_TYPE=Fast, POWER_SUPPLY_CHARGER_TEMP=359, POWER_SUPPLY_CHARGE_RATE=Normal, POWER_SUPPLY_CURRENT_QNOVO=-22, POWER_SUPPLY_CURRENT_NOW=139465, POWER_SUPPLY_PRESENT=1, POWER_SUPPLY_PARALLEL_DISABLE=0, POWER_SUPPLY_CHARGE_FULL=4043000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT=3600000, SUBSYSTEM=power_supply, POWER_SUPPLY_SET_SHIP_MODE=0, POWER_SUPPLY_TEMP=329, ACTION=change, POWER_SUPPLY_RERUN_AICL=0, POWER_SUPPLY_NAME=battery, POWER_SUPPLY_VOLTAGE_MAX=4450000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT_MAX=4000000, POWER_SUPPLY_CHARGE_COUNTER=2385370, POWER_SUPPLY_STEP_CHARGING_ENABLED=0, POWER_SUPPLY_DIE_HEALTH=Cool, POWER_SUPPLY_INPUT_SUSPEND=0}
+09-28 15:10:48.393  4835  4835 D WidgetApplication: updateExistWidget: android.intent.action.BATTERY_CHANGED
+09-28 15:10:48.394  4835  5030 D CmdCenter: - RowBase2: sPrevModStatus: 1, modStatus: 1
+09-28 15:10:48.394  4835  5030 D CmdCenter: - RowBase2: sPrevBatStatus: 2, status: 2
+09-28 15:10:48.394  4835  5030 D CmdCenter: - RowBase2: sPrevChargeRate = 1, new = 1
+09-28 15:10:48.394  4835  5030 D CmdCenter: - RowBase2: sPrevPlugType: 2 plugType: 2
+09-28 15:10:48.394 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:10:48.475  1140  1140 I QTI PowerHAL: Power setBoost: 0, duration: 0
+09-28 15:10:48.576  1140  1140 I chatty  : uid=1000(system) android.hardwar identical 2 lines
+09-28 15:10:48.577  1140  1140 I QTI PowerHAL: Power setBoost: 0, duration: 0
+09-28 15:10:48.603  4489  4489 W ThreadPoolForeg: type=1400 audit(0.0:129873): avc: denied { write } for name="traced_producer" dev="tmpfs" ino=39187 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:traced_producer_socket:s0 tclass=sock_file permissive=0 app=com.google.android.gms
+09-28 15:10:48.676  1140  1140 I QTI PowerHAL: Power setBoost: 0, duration: 0
+09-28 15:10:48.677  1140  1140 I QTI PowerHAL: Power setBoost: 0, duration: 0
+09-28 15:10:48.741  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:10:48.776  1140  1140 I QTI PowerHAL: Power setBoost: 0, duration: 0
+09-28 15:10:49.578  1140  1140 I chatty  : uid=1000(system) android.hardwar identical 16 lines
+09-28 15:10:49.579  1140  1140 I QTI PowerHAL: Power setBoost: 0, duration: 0
+09-28 15:10:49.643  4835  4835 D WidgetApplication: updateExistWidget: android.intent.action.BATTERY_CHANGED
+09-28 15:10:49.643  4835  5030 D CmdCenter: - RowBase2: sPrevModStatus: 1, modStatus: 1
+09-28 15:10:49.643  4835  5030 D CmdCenter: - RowBase2: sPrevBatStatus: 2, status: 2
+09-28 15:10:49.643  4835  5030 D CmdCenter: - RowBase2: sPrevChargeRate = 1, new = 1
+09-28 15:10:49.643  4835  5030 D CmdCenter: - RowBase2: sPrevPlugType: 2 plugType: 2
+09-28 15:10:49.644 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:10:49.679  1140  1140 I QTI PowerHAL: Power setBoost: 0, duration: 0
+09-28 15:10:50.180  1140  1140 I chatty  : uid=1000(system) android.hardwar identical 10 lines
+09-28 15:10:50.180  1140  1140 I QTI PowerHAL: Power setBoost: 0, duration: 0
+09-28 15:10:50.185  1110  2360 D slpi    : vcnl36866_ALS_handle:lux:10.997721, last_ps:far[195], als_raw:78, ir_raw:78, als_scale:1.029171, THDH:96,THDL:64,CONF:962, PSTH  L 78 H 398 INT 0x4ff
+09-28 15:10:50.280  1140  1140 I QTI PowerHAL: Power setBoost: 0, duration: 0
+09-28 15:10:51.682  1140  1140 I chatty  : uid=1000(system) android.hardwar identical 28 lines
+09-28 15:10:51.683  1140  1140 I QTI PowerHAL: Power setBoost: 0, duration: 0
+09-28 15:10:51.757  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:10:51.783  1140  1140 I QTI PowerHAL: Power setBoost: 0, duration: 0
+09-28 15:10:52.084  1140  1140 I chatty  : uid=1000(system) android.hardwar identical 6 lines
+09-28 15:10:52.084  1140  1140 I QTI PowerHAL: Power setBoost: 0, duration: 0
+09-28 15:10:52.134  8195  8195 D AndroidRuntime: Shutting down VM
+09-28 15:10:53.500  1403  2358 D BatteryService: uevent={POWER_SUPPLY_DP_DM=0, POWER_SUPPLY_TEMP_HOT=0, POWER_SUPPLY_VOLTAGE_QNOVO=-22, POWER_SUPPLY_VOLTAGE_NOW=4296417, POWER_SUPPLY_SW_JEITA_ENABLED=0, POWER_SUPPLY_CHARGE_CONTROL_LIMIT_MAX=10, POWER_SUPPLY_RECHARGE_SOC=99, POWER_SUPPLY_HEALTH=Good, POWER_SUPPLY_TECHNOLOGY=Li-ion, POWER_SUPPLY_CHARGER_TEMP_MAX=800, POWER_SUPPLY_FCC_STEPPER_ENABLE=0, SEQNUM=16530, POWER_SUPPLY_INPUT_CURRENT_LIMITED=1, POWER_SUPPLY_CHARGE_CONTROL_LIMIT=0, POWER_SUPPLY_STATUS=Charging, POWER_SUPPLY_CURRENT_MAX=3600000, POWER_SUPPLY_CYCLE_COUNT=0, POWER_SUPPLY_CHARGE_TERM_CURRENT=-100, POWER_SUPPLY_CAPACITY=91, DEVPATH=/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-02/c440000.qcom,spmi:qcom,pm7250b@2:qcom,qpnp-smb5-mmi/power_supply/battery, POWER_SUPPLY_CHARGE_DONE=0, POWER_SUPPLY_CHARGE_TYPE=Fast, POWER_SUPPLY_CHARGER_TEMP=360, POWER_SUPPLY_CHARGE_RATE=Normal, POWER_SUPPLY_CURRENT_QNOVO=-22, POWER_SUPPLY_CURRENT_NOW=209961, POWER_SUPPLY_PRESENT=1, POWER_SUPPLY_PARALLEL_DISABLE=0, POWER_SUPPLY_CHARGE_FULL=4043000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT=3600000, SUBSYSTEM=power_supply, POWER_SUPPLY_SET_SHIP_MODE=0, POWER_SUPPLY_TEMP=329, ACTION=change, POWER_SUPPLY_RERUN_AICL=0, POWER_SUPPLY_NAME=battery, POWER_SUPPLY_VOLTAGE_MAX=4450000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT_MAX=4000000, POWER_SUPPLY_CHARGE_COUNTER=2385370, POWER_SUPPLY_STEP_CHARGING_ENABLED=0, POWER_SUPPLY_DIE_HEALTH=Cool, POWER_SUPPLY_INPUT_SUSPEND=0}
+09-28 15:10:53.532 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:10:53.534  4835  4835 D WidgetApplication: updateExistWidget: android.intent.action.BATTERY_CHANGED
+09-28 15:10:53.536  4835  5030 D CmdCenter: - RowBase2: sPrevModStatus: 1, modStatus: 1
+09-28 15:10:53.536  4835  5030 D CmdCenter: - RowBase2: sPrevBatStatus: 2, status: 2
+09-28 15:10:53.536  4835  5030 D CmdCenter: - RowBase2: sPrevChargeRate = 1, new = 1
+09-28 15:10:53.536  4835  5030 D CmdCenter: - RowBase2: sPrevPlugType: 2 plugType: 2
+09-28 15:10:54.776  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:10:55.817  5125  5125 W ThreadPoolForeg: type=1400 audit(0.0:129874): avc: denied { write } for name="traced_producer" dev="tmpfs" ino=39187 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:traced_producer_socket:s0 tclass=sock_file permissive=0 app=com.google.android.gms
+09-28 15:10:57.210 32514 32569 I Finsky:background: [4925] Stats for Executor: bgExecutor xvl@ccfae41[Running, pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 289]
+09-28 15:10:57.231 32514 32569 I Finsky:background: [4925] Stats for Executor: LightweightExecutor xvl@2cb2fe6[Running, pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 204]
+09-28 15:10:57.330 32514 32569 I Finsky:background: [4925] Stats for Executor: BlockingExecutor xvl@affa927[Running, pool size = 1, active threads = 0, queued tasks = 0, completed tasks = 72]
+09-28 15:10:57.795  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:10:57.850 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:10:57.850  4835  4835 D WidgetApplication: updateExistWidget: android.intent.action.BATTERY_CHANGED
+09-28 15:10:57.852  4835  5030 D CmdCenter: - RowBase2: sPrevModStatus: 1, modStatus: 1
+09-28 15:10:57.852  4835  5030 D CmdCenter: - RowBase2: sPrevBatStatus: 2, status: 2
+09-28 15:10:57.852  4835  5030 D CmdCenter: - RowBase2: sPrevChargeRate = 1, new = 1
+09-28 15:10:57.852  4835  5030 D CmdCenter: - RowBase2: sPrevPlugType: 2 plugType: 2
+09-28 15:10:58.619  1403  2358 D BatteryService: uevent={POWER_SUPPLY_DP_DM=0, POWER_SUPPLY_TEMP_HOT=0, POWER_SUPPLY_VOLTAGE_QNOVO=-22, POWER_SUPPLY_VOLTAGE_NOW=4305175, POWER_SUPPLY_SW_JEITA_ENABLED=0, POWER_SUPPLY_CHARGE_CONTROL_LIMIT_MAX=10, POWER_SUPPLY_RECHARGE_SOC=99, POWER_SUPPLY_HEALTH=Good, POWER_SUPPLY_TECHNOLOGY=Li-ion, POWER_SUPPLY_CHARGER_TEMP_MAX=800, POWER_SUPPLY_FCC_STEPPER_ENABLE=0, SEQNUM=16532, POWER_SUPPLY_INPUT_CURRENT_LIMITED=1, POWER_SUPPLY_CHARGE_CONTROL_LIMIT=0, POWER_SUPPLY_STATUS=Charging, POWER_SUPPLY_CURRENT_MAX=3600000, POWER_SUPPLY_CYCLE_COUNT=0, POWER_SUPPLY_CHARGE_TERM_CURRENT=-100, POWER_SUPPLY_CAPACITY=91, DEVPATH=/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-02/c440000.qcom,spmi:qcom,pm7250b@2:qcom,qpnp-smb5-mmi/power_supply/battery, POWER_SUPPLY_CHARGE_DONE=0, POWER_SUPPLY_CHARGE_TYPE=Fast, POWER_SUPPLY_CHARGER_TEMP=360, POWER_SUPPLY_CHARGE_RATE=Normal, POWER_SUPPLY_CURRENT_QNOVO=-22, POWER_SUPPLY_CURRENT_NOW=230407, POWER_SUPPLY_PRESENT=1, POWER_SUPPLY_PARALLEL_DISABLE=0, POWER_SUPPLY_CHARGE_FULL=4043000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT=3600000, SUBSYSTEM=power_supply, POWER_SUPPLY_SET_SHIP_MODE=0, POWER_SUPPLY_TEMP=330, ACTION=change, POWER_SUPPLY_RERUN_AICL=0, POWER_SUPPLY_NAME=battery, POWER_SUPPLY_VOLTAGE_MAX=4450000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT_MAX=4000000, POWER_SUPPLY_CHARGE_COUNTER=2385370, POWER_SUPPLY_STEP_CHARGING_ENABLED=0, POWER_SUPPLY_DIE_HEALTH=Cool, POWER_SUPPLY_INPUT_SUSPEND=0}
+09-28 15:10:58.645 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:10:58.650  4835  4835 D WidgetApplication: updateExistWidget: android.intent.action.BATTERY_CHANGED
+09-28 15:10:58.651  4835  5030 D CmdCenter: - RowBase2: sPrevModStatus: 1, modStatus: 1
+09-28 15:10:58.651  4835  5030 D CmdCenter: - RowBase2: sPrevBatStatus: 2, status: 2
+09-28 15:10:58.651  4835  5030 D CmdCenter: - RowBase2: sPrevChargeRate = 1, new = 1
+09-28 15:10:58.651  4835  5030 D CmdCenter: - RowBase2: sPrevPlugType: 2 plugType: 2
+09-28 15:11:00.023  1110  2360 D slpi    : vcnl36866_ALS_handle:lux:13.486257, last_ps:far[200], als_raw:63, ir_raw:61, als_scale:1.029171, THDH:96,THDL:64,CONF:962, PSTH  L 78 H 398 INT 0x8ff
+09-28 15:11:00.818  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:11:03.750  1403  2358 D BatteryService: uevent={POWER_SUPPLY_DP_DM=0, POWER_SUPPLY_TEMP_HOT=0, POWER_SUPPLY_VOLTAGE_QNOVO=-22, POWER_SUPPLY_VOLTAGE_NOW=4298363, POWER_SUPPLY_SW_JEITA_ENABLED=0, POWER_SUPPLY_CHARGE_CONTROL_LIMIT_MAX=10, POWER_SUPPLY_RECHARGE_SOC=99, POWER_SUPPLY_HEALTH=Good, POWER_SUPPLY_TECHNOLOGY=Li-ion, POWER_SUPPLY_CHARGER_TEMP_MAX=800, POWER_SUPPLY_FCC_STEPPER_ENABLE=0, SEQNUM=16533, POWER_SUPPLY_INPUT_CURRENT_LIMITED=1, POWER_SUPPLY_CHARGE_CONTROL_LIMIT=0, POWER_SUPPLY_STATUS=Charging, POWER_SUPPLY_CURRENT_MAX=3600000, POWER_SUPPLY_CYCLE_COUNT=0, POWER_SUPPLY_CHARGE_TERM_CURRENT=-100, POWER_SUPPLY_CAPACITY=91, DEVPATH=/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-02/c440000.qcom,spmi:qcom,pm7250b@2:qcom,qpnp-smb5-mmi/power_supply/battery, POWER_SUPPLY_CHARGE_DONE=0, POWER_SUPPLY_CHARGE_TYPE=Fast, POWER_SUPPLY_CHARGER_TEMP=359, POWER_SUPPLY_CHARGE_RATE=Normal, POWER_SUPPLY_CURRENT_QNOVO=-22, POWER_SUPPLY_CURRENT_NOW=217895, POWER_SUPPLY_PRESENT=1, POWER_SUPPLY_PARALLEL_DISABLE=0, POWER_SUPPLY_CHARGE_FULL=4043000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT=3600000, SUBSYSTEM=power_supply, POWER_SUPPLY_SET_SHIP_MODE=0, POWER_SUPPLY_TEMP=330, ACTION=change, POWER_SUPPLY_RERUN_AICL=0, POWER_SUPPLY_NAME=battery, POWER_SUPPLY_VOLTAGE_MAX=4450000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT_MAX=4000000, POWER_SUPPLY_CHARGE_COUNTER=2385370, POWER_SUPPLY_STEP_CHARGING_ENABLED=0, POWER_SUPPLY_DIE_HEALTH=Cool, POWER_SUPPLY_INPUT_SUSPEND=0}
+09-28 15:11:03.767 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:11:03.769  4835  4835 D WidgetApplication: updateExistWidget: android.intent.action.BATTERY_CHANGED
+09-28 15:11:03.770  4835  5030 D CmdCenter: - RowBase2: sPrevModStatus: 1, modStatus: 1
+09-28 15:11:03.770  4835  5030 D CmdCenter: - RowBase2: sPrevBatStatus: 2, status: 2
+09-28 15:11:03.770  4835  5030 D CmdCenter: - RowBase2: sPrevChargeRate = 1, new = 1
+09-28 15:11:03.771  4835  5030 D CmdCenter: - RowBase2: sPrevPlugType: 2 plugType: 2
+09-28 15:11:03.840  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:11:06.062 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:11:06.062  4835  4835 D WidgetApplication: updateExistWidget: android.intent.action.BATTERY_CHANGED
+09-28 15:11:06.063  4835  5030 D CmdCenter: - RowBase2: sPrevModStatus: 1, modStatus: 1
+09-28 15:11:06.063  4835  5030 D CmdCenter: - RowBase2: sPrevBatStatus: 2, status: 2
+09-28 15:11:06.063  4835  5030 D CmdCenter: - RowBase2: sPrevChargeRate = 1, new = 1
+09-28 15:11:06.063  4835  5030 D CmdCenter: - RowBase2: sPrevPlugType: 2 plugType: 2
+09-28 15:11:06.861  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:11:08.866  1403  2358 D BatteryService: uevent={POWER_SUPPLY_DP_DM=0, POWER_SUPPLY_TEMP_HOT=0, POWER_SUPPLY_VOLTAGE_QNOVO=-22, POWER_SUPPLY_VOLTAGE_NOW=4282403, POWER_SUPPLY_SW_JEITA_ENABLED=0, POWER_SUPPLY_CHARGE_CONTROL_LIMIT_MAX=10, POWER_SUPPLY_RECHARGE_SOC=99, POWER_SUPPLY_HEALTH=Good, POWER_SUPPLY_TECHNOLOGY=Li-ion, POWER_SUPPLY_CHARGER_TEMP_MAX=800, POWER_SUPPLY_FCC_STEPPER_ENABLE=0, SEQNUM=16535, POWER_SUPPLY_INPUT_CURRENT_LIMITED=1, POWER_SUPPLY_CHARGE_CONTROL_LIMIT=0, POWER_SUPPLY_STATUS=Charging, POWER_SUPPLY_CURRENT_MAX=3600000, POWER_SUPPLY_CYCLE_COUNT=0, POWER_SUPPLY_CHARGE_TERM_CURRENT=-100, POWER_SUPPLY_CAPACITY=91, DEVPATH=/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-02/c440000.qcom,spmi:qcom,pm7250b@2:qcom,qpnp-smb5-mmi/power_supply/battery, POWER_SUPPLY_CHARGE_DONE=0, POWER_SUPPLY_CHARGE_TYPE=Fast, POWER_SUPPLY_CHARGER_TEMP=358, POWER_SUPPLY_CHARGE_RATE=Normal, POWER_SUPPLY_CURRENT_QNOVO=-22, POWER_SUPPLY_CURRENT_NOW=130615, POWER_SUPPLY_PRESENT=1, POWER_SUPPLY_PARALLEL_DISABLE=0, POWER_SUPPLY_CHARGE_FULL=4043000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT=3600000, SUBSYSTEM=power_supply, POWER_SUPPLY_SET_SHIP_MODE=0, POWER_SUPPLY_TEMP=330, ACTION=change, POWER_SUPPLY_RERUN_AICL=0, POWER_SUPPLY_NAME=battery, POWER_SUPPLY_VOLTAGE_MAX=4450000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT_MAX=4000000, POWER_SUPPLY_CHARGE_COUNTER=2385370, POWER_SUPPLY_STEP_CHARGING_ENABLED=0, POWER_SUPPLY_DIE_HEALTH=Cool, POWER_SUPPLY_INPUT_SUSPEND=0}
+09-28 15:11:08.885 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:11:08.886  4835  4835 D WidgetApplication: updateExistWidget: android.intent.action.BATTERY_CHANGED
+09-28 15:11:08.886  4835  5030 D CmdCenter: - RowBase2: sPrevModStatus: 1, modStatus: 1
+09-28 15:11:08.887  4835  5030 D CmdCenter: - RowBase2: sPrevBatStatus: 2, status: 2
+09-28 15:11:08.887  4835  5030 D CmdCenter: - RowBase2: sPrevChargeRate = 1, new = 1
+09-28 15:11:08.887  4835  5030 D CmdCenter: - RowBase2: sPrevPlugType: 2 plugType: 2
+09-28 15:11:09.883  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:11:12.906  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:11:13.981  1403  2358 D BatteryService: uevent={POWER_SUPPLY_DP_DM=0, POWER_SUPPLY_TEMP_HOT=0, POWER_SUPPLY_VOLTAGE_QNOVO=-22, POWER_SUPPLY_VOLTAGE_NOW=4306732, POWER_SUPPLY_SW_JEITA_ENABLED=0, POWER_SUPPLY_CHARGE_CONTROL_LIMIT_MAX=10, POWER_SUPPLY_RECHARGE_SOC=99, POWER_SUPPLY_HEALTH=Good, POWER_SUPPLY_TECHNOLOGY=Li-ion, POWER_SUPPLY_CHARGER_TEMP_MAX=800, POWER_SUPPLY_FCC_STEPPER_ENABLE=0, SEQNUM=16536, POWER_SUPPLY_INPUT_CURRENT_LIMITED=1, POWER_SUPPLY_CHARGE_CONTROL_LIMIT=0, POWER_SUPPLY_STATUS=Charging, POWER_SUPPLY_CURRENT_MAX=3600000, POWER_SUPPLY_CYCLE_COUNT=0, POWER_SUPPLY_CHARGE_TERM_CURRENT=-100, POWER_SUPPLY_CAPACITY=91, DEVPATH=/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-02/c440000.qcom,spmi:qcom,pm7250b@2:qcom,qpnp-smb5-mmi/power_supply/battery, POWER_SUPPLY_CHARGE_DONE=0, POWER_SUPPLY_CHARGE_TYPE=Fast, POWER_SUPPLY_CHARGER_TEMP=358, POWER_SUPPLY_CHARGE_RATE=Normal, POWER_SUPPLY_CURRENT_QNOVO=-22, POWER_SUPPLY_CURRENT_NOW=197143, POWER_SUPPLY_PRESENT=1, POWER_SUPPLY_PARALLEL_DISABLE=0, POWER_SUPPLY_CHARGE_FULL=4043000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT=3600000, SUBSYSTEM=power_supply, POWER_SUPPLY_SET_SHIP_MODE=0, POWER_SUPPLY_TEMP=330, ACTION=change, POWER_SUPPLY_RERUN_AICL=0, POWER_SUPPLY_NAME=battery, POWER_SUPPLY_VOLTAGE_MAX=4450000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT_MAX=4000000, POWER_SUPPLY_CHARGE_COUNTER=2385370, POWER_SUPPLY_STEP_CHARGING_ENABLED=0, POWER_SUPPLY_DIE_HEALTH=Cool, POWER_SUPPLY_INPUT_SUSPEND=0}
+09-28 15:11:13.997  4835  4835 D WidgetApplication: updateExistWidget: android.intent.action.BATTERY_CHANGED
+09-28 15:11:13.997 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:11:13.998  4835  5030 D CmdCenter: - RowBase2: sPrevModStatus: 1, modStatus: 1
+09-28 15:11:13.998  4835  5030 D CmdCenter: - RowBase2: sPrevBatStatus: 2, status: 2
+09-28 15:11:13.998  4835  5030 D CmdCenter: - RowBase2: sPrevChargeRate = 1, new = 1
+09-28 15:11:13.998  4835  5030 D CmdCenter: - RowBase2: sPrevPlugType: 2 plugType: 2
+09-28 15:11:14.242  4835  4835 D WidgetApplication: updateExistWidget: android.intent.action.BATTERY_CHANGED
+09-28 15:11:14.244  4835  5030 D CmdCenter: - RowBase2: sPrevModStatus: 1, modStatus: 1
+09-28 15:11:14.244  4835  5030 D CmdCenter: - RowBase2: sPrevBatStatus: 2, status: 2
+09-28 15:11:14.244  4835  5030 D CmdCenter: - RowBase2: sPrevChargeRate = 1, new = 1
+09-28 15:11:14.244  4835  5030 D CmdCenter: - RowBase2: sPrevPlugType: 2 plugType: 2
+09-28 15:11:14.246 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:11:15.930  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:11:16.845  4489  4489 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.common.BIND_SHARED_PREFS pkg=com.google.android.gms }
+09-28 15:11:18.607  4489  4489 W ThreadPoolForeg: type=1400 audit(0.0:129875): avc: denied { write } for name="traced_producer" dev="tmpfs" ino=39187 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:traced_producer_socket:s0 tclass=sock_file permissive=0 app=com.google.android.gms
+09-28 15:11:18.954  1403  2534 D WifiStaIfaceHidlImpl: getCachedScanData is not implemented by HIDL
+09-28 15:11:19.099  1403  2358 D BatteryService: uevent={POWER_SUPPLY_DP_DM=0, POWER_SUPPLY_TEMP_HOT=0, POWER_SUPPLY_VOLTAGE_QNOVO=-22, POWER_SUPPLY_VOLTAGE_NOW=4302256, POWER_SUPPLY_SW_JEITA_ENABLED=0, POWER_SUPPLY_CHARGE_CONTROL_LIMIT_MAX=10, POWER_SUPPLY_RECHARGE_SOC=99, POWER_SUPPLY_HEALTH=Good, POWER_SUPPLY_TECHNOLOGY=Li-ion, POWER_SUPPLY_CHARGER_TEMP_MAX=800, POWER_SUPPLY_FCC_STEPPER_ENABLE=0, SEQNUM=16538, POWER_SUPPLY_INPUT_CURRENT_LIMITED=1, POWER_SUPPLY_CHARGE_CONTROL_LIMIT=0, POWER_SUPPLY_STATUS=Charging, POWER_SUPPLY_CURRENT_MAX=3600000, POWER_SUPPLY_CYCLE_COUNT=0, POWER_SUPPLY_CHARGE_TERM_CURRENT=-100, POWER_SUPPLY_CAPACITY=91, DEVPATH=/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-02/c440000.qcom,spmi:qcom,pm7250b@2:qcom,qpnp-smb5-mmi/power_supply/battery, POWER_SUPPLY_CHARGE_DONE=0, POWER_SUPPLY_CHARGE_TYPE=Fast, POWER_SUPPLY_CHARGER_TEMP=358, POWER_SUPPLY_CHARGE_RATE=Normal, POWER_SUPPLY_CURRENT_QNOVO=-22, POWER_SUPPLY_CURRENT_NOW=162353, POWER_SUPPLY_PRESENT=1, POWER_SUPPLY_PARALLEL_DISABLE=0, POWER_SUPPLY_CHARGE_FULL=4043000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT=3600000, SUBSYSTEM=power_supply, POWER_SUPPLY_SET_SHIP_MODE=0, POWER_SUPPLY_TEMP=331, ACTION=change, POWER_SUPPLY_RERUN_AICL=0, POWER_SUPPLY_NAME=battery, POWER_SUPPLY_VOLTAGE_MAX=4450000, POWER_SUPPLY_CONSTANT_CHARGE_CURRENT_MAX=4000000, POWER_SUPPLY_CHARGE_COUNTER=2385370, POWER_SUPPLY_STEP_CHARGING_ENABLED=0, POWER_SUPPLY_DIE_HEALTH=Cool, POWER_SUPPLY_INPUT_SUSPEND=0}
+09-28 15:11:19.120  4835  4835 D WidgetApplication: updateExistWidget: android.intent.action.BATTERY_CHANGED
+09-28 15:11:19.120  4835  5030 D CmdCenter: - RowBase2: sPrevModStatus: 1, modStatus: 1
+09-28 15:11:19.120  4835  5030 D CmdCenter: - RowBase2: sPrevBatStatus: 2, status: 2
+09-28 15:11:19.121  4835  5030 D CmdCenter: - RowBase2: sPrevChargeRate = 1, new = 1
+09-28 15:11:19.121 19770 19770 D QtiCarrierConfigHelper: WARNING, no carrier configs on phone Id: 0
+09-28 15:11:19.121  4835  5030 D CmdCenter: - RowBase2: sPrevPlugType: 2 plugType: 2
+09-28 15:11:19.290  1403  3109 D CompatibilityChangeReporter: Compat change id reported: 135634846; UID 10117; state: DISABLED
+09-28 15:11:19.291  1403  3109 D CompatibilityChangeReporter: Compat change id reported: 135754954; UID 10117; state: ENABLED
+09-28 15:11:19.292  1403  1455 D CompatibilityChangeReporter: Compat change id reported: 143937733; UID 10117; state: ENABLED
+09-28 15:11:19.319  1027  1027 D Zygote  : Forked child process 8228
+09-28 15:11:19.321  1403  1455 I ActivityManager: Start proc 8228:com.motorola.lifetimedata/u0a117 for broadcast {com.motorola.lifetimedata/com.motorola.lifetimedata.receiver.LifetimeDataReceiver}
+09-28 15:11:19.344  8228  8228 E la.lifetimedat: Not starting debugger since process cannot load the jdwp agent.
+09-28 15:11:19.376  8228  8228 W la.lifetimedat: ClassLoaderContext classpath size mismatch. expected=6, found=0 (PCL[/system/framework/com.android.location.provider.jar*1664931834:/system/framework/services.jar*3341683303:/system/framework/services.jar!classes2.dex*2630529248:/system/framework/ethernet-service.jar*2666564172:/system/framework/moto-telephony.jar*2491191435:/system/framework/moto-core_services.jar*3880308362] | PCL[])
+09-28 15:11:19.429  8228  8228 D NetworkSecurityConfig: No Network Security Config specified, using platform default
+09-28 15:11:19.430  8228  8228 D NetworkSecurityConfig: No Network Security Config specified, using platform default
+09-28 15:11:19.491  8228  8248 D LifetimeData: LifetimeDataRepository: ifNotExists: File exists: true
+09-28 15:11:19.495  8228  8248 I chatty  : uid=10117(com.motorola.lifetimedata) onPool-worker-1 identical 2 lines
+09-28 15:11:19.495  8228  8248 D LifetimeData: LifetimeDataRepository: ifNotExists: File exists: true
+09-28 15:11:19.756  7794  7913 I ndroid.verifie: oneway function results will be dropped but finished with status UNKNOWN_TRANSACTION and parcel size 0
+09-28 15:11:19.774  7071  7089 I android.vendin: oneway function results will be dropped but finished with status UNKNOWN_TRANSACTION and parcel size 0

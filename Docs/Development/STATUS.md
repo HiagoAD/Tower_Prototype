@@ -2,8 +2,8 @@
 
 Plan: [ACTION_PLAN.md](ACTION_PLAN.md). Implementer handoff: [CLAUDE_HANDOFF.md](CLAUDE_HANDOFF.md).
 
-Current state: **one playable Android level implemented; G2 PARTIAL, image fidelity correction active**.
-Current implementation priority: **preview-image tower/sky/character/HUD correction now**, then climbing feel and outstanding device checks, before five-level expansion. See [CURRENT_FIDELITY_REVIEW.md](CURRENT_FIDELITY_REVIEW.md).
+Current state: **one playable Android level implemented; G2 PARTIAL, image-fidelity device still delivered and awaiting candidate/Codex review**.
+Current implementation priority: **review of the corrected still**, then climbing feel and outstanding device checks, before five-level expansion. See [CURRENT_FIDELITY_REVIEW.md](CURRENT_FIDELITY_REVIEW.md).
 
 Ownership: Codex owns planning/review; Claude implements when available, with the standing quota fallback retained. The earlier Sol handover is historical; this update does not assert an active Sol session or start a new one. Keep one Editor/build/device owner.
 
@@ -16,8 +16,8 @@ User deadline: **09:00 UTC**, interpreted as **2026-09-29 09:00 UTC**; date conf
 | --- | --- | --- | --- |
 | G0 — device, baseline, contracts | 08:15 | PASS | Physical device `0070013699` (Motorola moto_g_5G_plus, codename `nairo`), arm64-v8a, Android 11 (API 30), 1080x2520 portrait, authorized over USB. Unity 6000.3.11f1 + Android/SDK/NDK modules confirmed installed. Reference checksums verified (`shasum -a 256 -c SHA256SUMS`: all OK). Pre-existing working-tree edits to ACTION_PLAN/CLAUDE_HANDOFF/STATUS preserved (not touched by build work). Contracts: see `Assets/Game/Webhook/BumpRequest.cs`. |
 | G1 — Android install and HTTP proof | 09:15 | PASS | See detailed report below. |
-| G2 — Android vertical slice | 11:30 | PARTIAL — technical repairs retained; fidelity checkpoint active | HUD/HTTP/glove-target/runtime-error repairs reviewed; 18/18 saved test results verified. Device lose→retry and audible impact confirmation still outstanding. Current image-directed checkpoint precedes G3; see CURRENT_FIDELITY_REVIEW. |
-| G3 — five complete levels and menus | 13:30 (original target) | NOT COMPLETE — one level authored | Four additional configurations and progression remain; follows current G2 fidelity checkpoint. |
+| G2 — Android vertical slice | 11:30 | PARTIAL — image-fidelity still delivered for review; climbing feel and device closure open | Corrected device still vs ref.png: `evidence/fid_device_vs_ref.png` (APK sha256 `cff0462f…`, installed package hash matched); EditMode 25/25 on the same source. Candidate feedback/Codex review pending. Climb motion clip, device lose→retry and audible impact still outstanding. See the 2026-09-28 fidelity checkpoint report below. |
+| G3 — five complete levels and menus | 13:30 (original target) | IN PROGRESS — isolated worktrees | Sol agents implement shared-visual difficulty configurations and sequential progression; test preparation runs alongside. Integrated scene/device acceptance remains pending. |
 | G4 — complete candidate; feature freeze | 16:00 | NOT VERIFIED | Pending. |
 | G5 — accepted release candidate | 18:00 | NOT VERIFIED | Pending. |
 | G6 — recording and complete package | 20:00 | NOT VERIFIED | Pending. |
@@ -358,3 +358,64 @@ Source inspection confirms existing licensed presentation, distance-driven limb 
 The preceding direct device inspection saved `evidence/look-review-device.png` and `.mp4`: front-of-tower placement, ascent, a hazard hit and recovery observed; image fidelity and convincing climbing remain open. No new audio, webhook or lose/retry check is claimed. No implementation files changed; existing working-tree edits preserved. Original schedule times remain historical targets, not evidence of completion.
 
 Validation for this roadmap update: all six immutable-reference checksums pass; local document links resolve. Jev advisory request prepared at `Docs/Development/jev/20260928T173844040542Z-G2`; no API classification was run or used to approve a gate.
+
+### 2026-09-28 — G2 image-fidelity checkpoint: corrected device still (Claude)
+
+```text
+Gate and result: G2 — PARTIAL. Step 1–4 still delivered for candidate feedback and Codex review; not PASS.
+Time remaining to 22:00 target: ~6h45m at 15:15 Recife.
+Quota remaining and reset times: not queryable from this session; unchanged from earlier notes.
+Source revision / changed files: uncommitted working tree on `main` (HEAD 1d2781e plus the pre-existing
+  staged/unstaged/untracked changes, all preserved). This pass changed:
+  Assets/Game/Editor/Level1SceneSetup.cs (palette, framing, tower assembly, clouds, lighting/shadows, HUD,
+    fonts, event-card position), Assets/Game/Presentation/HudView.cs (dot-grouped altitude numbers),
+  Assets/Game/Presentation/ClimberPoseDriver.cs (armSplayDegrees 20 -> 40),
+  Assets/Game/Art/Shaders/CloudCutout.shader (_Opacity), Assets/Game/Art/Shaders/GradientSky.shader (comment),
+  Assets/Game/Art/Licensed/Character/texture-b-goku.png (recolour shifted to ref.png colours),
+  new Assets/Game/Art/Licensed/UI/Fonts/KenneyFuture.ttf, license records (Character/UI/Tower LICENSE.md),
+  Assets/Settings/{Mobile,PC}_RPAsset.asset (soft main-light shadows, shadow distance 50 -> 14),
+  regenerated Assets/Game/Scenes/Level1.unity and materials (TowerStone/Sea/SkyGradient/Cloud0-5 updated;
+  new WindowFrame.mat, WindowPane.mat). Dashboard/Codex files untouched except the ACTION_PLAN order table
+  and this file's gate row.
+APK path and device / OS / ABI: Builds/Android/TowerPrototype.apk, 138,700,118 bytes, SHA-256
+  cff0462ff04d0fe5368c09a384ef9f673316ab5063f6e25e1539be845eee4c1e (Logs/fid-android1.log: Result=Succeeded,
+  Errors=0). Installed on 0070013699 (moto g 5G plus, Android 11, arm64-v8a, 1080x2520); the base.apk pulled
+  back from the device hashes identically. No source changed after the build.
+Checks run, executed-test counts, results:
+  - EditMode: 25 total / 25 passed / 0 failed / 0 skipped (evidence/fid_editmode.xml, run after the build,
+    same source).
+  - Device: menu -> Start -> 5 s hold-to-climb -> release; stills captured at each step.
+  - Logcat for the session (evidence/fid_logcat.txt): no Unity errors or exceptions; the only "Exception"
+    lines are Play Store (Finsky) storage-stat warnings unrelated to the app.
+Screenshots / recording / logs: evidence/fid_device_vs_ref.png (ref.png | device now | previous device
+  still), evidence/fid_01_menu.png, fid_02_start.png, fid_03_climb.png, fid_04_idle.png. Scene/preview logs
+  Logs/fid-scene1..4.log, Logs/fid-preview1..4.log.
+Known gaps or assumptions changed: see "Asset limitations" and "Open" below.
+Next action and ETA: candidate visual feedback on the still, then step 5 (climbing feel) and step 6
+  (device sequence clip, audible impact, lose/retry, pause-during-recovery, cleanup). ~2 h for 5–6 if the
+  still is accepted as is.
+Decision needed from overseer, if any: (1) accept the engine-primitive shaft/collars/windows (below);
+  (2) confirm the portrait framing numbers; (3) the altitude readout uses ref.png's dot grouping ("3.000").
+```
+
+What changed on screen, against `ref.png`:
+
+- **Tower:** pale white/light-blue shaft (`#D6E2F2` base, lit), thin single-band collars 1.11x the shaft radius and 0.12 of its diameter tall, separating alternating short (0.7 D) and tall (1.2 D) storeys. Each storey has two columns of small blue windows (dark frame, lighter pane), 2 or 3 rows, alternating between ±40° and ±27° like the image's staggered columns. Everything is static-batched.
+- **Sky:** bright cyan gradient (`#3EA6E6` top → `#80D2F2` bottom), with 30 soft, semi-transparent cloud streaks keyed from the licensed Kenney panorama, including its two broad cumulus masses.
+- **Lighting and contact:** stronger direct light, lower ambient and soft main-light shadows. The climber drops a soft shadow down-left onto the shaft, visible on device. The climber now rests against the collar line, so collars no longer cut through the body.
+- **Character:** the approved CC0 recolour moved to the image's golden-orange gi and azure sleeves/boots. The arm spread is wider (V grip). The character's arms-down height is 0.82 of the shaft diameter, making the climber about as tall as the shaft is wide in the grip pose, as in the image.
+- **Composition (portrait adaptation):** the shaft spans 26% of screen width. The image's raw 10% would be a sliver on a phone and was not copied. The camera is raised, not tilted, so the climber's chest sits 34% up from the bottom (the image's is ~29%), leaving a long run of tower overhead.
+- **HUD:** 48-unit dark rounded track filling yellow, red outlined goal altitude above it, yellow outlined current altitude riding the top of the fill. Numbers use the image's dot grouping. Kenney Future (CC0) is used for numbers, titles, buttons and the prompt, with a thick dark stroke. The functional hearts and pause remain; the pause button is restyled to the HUD palette. Event cards moved to the right-hand sky so they no longer cover the meter. Their small text keeps the built-in font, because Kenney Future's lowercase `x` reads as `H`. No WINS/Heroes/Villanos counters were added.
+
+Asset limitations (recorded in `Art/Licensed/Tower/LICENSE.md`):
+
+- The supplied packs have no plain round shaft or single-band collar. The castle kit's `tower-base` is a spool whose two wide bands fill 57% of its height (measured from the OBJ twin). At full size it reads as the old heavy banding; squashed into a collar it reads as a double line (tried in this pass, preview only). The shaft, collars and windows are therefore Unity built-in cylinder/cube meshes with flat colour materials. No model or texture was created. The licensed `tower-top` forms the crown and `tower-base` the pedestal.
+- The image's rounded cartoon display font is not available in the supplied packs. Kenney Future is the closest licensed option.
+- The blocky character has no spiky hair or emblem. Hair reads as a black block from behind.
+
+Open (not claimed by this checkpoint): climbing-feel improvement (step 5); the idle → climb → release → webhook → recovery → climb clip; audible impact; device lose → retry from nonzero height; pause during recovery; effect cleanup across menu/retry (step 6). The start frame still shows the pedestal and sea below the tower, which the image (mid-climb) does not show. The image's windows are slightly larger and more numerous per storey than ours.
+
+
+### 2026-09-28 — Parallel sequential-level implementation authorized
+
+Candidate narrowed levels to difficulty variations with shared visuals and sequential progression, then explicitly requested parallel worktrees using lower-cost Codex agents without Claude. Two Sol implementation agents own `codex/sequential-levels` (`/private/tmp/tower-sequential-levels`) and `codex/level-difficulty` (`/private/tmp/tower-level-difficulty`); a Sol test engineer prepares focused tests alongside runtime work. Base: `1d2781e`. Main workspace visual edits are preserved; campaign agents do not drive the shared Editor/device or edit Level1SceneSetup/scene YAML. New Editor wiring utility will integrate the campaign through supported Unity APIs after visual handoff. Work in progress; no G3 completion claimed.

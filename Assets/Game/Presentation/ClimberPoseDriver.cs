@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Game.Presentation
 {
     /// <summary>
-    /// Procedurally poses the character's existing rigid limb parts (character-c.fbx has no bones --
+    /// Procedurally poses the character's existing rigid limb parts (the Kenney blocky character has no bones --
     /// arm-left/arm-right/leg-left/leg-right/torso/head are separate rigid meshes, each pivoted at
     /// its own joint) from PlayerMotor/GameSession state. Lives on the "Visual" child, well below
     /// the gameplay root -- LateUpdate only ever writes local rotations/positions on limb and body
@@ -27,7 +27,11 @@ namespace Game.Presentation
         [SerializeField] private float strideLength = 1.1f;
 
         [Header("Grip / climb angles (degrees, local X)")]
-        [SerializeField] private float armGripAngle = 150f;
+        [SerializeField] private float armGripAngle = 165f;
+
+        // Outward (sideways) spread of both arms, so the raised hands read either side of the head
+        // from behind -- the reference climber's V-shaped grip -- instead of hiding behind it.
+        [SerializeField] private float armSplayDegrees = 40f;
         [SerializeField] private float armSwingAmplitude = 35f;
         [SerializeField] private float legGripAngle = 35f;
         [SerializeField] private float legSwingAmplitude = 25f;
@@ -185,10 +189,10 @@ namespace Game.Presentation
             _bodyPushOffset = Mathf.Lerp(_bodyPushOffset, targetPush, blend);
             _bodyTiltOffset = Mathf.Lerp(_bodyTiltOffset, targetTilt, blend);
 
-            ApplyLimb(armLeft, _armLeftAngle);
-            ApplyLimb(armRight, _armRightAngle);
-            ApplyLimb(legLeft, _legLeftAngle);
-            ApplyLimb(legRight, _legRightAngle);
+            ApplyLimb(armLeft, _armLeftAngle, -armSplayDegrees);
+            ApplyLimb(armRight, _armRightAngle, armSplayDegrees);
+            ApplyLimb(legLeft, _legLeftAngle, 0f);
+            ApplyLimb(legRight, _legRightAngle, 0f);
 
             if (bodyRoot != null)
             {
@@ -197,11 +201,11 @@ namespace Game.Presentation
             }
         }
 
-        private static void ApplyLimb(Transform limb, float angleDegrees)
+        private static void ApplyLimb(Transform limb, float angleDegrees, float splayDegrees)
         {
             if (limb != null)
             {
-                limb.localRotation = Quaternion.Euler(angleDegrees, 0f, 0f);
+                limb.localRotation = Quaternion.Euler(angleDegrees, 0f, splayDegrees);
             }
         }
     }

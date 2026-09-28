@@ -1,18 +1,32 @@
+using System.Globalization;
 using Game.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Game.Presentation
 {
-    /// <summary>Consumes GameSession snapshots/events only -- never writes gameplay state.</summary>
+    /// <summary>
+    /// Reference-style altitude HUD: a vertical bar on the left edge whose yellow fill and marker
+    /// (carrying the live height number) rise with the player, the finish height printed above the
+    /// bar, and remaining hit points as heart icons. Consumes GameSession snapshots/events only -- never
+    /// writes gameplay state.
+    /// </summary>
     public sealed class HudView : MonoBehaviour
     {
         [SerializeField] private GameSession session;
-        [SerializeField] private Text heightText;
-        [SerializeField] private Text hitPointsText;
-        [SerializeField] private Text bumpFeedText;
+        [SerializeField] private RectTransform progressFill;
+        [SerializeField] private RectTransform progressMarker;
+        [SerializeField] private Text heightLabel;
+        [SerializeField] private Text finishLabel;
+        [SerializeField] private GameObject[] heartIcons;
 
-        private float _bumpFeedTimer;
+        // World units are small (a level is tens of units tall); the reference counts altitude in
+        // the thousands, so the readout is scaled for display only.
+        [SerializeField] private int displayUnitsPerWorldUnit = 100;
+
+        // ref.png groups thousands with a dot ("6.162", "10.000").
+        private static readonly NumberFormatInfo AltitudeFormat = new NumberFormatInfo { NumberDecimalSeparator = ",", NumberGroupSeparator = ".", NumberGroupSizes = new[] { 3 } };
+
         private int _lastHeight = int.MinValue;
         private int _lastFinishHeight = int.MinValue;
 
@@ -20,64 +34,60 @@ namespace Game.Presentation
         {
             session.HeightUpdated += OnHeightUpdated;
             session.HitPointsChanged += OnHitPointsChanged;
-            session.BumpAccepted += OnBumpAccepted;
+            OnHitPointsChanged(session.HitPoints);
         }
 
         private void OnDisable()
         {
             session.HeightUpdated -= OnHeightUpdated;
             session.HitPointsChanged -= OnHitPointsChanged;
-            session.BumpAccepted -= OnBumpAccepted;
-        }
-
-        private void Update()
-        {
-            if (_bumpFeedTimer <= 0f)
-            {
-                return;
-            }
-
-            _bumpFeedTimer -= Time.deltaTime;
-            if (_bumpFeedTimer <= 0f && bumpFeedText != null)
-            {
-                bumpFeedText.text = string.Empty;
-            }
         }
 
         private void OnHeightUpdated(float height, float finishHeight)
         {
-            int flooredHeight = Mathf.FloorToInt(height);
-            int flooredFinish = Mathf.FloorToInt(finishHeight);
-            if (flooredHeight == _lastHeight && flooredFinish == _lastFinishHeight)
+            float progress = finishHeight > 0f ? Mathf.Clamp01(height / finishHeight) : 0f;
+            SetAnchorTop(progressFill, progress);
+            if (progressMarker != null)
+            {
+                progressMarker.anchorMin = new Vector2(progressMarker.anchorMin.x, progress);
+                progressMarker.anchorMax = new Vector2(progressMarker.anchorMax.x, progress);
+            }
+
+            int displayHeight = Mathf.FloorToInt(height * displayUnitsPerWorldUnit);
+            int displayFinish = Mathf.FloorToInt(finishHeight * displayUnitsPerWorldUnit);
+            if (displayHeight == _lastHeight && displayFinish == _lastFinishHeight)
             {
                 return;
             }
 
-            _lastHeight = flooredHeight;
-            _lastFinishHeight = flooredFinish;
+            _lastHeight = displayHeight;
+            _lastFinishHeight = displayFinish;
 
-            if (heightText != null)
+            if (heightLabel != null)
             {
-                heightText.text = flooredHeight + "m / " + flooredFinish + "m";
+                heightLabel.text = displayHeight.ToString("#,0", AltitudeFormat);
+            }
+
+            if (finishLabel != null)
+            {
+                finishLabel.text = displayFinish.ToString("#,0", AltitudeFormat);
+            }
+        }
+
+        private static void SetAnchorTop(RectTransform rect, float top)
+        {
+            if (rect != null)
+            {
+                rect.anchorMax = new Vector2(rect.anchorMax.x, top);
             }
         }
 
         private void OnHitPointsChanged(int hitPoints)
         {
-            if (hitPointsText != null)
+            for (int i = 0; i < heartIcons.Length; i++)
             {
-                hitPointsText.text = "HP: " + hitPoints;
+                heartIcons[i].SetActive(i < hitPoints);
             }
-        }
-
-        private void OnBumpAccepted(string requestId)
-        {
-            if (bumpFeedText != null)
-            {
-                bumpFeedText.text = "BUMP! " + requestId.Substring(0, 8);
-            }
-
-            _bumpFeedTimer = 2f;
         }
     }
 }
