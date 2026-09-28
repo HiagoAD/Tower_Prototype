@@ -17,11 +17,22 @@ namespace Game.Core
         [SerializeField] private Material hazardActiveMaterial;
         [SerializeField] private Material hazardSafeMaterial;
 
+        // Both derived at editor time (Level1SceneSetup) from the imported tower/character bounds --
+        // see HazardBand.Initialize's doc comment for what each controls.
+        [SerializeField] private float hazardVisualDiameter = 2.6f;
+        [SerializeField] private float hazardContactHeightOffset = 0f;
+
         private readonly System.Collections.Generic.List<HazardBand> _spawnedHazards = new System.Collections.Generic.List<HazardBand>();
         private BumpListener _listener;
 
         private volatile bool _accepting;
         private volatile int _levelInstanceId;
+
+        // GameSession's own clock, passed to every HazardBand instead of Time.time: it only
+        // advances while State == Playing (never while paused) and resets to 0 on StartLevel/Retry,
+        // so pausing never shifts a band's safe/active windows and a retry always starts hazards
+        // from the same phase.
+        private float _levelClock;
 
         public SessionState State { get; private set; } = SessionState.Menu;
         public int HitPoints { get; private set; }
@@ -62,6 +73,8 @@ namespace Game.Core
             {
                 return;
             }
+
+            _levelClock += Time.deltaTime;
 
             HeightUpdated?.Invoke(motor.Height, level.finishHeight);
 
@@ -106,6 +119,7 @@ namespace Game.Core
         public void StartLevel()
         {
             _levelInstanceId++;
+            _levelClock = 0f;
             HitPoints = startingHitPoints;
             motor.FinishHeight = level.finishHeight;
             motor.ClimbSpeed = level.climbSpeed;
@@ -134,6 +148,7 @@ namespace Game.Core
             }
 
             motor.CanClimb = false;
+            motor.Paused = true; // freezes knockback/invulnerability/lockout timers too, not just movement.
             _accepting = false;
             SetState(SessionState.Paused);
         }
@@ -146,6 +161,7 @@ namespace Game.Core
             }
 
             motor.CanClimb = true;
+            motor.Paused = false;
             _accepting = true;
             SetState(SessionState.Playing);
         }
@@ -153,6 +169,7 @@ namespace Game.Core
         public void ReturnToMenu()
         {
             motor.CanClimb = false;
+            motor.Paused = true;
             _accepting = false;
             ClearHazards();
             SetState(SessionState.Menu);
@@ -184,6 +201,7 @@ namespace Game.Core
         private void Win()
         {
             motor.CanClimb = false;
+            motor.Paused = true;
             _accepting = false;
             SetState(SessionState.Won);
         }
@@ -191,6 +209,7 @@ namespace Game.Core
         private void Lose()
         {
             motor.CanClimb = false;
+            motor.Paused = true;
             _accepting = false;
             SetState(SessionState.Lost);
         }
@@ -204,7 +223,7 @@ namespace Game.Core
                 var go = new GameObject("HazardBand");
                 go.transform.SetParent(transform, false);
                 HazardBand band = go.AddComponent<HazardBand>();
-                band.Initialize(spec, motor, OnHazardHit, hazardVisualPrefab, hazardActiveMaterial, hazardSafeMaterial);
+                band.Initialize(spec, motor, OnHazardHit, hazardVisualPrefab, hazardActiveMaterial, hazardSafeMaterial, () => _levelClock, hazardVisualDiameter, hazardContactHeightOffset);
                 _spawnedHazards.Add(band);
             }
         }

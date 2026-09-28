@@ -12,8 +12,15 @@ namespace Game.Gameplay
     /// </summary>
     public sealed class ClimbInputSource : MonoBehaviour
     {
+        /// <summary>
+        /// Single source of truth for the bottom-of-screen climb touch region, as a fraction of
+        /// Screen.height. The controls hint visual (see Level1SceneSetup) reads this same constant
+        /// so its drawn band can never drift out of sync with the actual input region below.
+        /// </summary>
+        public const float TouchRegionNormalizedHeight = 0.35f;
+
         [SerializeField] private PlayerMotor motor;
-        [Range(0f, 1f)][SerializeField] private float touchRegionNormalizedHeight = 0.35f;
+        [Range(0f, 1f)][SerializeField] private float touchRegionNormalizedHeight = TouchRegionNormalizedHeight;
 
         private void Update()
         {

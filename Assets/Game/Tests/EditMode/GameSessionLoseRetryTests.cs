@@ -17,13 +17,14 @@ namespace Game.Tests.EditMode
     /// one test is safe on that front. It does still open and close a real (unused) loopback listener
     /// for its lifetime; the GameObject is destroyed in every exit path to close it promptly.
     ///
-    /// On-device manual play (see STATUS) could not reach Lose in a few honest climb attempts: each
-    /// hazard band's own invulnerability window (1.2s) comfortably outlasts the time needed to climb
-    /// back up to it after a knockback, so a single continuous climb yields at most one hit per band
-    /// -- at most 2 hits total against this level's 2 bands, never the 3 needed to reach 0 HP. This
-    /// test uses PlayerMotor.ResetState (public, and the same call GameSession.StartLevel already
-    /// makes) between hits to clear that invulnerability, simulating "enough time passed", instead of
-    /// depending on real-time hazard-cycle luck.
+    /// Historically (pre-G3 fix), on-device manual play could not reach Lose in a few honest climb
+    /// attempts: each hazard band's own invulnerability window (1.2s) comfortably outlasted the time
+    /// needed to climb back up to it after a knockback, so a single continuous climb yielded at most
+    /// one hit per band. PlayerMotor's invulnerability is now clamped to the knockback+re-grip
+    /// lockout (see PlayerMotorKnockbackTests), so that is no longer true, but this test still uses
+    /// PlayerMotor.ResetState (public, and the same call GameSession.StartLevel already makes)
+    /// between hits to clear invulnerability instantly, instead of depending on real-time hazard-cycle
+    /// luck for a test that is only exercising GameSession's Lose/Retry bookkeeping.
     /// </summary>
     public sealed class GameSessionLoseRetryTests
     {
@@ -50,6 +51,9 @@ namespace Game.Tests.EditMode
                 session.StartLevel();
                 Assert.AreEqual(Game.Core.SessionState.Playing, session.State);
                 Assert.AreEqual(3, session.HitPoints);
+
+                motor.ResetState(7f);
+                Assert.AreEqual(7f, motor.Height, "test setup must begin loss above zero so retry height is meaningful");
 
                 session.OnHazardHit();
                 Assert.AreEqual(2, session.HitPoints);

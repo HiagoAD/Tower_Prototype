@@ -19,7 +19,7 @@ namespace Game.Presentation
         [SerializeField] private CameraShake cameraShake;
         [SerializeField] private AudioSource impactAudioSource;
         [SerializeField] private Sprite gloveSprite;
-        [SerializeField] private PlayerMotor player;
+        [SerializeField] private Transform hitTarget;
         [SerializeField] private Camera worldCamera;
         [SerializeField] private int gloveCount = 6;
         [SerializeField] private float durationSeconds = 1f;
@@ -43,12 +43,7 @@ namespace Game.Presentation
         private void OnDisable()
         {
             session.BumpAccepted -= OnBumpAccepted;
-
-            // Unity already stops every coroutine owned by a disabled component; clear our handles
-            // and the flash opacity so a later re-enable does not inherit a stuck full-opacity flash.
-            _routine = null;
-            _flashRoutine = null;
-            ResetFlashOpacity();
+            StopOwnedEffects();
         }
 
         private void OnBumpAccepted(string requestId)
@@ -89,19 +84,49 @@ namespace Game.Presentation
             flashImage.color = c;
         }
 
+        private void StopOwnedEffects()
+        {
+            if (_routine != null)
+            {
+                StopCoroutine(_routine);
+                _routine = null;
+            }
+
+            if (_flashRoutine != null)
+            {
+                StopCoroutine(_flashRoutine);
+                _flashRoutine = null;
+            }
+
+            if (_gloveGroups != null)
+            {
+                foreach (RectTransform group in _gloveGroups)
+                {
+                    if (group != null)
+                    {
+                        group.gameObject.SetActive(false);
+                    }
+                }
+            }
+
+            ResetFlashOpacity();
+        }
+
         /// <summary>
-        /// Converts the player's current world position to burstRoot's local space, so the glove
-        /// burst converges on the character rather than the canvas origin. Recomputed every frame
-        /// the burst plays, since CameraFollow keeps tracking the player while it's active.
+        /// Converts hitTarget's current world position (the character's chest, not its feet/root --
+        /// see ClimberPoseDriver's "HitTarget" child) to burstRoot's local space, so the glove burst
+        /// converges on the visible character rather than the gameplay root or the canvas origin.
+        /// Recomputed every frame the burst plays, since CameraFollow keeps tracking the player while
+        /// it's active.
         /// </summary>
         private Vector2 ComputeTargetLocalPosition()
         {
-            if (player == null || worldCamera == null)
+            if (hitTarget == null || worldCamera == null)
             {
                 return Vector2.zero;
             }
 
-            Vector3 screenPoint = worldCamera.WorldToScreenPoint(player.transform.position);
+            Vector3 screenPoint = worldCamera.WorldToScreenPoint(hitTarget.position);
 
             // burstRoot lives on a ScreenSpaceOverlay canvas, so the camera argument must be null --
             // passing a camera there is only correct for ScreenSpaceCamera/WorldSpace canvases.
