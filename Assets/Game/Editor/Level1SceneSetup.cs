@@ -54,9 +54,10 @@ namespace Game.Editor
         private static readonly Color WindowPaneColor = new Color32(150, 190, 236, 255);
         private static readonly Color SeaColor = new Color32(104, 182, 226, 255);
 
-        // Safe hazard rings read as one more collar on the column; active ones glow red.
+        // A safe band must read as a harmless, deliberate ring against both the pale tower stone and
+        // the cyan sky, so it is a saturated mint green rather than another collar; active ones glow red.
         private static readonly Color HazardActiveColor = new Color(0.95f, 0.12f, 0.08f, 1f);
-        private static readonly Color HazardSafeColor = TowerStoneColor;
+        private static readonly Color HazardSafeColor = new Color32(52, 201, 110, 255);
 
         // HUD palette from ref.png: dark altitude track, yellow fill, yellow current altitude and red
         // goal altitude, both heavy and outlined in near-black.
@@ -130,7 +131,7 @@ namespace Game.Editor
         private const float CameraShakeMagnitude = 0.35f * WorldScale;
 
         // Fraction of the character's total (feet-to-head) bounds height used both for HitTarget
-        // placement (glove burst aim) and hazard hit-detection contact height (see HazardBand).
+        // placement (glove burst aim) and the camera's chest-height framing.
         private const float CharacterChestHeightFraction = 0.55f;
 
         private const float HazardVisualDiameterMultiplier = 1.15f; // slightly wider than the tower so the band visibly wraps around it.
@@ -177,12 +178,11 @@ namespace Game.Editor
             BindPrivate(session, "motor", player.Motor);
             BindPrivate(session, "level", level);
             BindPrivate(session, "pace", pace);
-            BindPrivate(session, "startingHitPoints", 3);
             BindPrivate(session, "hazardVisualPrefab", hazardVisualPrefab);
             BindPrivate(session, "hazardActiveMaterial", hazardActiveMaterial);
             BindPrivate(session, "hazardSafeMaterial", hazardSafeMaterial);
             BindPrivate(session, "hazardVisualDiameter", tower.Radius * 2f * HazardVisualDiameterMultiplier);
-            BindPrivate(session, "hazardContactHeightOffset", player.Metrics.ChestHeight);
+            BindPrivate(session, "hazardBodyHeight", player.Metrics.Height);
 
             BindPrivate(player.PoseDriver, "session", session);
             BindPrivate(player.PoseDriver, "pace", pace);
@@ -987,8 +987,6 @@ namespace Game.Editor
             StyleHeavyText(pauseButton.GetComponentInChildren<Text>(), HudYellowColor);
             UnityEventTools.AddPersistentListener(pauseButton.onClick, session.Pause);
 
-            GameObject[] hearts = BuildHearts(hudPanel.transform, hudMargin + pauseSize + 16f, hudMargin, pauseSize);
-
             BuildControlsHint(hudPanel, session);
             BuildEventFeed(hudPanel, session, gloveSprite);
 
@@ -1019,7 +1017,6 @@ namespace Game.Editor
             BindPrivate(hudView, "progressMarker", bar.Marker);
             BindPrivate(hudView, "heightLabel", bar.HeightLabel);
             BindPrivate(hudView, "finishLabel", bar.FinishLabel);
-            BindPrivateArray(hudView, "heartIcons", hearts);
 
             var menuViewGo = new GameObject("MenuView");
             menuViewGo.transform.SetParent(canvasGo.transform, false);
@@ -1059,57 +1056,6 @@ namespace Game.Editor
             BindPrivate(gloveBurst, "glowSprite", KnobSprite);
             BindPrivate(gloveBurst, "hitTarget", hitTarget);
             BindPrivate(gloveBurst, "worldCamera", camera);
-        }
-
-        /// <summary>
-        /// One heart per starting hit point, right-aligned left of the pause button. Each heart is
-        /// built from UI primitives (a 45-degree square under two circles), because the built-in
-        /// font has no heart glyph on Android.
-        /// </summary>
-        private static GameObject[] BuildHearts(Transform hudPanel, float rightOffset, float top, float rowHeight)
-        {
-            const int count = 3;
-            const float heartSize = 40f;
-            const float spacing = 78f;
-
-            var rowGo = new GameObject("Hearts", typeof(RectTransform));
-            rowGo.transform.SetParent(hudPanel, false);
-            var row = rowGo.GetComponent<RectTransform>();
-            row.anchorMin = row.anchorMax = row.pivot = Vector2.one;
-            row.sizeDelta = new Vector2(count * spacing, rowHeight);
-            row.anchoredPosition = new Vector2(-rightOffset, -top);
-
-            var hearts = new GameObject[count];
-            for (int i = 0; i < count; i++)
-            {
-                var heartGo = new GameObject("Heart" + i, typeof(RectTransform));
-                heartGo.transform.SetParent(row, false);
-                var heart = heartGo.GetComponent<RectTransform>();
-                heart.anchorMin = heart.anchorMax = new Vector2(1f, 0.5f);
-                heart.sizeDelta = Vector2.zero;
-                heart.anchoredPosition = new Vector2(-(spacing * 0.5f + i * spacing), -heartSize * 0.07f);
-
-                AddHeartShape(heart, heartSize * 1.22f, new Color(0.2f, 0f, 0.02f, 0.9f));
-                AddHeartShape(heart, heartSize, new Color32(235, 30, 40, 255));
-                hearts[i] = heartGo;
-            }
-
-            return hearts;
-        }
-
-        private static void AddHeartShape(RectTransform parent, float size, Color color)
-        {
-            Image square = AddImage(parent, "Point", null, color);
-            square.rectTransform.sizeDelta = new Vector2(size, size);
-            square.rectTransform.localRotation = Quaternion.Euler(0f, 0f, 45f);
-
-            float lobeOffset = size * 0.354f; // midpoints of the rotated square's two upper edges.
-            foreach (float side in new[] { -1f, 1f })
-            {
-                Image lobe = AddImage(parent, "Lobe", KnobSprite, color);
-                lobe.rectTransform.sizeDelta = new Vector2(size, size);
-                lobe.rectTransform.anchoredPosition = new Vector2(side * lobeOffset, lobeOffset);
-            }
         }
 
         private readonly struct ProgressBarParts

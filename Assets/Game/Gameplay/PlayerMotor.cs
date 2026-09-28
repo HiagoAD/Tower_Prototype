@@ -62,7 +62,7 @@ namespace Game.Gameplay
 
         public float NormalizedProgress => FinishHeight <= 0f ? 0f : Mathf.Clamp01(Height / FinishHeight);
 
-        /// <summary>Fired with (previousHeight, newHeight) on every upward or downward change, for hazard crossing checks.</summary>
+        /// <summary>Fired with (previousHeight, newHeight) on every upward or downward change, for hazard contact checks.</summary>
         public event Action<float, float> HeightChanged;
 
         private void Update()
@@ -126,13 +126,31 @@ namespace Game.Gameplay
         /// </summary>
         public bool TryApplyHit()
         {
+            return BeginHit(Mathf.Max(0f, Height - hitDisplacement * DistanceScale));
+        }
+
+        /// <summary>
+        /// Knockback for a hazard band at bandHeight: the usual displacement, or further if that would
+        /// leave the climber's head (Height + bodyHeight) still touching the band, so they always come to
+        /// rest with the head clearance below it (never below height 0). Same easing, lockout and
+        /// invulnerability as TryApplyHit.
+        /// </summary>
+        public bool TryApplyHazardHit(float bandHeight, float bodyHeight, float clearance)
+        {
+            float usual = Height - hitDisplacement * DistanceScale;
+            float clear = bandHeight - bodyHeight - clearance;
+            return BeginHit(Mathf.Max(0f, Mathf.Min(Height, Mathf.Min(usual, clear))));
+        }
+
+        private bool BeginHit(float targetHeight)
+        {
             if (IsInvulnerable)
             {
                 return false;
             }
 
             _knockbackStartHeight = Height;
-            _knockbackTargetHeight = Mathf.Max(0f, Height - hitDisplacement * DistanceScale);
+            _knockbackTargetHeight = targetHeight;
             _knockbackElapsed = 0f;
             _knockbackActive = true;
 
@@ -160,8 +178,7 @@ namespace Game.Gameplay
             float eased = 1f - Mathf.Pow(1f - t, 3f); // ease-out cubic
 
             float previous = Height;
-            // Always downward (start >= target), so this can only ever produce previous > next --
-            // HazardBand's upward-crossing check can never misfire off knockback movement.
+            // Always downward (start >= target), so this can only ever produce previous > next.
             float next = Mathf.Lerp(_knockbackStartHeight, _knockbackTargetHeight, eased);
             next = Mathf.Clamp(next, 0f, FinishHeight);
 

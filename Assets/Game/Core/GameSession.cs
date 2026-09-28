@@ -14,7 +14,6 @@ namespace Game.Core
         [SerializeField] private LevelDefinition level;
         [Tooltip("Optional global climb pace; without it the level plays exactly as authored.")]
         [SerializeField] private ClimbPace pace;
-        [SerializeField] private int startingHitPoints = 3;
         [SerializeField] private GameObject hazardVisualPrefab;
         [SerializeField] private Material hazardActiveMaterial;
         [SerializeField] private Material hazardSafeMaterial;
@@ -22,7 +21,10 @@ namespace Game.Core
         // Both derived at editor time (Level1SceneSetup) from the imported tower/character bounds --
         // see HazardBand.Initialize's doc comment for what each controls.
         [SerializeField] private float hazardVisualDiameter = 2.6f;
-        [SerializeField] private float hazardContactHeightOffset = 0f;
+        [SerializeField] private float hazardBodyHeight = 2.7f;
+
+        // How far below a hazard band the knocked-back climber's head must end up, as a share of the body height.
+        private const float HazardClearanceToBodyHeight = 0.1f;
 
         private readonly System.Collections.Generic.List<HazardBand> _spawnedHazards = new System.Collections.Generic.List<HazardBand>();
         private BumpListener _listener;
@@ -42,12 +44,9 @@ namespace Game.Core
         public float DistanceScale => _distanceScale;
 
         public SessionState State { get; private set; } = SessionState.Menu;
-        public int HitPoints { get; private set; }
 
         public event System.Action<SessionState> StateChanged;
-        public event System.Action<int> HitPointsChanged;
         public event System.Action<float, float> HeightUpdated;
-        public event System.Action HazardHitOccurred;
         public event System.Action<string> BumpAccepted;
 
         private void Awake()
@@ -118,7 +117,7 @@ namespace Game.Core
                     continue; // the worker already gave up and expired this one -- never dispatch it.
                 }
 
-                motor.TryApplyHit(); // nonlethal spectacle hit: never consumes a hit point, never blocks continued play.
+                motor.TryApplyHit(); // nonlethal spectacle hit: never blocks continued play.
                 BumpAccepted?.Invoke(request.RequestId);
             }
         }
@@ -127,7 +126,6 @@ namespace Game.Core
         {
             _levelInstanceId++;
             _levelClock = 0f;
-            HitPoints = startingHitPoints;
             // The pace scales the level's speed and every distance alike, so its timing is unchanged.
             _distanceScale = pace != null ? pace.DistanceScaleFor(level) : 1f;
             motor.DistanceScale = _distanceScale;
@@ -141,7 +139,6 @@ namespace Game.Core
             SetState(SessionState.Playing);
             _accepting = true;
 
-            HitPointsChanged?.Invoke(HitPoints);
             HeightUpdated?.Invoke(0f, motor.FinishHeight);
         }
 
@@ -185,27 +182,16 @@ namespace Game.Core
             SetState(SessionState.Menu);
         }
 
-        public void OnHazardHit()
+        /// <summary>A hazard band at bandHeight (play-scaled world units) touched the climber's body.</summary>
+        public void OnHazardHit(float bandHeight)
         {
             if (State != SessionState.Playing)
             {
                 return;
             }
 
-            if (!motor.TryApplyHit())
-            {
-                return; // currently invulnerable from a recent hit -- no-op, matches short recovery window.
-            }
-
-            HazardHitOccurred?.Invoke();
-
-            HitPoints--;
-            HitPointsChanged?.Invoke(HitPoints);
-
-            if (HitPoints <= 0)
-            {
-                Lose();
-            }
+            // Invulnerable from a recent hit: no-op, matches short recovery window.
+            motor.TryApplyHazardHit(bandHeight, hazardBodyHeight, hazardBodyHeight * HazardClearanceToBodyHeight);
         }
 
         private void Win()
@@ -214,14 +200,6 @@ namespace Game.Core
             motor.Paused = true;
             _accepting = false;
             SetState(SessionState.Won);
-        }
-
-        private void Lose()
-        {
-            motor.CanClimb = false;
-            motor.Paused = true;
-            _accepting = false;
-            SetState(SessionState.Lost);
         }
 
         private void SpawnHazards()
@@ -235,7 +213,7 @@ namespace Game.Core
                 var go = new GameObject("HazardBand");
                 go.transform.SetParent(transform, false);
                 HazardBand band = go.AddComponent<HazardBand>();
-                band.Initialize(spec, motor, OnHazardHit, hazardVisualPrefab, hazardActiveMaterial, hazardSafeMaterial, () => _levelClock, hazardVisualDiameter, hazardContactHeightOffset);
+                band.Initialize(spec, motor, () => OnHazardHit(spec.height), hazardVisualPrefab, hazardActiveMaterial, hazardSafeMaterial, () => _levelClock, hazardVisualDiameter, hazardBodyHeight);
                 _spawnedHazards.Add(band);
             }
         }

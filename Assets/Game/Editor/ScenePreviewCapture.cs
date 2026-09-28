@@ -29,6 +29,7 @@ namespace Game.Editor
             ("lose", 9f, "LosePanel"),
         };
 
+        private const float PreviewSafeBandOffset = 4.5f; // the safe band sits this far above the active one.
         private const int CycleFrames = 16;
         private const int CycleFrameInterval = 3; // 20 fps at the simulated 60
         private const float SimulationStep = 1f / 60f;
@@ -58,7 +59,7 @@ namespace Game.Editor
             canvas.planeDistance = 1f;
 
             var poseDriver = Object.FindFirstObjectByType<ClimberPoseDriver>();
-            Transform hazard = AddPreviewHazard();
+            Transform[] hazards = AddPreviewHazards();
 
             // The first render after opening the scene can run on placeholder shaders while the
             // editor still compiles them asynchronously; render once and discard.
@@ -77,9 +78,10 @@ namespace Game.Editor
                     poseDriver?.Advance(height, SimulationStep);
                 }
 
-                if (hazard != null)
+                if (hazards != null)
                 {
-                    hazard.position = new Vector3(0f, height + 2.4f, 0f);
+                    hazards[0].position = new Vector3(0f, height + 2.4f, 0f);
+                    hazards[1].position = new Vector3(0f, height + 2.4f + PreviewSafeBandOffset, 0f);
                 }
                 ShowPanel(canvas.transform, panel);
                 FeedHud(height);
@@ -180,9 +182,7 @@ namespace Game.Editor
             }
 
             MethodInfo onHeight = typeof(HudView).GetMethod("OnHeightUpdated", BindingFlags.Instance | BindingFlags.NonPublic);
-            MethodInfo onHp = typeof(HudView).GetMethod("OnHitPointsChanged", BindingFlags.Instance | BindingFlags.NonPublic);
             onHeight?.Invoke(hud, new object[] { height, 30f });
-            onHp?.Invoke(hud, new object[] { 3 });
         }
 
         private static void ShowEventCards(bool visible)
@@ -206,22 +206,28 @@ namespace Game.Editor
             }
         }
 
-        /// <summary>Hazard bands spawn at runtime; drop one active band into the preview so its look can be judged.</summary>
-        private static Transform AddPreviewHazard()
+        /// <summary>Hazard bands spawn at runtime; drop an active and a safe band into the preview so both looks can be judged. Returns { active, safe }.</summary>
+        private static Transform[] AddPreviewHazards()
         {
             var session = Object.FindFirstObjectByType<Game.Core.GameSession>();
             var so = new SerializedObject(session);
             var prefab = so.FindProperty("hazardVisualPrefab").objectReferenceValue as GameObject;
             var active = so.FindProperty("hazardActiveMaterial").objectReferenceValue as Material;
+            var safe = so.FindProperty("hazardSafeMaterial").objectReferenceValue as Material;
             float diameter = so.FindProperty("hazardVisualDiameter").floatValue;
             if (prefab == null)
             {
                 return null;
             }
 
+            return new[] { InstantiatePreviewBand(prefab, active, diameter), InstantiatePreviewBand(prefab, safe, diameter) };
+        }
+
+        private static Transform InstantiatePreviewBand(GameObject prefab, Material material, float diameter)
+        {
             GameObject disc = Object.Instantiate(prefab);
             disc.transform.localScale = new Vector3(diameter, diameter * 0.07f, diameter);
-            disc.GetComponent<Renderer>().sharedMaterial = active;
+            disc.GetComponent<Renderer>().sharedMaterial = material;
             return disc.transform;
         }
 
