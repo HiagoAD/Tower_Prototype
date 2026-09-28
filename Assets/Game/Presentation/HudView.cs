@@ -8,7 +8,7 @@ namespace Game.Presentation
     /// <summary>
     /// Reference-style altitude HUD: a vertical bar on the left edge whose yellow fill and marker
     /// (carrying the live height number) rise with the player, the finish height printed above the
-    /// bar, and remaining hit points as heart icons. Consumes GameSession snapshots/events only -- never
+    /// bar. Consumes GameSession snapshots/events only -- never
     /// writes gameplay state.
     /// </summary>
     public sealed class HudView : MonoBehaviour
@@ -18,7 +18,6 @@ namespace Game.Presentation
         [SerializeField] private RectTransform progressMarker;
         [SerializeField] private Text heightLabel;
         [SerializeField] private Text finishLabel;
-        [SerializeField] private GameObject[] heartIcons;
 
         // World units are small (a level is tens of units tall); the reference counts altitude in
         // the thousands, so the readout is scaled for display only. It counts the level's authored
@@ -34,14 +33,11 @@ namespace Game.Presentation
         private void OnEnable()
         {
             session.HeightUpdated += OnHeightUpdated;
-            session.HitPointsChanged += OnHitPointsChanged;
-            OnHitPointsChanged(session.HitPoints);
         }
 
         private void OnDisable()
         {
             session.HeightUpdated -= OnHeightUpdated;
-            session.HitPointsChanged -= OnHitPointsChanged;
         }
 
         private void OnHeightUpdated(float height, float finishHeight)
@@ -81,14 +77,6 @@ namespace Game.Presentation
             if (rect != null)
             {
                 rect.anchorMax = new Vector2(rect.anchorMax.x, top);
-            }
-        }
-
-        private void OnHitPointsChanged(int hitPoints)
-        {
-            for (int i = 0; i < heartIcons.Length; i++)
-            {
-                heartIcons[i].SetActive(i < hitPoints);
             }
         }
     }

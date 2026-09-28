@@ -468,3 +468,10 @@ The candidate accepted the planted-grip climb feel and asked for climb speed to 
 Checks: APK built (`Logs/pace-android2.log`, Succeeded, Errors=0), SHA-256 `f63e51563c87f271d61bd709875bbeabb2efee023db2033cf3900ddcfe65e8e6`; the installed base.apk hashes identically. Device climb at the default pace with no Unity errors; HUD goal reads 3.000 (`evidence/pace_device_hud.png`). EditMode 27/27 (`evidence/pace_editmode.xml`). The two new `ClimbPaceTests` cover the scale factor and a session run at pace 1.5: speed ×1.2, finish ×1.2, unchanged duration, knockback ×1.2. An editor simulation at pace 1.8 (`evidence/pace_1.8_preview.png`) keeps planted reaches and a stable swing; the asset was restored to 0.92 afterwards.
 
 Integration note: `GameSession`'s changes touch the same lines as `codex/sequential-levels` (level speed/finish/hazards). The merge should apply `_distanceScale` to `CurrentLevel` the same way. The difficulty branch's five levels all author climbSpeed 2.5 and finish 30, so they scale uniformly.
+
+
+## 2026-09-28 — requested worktree integration
+
+Merged `claude/level-json` (`85712a8`) and `claude/remove-lives-hazards` (`d30abc0`) into main. Both worktrees were committed before integration. Resolved the retry test to bind JSON without hit points, and regenerated Level1 through `Game.Editor.Level1SceneSetup.Build` with the merged source. Existing local planning/status edits were preserved.
+
+Validation: scene regeneration and compilation succeeded; EditMode **53/53 passed**, zero failed/skipped (`/tmp/tower-merge-editmode.xml`, log `/tmp/tower-merge-editmode.log`). Reference snapshot checksums all passed. No Android build or device acceptance was performed; existing milestone gates are unchanged. The merged branch removes hazard-driven loss, so the brief's expected lose state still needs a gameplay decision. Branches and worktrees remain available.

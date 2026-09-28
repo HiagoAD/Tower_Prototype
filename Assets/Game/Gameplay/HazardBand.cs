@@ -4,9 +4,12 @@ using UnityEngine;
 namespace Game.Gameplay
 {
     /// <summary>
-    /// One instantiated obstacle band. Checks the full previous-to-next height interval on every
-    /// PlayerMotor.HeightChanged event (not a single-frame overlap test), so a slow/fast frame
-    /// cannot skip a crossing. Only fires on the upward crossing of its height.
+    /// One instantiated obstacle band. While active it hits whenever its height lies inside the
+    /// climber's body span (feet at PlayerMotor.Height up to the head, one body height above). The
+    /// span swept over each PlayerMotor.HeightChanged interval is tested, so a fast frame cannot
+    /// tunnel through, and every tick re-tests the current span, so a band that switches to active
+    /// while already overlapping a stationary climber still hits. GameSession's hit handler decides
+    /// what a hit does (and PlayerMotor's invulnerability stops repeats).
     ///
     /// Never creates a primitive or a Material at runtime -- both are baked at editor time
     /// (Level1SceneSetup) into a shared visual prefab and two shared material assets, because
@@ -22,7 +25,7 @@ namespace Game.Gameplay
         private PlayerMotor _motor;
         private System.Action _onHit;
         private System.Func<float> _levelClock;
-        private float _contactHeightOffset;
+        private float _bodyHeight;
         private Renderer _renderer;
         private Material _activeMaterial;
         private Material _safeMaterial;
@@ -36,11 +39,10 @@ namespace Game.Gameplay
         /// visualDiameter sizes the disc to wrap the actual (imported-asset) tower radius, instead of
         /// a hardcoded constant sized for the old primitive tower.
         ///
-        /// contactHeightOffset shifts hit detection from PlayerMotor.Height (the gameplay root, at
-        /// the character's feet) up to roughly chest height, so a hit registers when the band
-        /// visibly reaches the character's body rather than only once it reaches their feet.
+        /// bodyHeight is the character's full feet-to-head height: the body span a band can touch is
+        /// PlayerMotor.Height (the gameplay root, at the feet) up to Height + bodyHeight.
         /// </summary>
-        public void Initialize(HazardSpec spec, PlayerMotor motor, System.Action onHit, GameObject visualPrefab, Material activeMaterial, Material safeMaterial, System.Func<float> levelClock, float visualDiameter, float contactHeightOffset)
+        public void Initialize(HazardSpec spec, PlayerMotor motor, System.Action onHit, GameObject visualPrefab, Material activeMaterial, Material safeMaterial, System.Func<float> levelClock, float visualDiameter, float bodyHeight)
         {
             _spec = spec;
             _motor = motor;
@@ -48,7 +50,7 @@ namespace Game.Gameplay
             _activeMaterial = activeMaterial;
             _safeMaterial = safeMaterial;
             _levelClock = levelClock;
-            _contactHeightOffset = contactHeightOffset;
+            _bodyHeight = bodyHeight;
 
             Vector3 pos = transform.position;
             pos.y = spec.height;
@@ -77,19 +79,26 @@ namespace Game.Gameplay
 
         private void Update()
         {
-            if (_renderer == null)
-            {
-                return;
-            }
+            Tick();
+        }
 
+        /// <summary>Per-frame work, split out from Update() so EditMode tests can drive it: refreshes the look and re-tests a stationary overlap.</summary>
+        public void Tick()
+        {
             bool active = _spec.IsActiveAt(_levelClock());
-            if (_lastActive == active)
+            if (_lastActive != active)
             {
-                return;
+                _lastActive = active;
+                if (_renderer != null)
+                {
+                    _renderer.sharedMaterial = active ? _activeMaterial : _safeMaterial;
+                }
             }
 
-            _lastActive = active;
-            _renderer.sharedMaterial = active ? _activeMaterial : _safeMaterial;
+            if (active && OverlapsBody(_motor.Height, _motor.Height))
+            {
+                _onHit?.Invoke();
+            }
         }
 
         private void OnDestroy()
@@ -102,18 +111,20 @@ namespace Game.Gameplay
 
         private void OnHeightChanged(float previous, float next)
         {
-            bool crossedUpward = (previous + _contactHeightOffset) < _spec.height && (next + _contactHeightOffset) >= _spec.height;
-            if (!crossedUpward)
-            {
-                return;
-            }
-
-            if (!_spec.IsActiveAt(_levelClock()))
+            if (!_spec.IsActiveAt(_levelClock()) || !OverlapsBody(previous, next))
             {
                 return;
             }
 
             _onHit?.Invoke();
+        }
+
+        /// <summary>True if the band's height falls inside the body span swept while the feet moved from previous to next.</summary>
+        private bool OverlapsBody(float previous, float next)
+        {
+            float low = Mathf.Min(previous, next);
+            float high = Mathf.Max(previous, next) + _bodyHeight;
+            return _spec.height >= low && _spec.height <= high;
         }
     }
 }
