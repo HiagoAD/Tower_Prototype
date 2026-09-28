@@ -80,3 +80,6 @@ crashlytics-build.properties
 
 # Performance-testing package writes its run report into Resources during EditMode/PlayMode runs
 /[Aa]ssets/[Rr]esources/PerformanceTestRun*
+
+# Jev review request/response output (generated per review run)
+/Docs/Development/jev/

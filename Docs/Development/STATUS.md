@@ -3,6 +3,9 @@
 Plan: [ACTION_PLAN.md](ACTION_PLAN.md). Implementer handoff: [CLAUDE_HANDOFF.md](CLAUDE_HANDOFF.md).
 
 Current state: **planning complete; implementation not started by Codex**.
+Current implementation priority: **G3 first-level visual/gameplay correction**, following candidate feedback. See [G3_FEEL_CORRECTION.md](G3_FEEL_CORRECTION.md). G2 repairs are accepted for progression; two device checks remain outstanding.
+
+Current implementation owner: **Codex Sol agent**, explicitly authorized by the candidate after Claude reached its usage limit. Main Codex owns oversight/review. Claude's uncommitted work is retained.
 
 Quota review: **original three-agent option replaced by one Claude Sonnet session by default**. Codex reviews G2/G3/G5/G6 and blockers. Account-specific quota fit remains **NOT VERIFIED**; no usage balances have been supplied. The candidate relays checkpoints by asking Codex to read this file.
 
@@ -13,7 +16,7 @@ User deadline: **09:00 UTC**, interpreted as **2026-09-29 09:00 UTC**; date conf
 | --- | --- | --- | --- |
 | G0 — device, baseline, contracts | 08:15 | PASS | Physical device `0070013699` (Motorola moto_g_5G_plus, codename `nairo`), arm64-v8a, Android 11 (API 30), 1080x2520 portrait, authorized over USB. Unity 6000.3.11f1 + Android/SDK/NDK modules confirmed installed. Reference checksums verified (`shasum -a 256 -c SHA256SUMS`: all OK). Pre-existing working-tree edits to ACTION_PLAN/CLAUDE_HANDOFF/STATUS preserved (not touched by build work). Contracts: see `Assets/Game/Webhook/BumpRequest.cs`. |
 | G1 — Android install and HTTP proof | 09:15 | PASS | See detailed report below. |
-| G2 — Android vertical slice | 11:30 | PARTIAL — see report | Core loop (menu→start→climb→hazard→hit/recover→webhook glove burst) proven on-device; one known HUD-text rendering bug open. |
+| G2 — Android vertical slice | 11:30 | PARTIAL — repairs accepted; G3 may proceed | HUD/HTTP/glove-target/runtime-error repairs reviewed; 18/18 saved test results verified. Device lose→retry and audible impact confirmation still outstanding. See G2_REVIEW repair closure. |
 | G3 — five complete levels and menus | 13:30 | NOT VERIFIED | Pending. |
 | G4 — complete candidate; feature freeze | 16:00 | NOT VERIFIED | Pending. |
 | G5 — accepted release candidate | 18:00 | NOT VERIFIED | Pending. |
@@ -47,6 +50,21 @@ User deadline: **09:00 UTC**, interpreted as **2026-09-29 09:00 UTC**; date conf
 - Unity/project package versions and Android toolchain directory presence inspected.
 - Free source pages checked for character, tower, sky, glove, impact audio, and UI.
 - Character/tower archives inspected for license, relevant models, and character animation names. Assets have not been imported or tested in Unity.
+
+## Development control panel
+
+2026-09-28 — Codex added a local, read-only project monitor in `Tools/DevelopmentPanel/`.
+Start it from the project root with `python3 Tools/DevelopmentPanel/server.py`, then open
+<http://127.0.0.1:8765>. See [panel instructions](../../Tools/DevelopmentPanel/README.md).
+It refreshes the status/plan records and artifact inventory every 15 seconds while visible,
+preserves reported partial/unverified results, and checks the immutable reference hashes.
+It does not run Unity or change gate acceptance.
+
+Verification: 7 Python fixture tests passed; JavaScript syntax check passed; headless Chrome
+checks passed for milestone search/filtering, document/image/video viewers, manual refresh,
+disconnection/recovery, video range requests, and restricted file access. All five views were
+checked at 390, 768, and 1024 pixels without page overflow; the 1440-pixel desktop and 390-pixel
+mobile screenshots were visually inspected. All 6 immutable reference checksums match.
 
 ## Implementation updates
 
@@ -137,3 +155,176 @@ provisional hold-to-climb/hazard-count/hit-count interpretation is unchanged fro
 happy to take a specific ruling on those before G3 locks in five levels' worth of hazard timing
 built on top of them.
 ```
+
+### 2026-09-28 — G2 overseer review (Codex)
+
+**G2 remains PARTIAL, not accepted.** See [G2_REVIEW.md](G2_REVIEW.md) for the ordered repair handoff. Source reviewed at `e55825a`; saved device screenshots inspected; all immutable reference checksums passed. Codex did not run a new APK/device session or automated tests in this review.
+
+Confirmed source findings: off-screen HUD text geometry; POST-body bytes discarded by the header parser; successful HTTP replies preceding main-thread acceptance; glove impact aimed at screen center rather than the character; no assigned impact audio clip. The saved device screenshots also show a missing `CapsuleCollider` runtime error. Win/lose/retry and post-webhook continued play still need fresh evidence on the repaired APK.
+
+Design ruling: retain the isolated hold-to-climb input and one generic configurable hazard/HP model as documented assumptions under brief section 10. They are not established reference mechanics. Finish the G2 repair/check cycle, then integrate licensed presentation and five-level progression for G3. Keep the quota-saving default of one Claude Sonnet implementation session.
+
+### 2026-09-28 — G2 repair report (Claude)
+
+```text
+Gate and result: G2 — READY FOR G2 CLOSURE CHECK (Codex decides; not self-declared PASS)
+Time remaining to 22:00 Recife target: ~11h20m at time of writing (10:42 Recife)
+Quota remaining and reset times: still not queryable from this session; unchanged from prior notes.
+Source revision / changed files: commit b71c989a0a43301924ebae3ea7519beda05e8cb7 on `main`
+  ("Repair G2: HUD anchors, webhook body/acceptance, glove target+SFX, hazard prefab, EditMode
+  tests"), scoped to Assets/Game/** only. Full file list: Assets/Game/Core/GameSession.cs,
+  Assets/Game/Editor/Level1SceneSetup.cs, Assets/Game/Gameplay/HazardBand.cs,
+  Assets/Game/Levels/Level1.asset, Assets/Game/Presentation/GloveBurstView.cs (+ new
+  SafeAreaFitter.cs), Assets/Game/Scenes/Level1.unity, Assets/Game/Webhook/{BumpListener,
+  BumpRequest,BumpRunner}.cs, new Assets/Game/{Game.asmdef,Editor/Game.Editor.asmdef,
+  Tests/EditMode/Game.Tests.EditMode.asmdef + 3 EditMode test files}, new
+  Assets/Game/Art/Materials/{HazardActive,HazardSafe}.mat, new
+  Assets/Game/Prefabs/HazardVisual.prefab, new
+  Assets/Game/Art/Licensed/ImpactSounds/{impactPunch_heavy_000.ogg,LICENSE.md}. Docs/ and Tools/
+  left untouched/uncommitted (pre-existing edits preserved).
+  Since that commit, a second, test-only commit landed: 194fbd3bb348bab2e4cb58cc8ece1289f440af0a
+  ("Add GameSession lose->retry EditMode test; ignore perf-test run output"), containing only
+  Assets/Game/Tests/EditMode/GameSessionLoseRetryTests.cs (+ .meta, covers Lose -> Retry reset;
+  see item 3 below and "Known gaps") and the `.gitignore` line for
+  `/[Aa]ssets/[Rr]esources/PerformanceTestRun*` (see "Tooling side effects" below). This second
+  commit does not touch gameplay/transport/presentation code -- the built APK's source revision
+  stays b71c989; nothing in 194fbd3 changes runtime behaviour.
+APK path and device / OS / ABI: Builds/Android/TowerPrototype.apk (132.2 MiB / 138,669,830 bytes
+  on disk; BuildReport's internal summary.totalSize read 1,326,596,037, which does not match the
+  on-disk APK size and is not used here), built from commit b71c989 via
+  Game.Editor.BuildScript.BuildAndroid, Result=Succeeded, Errors=0
+  (Logs/g2r-android-build.log). Device 0070013699, Motorola moto_g_5G_plus (nairo), Android 11
+  (API 30), arm64-v8a, 1080x2520 portrait, USB-connected/authorized.
+Checks run, executed-test counts, results:
+  - EditMode suite: the committed revision b71c989 contains 17 EditMode tests (all passing). A
+    separate 18th test, GameSessionLoseRetryTests (Lose -> Retry reset coverage), was written
+    afterwards; the local suite with it included is 18 total, 18 passed, 0 failed,
+    0 inconclusive, 0 skipped (duration 0.85s, Logs/editmode-test-final.log; no `error CS`).
+    Includes the 750ms-bounded loopback expiry test (asserts ~753ms elapsed, confirming a real
+    bounded wait, not a trivial pass).
+  - Asset-GUID stability fix verified: regenerated Level1 scene twice in a row
+    (Logs/level1-scene-build9.log, Logs/level1-scene-build10.log) after switching
+    BuildHazardVisualAssets/CreateOrReplaceMaterial to create-if-missing/update-in-place. The
+    three asset .meta GUIDs (HazardActive.mat=e0d1706a676134affbb246d1a6f078f6,
+    HazardSafe.mat=e9f1b4ff2264c42d68a5b44f25df5a38,
+    HazardVisual.prefab=d4ee4d69bd7044ce6bedda4843121983) were identical across both runs, and
+    the scene's own references to those three GUIDs matched too. Level1.unity's *own* file
+    content still differs between the two runs (line count identical, 5069 lines, but every
+    GameObject's internal fileID changes) -- this is pre-existing behaviour of the whole
+    Level1SceneSetup.Build() method, which rebuilds the entire scene from scratch every run
+    (tower segments, camera, UI, etc. all get fresh Unity-assigned fileIDs each time); it was not
+    part of the requested fix and was not touched.
+  - Tooling side effects flagged by the reviewer: the reviewer directly observed, around 10:13
+    while the Android build was linking, untracked `Assets/Resources/PerformanceTestRunInfo.json`
+    and `PerformanceTestRunSettings.json` (each with a `.meta`), plus a `preloadedAssets` entry
+    for `InputSystem_Actions.inputactions` (guid `052faaac...`) in the `ProjectSettings.asset`
+    diff. Both were gone by the end of this run -- what removed them is unknown (likely Unity's
+    test runner/build cleanup); no guess beyond that. The APK was therefore probably built with
+    those two small JSON files present in Resources, which is harmless. `ProjectSettings.asset`
+    is clean against HEAD now. The requested `.gitignore` line was added defensively (see above).
+Screenshots / recording / logs: all under Docs/Development/evidence/, g2r_* prefix (25
+  screenshots + 1 screen recording + 2 extracted burst frames + logcat dump). See checklist below
+  for which file backs which claim.
+Known gaps or assumptions changed:
+  - GameSession stale-level/not-Playing rejection is still not covered by an AddComponent test:
+    OnEnable() opens a real socket on the hardcoded port as a side effect of construction, and
+    EditMode never ticks Update(), so the natural DrainBumpQueue path can't be exercised without
+    reflecting into two layers of private state. Accepted as-is per prior review.
+  - Pause timing (HazardBand keyed off global Time.time, not a frozen level clock) and
+    tower/character composition (still primitives) are unchanged G3 items per G2_REVIEW.md.
+  - Lose is very hard to reach in a single honest normal-play climb with the current 2-band/3-HP
+    configuration -- see checklist item 3 for the empirical evidence and the separate EditMode
+    test added to cover the Lose -> Retry reset itself.
+Next action and ETA: awaiting Codex's G2 closure decision; G3 (licensed presentation import,
+  five-level authoring) is next once that lands.
+Decision needed from overseer, if any: G3 level tuning must make Lose reachable in normal play
+  (e.g. band count >= HP on later levels, or revisit the post-hit pass-through), since the brief
+  requires win/lose states.
+```
+
+**G2_REVIEW.md findings 1-5, resolved this pass:**
+
+1. **HUD off-screen labels** — `HeightText`/`HitPointsText` now use real top-left/top-right
+   anchors+pivots (480/280px wide, 32px margin, not 1000px wide at a centered offset), a new
+   `SafeAreaFitter` component shrinks the whole HUD panel to `Screen.safeArea` so the device's
+   115px top camera-cutout inset is respected, and `PauseButton` moved to a second row under
+   `HeightText` so it never overlaps `HitPointsText`. Verified in the regenerated scene YAML and
+   on-device at both 1080x2520 and the 1080x1920 reference aspect (checklist items 1 and 6).
+2. **POST body causing a socket-timeout wait** — `BumpListener.TryReadRequest` now carries over
+   bytes already read past the header terminator instead of discarding them, and rejects
+   malformed/oversized/negative/duplicate-conflicting `Content-Length` immediately (400/413, no
+   wait). On-device regression check: a real POST with a JSON body returned 200 in 0.026s
+   (checklist item 5), not the ~3s timeout the review found by inspection.
+3. **200 before main-thread acceptance** — `BumpRequest` is now a CAS-based Pending -> Accepted/
+   Rejected/Expired state machine; the network worker blocks up to 750ms on the main thread's
+   decision (`GameSession.DrainBumpQueue`), and only replies after that decision is known.
+   Verified end-to-end on a real loopback socket in `BumpListenerLoopbackTests` (200 in ~12ms when
+   drained-and-accepted, 503 at ~753ms when deliberately left undrained) and on-device (all
+   webhook checks in item 5).
+4. **Glove effect misses the character, no audio** — `GloveBurstView` now converges on the
+   player's `Camera.WorldToScreenPoint` -> `RectTransformUtility.ScreenPointToLocalPointInRectangle`
+   position, recomputed every frame of the burst, and `impactAudioSource.PlayOneShot` fires the
+   licensed `impactPunch_heavy_000.ogg` (CC0, Kenney). Verified on-device: extracted burst frames
+   (`g2r_burst_converge.png`, `g2r_burst_impact.png`) show all six gloves landing directly on the
+   character, not centered on the canvas.
+5. **Runtime `CapsuleCollider` error** — `HazardBand` no longer calls
+   `GameObject.CreatePrimitive` at runtime; `Level1SceneSetup` bakes a shared
+   `HazardVisual.prefab` (mesh/renderer only, no collider) and two shared materials at editor
+   time, and `HazardBand` only `Instantiate`s the prefab and swaps `sharedMaterial`. Verified: the
+   prefab YAML contains only Transform/MeshFilter/MeshRenderer, and a full device logcat capture
+   after exercising climbing, hazards, pause/resume, the webhook, and both aspect ratios shows
+   zero hits for "CapsuleCollider" (checklist item 7).
+
+**Device checklist (G2_REVIEW #6), APK from commit b71c989, device 0070013699:**
+
+| # | Item | Result | Evidence |
+| --- | --- | --- | --- |
+| 1 | Menu → Start → HUD visible, readable, clear of cutout, Pause doesn't overlap | PASS | `g2r_01_menu.png`, `g2r_02_hud.png` |
+| 2 | Climb → hazard hit (HP decrements) → recovery → continue → summit → Win → Menu | PASS | `g2r_03_climb1.png` .. `g2r_07_climb4.png` (HP 3→2 at `g2r_05_climb3.png`, recovers and continues), `g2r_08_win.png` (Summit Reached!), `g2r_09_backtomenu.png` |
+| 3 | Lose → Retry: fresh level, HP=3, height=0 | Lose not reached in normal play (see below); Retry reset covered separately | `g2r_10_lose_attempt_start.png` .. `g2r_16_lose_attempt_end.png`; EditMode test `GameSessionLoseRetryTests.Lose_ThenRetry_ResetsHitPointsAndHeight` (passing, see "Known gaps") |
+| 4 | Pause → Resume: climbing stops/resumes; POST while paused → 409, no effect | PASS | `g2r_18_before_pause.png`, `g2r_19_paused.png`, `g2r_20_paused_after_webhook.png` (409, height/HP unchanged), `g2r_21b_resumed.png` (climbing resumed) |
+| 5 | Webhook: GET, POST+body (regression), POST no body, 5x rapid POST, burst converges, climbing resumes | PASS | GET 200/0.042s, POST+body 200/0.026s, POST-no-body 200/0.016s, burst-trigger 200/0.017s, 5x rapid POST all 200 (0.019-0.027s); `g2r_burst_converge.png`/`g2r_burst_impact.png` (gloves on character); `g2r_22_post_burst_climb.png` (climbing continued after); `adb forward` removed at the end |
+| 6 | HUD at reference aspect 1080x1920 | PASS | `g2r_24_ref_aspect_menu.png` (confirmed exact 1080x1920), `g2r_25_ref_aspect_hud.png` (labels/Pause correctly placed, no overlap); `wm size reset` confirmed back to 1080x2520 |
+| 7 | Clean log: zero Error/Exception/CapsuleCollider | PASS | `g2r_logcat.txt` — grep hits: Error=0, Exception=0, CapsuleCollider=0 |
+| 8 | Audio: clip in build, playback triggered, audible | Clip confirmed wired; trigger confirmed in code path exercised above; audible = NOT VERIFIED (pending candidate) | Committed `Level1.unity`'s `AudioSource.m_Resource` GUID (`40c04fad94666447697d262d3dffd463`) matches the imported `.ogg`'s own `.meta` GUID exactly; `impactAudioSource.PlayOneShot(clip)` is the same code path exercised for item 5's burst frames; no audio-related errors in `g2r_logcat.txt` |
+
+**Item 3 detail (Lose reachability):** two full, honest climb attempts were made, each
+deliberately lingering near both hazard bands (short repeated swipes) to try to catch their
+active windows. Across both attempts (4 total band crossings), only 2 hits landed (one per
+attempt), never the 3 needed to reach 0 HP from `startingHitPoints=3`. Mechanism, not just
+observation: under a continuous hold, the 1.2s invulnerability window outlasts the 0.4s climb
+lockout plus the ~0.6s re-climb back up to the band's height (0.4 + 0.6 = 1.0s < 1.2s), so the
+player passes back through the band while still invulnerable -- at most one hit per band per
+pass. With 2 bands and 3 HP, a player who just holds cannot lose Level 1. A player who
+deliberately releases below a band and climbs into its *next* red window (4-5s period) could in
+principle take repeated hits from the same band -- that's possible in principle but was not
+demonstrated on device. Per instruction, this is reported plainly rather than claimed reachable.
+The Lose → Retry *reset* itself (HP back to 3, height back to 0, state back to Playing) is
+instead covered by a new, non-brittle EditMode test
+(`Assets/Game/Tests/EditMode/GameSessionLoseRetryTests.cs`) that drives `GameSession` through its
+public API only (`StartLevel`, `OnHazardHit`, `Retry`), using `PlayerMotor.ResetState` between
+hits to clear invulnerability instead of depending on real-time hazard-cycle luck or reflection
+into private queues. It passed (18/18 in the local suite with it included; see "Checks run"
+above for the exact committed-vs-local counts).
+
+### 2026-09-28 — G2 repair closure review (Codex)
+
+**Repair pass accepted for progression to G3; G2 remains PARTIAL pending two device checks: lose → retry and audible punch sound.** Close these in the first G3 APK verification. See [G2_REVIEW.md](G2_REVIEW.md), repair closure section, for reviewed revisions, APK hash, evidence and the next instructions.
+
+Codex inspected the code changes, successful build log, saved screenshots, logcat and actual NUnit XML: **18 passed, 0 failed, 0 skipped**. The result XML is preserved as `evidence/g2r_editmode_final.xml`. No new Unity/device test run was performed by Codex. All reference checksums passed. HUD geometry, POST body handling, main-thread HTTP acceptance, glove targeting and runtime primitive creation fixes are accepted. Audio is wired, but the burst recording has no audio stream and cannot prove audibility.
+
+G3 priorities: licensed presentation and character/tower contact, five complete levels/menus, reachable failure and device retry proof, pause/reset timing, explicit glove coroutine/visual cleanup, meaningful nonzero-height retry coverage and stale-session dispatch coverage. Keep the single implementation-session default and no generated assets.
+
+### 2026-09-28 — Candidate feedback: visuals and gameplay feel
+
+Candidate reports the character/tower alignment and gameplay feel are wrong. Codex confirmed the current scene places the player beside the tower with a lateral gap, while camera framing crops the tower; the motor has constant upward translation, no climbing pose driver and an instantaneous hit displacement. The reference image and opening video samples instead show front-surface attachment and alternating limb poses.
+
+**Reordered G3:** complete the focused [first-level feel correction](G3_FEEL_CORRECTION.md) and provide a 15–20 second physical-device preview before expanding the presentation into five levels. Candidate clarified that movement feels like floating/sliding instead of climbing: prioritize surface contact and synchronized reach/pull/body-rise motion, retaining current controls for this pass. Claude retains implementation ownership. No implementation or immutable reference files changed in this planning update.
+
+### 2026-09-28 — Claude quota handover and Jev integration
+
+The candidate reports Claude reached its limit and explicitly authorized a Sol implementation agent under Codex supervision. Sol continues Claude's uncommitted licensed character/tower/sky imports, pose driver, controls hint, smooth knockback and pause-clock work. Claude's last scene regeneration succeeded (`Logs/g3a-scene.log`); the installed/built G2 APK predates those changes. No G3 device proof is claimed from that older APK. Initial scope is the corrected one-level preview and outstanding G2 checks, before five-level expansion.
+
+Codex maintains planning/review ownership. One implementation agent exclusively controls Unity scene/build/device mutations; a separate Sol test engineer prepares a read-only test plan and waits for explicit Editor ownership release before running tests. Existing user changes are preserved; no generated assets or immutable-reference edits are authorized.
+
+Jev is now wired into the development process through [Tools/Jev](../../Tools/Jev/README.md): local request preparation, optional direct API execution, Playground response import, input hashes and advisory result documents. Six local tooling tests passed. A G2 request was prepared under `Docs/Development/jev/20260928T150037828597Z-G2`; **no live API call has run**. The candidate will configure `TYPESAFE_API_KEY` locally; it was absent from the invoking process when checked. Jev never changes gate status and cannot replace actual test/device/visual/audio evidence.

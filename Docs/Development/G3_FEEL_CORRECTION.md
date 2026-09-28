@@ -1,0 +1,28 @@
+# G3 first checkpoint: tower contact and climbing feel
+
+User feedback, 2026-09-28: character and tower are misaligned; visuals and gameplay feel wrong. This takes priority over expanding the current layout into five levels. Codex owns direction/review; Claude owns implementation. The G2 repair acceptance establishes technical progress only; visual/gameplay fidelity is still outstanding.
+
+Candidate clarification: **movement feels like floating/sliding instead of climbing**. Prioritize surface contact, alternating reaches, planted-limb phases and a body rise synchronized to the pull. Keep the current input scheme for this pass so the motion improvement can be judged independently.
+
+## Evidence and causes
+
+Source inspected at `194fbd3` (runtime changes last at `b71c989`). Codex re-inspected the immutable reference image and six half-second video samples from approximately 2–5 seconds, alongside the latest G2 screenshots. Sampling does not establish the original input method.
+
+- Reference: the avatar overlaps the visible front of a centered tower, faces its surface, alternates arm/leg positions and stays attached while tower details move behind it.
+- Current `Level1SceneSetup`: the cylinder's X/Z scale is 2 (world radius approximately 1), player center is x=2.6 and capsule half-width approximately 0.4. That leaves approximately 1.2 world units of empty lateral space between them. Camera x=2.6 centers the detached character and crops the tower to the left.
+- `PlayerMotor.Update` translates the root upward at constant speed. There is no climbing pose driver. `TryApplyHit` immediately subtracts 1.5 units from height. These explain sliding/floating and abrupt impacts; they are not a diagnosis of every possible input complaint.
+- Input is accepted only within the bottom 35% of the display, with no visible instruction describing that region. Hold-to-climb and timed hazard bands remain documented adaptations, not observed reference rules.
+
+## Claude's immediate task, before four more level configurations
+
+1. **Correct one shared tower/player/camera composition.** Put the avatar on the camera-facing front surface of the tower, centered horizontally with it and facing inward. For the current camera looking toward +Z, that generally means player x near tower-center x and player z on the negative-Z surface, not x=2.6 beside the tower. Derive placement from the actual imported tower surface and character geometry; do not merely replace the old arbitrary offset with another guessed constant. Keep hands/feet visually close to the surface without burying the torso. Frame both together using the portrait video as the baseline; do not compensate for a detached avatar by widening the camera alone.
+2. **Use the already-downloaded licensed character and tower family.** Add the sky and adequate lighting. Keep one presentation family reusable across levels. No generation, custom modeling or new asset hunt. On the existing rig, implement the previously planned small pose driver: alternating hand reaches and bent knees during climbing, a held grip when idle, and readable hit/re-grip/end states. Tie the visible cycle to actual ascent so limbs do not climb while stationary. A complete IK system is unnecessary.
+3. **Tune the motion with that presentation visible.** Aim for a readable reach/pull rhythm and stable surface contact. Use the gameplay root as the authoritative height; presentation offsets/poses must not fight the motor. Replace the visually instantaneous hit with a short controlled displacement and re-grip/recovery sequence, keeping bounded invulnerability and responsive return to play. Recheck hazard crossing and finish bounds when changing displacement timing. Keep the webhook's six gloves aimed at the visible character throughout.
+4. **Make the controls understandable.** The candidate identified floating/sliding motion as the primary complaint; preserve the isolated hold-to-climb assumption for this pass. Add a concise prompt such as “Hold below to climb · release to grip” and ensure that the indicated touch region matches the implementation and excludes UI buttons. Do not claim the reference proves this control scheme or silently switch to automatic climbing. Avoid expanding hazard/HP rules before the base ascent feels credible.
+5. **Provide an early device preview.** Record 15–20 seconds showing grip/idle → climb → release/grip → real webhook hit → recovery → climb. Supply the APK/source revision and a portrait still beside the reference. Request candidate feedback on this clip before copying the presentation into all five levels. Work on independent menus/documentation may continue while feedback is pending.
+
+## Acceptance for this checkpoint
+
+The player visibly belongs on the tower, faces it, and remains attached through ascent. Both tower and avatar are clearly framed. Climbing reads through alternating limb motion rather than a floating capsule. Release produces a recognizable grip/idle state. A hit has visible direction, recovery and audible impact, after which touch climbing works again. The controls explain where to touch. Confirm on the physical device; Editor geometry alone is insufficient.
+
+Target a focused 45–60 minute first pass, then report a clip or a specific blocker rather than widening scope. This timebox is a planning target, not a claim about implementation duration. Continue the remaining G3 requirements after this checkpoint: exactly five completable levels, progression/menus, reachable lose/retry, pause timing and the outstanding G2 device checks. Preserve the immutable reference and existing working-tree changes.

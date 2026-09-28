@@ -16,4 +16,6 @@ To verify the snapshot, run `shasum -a 256 -c SHA256SUMS` from `Docs/Reference/U
 
 Codex owns planning, prioritization, and milestone review. Claude owns implementation and integration. Follow the [action plan](Docs/Development/ACTION_PLAN.md) and [Claude handoff](Docs/Development/CLAUDE_HANDOFF.md); record progress and evidence in [development status](Docs/Development/STATUS.md). These working documents never override the immutable brief.
 
+Quota fallback (standing rule): if either Codex or Claude hits its usage limit while the other still has quota, the available one takes over both roles (planning/review and implementation) until the other is back, then the normal split resumes. When taking over, preserve the other agent's uncommitted edits, and make sure only one agent drives the Unity Editor, builds or the device at a time. Use the advisory [Jev evidence workflow](Tools/Jev/README.md) at milestone reviews; Jev classifications do not authorize PASS or replace executed tests and device observations.
+
 The user has ruled out asset generation for this project. Use existing free, appropriately licensed art and audio; preserve source and license records. Do not generate new art/audio or introduce an asset-generation pipeline.

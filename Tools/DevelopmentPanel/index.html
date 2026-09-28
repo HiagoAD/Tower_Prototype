@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f5f6f8">
+  <title>Tower · Development control panel</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <aside class="sidebar">
+    <a class="brand" href="#overview"><span class="brand-mark" aria-hidden="true">T</span><span>TOWER<span class="brand-sub">DEVELOPMENT WORKSPACE</span></span></a>
+    <div class="project-switch"><span class="project-icon">TP</span><div>Tower Prototype<small>Unity technical test</small></div><span class="project-dot" aria-hidden="true"></span></div>
+    <p class="nav-label">WORKSPACE</p>
+    <nav aria-label="Main navigation">
+      <a href="#overview" data-page="overview"><span aria-hidden="true">◫</span>Overview</a>
+      <a href="#milestones" data-page="milestones"><span aria-hidden="true">☷</span>Milestones <span id="nav-gate-count" class="nav-count">—</span></a>
+      <a href="#evidence" data-page="evidence"><span aria-hidden="true">▧</span>Evidence & builds</a>
+      <a href="#risks" data-page="risks"><span aria-hidden="true">⚑</span>Risks & decisions</a>
+      <a href="#documents" data-page="documents"><span aria-hidden="true">▤</span>Project documents</a>
+    </nav>
+    <div class="sidebar-bottom"><div class="ownership"><span class="avatar">C</span><div>Project coordination<small>Codex · review / Claude · delivery</small></div></div><div class="local-label"><span class="dot"></span>Local workspace <span>Read only</span></div></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar"><div class="breadcrumb">Workspace <span>/</span> Tower Prototype <span>/</span> <strong id="breadcrumb-page">Overview</strong></div><div class="sync"><span id="connection-dot" class="dot"></span><span id="sync-label" role="status">Connecting…</span><button id="refresh" class="icon-button" aria-label="Refresh project data" title="Refresh project data">↻</button></div></header>
+    <main id="main" tabindex="-1">
+      <div class="page-heading"><div><div class="eyebrow">PROJECT CONTROL PANEL</div><h1 id="page-title">Development overview</h1><p id="page-description">From the first Android build to a verified submission.</p></div><button class="button" data-doc="Docs/Development/ACTION_PLAN.md">Open action plan <span aria-hidden="true">↗</span></button></div>
+      <div id="error" class="alert error" role="alert" hidden></div>
+      <div id="loading" class="loading">Reading project records…</div>
+      <div id="content" hidden>
+        <section id="page-overview" class="page" aria-label="Development overview"></section>
+        <section id="page-milestones" class="page" aria-label="Milestones" hidden></section>
+        <section id="page-evidence" class="page" aria-label="Evidence and builds" hidden></section>
+        <section id="page-risks" class="page" aria-label="Risks and decisions" hidden></section>
+        <section id="page-documents" class="page" aria-label="Project documents" hidden></section>
+      </div>
+      <footer><span>Tower Prototype <span class="footer-separator">/</span> Local development monitor</span><span>Records refresh every 15s · Recife (UTC−03:00)</span></footer>
+    </main>
+  </div>
+  <dialog id="detail-dialog" aria-labelledby="dialog-title"><div class="dialog-top"><div><div id="dialog-eyebrow" class="eyebrow">PROJECT RECORD</div><h2 id="dialog-title">Details</h2></div><button id="close-dialog" class="icon-button" aria-label="Close details">×</button></div><div id="dialog-content"></div></dialog>
+</body>
+</html>

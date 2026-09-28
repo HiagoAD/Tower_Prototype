@@ -39,6 +39,8 @@ Input bindings, five-level structure, obstacle rules, and exact failure rules ca
 
 ### Implementation decisions
 
+**Gameplay validation pending:** see [REFERENCE_BEHAVIOR_REVIEW.md](REFERENCE_BEHAVIOR_REVIEW.md). Input, obstacle-band, and three-mistake rules below are provisional proposals, not verified reference mechanics. The ending includes countdown/trophy imagery before GAME OVER, so that label alone does not establish defeat. Resolve the control/failure interpretation before implementing those rules for G2; Android/webhook proof can proceed independently.
+
 1. Use **3D imported models with constrained vertical gameplay**, the existing URP renderer, and a fixed-azimuth camera following height. Start with a modest perspective camera. Match tower/character screen proportions before adding detail.
 2. Use **portrait on Android**, following the video. Keep the screenshot's pale tower, blue sky, and bold HUD treatment where compatible. This is a deliberate interpretation of two references with different aspect ratios and tower styles.
 3. **Hold to climb; release to cling/idle.** Provide a large bottom touch region and Space/W for Editor testing through the installed Input System. Keep menu touches out of gameplay input. Reset held input on pause, focus loss, death, and level changes.
@@ -71,7 +73,7 @@ No asset from the reference image/video is licensed for extraction by the brief;
 
 ## 4. Schedule and review gates
 
-Times are target completion times, not permission to wait. Move directly to the next task when evidence is ready. A missed gate triggers scope reduction and a revised estimate.
+Times are target completion times, not permission to wait. Move directly to the next task when evidence is ready. A missed gate triggers scope reduction and a revised estimate. The parallel column describes opportunities, not a requirement to launch agents. Under the Pro-plan default below, Claude executes the coding lanes sequentially while builds/downloads, candidate device work, and Codex review overlap. The schedule is a delivery target, not a guarantee of sufficient subscription quota.
 
 | Recife, Sep 28 | Work | Parallel opportunity | Required evidence / gate |
 | --- | --- | --- | --- |
@@ -88,13 +90,15 @@ The eight-hour hard-deadline buffer is for exceptional build/upload problems and
 
 ## 5. Parallel work and ownership
 
-Use **one Claude lead plus at most two bounded workers**, if the available quota supports it. A single Claude session can execute the same workstreams sequentially; background build/download time still permits useful overlap. Codex does not implement these lanes.
+**Pro-plan default: one active Claude Code implementation session using Sonnet.** Execute the three logical workstreams sequentially, integrating a minimal version of each for the first Android slice. Codex remains the planner/reviewer; the candidate handles device playtesting and final submission. Keep the existing Codex model/effort assignment, but limit its work to focused reviews and blockers.
+
+The ownership table below also documents how work could be split. Do not launch a standing three-agent team. Only consider **one short, bounded worker** after measured usage shows headroom and the task is independent enough to save time. Follow existing role/model instructions if delegating. A worker uses the same Claude subscription allowance, not an additional allocation.
 
 | Lane | Owner and files | Work that can start after G0 | Must not edit |
 | --- | --- | --- | --- |
 | A — Core and integration | Claude lead: `Assets/Game/Core/`, `Gameplay/`, `Levels/`, `Scenes/`, `Prefabs/`, `Editor/`; shared contracts; project/package settings; asset import | State machine, motion, input, camera, level data, scene composition, Android builds, integration | Other workers' owned source files without coordinated handoff |
-| B — Webhook | Worker B: `Assets/Game/Webhook/`, its owned tests, proposed webhook documentation | Plain C# listener/parser, bounded request handoff, HTTP tests, shutdown/restart behavior; requires no art or scene | Shared contracts, player state, scenes, UI, package/settings files |
-| C — Presentation | Worker C: `Assets/Game/Presentation/`, its owned tests, UI construction helper source | HUD/menu view logic, six-glove animation, SFX playback, imported-rig pose behavior | Player movement/state, level configurations, listener, shared scenes, asset imports/settings |
+| B — Webhook | Claude lead by default; optional bounded worker: `Assets/Game/Webhook/`, its owned tests, proposed webhook documentation | Plain C# listener/parser, bounded request handoff, HTTP tests, shutdown/restart behavior; requires no art or scene | When delegated: shared contracts, player state, scenes, UI, package/settings files |
+| C — Presentation | Claude lead by default; optional bounded worker: `Assets/Game/Presentation/`, its owned tests, UI construction helper source | HUD/menu view logic, six-glove animation, SFX playback, imported-rig pose behavior | When delegated: player movement/state, level configurations, listener, shared scenes, asset imports/settings |
 
 Only the lead mutates the shared Editor, imports assets, creates/changes serialized scene/prefab/configuration files, runs play-mode/build/test sessions, or changes packages. Workers supply focused scripts and wiring instructions. Have them explicitly acknowledge that others are editing the project and that they must preserve unrelated changes. Avoid workers independently creating bootstrap systems, global event buses, or duplicate HUDs.
 
@@ -128,6 +132,24 @@ flowchart LR
 ```
 
 The critical path is **Android transport proof → playable Android slice → five completed levels → final APK validation → recording and submission**. Builds, scene integration, and device control are serialized bottlenecks. More agents will not shorten those steps.
+
+### Subscription budget check
+
+Checked against official documentation on September 28, 2026. Account balances and reset times have not been supplied, so quota fit is **unverified**. The two products' Pro labels do not indicate equivalent allowances.
+
+- [Claude Pro](https://support.claude.com/en/articles/8325606-what-is-the-pro-plan) has five-hour session limits and a weekly limit. [Claude and Claude Code share allowance](https://support.claude.com/en/articles/11145838-use-claude-code-with-your-pro-or-max-plan). A session reset does not refill an exhausted weekly allowance.
+- [Claude's usage guidance](https://code.claude.com/docs/en/costs) confirms that subagents also consume usage and recommends Sonnet for most coding. Check `/usage` or Settings → Usage; a displayed API-equivalent dollar estimate is not the remaining Pro allowance.
+- [Codex pricing and limits](https://learn.chatgpt.com/docs/pricing) distinguishes Pro 5× and 20×, with model/task-dependent consumption and possible weekly limits. Check its usage dashboard or CLI `/status`. Do not infer a project budget from a message-count estimate.
+
+Before G0, record both accounts' remaining session/weekly allowances and reset times in STATUS. If unavailable, stay single-session and treat quota as a material delivery risk. Neither upgrades nor paid overflow are part of this plan.
+
+Measure usage again after G1 and G2. Use the observed allowance consumed, remaining required work, and actual resets to reassess the schedule; do not assume one prompt equals one unit or extrapolate an exact completion cost from a small sample. Aim to preserve roughly 30% of available allowance for debugging and final fixes; this is a planning reserve, not a provider limit.
+
+Claude should read the brief/plan once per necessary context, work from focused tasks, inspect only relevant files, and save logs to files with concise failure summaries. Batch related source edits and Editor operations. Avoid broad repository rescans, repeated plan generation, constant screenshot polling, and duplicate whole-project reviews. At a clean milestone, save status and artifact paths before starting a fresh task context; compaction/clearing does not reset subscription quota.
+
+Useful overlap without extra Claude agents: the candidate tests an existing APK or prepares recording/upload while Claude works on the next bounded task; Codex reviews a fixed source revision while Claude works on unaffected files; downloads/builds run while documentation is prepared. Coordinate access to the Editor/device and keep artifact versions explicit.
+
+If a limit is near, protect required fixes and delivery ahead of polish. While blocked on a reset, the candidate can playtest, record an already accepted APK, and prepare submission; Codex can review existing work. Do not assume switching sessions/models bypasses a shared cap. If the next reset threatens delivery, report that immediately and revise scope/timing without silently switching to paid usage or changing Codex's implementation role.
 
 ## 6. Implementation acceptance details
 
@@ -182,7 +204,7 @@ If Editor and device must both remain active, use host port **56790** for the de
 
 ## 7. Tests and overseer checkpoints
 
-At each gate, Claude updates [STATUS.md](STATUS.md) and returns evidence to Codex. Codex reviews requirement coverage, the focused diff, device evidence, and remaining time. Report **PASS / FAIL / NOT VERIFIED** accurately. A green compilation alone does not pass a gameplay/device gate. Continue unrelated work while a review is pending.
+At every gate, Claude updates [STATUS.md](STATUS.md) with evidence. To conserve quota, schedule **four Codex reviews: G2 (vertical slice), G3 (five levels), G5 (release candidate), and G6 (submission package)**. Report G0/G1/G4/G7 through brief status updates; escalate a failed Android proof or other blocker immediately. Codex reviews the changed scope, requirement coverage, device evidence, and remaining time. Report **PASS / FAIL / NOT VERIFIED** accurately. A green compilation alone does not pass a gameplay/device gate. Continue unrelated work while a review is pending. The candidate prompts Codex to read the latest status at those checkpoints; this plan does not create automatic cross-app monitoring.
 
 Each handoff should include: gate, source revision or file list, exact APK path, target device/OS/ABI, checks performed/results, screenshot or recording paths, known gaps, next task, and ETA. Escalate a blocker after **15 minutes** with one proposed fallback; keep a transient tooling issue from consuming an hour silently.
 
