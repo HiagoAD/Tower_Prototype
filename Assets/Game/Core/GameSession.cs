@@ -11,7 +11,7 @@ namespace Game.Core
     public sealed class GameSession : MonoBehaviour
     {
         [SerializeField] private PlayerMotor motor;
-        [SerializeField] private LevelDefinition level;
+        [SerializeField] private TextAsset levelJson;
         [Tooltip("Optional global climb pace; without it the level plays exactly as authored.")]
         [SerializeField] private ClimbPace pace;
         [SerializeField] private int startingHitPoints = 3;
@@ -37,6 +37,11 @@ namespace Game.Core
         private float _levelClock;
 
         private float _distanceScale = 1f;
+
+        // Parsed lazily from levelJson on first use: the file is authored data, so a malformed one
+        // throws FormatException from StartLevel rather than falling back to made-up numbers.
+        private LevelDefinition _level;
+        private LevelDefinition Level => _level ??= LevelDefinition.FromJson(levelJson != null ? levelJson.text : null);
 
         /// <summary>Authored-to-play distance factor for the current level (see ClimbPace).</summary>
         public float DistanceScale => _distanceScale;
@@ -125,6 +130,7 @@ namespace Game.Core
 
         public void StartLevel()
         {
+            LevelDefinition level = Level;
             _levelInstanceId++;
             _levelClock = 0f;
             HitPoints = startingHitPoints;
@@ -228,7 +234,7 @@ namespace Game.Core
         {
             ClearHazards();
 
-            foreach (HazardSpec authored in level.hazards)
+            foreach (HazardSpec authored in Level.hazards)
             {
                 HazardSpec spec = authored;
                 spec.height *= _distanceScale;
