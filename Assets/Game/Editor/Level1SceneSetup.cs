@@ -1,6 +1,7 @@
 using Game.Core;
 using Game.Gameplay;
 using Game.Presentation;
+using Game.Webhook;
 using UnityEditor;
 using UnityEditor.Events;
 using UnityEditor.SceneManagement;
@@ -21,6 +22,7 @@ namespace Game.Editor
         private const string ScenePath = "Assets/Game/Scenes/Level1.unity";
         private const string LevelAssetPath = "Assets/Game/Levels/Level1.asset";
         private const string ClimbPacePath = "Assets/Game/Levels/ClimbPace.asset";
+        private const string BumpCatalogPath = "Assets/Game/Levels/BumpCatalog.asset";
         private const string GlovePngPath = "Assets/Game/Art/Licensed/BoxingGlove/boxing-glove-white.png";
         private const string ImpactSfxPath = "Assets/Game/Art/Licensed/ImpactSounds/impactPunch_heavy_000.ogg";
         private const string HazardVisualPrefabPath = "Assets/Game/Prefabs/HazardVisual.prefab";
@@ -65,7 +67,11 @@ namespace Game.Editor
         private static readonly Color HudYellowColor = new Color32(255, 214, 20, 255);
         private static readonly Color HudRedColor = new Color32(236, 24, 24, 255);
         private static readonly Color HudStrokeColor = new Color32(24, 16, 10, 255);
-        private static readonly Color CardBannerColor = new Color32(40, 95, 168, 230);
+        private static readonly Color CardBannerColor = new Color32(30, 84, 170, 235);
+        private static readonly Color CardBannerGlintColor = new Color32(84, 156, 236, 200);
+        private static readonly Color FlameGlowColor = new Color32(240, 70, 20, 110);
+        private static readonly Color FlameBannerColor = new Color32(248, 118, 22, 245);
+        private static readonly Color FlameCoreColor = new Color32(255, 176, 40, 220);
         private static readonly Color PrimaryButtonColor = new Color32(240, 240, 240, 255);
         private static readonly Color PrimaryButtonTextColor = new Color32(50, 50, 50, 255);
         private static readonly Color SecondaryButtonColor = new Color32(60, 60, 60, 255);
@@ -170,6 +176,7 @@ namespace Game.Editor
             PlayerBuildResult player = BuildPlayer(tower);
             BindPrivate(pace, "bodyHeight", player.Metrics.Height);
             EditorUtility.SetDirty(pace);
+            BumpCatalog bumpCatalog = LoadOrCreateBumpCatalog(gloveSprite);
             Camera camera = BuildCamera(player.Motor, player.Metrics.ChestHeight, pace, out CameraShake shake);
 
             GameObject sessionGo = new GameObject("GameSession");
@@ -177,6 +184,7 @@ namespace Game.Editor
             BindPrivate(session, "motor", player.Motor);
             BindPrivate(session, "level", level);
             BindPrivate(session, "pace", pace);
+            BindPrivate(session, "bumpCatalog", bumpCatalog);
             BindPrivate(session, "startingHitPoints", 3);
             BindPrivate(session, "hazardVisualPrefab", hazardVisualPrefab);
             BindPrivate(session, "hazardActiveMaterial", hazardActiveMaterial);
@@ -234,6 +242,39 @@ namespace Game.Editor
             }
 
             return pace;
+        }
+
+        /// <summary>
+        /// Create-if-missing, and only populated when newly created: tuned distances, added types and
+        /// changed defaults survive a scene rebuild. The boxing distances equal the old fixed hit
+        /// displacement (1.5), so a negative bump feels like the hit it replaced.
+        /// </summary>
+        private static BumpCatalog LoadOrCreateBumpCatalog(Sprite gloveSprite)
+        {
+            var catalog = AssetDatabase.LoadAssetAtPath<BumpCatalog>(BumpCatalogPath);
+            if (catalog == null)
+            {
+                catalog = ScriptableObject.CreateInstance<BumpCatalog>();
+                catalog.defaultPolarity = BumpPolarity.Negative;
+                catalog.defaultTypeId = "boxing";
+                catalog.fallbackTag = "Guest";
+                catalog.types = new[]
+                {
+                    new BumpType
+                    {
+                        id = "boxing",
+                        displayName = "Boxing",
+                        icon = gloveSprite,
+                        iconTint = new Color(0.9f, 0.08f, 0.08f, 1f),
+                        liftDistance = 1.5f,
+                        dropDistance = 1.5f,
+                    },
+                };
+                AssetDatabase.CreateAsset(catalog, BumpCatalogPath);
+                AssetDatabase.SaveAssets();
+            }
+
+            return catalog;
         }
 
         private static Sprite LoadSprite(string path)
@@ -990,7 +1031,8 @@ namespace Game.Editor
             GameObject[] hearts = BuildHearts(hudPanel.transform, hudMargin + pauseSize + 16f, hudMargin, pauseSize);
 
             BuildControlsHint(hudPanel, session);
-            BuildEventFeed(hudPanel, session, gloveSprite);
+            BuildEventFeed(hudPanel, session, gloveSprite, BumpPolarity.Positive);
+            BuildEventFeed(hudPanel, session, gloveSprite, BumpPolarity.Negative);
 
             GameObject pausePanel = BuildMenuPanel(canvasRect, "PausePanel", "PAUSED");
             pausePanel.SetActive(false);
@@ -1034,7 +1076,7 @@ namespace Game.Editor
             Image flashImage = AddImage(canvasGo.transform, "FlashImage", null, new Color(1f, 1f, 1f, 0f));
             Stretch(flashImage.rectTransform);
 
-            GameObject burstRootGo = new GameObject("GloveBurstRoot", typeof(RectTransform));
+            GameObject burstRootGo = new GameObject("BumpBurstRoot", typeof(RectTransform));
             burstRootGo.transform.SetParent(canvasGo.transform, false);
             var burstRect = burstRootGo.GetComponent<RectTransform>();
             burstRect.anchorMin = burstRect.anchorMax = new Vector2(0.5f, 0.5f);
@@ -1046,9 +1088,9 @@ namespace Game.Editor
             audioSource.playOnAwake = false;
             audioSource.clip = impactClip;
 
-            var gloveBurstGo = new GameObject("GloveBurstView");
+            var gloveBurstGo = new GameObject("BumpBurstView");
             gloveBurstGo.transform.SetParent(canvasGo.transform, false);
-            GloveBurstView gloveBurst = gloveBurstGo.AddComponent<GloveBurstView>();
+            BumpBurstView gloveBurst = gloveBurstGo.AddComponent<BumpBurstView>();
             BindPrivate(gloveBurst, "session", session);
             BindPrivate(gloveBurst, "burstRoot", burstRect);
             BindPrivate(gloveBurst, "flashImage", flashImage);
@@ -1181,69 +1223,125 @@ namespace Game.Editor
         }
 
         /// <summary>
-        /// Three pre-built event-card slots on the right edge, styled on the reference's gift cards:
-        /// a glove badge overlapping a blue banner, a sender line above and the event line inside.
-        /// EventFeedView only shifts text/alpha between them.
+        /// Three pre-built event-card slots for one polarity, styled on the reference's gift cards.
+        /// Positive cards stack on the left edge (blue banner, badge at the left end, text
+        /// left-aligned), beside the altitude meter; negative cards mirror them on the right edge
+        /// (layered orange flame banner, badge at the right end, text right-aligned). Each column has
+        /// its own EventFeedView, which only shifts text, badge and alpha between the slots.
         /// </summary>
-        private static void BuildEventFeed(GameObject hudPanel, GameSession session, Sprite gloveSprite)
+        private static void BuildEventFeed(GameObject hudPanel, GameSession session, Sprite gloveSprite, BumpPolarity polarity)
         {
             const int slotCount = 3;
             const float slotSpacing = 190f;
             const float cardScale = 0.8f;
+            const float anchorY = 0.46f;
+
+            bool left = polarity == BumpPolarity.Positive;
+            // +1 lays a card out from its left end, -1 mirrors it from its right end.
+            float side = left ? 1f : -1f;
+            float edge = left ? 0f : 1f;
+            TextAnchor textAnchor = left ? TextAnchor.MiddleLeft : TextAnchor.MiddleRight;
+            string column = left ? "Positive" : "Negative";
 
             var cards = new CanvasGroup[slotCount];
             var senders = new Text[slotCount];
             var details = new Text[slotCount];
+            var badges = new Image[slotCount];
+            var badgeOutlines = new Image[slotCount];
 
             for (int i = 0; i < slotCount; i++)
             {
-                var cardGo = new GameObject("EventCard" + i, typeof(RectTransform), typeof(CanvasGroup));
+                var cardGo = new GameObject(column + "EventCard" + i, typeof(RectTransform), typeof(CanvasGroup));
                 cardGo.transform.SetParent(hudPanel.transform, false);
                 var card = cardGo.GetComponent<RectTransform>();
-                // Right-hand sky, clear of the altitude meter and its labels on the left.
-                card.anchorMin = card.anchorMax = new Vector2(1f, 0.72f);
-                card.pivot = new Vector2(1f, 0.5f);
-                card.sizeDelta = new Vector2(520f, 150f);
+                // The left column starts just right of the altitude meter's track; the right column
+                // hugs the right edge. Neither reaches the climber in the centre.
+                card.anchorMin = card.anchorMax = new Vector2(edge, anchorY);
+                card.pivot = new Vector2(edge, 0.5f);
+                card.sizeDelta = new Vector2(420f, 150f);
                 card.localScale = Vector3.one * cardScale;
-                card.anchoredPosition = new Vector2(-16f, -i * slotSpacing * cardScale);
+                card.anchoredPosition = new Vector2(left ? 100f : -8f, -i * slotSpacing * cardScale);
 
                 var group = cardGo.GetComponent<CanvasGroup>();
                 group.alpha = 0f;
                 group.interactable = false;
                 group.blocksRaycasts = false;
 
-                Image banner = AddImage(card, "Banner", UiSprite, CardBannerColor);
-                banner.rectTransform.anchorMin = banner.rectTransform.anchorMax = new Vector2(0f, 0.5f);
-                banner.rectTransform.pivot = new Vector2(0f, 0.5f);
-                banner.rectTransform.sizeDelta = new Vector2(400f, 72f);
-                banner.rectTransform.anchoredPosition = new Vector2(70f, -22f);
+                if (left)
+                {
+                    AddCardBar(card, "Banner", side, edge, 60f, 360f, -24f, 70f, CardBannerColor);
+                    AddCardBar(card, "BannerGlint", side, edge, 84f, 320f, -8f, 24f, CardBannerGlintColor);
+                }
+                else
+                {
+                    AddCardBar(card, "FlameGlow", side, edge, 30f, 390f, -24f, 88f, FlameGlowColor);
+                    AddCardBar(card, "Banner", side, edge, 60f, 350f, -24f, 70f, FlameBannerColor);
+                    AddCardBar(card, "FlameCore", side, edge, 90f, 260f, -32f, 34f, FlameCoreColor);
+                    // Frayed flame tip at the inner end.
+                    AddCardKnob(card, "FlameTip0", side, edge, 402f, -24f, 64f, FlameGlowColor);
+                    AddCardKnob(card, "FlameTip1", side, edge, 418f, -30f, 40f, FlameBannerColor);
+                }
 
-                Image badgeOutline = AddImage(card, "BadgeOutline", gloveSprite, new Color(0.12f, 0.02f, 0.02f, 1f));
-                badgeOutline.rectTransform.anchorMin = badgeOutline.rectTransform.anchorMax = new Vector2(0f, 0.5f);
-                badgeOutline.rectTransform.sizeDelta = new Vector2(128f, 128f);
-                badgeOutline.rectTransform.anchoredPosition = new Vector2(66f, -12f);
-                Image badge = AddImage(card, "Badge", gloveSprite, new Color(0.9f, 0.08f, 0.08f, 1f));
-                badge.rectTransform.anchorMin = badge.rectTransform.anchorMax = new Vector2(0f, 0.5f);
-                badge.rectTransform.sizeDelta = new Vector2(114f, 114f);
-                badge.rectTransform.anchoredPosition = new Vector2(66f, -12f);
+                badgeOutlines[i] = AddImage(card, "BadgeOutline", gloveSprite, HudStrokeColor);
+                PlaceOnEdge(badgeOutlines[i].rectTransform, side, edge, 62f, -6f, 128f, 128f, centred: true);
+                badges[i] = AddImage(card, "Badge", gloveSprite, new Color(0.9f, 0.08f, 0.08f, 1f));
+                PlaceOnEdge(badges[i].rectTransform, side, edge, 62f, -6f, 114f, 114f, centred: true);
 
-                senders[i] = AddText(card, "Sender", string.Empty, 38, TextAnchor.MiddleLeft, new Vector2(140f, 38f),
-                    anchorMin: new Vector2(0f, 0.5f), anchorMax: new Vector2(0f, 0.5f), pivot: new Vector2(0f, 0.5f), sizeDelta: new Vector2(380f, 52f));
+                senders[i] = AddText(card, "Sender", string.Empty, 42, textAnchor, Vector2.zero);
+                PlaceOnEdge(senders[i].rectTransform, side, edge, 132f, 38f, 280f, 56f, centred: false);
+                StyleCardText(senders[i]);
                 AddOutline(senders[i], new Color(0f, 0f, 0f, 0.6f), 2f);
 
-                details[i] = AddText(card, "Detail", string.Empty, 34, TextAnchor.MiddleLeft, new Vector2(146f, -22f),
-                    anchorMin: new Vector2(0f, 0.5f), anchorMax: new Vector2(0f, 0.5f), pivot: new Vector2(0f, 0.5f), sizeDelta: new Vector2(320f, 60f));
+                details[i] = AddText(card, "Detail", string.Empty, 36, textAnchor, Vector2.zero);
+                PlaceOnEdge(details[i].rectTransform, side, edge, left ? 140f : 130f, -24f, 250f, 60f, centred: false);
+                StyleCardText(details[i]);
+                AddOutline(details[i], new Color(0f, 0f, 0f, 0.55f), 2f);
 
                 cards[i] = group;
             }
 
-            var feedGo = new GameObject("EventFeedView");
+            var feedGo = new GameObject(column + "EventFeedView");
             feedGo.transform.SetParent(hudPanel.transform, false);
             EventFeedView feed = feedGo.AddComponent<EventFeedView>();
             BindPrivate(feed, "session", session);
+            BindPrivate(feed, "polarity", polarity);
             BindPrivateArray(feed, "cards", cards);
             BindPrivateArray(feed, "senderTexts", senders);
             BindPrivateArray(feed, "detailTexts", details);
+            BindPrivateArray(feed, "badgeIcons", badges);
+            BindPrivateArray(feed, "badgeOutlines", badgeOutlines);
+        }
+
+        /// <summary>Positions a card child by its distance from the card's icon-side edge; centred children use dx as their centre, others as their near edge.</summary>
+        private static void PlaceOnEdge(RectTransform rect, float side, float edge, float dx, float y, float width, float height, bool centred)
+        {
+            rect.anchorMin = rect.anchorMax = new Vector2(edge, 0.5f);
+            rect.pivot = new Vector2(centred ? 0.5f : edge, 0.5f);
+            rect.sizeDelta = new Vector2(width, height);
+            rect.anchoredPosition = new Vector2(side * dx, y);
+        }
+
+        private static void AddCardBar(RectTransform card, string name, float side, float edge, float dx, float width, float y, float height, Color color)
+        {
+            Image bar = AddImage(card, name, UiSprite, color);
+            PlaceOnEdge(bar.rectTransform, side, edge, dx, y, width, height, centred: false);
+        }
+
+        private static void AddCardKnob(RectTransform card, string name, float side, float edge, float dx, float y, float size, Color color)
+        {
+            Image knob = AddImage(card, name, KnobSprite, color);
+            PlaceOnEdge(knob.rectTransform, side, edge, dx, y, size, size, centred: true);
+        }
+
+        /// <summary>
+        /// Card lines are sender-controlled: plain text only (no rich-text markup) and always one
+        /// line. EventFeedView truncates a value that is wider than its slot with an ellipsis.
+        /// </summary>
+        private static void StyleCardText(Text text)
+        {
+            text.supportRichText = false;
+            text.horizontalOverflow = HorizontalWrapMode.Overflow;
+            text.verticalOverflow = VerticalWrapMode.Overflow;
         }
 
         /// <summary>
@@ -1449,6 +1547,9 @@ namespace Game.Editor
                     break;
                 case Object unityObj:
                     prop.objectReferenceValue = unityObj;
+                    break;
+                case System.Enum e:
+                    prop.enumValueIndex = System.Convert.ToInt32(e);
                     break;
                 case int i:
                     prop.intValue = i;

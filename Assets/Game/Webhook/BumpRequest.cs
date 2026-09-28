@@ -31,15 +31,44 @@ namespace Game.Webhook
         public readonly DateTime ReceivedAtUtc;
         public readonly int LevelInstanceId;
 
+        /// <summary>The sender's raw fields, before the catalog defaults are applied.</summary>
+        public readonly BumpCommand Command;
+
         private readonly ManualResetEventSlim _completed = new ManualResetEventSlim(false);
         private int _state = (int)BumpRequestState.Pending;
 
-        public BumpRequest(string requestId, string method, DateTime receivedAtUtc, int levelInstanceId)
+        private bool _hasResolvedValues;
+        private BumpPolarity _resolvedPolarity;
+        private string _resolvedTypeId;
+
+        public BumpRequest(string requestId, string method, DateTime receivedAtUtc, int levelInstanceId, BumpCommand command = default)
         {
+            Command = command;
             RequestId = requestId;
             Method = method;
             ReceivedAtUtc = receivedAtUtc;
             LevelInstanceId = levelInstanceId;
+        }
+
+        /// <summary>
+        /// The main thread records the defaults-applied polarity and type id here BEFORE calling
+        /// TryResolve(Accepted); the worker reads them only after observing Accepted. The
+        /// interlocked exchange in TryResolve orders the plain writes ahead of the state change.
+        /// <paramref name="typeId"/> must not be null.
+        /// </summary>
+        public void SetResolvedValues(BumpPolarity polarity, string typeId)
+        {
+            _resolvedPolarity = polarity;
+            _resolvedTypeId = typeId;
+            _hasResolvedValues = true;
+        }
+
+        /// <summary>Worker side: valid only after State reads Accepted. False if the resolver never recorded values.</summary>
+        public bool TryGetResolvedValues(out BumpPolarity polarity, out string typeId)
+        {
+            polarity = _resolvedPolarity;
+            typeId = _resolvedTypeId;
+            return _hasResolvedValues;
         }
 
         public BumpRequestState State => (BumpRequestState)Volatile.Read(ref _state);

@@ -14,6 +14,8 @@ namespace Game.Core
         [SerializeField] private LevelDefinition level;
         [Tooltip("Optional global climb pace; without it the level plays exactly as authored.")]
         [SerializeField] private ClimbPace pace;
+        [Tooltip("Bump types and the defaults for fields a /bump request omits. Without it every bump is a default negative boxing bump.")]
+        [SerializeField] private BumpCatalog bumpCatalog;
         [SerializeField] private int startingHitPoints = 3;
         [SerializeField] private GameObject hazardVisualPrefab;
         [SerializeField] private Material hazardActiveMaterial;
@@ -26,6 +28,7 @@ namespace Game.Core
 
         private readonly System.Collections.Generic.List<HazardBand> _spawnedHazards = new System.Collections.Generic.List<HazardBand>();
         private BumpListener _listener;
+        private BumpCatalog _fallbackCatalog;
 
         private volatile bool _accepting;
         private volatile int _levelInstanceId;
@@ -48,12 +51,13 @@ namespace Game.Core
         public event System.Action<int> HitPointsChanged;
         public event System.Action<float, float> HeightUpdated;
         public event System.Action HazardHitOccurred;
-        public event System.Action<string> BumpAccepted;
+        public event System.Action<BumpEvent> BumpAccepted;
 
         private void Awake()
         {
             _listener = new BumpListener();
             _listener.StateProvider = () => (_accepting, _levelInstanceId);
+            _listener.KnownTypeIds = bumpCatalog != null ? bumpCatalog.KnownTypeIds() : null;
             _listener.Faulted += msg => Debug.LogWarning("[GameSession] listener error: " + msg);
         }
 
@@ -69,6 +73,11 @@ namespace Game.Core
 
         private void OnDestroy()
         {
+            if (_fallbackCatalog != null)
+            {
+                Destroy(_fallbackCatalog);
+            }
+
             _listener.Dispose();
         }
 
@@ -95,7 +104,7 @@ namespace Game.Core
         /// The main thread is the sole authority over whether a queued request gets dispatched.
         /// Every request is resolved exactly once here (or left to the worker's own bounded
         /// timeout/expiry) -- the HTTP response the requester sees follows this decision, not the
-        /// other way around. The glove effect only ever fires when our own Accept transition wins.
+        /// other way around. The bump effect only ever fires when our own Accept transition wins.
         /// </summary>
         private void DrainBumpQueue()
         {
@@ -113,14 +122,46 @@ namespace Game.Core
                     continue;
                 }
 
+                BumpEvent bump = ResolveBump(request);
+                request.SetResolvedValues(bump.Polarity, bump.Type.id);
                 if (!request.TryResolve(BumpRequestState.Accepted))
                 {
                     continue; // the worker already gave up and expired this one -- never dispatch it.
                 }
 
-                motor.TryApplyHit(); // nonlethal spectacle hit: never consumes a hit point, never blocks continued play.
-                BumpAccepted?.Invoke(request.RequestId);
+                // Nonlethal spectacle: never consumes a hit point, never blocks continued play.
+                motor.ApplyBump(bump.Polarity == BumpPolarity.Positive ? bump.Type.liftDistance : -bump.Type.dropDistance);
+                BumpAccepted?.Invoke(bump);
             }
+        }
+
+        /// <summary>Fills the fields the sender left out from the catalog defaults.</summary>
+        private BumpEvent ResolveBump(BumpRequest request)
+        {
+            BumpCatalog catalog = bumpCatalog != null && bumpCatalog.types.Length > 0 ? bumpCatalog : FallbackCatalog();
+            if (!catalog.TryGet(request.Command.TypeId, out BumpType type) && !catalog.TryGet(catalog.defaultTypeId, out type))
+            {
+                type = catalog.types[0];
+            }
+
+            return new BumpEvent(
+                request.RequestId,
+                request.Command.Polarity ?? catalog.defaultPolarity,
+                type,
+                request.Command.Tag ?? catalog.fallbackTag);
+        }
+
+        /// <summary>A scene without a BumpCatalog still plays: one boxing type on the catalog's own defaults. Logged once.</summary>
+        private BumpCatalog FallbackCatalog()
+        {
+            if (_fallbackCatalog == null)
+            {
+                Debug.LogError("[GameSession] No BumpCatalog assigned; using a built-in boxing type.");
+                _fallbackCatalog = ScriptableObject.CreateInstance<BumpCatalog>();
+                _fallbackCatalog.types = new[] { new BumpType { id = _fallbackCatalog.defaultTypeId, displayName = "Boxing", liftDistance = 1.5f, dropDistance = 1.5f } };
+            }
+
+            return _fallbackCatalog;
         }
 
         public void StartLevel()
