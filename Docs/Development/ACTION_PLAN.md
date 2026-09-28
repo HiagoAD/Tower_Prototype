@@ -8,7 +8,7 @@ The [immutable brief](../Reference/Unity-technical-test/Unity-technical-test.md)
 
 Follow [CURRENT_FIDELITY_REVIEW.md](CURRENT_FIDELITY_REVIEW.md) now. The candidate identifies the **preview image as the visual target**, with the video's different copy used only as secondary motion/event context. This decision supersedes prior video-based palette/framing choices and the elapsed schedule's automatic five-level expansion instruction.
 
-Current order: **G2 image/feel correction and G3 difficulty/progression implementation in parallel → integrated device review → G4 complete candidate → G5 regression → G6 package/recording → G7 submission**. User explicitly authorized Sol agents in isolated worktrees for the level work. All five levels share the same visuals and run sequentially; only difficulty varies. Visual owner retains the main Editor/device. Code work may proceed before visual approval; final integration and device acceptance remain serialized.
+Current direction: **parallel level implementation cancelled by the user; gameplay will change.** Defer campaign/configuration work and integration until revised gameplay is specified. The cancelled campaign worktrees and branches were removed at the user’s request; do not resume the discarded design automatically.
 
 Work already present: licensed presentation, distance-driven pose driver, eased knockback/re-grip, paused/reset level clock, effect-disable cleanup and a meaningful nonzero-height retry test. Saved XML verifies 25/25 passing tests; the latest recorded build succeeded. These are retained progress, not visual acceptance. Only one level configuration exists. Device lose/retry, audible impact and remaining lifecycle/session checks stay open. See the linked review for evidence and limits.
 
@@ -16,7 +16,7 @@ Work already present: licensed presentation, distance-driven pose driver, eased 
 | --- | --- | --- |
 | 1 — still delivered, awaiting review | G2 image fidelity: pale tower, bright sky, compact character lower in frame, outlined yellow HUD | Corrected portrait device still compared directly with ref.png: `evidence/fid_device_vs_ref.png` (APK `cff0462f…`). Candidate feedback and Codex review pending. |
 | 2 — next, after still feedback | G2 climbing feel and device closure | Visible grip/pull/recovery; webhook clip; audible impact; lose/retry and pause checks. |
-| Parallel now | G3 five difficulty configurations and sequential progression in isolated worktrees | Shared visuals; win → next, retry current, final completion. Code/tests first, integrated all-five device proof after visual handoff. |
+| Deferred by user | G3 level implementation awaits revised gameplay | Campaign worktrees removed; no merge, execution or acceptance claimed. |
 | 4 — delivery | G4 complete candidate → G5 regression → G6 recording/package → G7 submission | Build-linked validation, final recording, APK/project/README and verified delivery link. |
 
 | Checkpoint | Current acceptance |
@@ -112,7 +112,7 @@ The eight-hour hard-deadline buffer is for exceptional build/upload problems and
 
 ## 5. Parallel work and ownership
 
-**Current exception:** candidate explicitly authorized the bounded Sol campaign worktrees above, including test/review agents. The following Claude-only default applies outside that assignment.
+**Current exception cancelled:** the candidate stopped the Sol campaign worktree assignment pending gameplay changes. No campaign agents remain active.
 
 **Pro-plan default: one active Claude Code implementation session using Sonnet.** Execute the three logical workstreams sequentially, integrating a minimal version of each for the first Android slice. Codex remains the planner/reviewer; the candidate handles device playtesting and final submission. Keep the existing Codex model/effort assignment, but limit its work to focused reviews and blockers.
 

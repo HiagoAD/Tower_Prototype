@@ -27,7 +27,9 @@ This supersedes the video-baseline decision in the earlier STATUS visual-pass re
 
 Evidence: [device still](evidence/look-review-device.png), [device recording](evidence/look-review-device.mp4), [saved test XML](evidence/look-review-editmode.xml). Existing `g2v_*` captures/report support the implementer's menu, burst and pause claims; they do not establish audible sound or device lose/retry.
 
-## Parallel scope clarification — 2026-09-28
+## Parallel scope clarification — cancelled subsequently
+
+**Latest instruction:** defer level implementation because gameplay will change. Campaign worktrees and draft branches were subsequently removed at the user’s request; the prior authorization below is historical.
 
 User subsequently authorized Sol agents in isolated worktrees to implement five difficulty variations and sequential progression during the visual pass. All levels share one presentation; no level-select screen or visual themes are required. This supersedes the implementation sequencing below: campaign code/configuration proceeds now, while final scene integration and device checks await exclusive Editor/device access.
 

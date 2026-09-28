@@ -17,7 +17,7 @@ User deadline: **09:00 UTC**, interpreted as **2026-09-29 09:00 UTC**; date conf
 | G0 — device, baseline, contracts | 08:15 | PASS | Physical device `0070013699` (Motorola moto_g_5G_plus, codename `nairo`), arm64-v8a, Android 11 (API 30), 1080x2520 portrait, authorized over USB. Unity 6000.3.11f1 + Android/SDK/NDK modules confirmed installed. Reference checksums verified (`shasum -a 256 -c SHA256SUMS`: all OK). Pre-existing working-tree edits to ACTION_PLAN/CLAUDE_HANDOFF/STATUS preserved (not touched by build work). Contracts: see `Assets/Game/Webhook/BumpRequest.cs`. |
 | G1 — Android install and HTTP proof | 09:15 | PASS | See detailed report below. |
 | G2 — Android vertical slice | 11:30 | PARTIAL — image-fidelity still delivered for review; climbing feel and device closure open | Corrected device still vs ref.png: `evidence/fid_device_vs_ref.png` (APK sha256 `cff0462f…`, installed package hash matched); EditMode 25/25 on the same source. Candidate feedback/Codex review pending. Climb motion clip, device lose→retry and audible impact still outstanding. See the 2026-09-28 fidelity checkpoint report below. |
-| G3 — five complete levels and menus | 13:30 (original target) | IN PROGRESS — isolated worktrees | Sol agents implement shared-visual difficulty configurations and sequential progression; test preparation runs alongside. Integrated scene/device acceptance remains pending. |
+| G3 — five complete levels and menus | 13:30 (original target) | NOT COMPLETE — deferred by user | Parallel level work cancelled pending gameplay changes. Campaign worktrees and branches removed; no integration or device acceptance. |
 | G4 — complete candidate; feature freeze | 16:00 | NOT VERIFIED | Pending. |
 | G5 — accepted release candidate | 18:00 | NOT VERIFIED | Pending. |
 | G6 — recording and complete package | 20:00 | NOT VERIFIED | Pending. |
@@ -468,6 +468,16 @@ The candidate accepted the planted-grip climb feel and asked for climb speed to 
 Checks: APK built (`Logs/pace-android2.log`, Succeeded, Errors=0), SHA-256 `f63e51563c87f271d61bd709875bbeabb2efee023db2033cf3900ddcfe65e8e6`; the installed base.apk hashes identically. Device climb at the default pace with no Unity errors; HUD goal reads 3.000 (`evidence/pace_device_hud.png`). EditMode 27/27 (`evidence/pace_editmode.xml`). The two new `ClimbPaceTests` cover the scale factor and a session run at pace 1.5: speed ×1.2, finish ×1.2, unchanged duration, knockback ×1.2. An editor simulation at pace 1.8 (`evidence/pace_1.8_preview.png`) keeps planted reaches and a stable swing; the asset was restored to 0.92 afterwards.
 
 Integration note: `GameSession`'s changes touch the same lines as `codex/sequential-levels` (level speed/finish/hazards). The merge should apply `_distanceScale` to `CurrentLevel` the same way. The difficulty branch's five levels all author climbSpeed 2.5 and finish 30, so they scale uniformly.
+
+
+### 2026-09-28 — Parallel level work cancelled
+
+User cancelled the campaign work because gameplay will change; resume only on new instruction. No campaign agents remain active. Runtime draft commit `c38b604` remains on `codex/sequential-levels`, with uncommitted test drafts; configuration utility drafts remain in `codex/level-difficulty`. These were not merged into main by this task, and no Unity tests/build/device run was performed for them. Preserve the drafts without treating them as the approved future design.
+
+
+### 2026-09-28 — Cancelled campaign worktrees removed
+
+At the user’s request, removed `/private/tmp/tower-sequential-levels` and `/private/tmp/tower-level-difficulty`, including uncommitted drafts, and deleted `codex/sequential-levels` and `codex/level-difficulty`. Main workspace and the unrelated `claude/bump-types` worktree were left untouched by the removal. This supersedes the preceding draft-preservation note.
 
 
 ## 2026-09-28 — requested worktree integration
