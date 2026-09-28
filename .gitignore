@@ -77,3 +77,6 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 *.DS_Store
+
+# Performance-testing package writes its run report into Resources during EditMode/PlayMode runs
+/[Aa]ssets/[Rr]esources/PerformanceTestRun*
