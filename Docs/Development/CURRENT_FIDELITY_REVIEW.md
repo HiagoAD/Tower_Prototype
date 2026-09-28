@@ -27,6 +27,10 @@ This supersedes the video-baseline decision in the earlier STATUS visual-pass re
 
 Evidence: [device still](evidence/look-review-device.png), [device recording](evidence/look-review-device.mp4), [saved test XML](evidence/look-review-editmode.xml). Existing `g2v_*` captures/report support the implementer's menu, burst and pause claims; they do not establish audible sound or device lose/retry.
 
+## Parallel scope clarification — 2026-09-28
+
+User subsequently authorized Sol agents in isolated worktrees to implement five difficulty variations and sequential progression during the visual pass. All levels share one presentation; no level-select screen or visual themes are required. This supersedes the implementation sequencing below: campaign code/configuration proceeds now, while final scene integration and device checks await exclusive Editor/device access.
+
 ## Execute now — G2 fidelity correction
 
 Keep one implementation owner and one Editor/build/device driver. Claude owns implementation when available; Codex covers under the standing quota fallback. This roadmap update does not launch another implementation session.

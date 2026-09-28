@@ -8,9 +8,21 @@ The [immutable brief](../Reference/Unity-technical-test/Unity-technical-test.md)
 
 Follow [CURRENT_FIDELITY_REVIEW.md](CURRENT_FIDELITY_REVIEW.md) now. The candidate identifies the **preview image as the visual target**, with the video's different copy used only as secondary motion/event context. This decision supersedes prior video-based palette/framing choices and the elapsed schedule's automatic five-level expansion instruction.
 
-Current order: **G2 image fidelity → climbing feel and outstanding device checks → G3 five-level expansion → G4 complete candidate → G5 regression → G6 package/recording → G7 submission**. First deliver a corrected device still (tower, sky, character composition, HUD), then the motion/recovery clip. Obtain candidate visual feedback and Codex checkpoint review before repeating the presentation across levels. No new implementation session is launched by this document.
+Current order: **G2 image/feel correction and G3 difficulty/progression implementation in parallel → integrated device review → G4 complete candidate → G5 regression → G6 package/recording → G7 submission**. User explicitly authorized Sol agents in isolated worktrees for the level work. All five levels share the same visuals and run sequentially; only difficulty varies. Visual owner retains the main Editor/device. Code work may proceed before visual approval; final integration and device acceptance remain serialized.
 
 Work already present: licensed presentation, distance-driven pose driver, eased knockback/re-grip, paused/reset level clock, effect-disable cleanup and a meaningful nonzero-height retry test. Saved XML verifies 25/25 passing tests; the latest recorded build succeeded. These are retained progress, not visual acceptance. Only one level configuration exists. Device lose/retry, audible impact and remaining lifecycle/session checks stay open. See the linked review for evidence and limits.
+
+| Order | Current work | Required evidence |
+| --- | --- | --- |
+| 1 — still delivered, awaiting review | G2 image fidelity: pale tower, bright sky, compact character lower in frame, outlined yellow HUD | Corrected portrait device still compared directly with ref.png: `evidence/fid_device_vs_ref.png` (APK `cff0462f…`). Candidate feedback and Codex review pending. |
+| 2 — next, after still feedback | G2 climbing feel and device closure | Visible grip/pull/recovery; webhook clip; audible impact; lose/retry and pause checks. |
+| Parallel now | G3 five difficulty configurations and sequential progression in isolated worktrees | Shared visuals; win → next, retry current, final completion. Code/tests first, integrated all-five device proof after visual handoff. |
+| 4 — delivery | G4 complete candidate → G5 regression → G6 recording/package → G7 submission | Build-linked validation, final recording, APK/project/README and verified delivery link. |
+
+| Checkpoint | Current acceptance |
+| --- | --- |
+| G2 | Image-directed device still and convincing climb/contact/recovery clip reviewed; audible impact and device lose/retry verified; existing Android/webhook requirements retained. |
+| G3 | Exactly five difficulty variations sharing visuals, reached sequentially and completable on Android; progression, retry, final completion and remaining lifecycle/session checks verified. |
 
 The schedule below is the original baseline. Missed target times do not imply completion; the priority order above controls current work. Re-estimate remaining gates after the first corrected still, keeping the submission target and required scope visible.
 
@@ -57,8 +69,8 @@ Input bindings, five-level structure, obstacle rules, and exact failure rules ca
 4. Add simple, telegraphed obstacle bands along the climb: wait below an active band, then climb through its safe interval. These are proposed playable obstacles, not a claim about unseen reference controls. One reusable hazard behavior is enough.
 5. Use **three mistakes per attempt** as the initial failure rule. Normal hazards cause a short hit/fall, reduce height, and consume one mistake. Reaching the summit wins. Give clear remaining-attempt feedback. Tune this after the first playable pass.
 6. The webhook produces a **nonlethal** interruption with small, clamped downward displacement and automatic re-grip. It must always permit continued play; do not let it consume the final attempt or leave the character detached.
-7. One authored gameplay scene, one player prefab, one camera rig, one UI root, and **five explicit level configurations**. Loading a level replaces its environment/hazards and resets state. Five scenes are unnecessary.
-8. Use uGUI for menus, HUD, and the glove overlay. Implement main menu, five-button level select, pause/resume, retry, win/next, lose/retry, and return-to-menu. Make every level directly accessible to evaluators.
+7. One authored gameplay scene, one player prefab, one camera rig, one UI root, and **five explicit level configurations**. Loading a level reuses the shared environment, replaces hazards and resets state. Five scenes are unnecessary.
+8. Use uGUI for menus, HUD, and the glove overlay. Implement main menu, sequential levels 1–5, pause/resume, retry current, win/next, final completion, lose/retry, and return-to-menu. No separate level-select screen or visual variation is required (candidate clarification).
 
 Record these assumptions in the final README. Do not reproduce the reference's streaming integrations, recognizable licensed characters, trucks, creatures, or unrelated spectacle systems. The required boxing event provides the spectacle for this scope.
 
@@ -90,7 +102,7 @@ Times are target completion times, not permission to wait. Move directly to the 
 | 07:45–08:15 | Kickoff: inspect reference with audio, confirm device and deadline date, preserve baseline, verify Editor connection, set contracts/folder owners. Start Android build setup. | Asset-source verification and README inventory can run while the Editor checks complete. | **G0:** target device identified; architecture chosen; implementation contracts fixed. |
 | 08:15–09:15 | Install a small smoke APK with a minimal real listener; import selected art and establish tower/character scale. | Core lead assembles scene/build; webhook lane supplies listener; presentation lane prepares view scripts against contracts. | **G1:** APK installs/launches; a PC GET and POST each visibly change an in-app diagnostic counter through the phone's listener. This is an infrastructure proof, not final `/bump` acceptance. |
 | 09:15–11:30 | Build one full playable level: climbing, camera, hazards, win/lose/retry. Connect first glove effect and minimal menus. | Gameplay, webhook hardening, and UI/VFX proceed independently, then integrate in short batches. | **G2:** vertical slice runs on Android with touch; menu → level → hit/recovery → win/retry; actual request triggers six gloves and play resumes. |
-| 11:30–13:30 | Author the other four level configurations; complete all menus; stabilize transitions, pause, and webhook lifecycle. | Lead owns level data and scene wiring; webhook lane tests transport; presentation lane finishes HUD/audio. | **G3:** all five distinct levels selectable and completable on Android; both HTTP verbs work; no required feature remains a placeholder. |
+| 11:30–13:30 | Author the other four level configurations; complete all menus; stabilize transitions, pause, and webhook lifecycle. | Lead owns level data and scene wiring; webhook lane tests transport; presentation lane finishes HUD/audio. | **G3:** all five difficulty variations sequentially reachable and completable on Android; both HTTP verbs work; no required feature remains a placeholder. |
 | 13:30–16:00 | Tune movement, pacing, tower silhouette/materials, climb pose, HUD, hit readability, camera shake, and SFX. Compare device screenshots with reference. | Presentation tuning can overlap gameplay tuning in separate files. Device/Editor usage is scheduled, not concurrent. | **G4:** complete candidate APK; five-level completion matrix; readable impact/recovery; no missing materials or known blockers. Feature freeze. |
 | 16:00–18:00 | Device regression, targeted tests, lifecycle/rapid-request checks, performance pass, documentation and license audit. Fix blockers only. | README/package inventory and code review can run while device checks execute. | **G5:** release candidate accepted with evidence. Preserve its APK and source revision. |
 | 18:00–20:00 | Record final APK: menu, all five levels played/completed, real webhook trigger, continued play. Recheck install from the final artifact. Prepare clean project archive. | Recording and documentation can overlap; no code changes during a take. | **G6:** watchable recording, installable APK, reproducible project, README, complete license records. |
@@ -99,6 +111,8 @@ Times are target completion times, not permission to wait. Move directly to the 
 The eight-hour hard-deadline buffer is for exceptional build/upload problems and rest, not planned feature work.
 
 ## 5. Parallel work and ownership
+
+**Current exception:** candidate explicitly authorized the bounded Sol campaign worktrees above, including test/review agents. The following Claude-only default applies outside that assignment.
 
 **Pro-plan default: one active Claude Code implementation session using Sonnet.** Execute the three logical workstreams sequentially, integrating a minimal version of each for the first Android slice. Codex remains the planner/reviewer; the candidate handles device playtesting and final submission. Keep the existing Codex model/effort assignment, but limit its work to focused reviews and blockers.
 
@@ -117,7 +131,7 @@ Define the small contracts before branching:
 | Contract | Decision |
 | --- | --- |
 | `GameSession` | Owns menu/playing/paused/won/lost state, level instance ID, start/retry/next, and accepted hit transitions. |
-| `LevelDefinition` | Contains stable ID 1–5, finish height, climb speed, tower appearance, and explicit ordered hazard placements/timings. Validate exactly five at startup. |
+| `LevelDefinition` | Contains stable ID 1–5, finish height, climb speed, and explicit ordered hazard placements/timings; visuals are shared. Validate exactly five at startup. |
 | `PlayerMotor` | Sole owner of gameplay position/height. Exposes climb intent, normalized progress, and clamped hit displacement; presentation never writes its root transform. |
 | `BumpRequest` | Plain data carrying request ID and the active level instance ID captured at acceptance. No Unity object crosses threads. |
 | Bump dispatch | Session validates request on the main thread, applies nonlethal hit through the motor, and invokes presentation once. Discard stale level IDs. |

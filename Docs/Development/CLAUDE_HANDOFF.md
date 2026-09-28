@@ -6,7 +6,7 @@ Milestone evidence now includes an advisory Jev pass using [Tools/Jev](../../Too
 
 Implement the project following [ACTION_PLAN.md](ACTION_PLAN.md). Codex is the planner and overall overseer; you own implementation, integration, and evidence. The candidate owns final submission and supplies device access.
 
-**Current priority — G2 fidelity correction now:** follow [CURRENT_FIDELITY_REVIEW.md](CURRENT_FIDELITY_REVIEW.md). The preview image controls art direction; the video is a different copy and secondary motion/event context. Correct tower/sky/character composition/HUD first and supply a device still, then improve visible climb contact/pull/recovery and close device audio/lose-retry checks. Obtain candidate visual feedback and Codex review before five-level expansion. Retain the implemented pose driver, smooth knockback, pause clock, effect cleanup and improved retry test; their existence does not establish visual acceptance. Only Level1 is currently authored. The older G3 correction document is historical diagnosis plus supporting motion guidance; the current review supersedes its framing and gate ordering.
+**Current priority — G2 fidelity correction now:** follow [CURRENT_FIDELITY_REVIEW.md](CURRENT_FIDELITY_REVIEW.md). The preview image controls art direction; the video is a different copy and secondary motion/event context. Correct tower/sky/character composition/HUD first and supply a device still, then improve visible climb contact/pull/recovery and close device audio/lose-retry checks. User now authorizes parallel Sol worktrees for five difficulty variations and sequential progression while visual correction continues. Claude keeps ownership of main-scene visuals; avoid editing GameSession/MenuView campaign code until worktree integration. Serialize Editor/device access and final integration. Retain the implemented pose driver, smooth knockback, pause clock, effect cleanup and improved retry test; their existence does not establish visual acceptance. Only Level1 is currently authored. The older G3 correction document is historical diagnosis plus supporting motion guidance; the current review supersedes its framing and gate ordering.
 
 Read the root `AGENTS.md`, the immutable brief, its reference image/video, and the plan before editing. Never modify anything under `Docs/Reference/Unity-technical-test/` or the original Notion page. All implementation assumptions belong in project documentation outside that directory.
 
@@ -38,7 +38,7 @@ Execute A → minimal B → minimal C until the Android vertical slice works, th
 
 - One scene with five explicit, distinct, completable level configurations.
 - Imported modular tower/character, reference-inspired blue sky and camera framing, touch climb/idle, hit/fall and win/lose/retry.
-- Main menu, five-level selection, HUD, pause/resume, win/next, lose/retry, return to menu.
+- Main menu, five sequential difficulty variations sharing visuals, HUD, pause/resume, win/next, final completion, lose/retry, return to menu. No level-select screen required.
 - Both GET and POST `http://localhost:56789/bump` inside Editor and Android; six large boxing gloves, flash/shake/SFX, and reliable continued play. Every accepted request has visible feedback; stale requests cannot carry into a new level.
 - Device evidence, focused tests, APK recording showing all five completions and the real webhook, README, asset licenses, and clean project deliverable.
 
