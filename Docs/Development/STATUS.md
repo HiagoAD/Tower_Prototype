@@ -755,3 +755,20 @@ Release APK built from this tree (`BuildScript.BuildAndroidRelease`, result Succ
 - The negative burst showed gloves, stars, flash and aberration. The positive burst lifted the climber to 451 with a green height tint and a `Viewer42` card.
 - A hold afterwards climbed normally to 627. All three lives survived the bumps; a later blind hold into an active band took one.
 - No Unity errors or crashes in logcat.
+
+
+### 2026-09-29 — pause button fix (Claude, user-reported blocker)
+
+**Bug.** The user reported that the HUD pause button did nothing. The scene saved its image with `raycastTarget` off, so taps fell through to the climb input. Cause: `Level1Hud.Build` removes raycasts from every HUD graphic except those that have a `Selectable` parent. The lookup used `GetComponentInParent<Selectable>()`, which skips inactive objects, and the HUD panel is built inactive. The lookup therefore missed the button itself. The earlier PAUSED screenshot came from the background path, which opens the same panel without the button.
+
+**Fix.** Changed the lookup to `GetComponentInParent<Selectable>(true)` and rebuilt the scene; the wiring check passed. Added the PlayMode test `EverySelectable_HasARaycastTargetGraphic`. It **failed on the old scene**, naming `Canvas/HudPanel/PauseButton`, and passes on the rebuilt one.
+
+**Validation.**
+- **Tests:** 258/258 EditMode and 23/23 PlayMode passed (`evidence/g45/pausefix_*mode.xml`).
+- **APK:** `TowerPrototype-release.apk`, 35.1 MB, SHA-256 `22cbf1966c10c5022b69258315c46b41ed77acd074c86bf79200b5f1daa44382`. It supersedes `80ae5c1c…`.
+- **Device** (`evidence/g45/pausefix_device_sheet.png`):
+  - Tapping II shows PAUSED, and `/bump` answers `409 not_playing` while paused.
+  - Continue resumes, and the next `/bump` → `200 accepted`.
+  - Pause → Exit returns to the main menu.
+  - No Unity errors.
+- The device was set to stay awake while on USB (`svc power stayon usb`). Revert with `adb shell svc power stayon false`.

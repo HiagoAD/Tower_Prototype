@@ -1,0 +1,1707 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="258" result="Passed" total="258" passed="258" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:51Z" duration="2.3851214">
+  <test-suite type="TestSuite" id="1000" name="Tower_Prototype" fullname="Tower_Prototype" runstate="Runnable" testcasecount="258" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:51Z" duration="2.385121" total="258" passed="258" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1301" name="Game.Tests.EditMode.dll" fullname="/Volumes/Projects/Tower_Prototype/Library/ScriptAssemblies/Game.Tests.EditMode.dll" runstate="Runnable" testcasecount="258" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:51Z" duration="2.374502" total="258" passed="258" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="51590" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1302" name="Game" fullname="Game" runstate="Runnable" testcasecount="258" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:51Z" duration="2.372333" total="258" passed="258" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1303" name="Tests" fullname="Game.Tests" runstate="Runnable" testcasecount="258" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:51Z" duration="2.370529" total="258" passed="258" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1304" name="EditMode" fullname="Game.Tests.EditMode" runstate="Runnable" testcasecount="258" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:51Z" duration="2.368100" total="258" passed="258" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1001" name="BumpAcceptanceTests" fullname="Game.Tests.EditMode.BumpAcceptanceTests" classname="Game.Tests.EditMode.BumpAcceptanceTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.052840" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1007" name="ConcurrentCapacityReservation_NeverExceedsCapacity" fullname="Game.Tests.EditMode.BumpAcceptanceTests.ConcurrentCapacityReservation_NeverExceedsCapacity" methodname="ConcurrentCapacityReservation_NeverExceedsCapacity" classname="Game.Tests.EditMode.BumpAcceptanceTests" runstate="Runnable" seed="780711882" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.013869" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1005" name="LateMainThreadAccept_AfterExpiry_LosesAndDoesNotDispatch" fullname="Game.Tests.EditMode.BumpAcceptanceTests.LateMainThreadAccept_AfterExpiry_LosesAndDoesNotDispatch" methodname="LateMainThreadAccept_AfterExpiry_LosesAndDoesNotDispatch" classname="Game.Tests.EditMode.BumpAcceptanceTests" runstate="Runnable" seed="1276325102" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.001103" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1002" name="MainThreadAccept_ResolvesToAccepted" fullname="Game.Tests.EditMode.BumpAcceptanceTests.MainThreadAccept_ResolvesToAccepted" methodname="MainThreadAccept_ResolvesToAccepted" classname="Game.Tests.EditMode.BumpAcceptanceTests" runstate="Runnable" seed="356002514" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000112" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1003" name="MainThreadReject_ResolvesToRejected" fullname="Game.Tests.EditMode.BumpAcceptanceTests.MainThreadReject_ResolvesToRejected" methodname="MainThreadReject_ResolvesToRejected" classname="Game.Tests.EditMode.BumpAcceptanceTests" runstate="Runnable" seed="100765976" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000114" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1006" name="SecondResolveAttempt_AfterAWinner_AlwaysLoses" fullname="Game.Tests.EditMode.BumpAcceptanceTests.SecondResolveAttempt_AfterAWinner_AlwaysLoses" methodname="SecondResolveAttempt_AfterAWinner_AlwaysLoses" classname="Game.Tests.EditMode.BumpAcceptanceTests" runstate="Runnable" seed="260712912" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000085" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1004" name="WorkerTimeout_ThenExpire_WinsWhenStillPending" fullname="Game.Tests.EditMode.BumpAcceptanceTests.WorkerTimeout_ThenExpire_WinsWhenStillPending" methodname="WorkerTimeout_ThenExpire_WinsWhenStillPending" classname="Game.Tests.EditMode.BumpAcceptanceTests" runstate="Runnable" seed="54471056" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.022707" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1008" name="BumpCommandLoopbackTests" fullname="Game.Tests.EditMode.BumpCommandLoopbackTests" classname="Game.Tests.EditMode.BumpCommandLoopbackTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.107217" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1014" name="BadJson_Returns400_WithoutEnqueueing" fullname="Game.Tests.EditMode.BumpCommandLoopbackTests.BadJson_Returns400_WithoutEnqueueing" methodname="BadJson_Returns400_WithoutEnqueueing" classname="Game.Tests.EditMode.BumpCommandLoopbackTests" runstate="Runnable" seed="679425449" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.083285" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1011" name="BarePost_Returns200_WithDefaultsFromTheResolver_AndAnEmptyCommand" fullname="Game.Tests.EditMode.BumpCommandLoopbackTests.BarePost_Returns200_WithDefaultsFromTheResolver_AndAnEmptyCommand" methodname="BarePost_Returns200_WithDefaultsFromTheResolver_AndAnEmptyCommand" classname="Game.Tests.EditMode.BumpCommandLoopbackTests" runstate="Runnable" seed="1440824040" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.007954" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1009" name="GetWithQuery_Returns200_WithResolvedFields_AndCarriesTheCommand" fullname="Game.Tests.EditMode.BumpCommandLoopbackTests.GetWithQuery_Returns200_WithResolvedFields_AndCarriesTheCommand" methodname="GetWithQuery_Returns200_WithResolvedFields_AndCarriesTheCommand" classname="Game.Tests.EditMode.BumpCommandLoopbackTests" runstate="Runnable" seed="1260916212" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.006316" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1012" name="InvalidPolarity_Returns400_WithoutEnqueueing" fullname="Game.Tests.EditMode.BumpCommandLoopbackTests.InvalidPolarity_Returns400_WithoutEnqueueing" methodname="InvalidPolarity_Returns400_WithoutEnqueueing" classname="Game.Tests.EditMode.BumpCommandLoopbackTests" runstate="Runnable" seed="1833550049" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000568" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1010" name="JsonPost_Returns200_AndCarriesTheCommand" fullname="Game.Tests.EditMode.BumpCommandLoopbackTests.JsonPost_Returns200_AndCarriesTheCommand" methodname="JsonPost_Returns200_AndCarriesTheCommand" classname="Game.Tests.EditMode.BumpCommandLoopbackTests" runstate="Runnable" seed="320119631" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.006218" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1013" name="UnknownType_Returns400_WithoutEnqueueing" fullname="Game.Tests.EditMode.BumpCommandLoopbackTests.UnknownType_Returns400_WithoutEnqueueing" methodname="UnknownType_Returns400_WithoutEnqueueing" classname="Game.Tests.EditMode.BumpCommandLoopbackTests" runstate="Runnable" seed="1826465789" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000563" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1015" name="BumpCommandParserTests" fullname="Game.Tests.EditMode.BumpCommandParserTests" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" testcasecount="29" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.007873" total="29" passed="29" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1021" name="BodyValuesOverrideQueryValues" fullname="Game.Tests.EditMode.BumpCommandParserTests.BodyValuesOverrideQueryValues" methodname="BodyValuesOverrideQueryValues" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="1022960511" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000339" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1016" name="EmptyEverything_GivesAllNullCommand" fullname="Game.Tests.EditMode.BumpCommandParserTests.EmptyEverything_GivesAllNullCommand" methodname="EmptyEverything_GivesAllNullCommand" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="381017104" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000108" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1045" name="EmptyJsonObject_IsFine" fullname="Game.Tests.EditMode.BumpCommandParserTests.EmptyJsonObject_IsFine" methodname="EmptyJsonObject_IsFine" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="578730166" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000076" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1042" name="EmptyValue_DoesNotClearAnEarlierValue" fullname="Game.Tests.EditMode.BumpCommandParserTests.EmptyValue_DoesNotClearAnEarlierValue" methodname="EmptyValue_DoesNotClearAnEarlierValue" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="1270057853" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000130" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1020" name="FormBody_ParsesFields" fullname="Game.Tests.EditMode.BumpCommandParserTests.FormBody_ParsesFields" methodname="FormBody_ParsesFields" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="2003091448" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000102" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1026" name="InvalidPolarity_IsRejected" fullname="Game.Tests.EditMode.BumpCommandParserTests.InvalidPolarity_IsRejected" methodname="InvalidPolarity_IsRejected" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="2131449594" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000095" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1019" name="JsonBody_HandlesEscapes" fullname="Game.Tests.EditMode.BumpCommandParserTests.JsonBody_HandlesEscapes" methodname="JsonBody_HandlesEscapes" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="1943428828" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000347" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1018" name="JsonBody_ParsesAllThreeFields_AndIgnoresUnknownKeys" fullname="Game.Tests.EditMode.BumpCommandParserTests.JsonBody_ParsesAllThreeFields_AndIgnoresUnknownKeys" methodname="JsonBody_ParsesAllThreeFields_AndIgnoresUnknownKeys" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="834658050" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000241" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1043" name="LeadingBom_BeforeJson_IsIgnored" fullname="Game.Tests.EditMode.BumpCommandParserTests.LeadingBom_BeforeJson_IsIgnored" methodname="LeadingBom_BeforeJson_IsIgnored" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="1078913811" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000080" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1041" name="MalformedOrUnsupportedJson_IsBadBody" fullname="Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" testcasecount="14" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.002577" total="14" passed="14" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1027" name="MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;tag\&quot;:&quot;)" fullname="Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;tag\&quot;:&quot;)" methodname="MalformedOrUnsupportedJson_IsBadBody" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="990138998" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000159" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1028" name="MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;tag\&quot;:\&quot;unterminated}&quot;)" fullname="Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;tag\&quot;:\&quot;unterminated}&quot;)" methodname="MalformedOrUnsupportedJson_IsBadBody" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="893457524" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000056" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1029" name="MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;tag\&quot;:\&quot;a\&quot;&quot;)" fullname="Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;tag\&quot;:\&quot;a\&quot;&quot;)" methodname="MalformedOrUnsupportedJson_IsBadBody" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="666319362" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000054" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1030" name="MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;tag\&quot;:\&quot;a\&quot;,}&quot;)" fullname="Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;tag\&quot;:\&quot;a\&quot;,}&quot;)" methodname="MalformedOrUnsupportedJson_IsBadBody" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="2026625805" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000053" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1031" name="MalformedOrUnsupportedJson_IsBadBody(&quot;{tag:\&quot;a\&quot;}&quot;)" fullname="Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(&quot;{tag:\&quot;a\&quot;}&quot;)" methodname="MalformedOrUnsupportedJson_IsBadBody" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="1423368376" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000050" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1032" name="MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;tag\&quot;:\&quot;a\&quot;} trailing&quot;)" fullname="Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;tag\&quot;:\&quot;a\&quot;} trailing&quot;)" methodname="MalformedOrUnsupportedJson_IsBadBody" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="252665883" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000055" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1033" name="MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;tag\&quot;:\&quot;bad\\q\&quot;}&quot;)" fullname="Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;tag\&quot;:\&quot;bad\\q\&quot;}&quot;)" methodname="MalformedOrUnsupportedJson_IsBadBody" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="1422690653" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000053" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1034" name="MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;tag\&quot;:\&quot;bad\\u12\&quot;}&quot;)" fullname="Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;tag\&quot;:\&quot;bad\\u12\&quot;}&quot;)" methodname="MalformedOrUnsupportedJson_IsBadBody" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="493432351" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000084" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1035" name="MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;tag\&quot;:{\&quot;nested\&quot;:1}}&quot;)" fullname="Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;tag\&quot;:{\&quot;nested\&quot;:1}}&quot;)" methodname="MalformedOrUnsupportedJson_IsBadBody" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="121616776" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000046" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1036" name="MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;other\&quot;:{\&quot;nested\&quot;:1}}&quot;)" fullname="Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;other\&quot;:{\&quot;nested\&quot;:1}}&quot;)" methodname="MalformedOrUnsupportedJson_IsBadBody" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="1302662277" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000046" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1037" name="MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;other\&quot;:[1,2]}&quot;)" fullname="Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;other\&quot;:[1,2]}&quot;)" methodname="MalformedOrUnsupportedJson_IsBadBody" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="1427476220" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000046" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1038" name="MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;tag\&quot;:5}&quot;)" fullname="Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;tag\&quot;:5}&quot;)" methodname="MalformedOrUnsupportedJson_IsBadBody" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="801292157" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000043" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1039" name="MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;polarity\&quot;:true}&quot;)" fullname="Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;polarity\&quot;:true}&quot;)" methodname="MalformedOrUnsupportedJson_IsBadBody" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="1346844985" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000054" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1040" name="MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;type\&quot;:null}&quot;)" fullname="Game.Tests.EditMode.BumpCommandParserTests.MalformedOrUnsupportedJson_IsBadBody(&quot;{\&quot;type\&quot;:null}&quot;)" methodname="MalformedOrUnsupportedJson_IsBadBody" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="366145170" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000046" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1017" name="QueryOnly_ParsesAllThreeFields" fullname="Game.Tests.EditMode.BumpCommandParserTests.QueryOnly_ParsesAllThreeFields" methodname="QueryOnly_ParsesAllThreeFields" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="890990281" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000101" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1025" name="Tag_EmptyAfterCleaning_CountsAsMissing" fullname="Game.Tests.EditMode.BumpCommandParserTests.Tag_EmptyAfterCleaning_CountsAsMissing" methodname="Tag_EmptyAfterCleaning_CountsAsMissing" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="143653149" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000148" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1024" name="Tag_IsTrimmedStrippedAndCapped" fullname="Game.Tests.EditMode.BumpCommandParserTests.Tag_IsTrimmedStrippedAndCapped" methodname="Tag_IsTrimmedStrippedAndCapped" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="1314492811" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000602" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1044" name="Tag_StripsFormatCharactersAndLineSeparators" fullname="Game.Tests.EditMode.BumpCommandParserTests.Tag_StripsFormatCharactersAndLineSeparators" methodname="Tag_StripsFormatCharactersAndLineSeparators" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="1211727900" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000080" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1022" name="UrlDecoding_PlusAndPercent" fullname="Game.Tests.EditMode.BumpCommandParserTests.UrlDecoding_PlusAndPercent" methodname="UrlDecoding_PlusAndPercent" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="1455571773" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000071" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1023" name="Values_AreCaseInsensitive" fullname="Game.Tests.EditMode.BumpCommandParserTests.Values_AreCaseInsensitive" methodname="Values_AreCaseInsensitive" classname="Game.Tests.EditMode.BumpCommandParserTests" runstate="Runnable" seed="1217007469" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.000093" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1046" name="BumpListenerLoopbackTests" fullname="Game.Tests.EditMode.BumpListenerLoopbackTests" classname="Game.Tests.EditMode.BumpListenerLoopbackTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:50Z" duration="1.252017" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1047" name="DrainedAndAccepted_Respond200_WellUnderOneSecond" fullname="Game.Tests.EditMode.BumpListenerLoopbackTests.DrainedAndAccepted_Respond200_WellUnderOneSecond" methodname="DrainedAndAccepted_Respond200_WellUnderOneSecond" classname="Game.Tests.EditMode.BumpListenerLoopbackTests" runstate="Runnable" seed="821719829" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:49Z" duration="0.008504" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1048" name="LeftUndrained_ExpiresTo503_AfterBoundedWait" fullname="Game.Tests.EditMode.BumpListenerLoopbackTests.LeftUndrained_ExpiresTo503_AfterBoundedWait" methodname="LeftUndrained_ExpiresTo503_AfterBoundedWait" classname="Game.Tests.EditMode.BumpListenerLoopbackTests" runstate="Runnable" seed="2121709795" result="Passed" start-time="2026-09-29 03:09:49Z" end-time="2026-09-29 03:09:50Z" duration="1.237833" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1049" name="BumpListenerParsingTests" fullname="Game.Tests.EditMode.BumpListenerParsingTests" classname="Game.Tests.EditMode.BumpListenerParsingTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:50Z" duration="0.018478" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1050" name="CoalescedHeaderAndBody_ParsesImmediatelyWithoutASecondRead" fullname="Game.Tests.EditMode.BumpListenerParsingTests.CoalescedHeaderAndBody_ParsesImmediatelyWithoutASecondRead" methodname="CoalescedHeaderAndBody_ParsesImmediatelyWithoutASecondRead" classname="Game.Tests.EditMode.BumpListenerParsingTests" runstate="Runnable" seed="376453485" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:50Z" duration="0.001444" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1056" name="DuplicateConflictingContentLength_RejectedWith400" fullname="Game.Tests.EditMode.BumpListenerParsingTests.DuplicateConflictingContentLength_RejectedWith400" methodname="DuplicateConflictingContentLength_RejectedWith400" classname="Game.Tests.EditMode.BumpListenerParsingTests" runstate="Runnable" seed="866159945" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:50Z" duration="0.000279" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1057" name="DuplicateMatchingContentLength_IsNotTreatedAsConflicting" fullname="Game.Tests.EditMode.BumpListenerParsingTests.DuplicateMatchingContentLength_IsNotTreatedAsConflicting" methodname="DuplicateMatchingContentLength_IsNotTreatedAsConflicting" classname="Game.Tests.EditMode.BumpListenerParsingTests" runstate="Runnable" seed="1031894329" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:50Z" duration="0.000226" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1051" name="FragmentedDelivery_OneByteAtATime_StillParses" fullname="Game.Tests.EditMode.BumpListenerParsingTests.FragmentedDelivery_OneByteAtATime_StillParses" methodname="FragmentedDelivery_OneByteAtATime_StillParses" classname="Game.Tests.EditMode.BumpListenerParsingTests" runstate="Runnable" seed="1571426080" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:50Z" duration="0.000370" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1055" name="GarbageContentLength_RejectedWith400" fullname="Game.Tests.EditMode.BumpListenerParsingTests.GarbageContentLength_RejectedWith400" methodname="GarbageContentLength_RejectedWith400" classname="Game.Tests.EditMode.BumpListenerParsingTests" runstate="Runnable" seed="1327784884" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:50Z" duration="0.000173" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1058" name="Get_WithNoBody_Succeeds" fullname="Game.Tests.EditMode.BumpListenerParsingTests.Get_WithNoBody_Succeeds" methodname="Get_WithNoBody_Succeeds" classname="Game.Tests.EditMode.BumpListenerParsingTests" runstate="Runnable" seed="2011765579" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:50Z" duration="0.000211" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1052" name="IncompleteBody_EofBeforeContentLength_Fails" fullname="Game.Tests.EditMode.BumpListenerParsingTests.IncompleteBody_EofBeforeContentLength_Fails" methodname="IncompleteBody_EofBeforeContentLength_Fails" classname="Game.Tests.EditMode.BumpListenerParsingTests" runstate="Runnable" seed="1337103525" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:50Z" duration="0.002349" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1054" name="NegativeContentLength_RejectedWith400" fullname="Game.Tests.EditMode.BumpListenerParsingTests.NegativeContentLength_RejectedWith400" methodname="NegativeContentLength_RejectedWith400" classname="Game.Tests.EditMode.BumpListenerParsingTests" runstate="Runnable" seed="534409047" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:50Z" duration="0.000156" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1053" name="OversizedContentLength_RejectedWith413_NoBodyRead" fullname="Game.Tests.EditMode.BumpListenerParsingTests.OversizedContentLength_RejectedWith413_NoBodyRead" methodname="OversizedContentLength_RejectedWith413_NoBodyRead" classname="Game.Tests.EditMode.BumpListenerParsingTests" runstate="Runnable" seed="2128655257" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:50Z" duration="0.000150" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1059" name="BumpListenerShutdownTests" fullname="Game.Tests.EditMode.BumpListenerShutdownTests" classname="Game.Tests.EditMode.BumpListenerShutdownTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:50Z" duration="0.031698" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1064" name="DoubleStopAndDispose_AreSafe" fullname="Game.Tests.EditMode.BumpListenerShutdownTests.DoubleStopAndDispose_AreSafe" methodname="DoubleStopAndDispose_AreSafe" classname="Game.Tests.EditMode.BumpListenerShutdownTests" runstate="Runnable" seed="471729049" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:50Z" duration="0.003250" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1062" name="ExceedingConcurrencyCap_GetsImmediate503" fullname="Game.Tests.EditMode.BumpListenerShutdownTests.ExceedingConcurrencyCap_GetsImmediate503" methodname="ExceedingConcurrencyCap_GetsImmediate503" classname="Game.Tests.EditMode.BumpListenerShutdownTests" runstate="Runnable" seed="630342892" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:50Z" duration="0.011728" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1063" name="StartStopStart_OnTheSameFixedPort_Works" fullname="Game.Tests.EditMode.BumpListenerShutdownTests.StartStopStart_OnTheSameFixedPort_Works" methodname="StartStopStart_OnTheSameFixedPort_Works" classname="Game.Tests.EditMode.BumpListenerShutdownTests" runstate="Runnable" seed="215712433" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:50Z" duration="0.003988" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1061" name="Stop_WhileWorkerAwaitsMainThreadDecision_RejectsRequestAndClosesClient" fullname="Game.Tests.EditMode.BumpListenerShutdownTests.Stop_WhileWorkerAwaitsMainThreadDecision_RejectsRequestAndClosesClient" methodname="Stop_WhileWorkerAwaitsMainThreadDecision_RejectsRequestAndClosesClient" classname="Game.Tests.EditMode.BumpListenerShutdownTests" runstate="Runnable" seed="442784626" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:50Z" duration="0.007831" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1060" name="Stop_WithClientStalledMidHeaders_ReturnsPromptlyAndClosesIt" fullname="Game.Tests.EditMode.BumpListenerShutdownTests.Stop_WithClientStalledMidHeaders_ReturnsPromptlyAndClosesIt" methodname="Stop_WithClientStalledMidHeaders_ReturnsPromptlyAndClosesIt" classname="Game.Tests.EditMode.BumpListenerShutdownTests" runstate="Runnable" seed="1923488373" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:50Z" duration="0.001049" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1065" name="BumpSessionTests" fullname="Game.Tests.EditMode.BumpSessionTests" classname="Game.Tests.EditMode.BumpSessionTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:51Z" duration="0.630738" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1070" name="AcceptedBump_WaitsForTheImpactDelay_ThenMovesExactlyOneBodyHeight" fullname="Game.Tests.EditMode.BumpSessionTests.AcceptedBump_WaitsForTheImpactDelay_ThenMovesExactlyOneBodyHeight" methodname="AcceptedBump_WaitsForTheImpactDelay_ThenMovesExactlyOneBodyHeight" classname="Game.Tests.EditMode.BumpSessionTests" runstate="Runnable" seed="943206826" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:50Z" duration="0.026267" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1073" name="ApplicationPause_PausesAPlayingSession_AndResumesOnReturn" fullname="Game.Tests.EditMode.BumpSessionTests.ApplicationPause_PausesAPlayingSession_AndResumesOnReturn" methodname="ApplicationPause_PausesAPlayingSession_AndResumesOnReturn" classname="Game.Tests.EditMode.BumpSessionTests" runstate="Runnable" seed="1445690681" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:50Z" duration="0.001826" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1071" name="DefaultBodyHeights_UseTheSceneBoundBodyHeight" fullname="Game.Tests.EditMode.BumpSessionTests.DefaultBodyHeights_UseTheSceneBoundBodyHeight" methodname="DefaultBodyHeights_UseTheSceneBoundBodyHeight" classname="Game.Tests.EditMode.BumpSessionTests" runstate="Runnable" seed="336041984" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:50Z" duration="0.001488" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1068" name="EventFeedView_IgnoresBumpsOfTheOtherPolarity" fullname="Game.Tests.EditMode.BumpSessionTests.EventFeedView_IgnoresBumpsOfTheOtherPolarity" methodname="EventFeedView_IgnoresBumpsOfTheOtherPolarity" classname="Game.Tests.EditMode.BumpSessionTests" runstate="Runnable" seed="698906244" result="Passed" start-time="2026-09-29 03:09:50Z" end-time="2026-09-29 03:09:51Z" duration="0.576137" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1069" name="EventFeedView_TypeWithoutIcon_ClearsTheBadgeInsteadOfKeepingThePreviousOne" fullname="Game.Tests.EditMode.BumpSessionTests.EventFeedView_TypeWithoutIcon_ClearsTheBadgeInsteadOfKeepingThePreviousOne" methodname="EventFeedView_TypeWithoutIcon_ClearsTheBadgeInsteadOfKeepingThePreviousOne" classname="Game.Tests.EditMode.BumpSessionTests" runstate="Runnable" seed="157882975" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.005395" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1067" name="MissingFields_ResolveToCatalogDefaults" fullname="Game.Tests.EditMode.BumpSessionTests.MissingFields_ResolveToCatalogDefaults" methodname="MissingFields_ResolveToCatalogDefaults" classname="Game.Tests.EditMode.BumpSessionTests" runstate="Runnable" seed="1817659409" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.007270" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1066" name="PositiveBump_RaisesHeight_AndRaisesEventWithPositivePolarity" fullname="Game.Tests.EditMode.BumpSessionTests.PositiveBump_RaisesHeight_AndRaisesEventWithPositivePolarity" methodname="PositiveBump_RaisesHeight_AndRaisesEventWithPositivePolarity" classname="Game.Tests.EditMode.BumpSessionTests" runstate="Runnable" seed="608284191" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.007421" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1072" name="ReturnToMenu_ResetsTheClimberToTheBase" fullname="Game.Tests.EditMode.BumpSessionTests.ReturnToMenu_ResetsTheClimberToTheBase" methodname="ReturnToMenu_ResetsTheClimberToTheBase" classname="Game.Tests.EditMode.BumpSessionTests" runstate="Runnable" seed="105925684" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000897" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1074" name="StartLevel_DropsABumpStillWaitingForItsImpact" fullname="Game.Tests.EditMode.BumpSessionTests.StartLevel_DropsABumpStillWaitingForItsImpact" methodname="StartLevel_DropsABumpStillWaitingForItsImpact" classname="Game.Tests.EditMode.BumpSessionTests" runstate="Runnable" seed="1388499645" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000672" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1075" name="BumpStrengthTests" fullname="Game.Tests.EditMode.BumpStrengthTests" classname="Game.Tests.EditMode.BumpStrengthTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.019965" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1076" name="DefaultBoxing_BothPolaritiesBeatAHazardKnockback_AndAreIndependentlyTunable" fullname="Game.Tests.EditMode.BumpStrengthTests.DefaultBoxing_BothPolaritiesBeatAHazardKnockback_AndAreIndependentlyTunable" methodname="DefaultBoxing_BothPolaritiesBeatAHazardKnockback_AndAreIndependentlyTunable" classname="Game.Tests.EditMode.BumpStrengthTests" runstate="Runnable" seed="1867566618" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.001210" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1078" name="NegativeBump_NearTheBottom_ClampsAtZero_AndTheClimberCanRegrip" fullname="Game.Tests.EditMode.BumpStrengthTests.NegativeBump_NearTheBottom_ClampsAtZero_AndTheClimberCanRegrip" methodname="NegativeBump_NearTheBottom_ClampsAtZero_AndTheClimberCanRegrip" classname="Game.Tests.EditMode.BumpStrengthTests" runstate="Runnable" seed="1087029705" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000421" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1077" name="PositiveBump_NearTheSummit_ClampsAtTheFinish" fullname="Game.Tests.EditMode.BumpStrengthTests.PositiveBump_NearTheSummit_ClampsAtTheFinish" methodname="PositiveBump_NearTheSummit_ClampsAtTheFinish" classname="Game.Tests.EditMode.BumpStrengthTests" runstate="Runnable" seed="1848081907" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000257" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1079" name="CameraEffectsTests" fullname="Game.Tests.EditMode.CameraEffectsTests" classname="Game.Tests.EditMode.CameraEffectsTests" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.016377" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1083" name="BumpThenHazardHit_EndWithEverythingBackOnTheFollowPosition" fullname="Game.Tests.EditMode.CameraEffectsTests.BumpThenHazardHit_EndWithEverythingBackOnTheFollowPosition" methodname="BumpThenHazardHit_EndWithEverythingBackOnTheFollowPosition" classname="Game.Tests.EditMode.CameraEffectsTests" runstate="Runnable" seed="212578103" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.006002" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1084" name="HazardHit_ShakesLessThanABump" fullname="Game.Tests.EditMode.CameraEffectsTests.HazardHit_ShakesLessThanABump" methodname="HazardHit_ShakesLessThanABump" classname="Game.Tests.EditMode.CameraEffectsTests" runstate="Runnable" seed="1707871558" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000734" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1086" name="LevelStart_MidEffect_RestoresEverythingAndDropsPendingImpacts" fullname="Game.Tests.EditMode.CameraEffectsTests.LevelStart_MidEffect_RestoresEverythingAndDropsPendingImpacts" methodname="LevelStart_MidEffect_RestoresEverythingAndDropsPendingImpacts" classname="Game.Tests.EditMode.CameraEffectsTests" runstate="Runnable" seed="1548143024" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000683" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1080" name="NegativeBump_PunchesInAtTheImpactMoment_NotBefore" fullname="Game.Tests.EditMode.CameraEffectsTests.NegativeBump_PunchesInAtTheImpactMoment_NotBefore" methodname="NegativeBump_PunchesInAtTheImpactMoment_NotBefore" classname="Game.Tests.EditMode.CameraEffectsTests" runstate="Runnable" seed="1953352478" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000632" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1085" name="Pause_FreezesPendingImpacts_AndResumeContinues" fullname="Game.Tests.EditMode.CameraEffectsTests.Pause_FreezesPendingImpacts_AndResumeContinues" methodname="Pause_FreezesPendingImpacts_AndResumeContinues" classname="Game.Tests.EditMode.CameraEffectsTests" runstate="Runnable" seed="983348999" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000615" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1081" name="PositiveBump_PullsOut_AndHasAWarmerPostMixThanNegative" fullname="Game.Tests.EditMode.CameraEffectsTests.PositiveBump_PullsOut_AndHasAWarmerPostMixThanNegative" methodname="PositiveBump_PullsOut_AndHasAWarmerPostMixThanNegative" classname="Game.Tests.EditMode.CameraEffectsTests" runstate="Runnable" seed="928708088" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000645" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1087" name="ReturnToMenu_MidEffect_RestoresEverything" fullname="Game.Tests.EditMode.CameraEffectsTests.ReturnToMenu_MidEffect_RestoresEverything" methodname="ReturnToMenu_MidEffect_RestoresEverything" classname="Game.Tests.EditMode.CameraEffectsTests" runstate="Runnable" seed="1358671575" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000614" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1090" name="Win_CancelsARunningBumpEffect_BeforeTheMoveStarts" fullname="Game.Tests.EditMode.CameraEffectsTests.Win_CancelsARunningBumpEffect_BeforeTheMoveStarts" methodname="Win_CancelsARunningBumpEffect_BeforeTheMoveStarts" classname="Game.Tests.EditMode.CameraEffectsTests" runstate="Runnable" seed="1787382559" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000688" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1088" name="Win_PushesInAndArcs_ThenLevelStartRestoresTheCamera" fullname="Game.Tests.EditMode.CameraEffectsTests.Win_PushesInAndArcs_ThenLevelStartRestoresTheCamera" methodname="Win_PushesInAndArcs_ThenLevelStartRestoresTheCamera" classname="Game.Tests.EditMode.CameraEffectsTests" runstate="Runnable" seed="74577325" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000947" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1089" name="Win_WithTheArcDisabled_OnlyPushesIn_AndWithTheMoveDisabledDoesNothing" fullname="Game.Tests.EditMode.CameraEffectsTests.Win_WithTheArcDisabled_OnlyPushesIn_AndWithTheMoveDisabledDoesNothing" methodname="Win_WithTheArcDisabled_OnlyPushesIn_AndWithTheMoveDisabledDoesNothing" classname="Game.Tests.EditMode.CameraEffectsTests" runstate="Runnable" seed="459831043" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000823" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1082" name="ZeroedSettings_TurnEachEffectOff" fullname="Game.Tests.EditMode.CameraEffectsTests.ZeroedSettings_TurnEachEffectOff" methodname="ZeroedSettings_TurnEachEffectOff" classname="Game.Tests.EditMode.CameraEffectsTests" runstate="Runnable" seed="2107629734" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000980" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1091" name="CameraShakeTests" fullname="Game.Tests.EditMode.CameraShakeTests" classname="Game.Tests.EditMode.CameraShakeTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.003036" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1095" name="AWeakerRequest_DoesNotReplaceAStrongerRunningShakeOnTheSameChannel" fullname="Game.Tests.EditMode.CameraShakeTests.AWeakerRequest_DoesNotReplaceAStrongerRunningShakeOnTheSameChannel" methodname="AWeakerRequest_DoesNotReplaceAStrongerRunningShakeOnTheSameChannel" classname="Game.Tests.EditMode.CameraShakeTests" runstate="Runnable" seed="1052929440" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000314" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1094" name="BumpPlusHit_ReturnExactlyToTheFollowPosition" fullname="Game.Tests.EditMode.CameraShakeTests.BumpPlusHit_ReturnExactlyToTheFollowPosition" methodname="BumpPlusHit_ReturnExactlyToTheFollowPosition" classname="Game.Tests.EditMode.CameraShakeTests" runstate="Runnable" seed="627727762" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000251" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1092" name="Cancel_ResetsOffsetImmediately_AndClearsPause" fullname="Game.Tests.EditMode.CameraShakeTests.Cancel_ResetsOffsetImmediately_AndClearsPause" methodname="Cancel_ResetsOffsetImmediately_AndClearsPause" classname="Game.Tests.EditMode.CameraShakeTests" runstate="Runnable" seed="2066779150" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000261" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1093" name="OverlappingChannels_UseTheStrongestAmplitude_NotTheSum" fullname="Game.Tests.EditMode.CameraShakeTests.OverlappingChannels_UseTheStrongestAmplitude_NotTheSum" methodname="OverlappingChannels_UseTheStrongestAmplitude_NotTheSum" classname="Game.Tests.EditMode.CameraShakeTests" runstate="Runnable" seed="1678063941" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000285" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1096" name="Paused_HoldsTheTimers_AndCancelChannelLeavesTheOtherRunning" fullname="Game.Tests.EditMode.CameraShakeTests.Paused_HoldsTheTimers_AndCancelChannelLeavesTheOtherRunning" methodname="Paused_HoldsTheTimers_AndCancelChannelLeavesTheOtherRunning" classname="Game.Tests.EditMode.CameraShakeTests" runstate="Runnable" seed="1278841104" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000168" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1097" name="ClimbPaceTests" fullname="Game.Tests.EditMode.ClimbPaceTests" classname="Game.Tests.EditMode.ClimbPaceTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.002842" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1098" name="DistanceScale_MapsAuthoredSpeedToPacedWorldSpeed" fullname="Game.Tests.EditMode.ClimbPaceTests.DistanceScale_MapsAuthoredSpeedToPacedWorldSpeed" methodname="DistanceScale_MapsAuthoredSpeedToPacedWorldSpeed" classname="Game.Tests.EditMode.ClimbPaceTests" runstate="Runnable" seed="1225219104" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.001290" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1099" name="StartLevel_ScalesSpeedFinishAndKnockback_KeepingDuration" fullname="Game.Tests.EditMode.ClimbPaceTests.StartLevel_ScalesSpeedFinishAndKnockback_KeepingDuration" methodname="StartLevel_ScalesSpeedFinishAndKnockback_KeepingDuration" classname="Game.Tests.EditMode.ClimbPaceTests" runstate="Runnable" seed="1373485200" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000766" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1100" name="ClimbTouchGateTests" fullname="Game.Tests.EditMode.ClimbTouchGateTests" classname="Game.Tests.EditMode.ClimbTouchGateTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.003522" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1107" name="Clear_DropsClaims" fullname="Game.Tests.EditMode.ClimbTouchGateTests.Clear_DropsClaims" methodname="Clear_DropsClaims" classname="Game.Tests.EditMode.ClimbTouchGateTests" runstate="Runnable" seed="1048033297" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.001215" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1105" name="ClimbingBecomingImpossible_DropsHeldTouch_AndItDoesNotResume" fullname="Game.Tests.EditMode.ClimbTouchGateTests.ClimbingBecomingImpossible_DropsHeldTouch_AndItDoesNotResume" methodname="ClimbingBecomingImpossible_DropsHeldTouch_AndItDoesNotResume" classname="Game.Tests.EditMode.ClimbTouchGateTests" runstate="Runnable" seed="1680675576" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000160" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1106" name="MultiTouch_ClimbsWhileAnyClaimedTouchIsDown" fullname="Game.Tests.EditMode.ClimbTouchGateTests.MultiTouch_ClimbsWhileAnyClaimedTouchIsDown" methodname="MultiTouch_ClimbsWhileAnyClaimedTouchIsDown" classname="Game.Tests.EditMode.ClimbTouchGateTests" runstate="Runnable" seed="1045587640" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000355" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1101" name="NoTouches_DoNotClimb" fullname="Game.Tests.EditMode.ClimbTouchGateTests.NoTouches_DoNotClimb" methodname="NoTouches_DoNotClimb" classname="Game.Tests.EditMode.ClimbTouchGateTests" runstate="Runnable" seed="1053127507" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000130" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1102" name="TouchBegunOnFreeArea_ClimbsUntilLifted" fullname="Game.Tests.EditMode.ClimbTouchGateTests.TouchBegunOnFreeArea_ClimbsUntilLifted" methodname="TouchBegunOnFreeArea_ClimbsUntilLifted" classname="Game.Tests.EditMode.ClimbTouchGateTests" runstate="Runnable" seed="1360721862" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000123" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1103" name="TouchBegunOnInteractiveUi_NeverClimbs_EvenAfterSlidingOff" fullname="Game.Tests.EditMode.ClimbTouchGateTests.TouchBegunOnInteractiveUi_NeverClimbs_EvenAfterSlidingOff" methodname="TouchBegunOnInteractiveUi_NeverClimbs_EvenAfterSlidingOff" classname="Game.Tests.EditMode.ClimbTouchGateTests" runstate="Runnable" seed="848750418" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000105" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1104" name="TouchHeldThroughAMenu_DoesNotClimbOnNextLevelUntilPressedAgain" fullname="Game.Tests.EditMode.ClimbTouchGateTests.TouchHeldThroughAMenu_DoesNotClimbOnNextLevelUntilPressedAgain" methodname="TouchHeldThroughAMenu_DoesNotClimbOnNextLevelUntilPressedAgain" classname="Game.Tests.EditMode.ClimbTouchGateTests" runstate="Runnable" seed="1299894194" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000126" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1108" name="EffectPulseTests" fullname="Game.Tests.EditMode.EffectPulseTests" classname="Game.Tests.EditMode.EffectPulseTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.001292" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1110" name="ANewTrigger_StartsFromTheCurrentValue_WithoutAJump" fullname="Game.Tests.EditMode.EffectPulseTests.ANewTrigger_StartsFromTheCurrentValue_WithoutAJump" methodname="ANewTrigger_StartsFromTheCurrentValue_WithoutAJump" classname="Game.Tests.EditMode.EffectPulseTests" runstate="Runnable" seed="290863441" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000212" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1111" name="Reset_ZeroesAtOnce" fullname="Game.Tests.EditMode.EffectPulseTests.Reset_ZeroesAtOnce" methodname="Reset_ZeroesAtOnce" classname="Game.Tests.EditMode.EffectPulseTests" runstate="Runnable" seed="1665246760" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000101" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1109" name="Trigger_ReachesThePeak_ThenReturnsToExactlyZero" fullname="Game.Tests.EditMode.EffectPulseTests.Trigger_ReachesThePeak_ThenReturnsToExactlyZero" methodname="Trigger_ReachesThePeak_ThenReturnsToExactlyZero" classname="Game.Tests.EditMode.EffectPulseTests" runstate="Runnable" seed="758632224" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000098" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1112" name="GameSessionCampaignTests" fullname="Game.Tests.EditMode.GameSessionCampaignTests" classname="Game.Tests.EditMode.GameSessionCampaignTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.005374" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1119" name="BumpQueuedDuringTheFirstLevel_IsRejectedOnceTheNextLevelHasStarted" fullname="Game.Tests.EditMode.GameSessionCampaignTests.BumpQueuedDuringTheFirstLevel_IsRejectedOnceTheNextLevelHasStarted" methodname="BumpQueuedDuringTheFirstLevel_IsRejectedOnceTheNextLevelHasStarted" classname="Game.Tests.EditMode.GameSessionCampaignTests" runstate="Runnable" seed="1555345463" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.001090" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1120" name="EmptyCampaign_FailsLoudlyOnStart" fullname="Game.Tests.EditMode.GameSessionCampaignTests.EmptyCampaign_FailsLoudlyOnStart" methodname="EmptyCampaign_FailsLoudlyOnStart" classname="Game.Tests.EditMode.GameSessionCampaignTests" runstate="Runnable" seed="226891042" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000740" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1121" name="MalformedLevelFile_ThrowsFormatExceptionFromStart" fullname="Game.Tests.EditMode.GameSessionCampaignTests.MalformedLevelFile_ThrowsFormatExceptionFromStart" methodname="MalformedLevelFile_ThrowsFormatExceptionFromStart" classname="Game.Tests.EditMode.GameSessionCampaignTests" runstate="Runnable" seed="658568692" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000476" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1118" name="Retry_ReplaysTheCurrentLevelNotTheFirst" fullname="Game.Tests.EditMode.GameSessionCampaignTests.Retry_ReplaysTheCurrentLevelNotTheFirst" methodname="Retry_ReplaysTheCurrentLevelNotTheFirst" classname="Game.Tests.EditMode.GameSessionCampaignTests" runstate="Runnable" seed="1253821363" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000275" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1117" name="ReturnToMenu_ThenStartCampaign_RestartsFromTheFirstLevel" fullname="Game.Tests.EditMode.GameSessionCampaignTests.ReturnToMenu_ThenStartCampaign_RestartsFromTheFirstLevel" methodname="ReturnToMenu_ThenStartCampaign_RestartsFromTheFirstLevel" classname="Game.Tests.EditMode.GameSessionCampaignTests" runstate="Runnable" seed="1963043616" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000244" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1113" name="StartCampaign_BeginsAtTheFirstLevel" fullname="Game.Tests.EditMode.GameSessionCampaignTests.StartCampaign_BeginsAtTheFirstLevel" methodname="StartCampaign_BeginsAtTheFirstLevel" classname="Game.Tests.EditMode.GameSessionCampaignTests" runstate="Runnable" seed="612850804" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000251" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1114" name="StartNextLevel_AfterAWin_StartsTheNextLevelAndRaisesLevelStarted" fullname="Game.Tests.EditMode.GameSessionCampaignTests.StartNextLevel_AfterAWin_StartsTheNextLevelAndRaisesLevelStarted" methodname="StartNextLevel_AfterAWin_StartsTheNextLevelAndRaisesLevelStarted" classname="Game.Tests.EditMode.GameSessionCampaignTests" runstate="Runnable" seed="1326542094" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000342" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1116" name="StartNextLevel_OnTheFinalLevel_DoesNothing" fullname="Game.Tests.EditMode.GameSessionCampaignTests.StartNextLevel_OnTheFinalLevel_DoesNothing" methodname="StartNextLevel_OnTheFinalLevel_DoesNothing" classname="Game.Tests.EditMode.GameSessionCampaignTests" runstate="Runnable" seed="471419701" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000276" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1115" name="StartNextLevel_WhilePlaying_DoesNothing" fullname="Game.Tests.EditMode.GameSessionCampaignTests.StartNextLevel_WhilePlaying_DoesNothing" methodname="StartNextLevel_WhilePlaying_DoesNothing" classname="Game.Tests.EditMode.GameSessionCampaignTests" runstate="Runnable" seed="1398498567" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000276" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1122" name="GameSessionLivesTests" fullname="Game.Tests.EditMode.GameSessionLivesTests" classname="Game.Tests.EditMode.GameSessionLivesTests" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.031668" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1125" name="FlagsOff_HazardHitsNeverCostLives_OrLeavePlaying" fullname="Game.Tests.EditMode.GameSessionLivesTests.FlagsOff_HazardHitsNeverCostLives_OrLeavePlaying" methodname="FlagsOff_HazardHitsNeverCostLives_OrLeavePlaying" classname="Game.Tests.EditMode.GameSessionLivesTests" runstate="Runnable" seed="206810064" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.001550" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1123" name="GameFeatures_DefaultsAreOff_AndMaxLivesIsFive" fullname="Game.Tests.EditMode.GameSessionLivesTests.GameFeatures_DefaultsAreOff_AndMaxLivesIsFive" methodname="GameFeatures_DefaultsAreOff_AndMaxLivesIsFive" classname="Game.Tests.EditMode.GameSessionLivesTests" runstate="Runnable" seed="165675304" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000626" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1127" name="LivesOn_EachAcceptedHitCostsOne_AndLivesChangedReportsEachValue" fullname="Game.Tests.EditMode.GameSessionLivesTests.LivesOn_EachAcceptedHitCostsOne_AndLivesChangedReportsEachValue" methodname="LivesOn_EachAcceptedHitCostsOne_AndLivesChangedReportsEachValue" classname="Game.Tests.EditMode.GameSessionLivesTests" runstate="Runnable" seed="1698498094" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.001212" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1128" name="LivesOn_HitWhileInvulnerable_IsFree" fullname="Game.Tests.EditMode.GameSessionLivesTests.LivesOn_HitWhileInvulnerable_IsFree" methodname="LivesOn_HitWhileInvulnerable_IsFree" classname="Game.Tests.EditMode.GameSessionLivesTests" runstate="Runnable" seed="400630714" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000707" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1129" name="LivesOn_LastLifeLost_BecomesLost_StopsClimbing_AndRejectsBumps" fullname="Game.Tests.EditMode.GameSessionLivesTests.LivesOn_LastLifeLost_BecomesLost_StopsClimbing_AndRejectsBumps" methodname="LivesOn_LastLifeLost_BecomesLost_StopsClimbing_AndRejectsBumps" classname="Game.Tests.EditMode.GameSessionLivesTests" runstate="Runnable" seed="2121764015" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.007536" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1126" name="LivesOn_StartLevelGivesStartingLives" fullname="Game.Tests.EditMode.GameSessionLivesTests.LivesOn_StartLevelGivesStartingLives" methodname="LivesOn_StartLevelGivesStartingLives" classname="Game.Tests.EditMode.GameSessionLivesTests" runstate="Runnable" seed="1168159201" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000870" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1124" name="NullSettings_MeansBothOff_AndHazardHitsNeverCostLives" fullname="Game.Tests.EditMode.GameSessionLivesTests.NullSettings_MeansBothOff_AndHazardHitsNeverCostLives" methodname="NullSettings_MeansBothOff_AndHazardHitsNeverCostLives" classname="Game.Tests.EditMode.GameSessionLivesTests" runstate="Runnable" seed="1211156552" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000699" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1130" name="Retry_FromLost_ResumesPlayingOnSameLevel_WithLivesReset_AndHeightZero" fullname="Game.Tests.EditMode.GameSessionLivesTests.Retry_FromLost_ResumesPlayingOnSameLevel_WithLivesReset_AndHeightZero" methodname="Retry_FromLost_ResumesPlayingOnSameLevel_WithLivesReset_AndHeightZero" classname="Game.Tests.EditMode.GameSessionLivesTests" runstate="Runnable" seed="1298796767" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000688" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1131" name="Retry_MidRun_RestoresFullLives" fullname="Game.Tests.EditMode.GameSessionLivesTests.Retry_MidRun_RestoresFullLives" methodname="Retry_MidRun_RestoresFullLives" classname="Game.Tests.EditMode.GameSessionLivesTests" runstate="Runnable" seed="549807521" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000659" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1133" name="StartingLivesIsHonoured_ForOtherValues" fullname="Game.Tests.EditMode.GameSessionLivesTests.StartingLivesIsHonoured_ForOtherValues" methodname="StartingLivesIsHonoured_ForOtherValues" classname="Game.Tests.EditMode.GameSessionLivesTests" runstate="Runnable" seed="1671629883" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000894" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1132" name="StartNextLevel_ResetsLivesToStartingLives" fullname="Game.Tests.EditMode.GameSessionLivesTests.StartNextLevel_ResetsLivesToStartingLives" methodname="StartNextLevel_ResetsLivesToStartingLives" classname="Game.Tests.EditMode.GameSessionLivesTests" runstate="Runnable" seed="809643271" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000961" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1134" name="WebhookBump_NeverCostsALife" fullname="Game.Tests.EditMode.GameSessionLivesTests.WebhookBump_NeverCostsALife" methodname="WebhookBump_NeverCostsALife" classname="Game.Tests.EditMode.GameSessionLivesTests" runstate="Runnable" seed="339966467" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.012879" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1135" name="GameSessionPauseFlagTests" fullname="Game.Tests.EditMode.GameSessionPauseFlagTests" classname="Game.Tests.EditMode.GameSessionPauseFlagTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.003556" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1136" name="NullSettings_BackgroundThenReturn_AutoResumes" fullname="Game.Tests.EditMode.GameSessionPauseFlagTests.NullSettings_BackgroundThenReturn_AutoResumes" methodname="NullSettings_BackgroundThenReturn_AutoResumes" classname="Game.Tests.EditMode.GameSessionPauseFlagTests" runstate="Runnable" seed="626080108" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000759" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1137" name="PauseMenuFlagOff_BackgroundThenReturn_AutoResumes" fullname="Game.Tests.EditMode.GameSessionPauseFlagTests.PauseMenuFlagOff_BackgroundThenReturn_AutoResumes" methodname="PauseMenuFlagOff_BackgroundThenReturn_AutoResumes" classname="Game.Tests.EditMode.GameSessionPauseFlagTests" runstate="Runnable" seed="1047699534" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000446" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1138" name="PauseMenuFlagOn_BackgroundThenReturn_StaysPaused_UntilResume" fullname="Game.Tests.EditMode.GameSessionPauseFlagTests.PauseMenuFlagOn_BackgroundThenReturn_StaysPaused_UntilResume" methodname="PauseMenuFlagOn_BackgroundThenReturn_StaysPaused_UntilResume" classname="Game.Tests.EditMode.GameSessionPauseFlagTests" runstate="Runnable" seed="541643946" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000444" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1139" name="PauseMenuFlagOn_ManualPause_ThenReturnFromBackground_StaysPaused" fullname="Game.Tests.EditMode.GameSessionPauseFlagTests.PauseMenuFlagOn_ManualPause_ThenReturnFromBackground_StaysPaused" methodname="PauseMenuFlagOn_ManualPause_ThenReturnFromBackground_StaysPaused" classname="Game.Tests.EditMode.GameSessionPauseFlagTests" runstate="Runnable" seed="1046131417" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000368" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1140" name="ReturnFromBackground_WhileMenu_DoesNotStartAnything" fullname="Game.Tests.EditMode.GameSessionPauseFlagTests.ReturnFromBackground_WhileMenu_DoesNotStartAnything" methodname="ReturnFromBackground_WhileMenu_DoesNotStartAnything" classname="Game.Tests.EditMode.GameSessionPauseFlagTests" runstate="Runnable" seed="989343267" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000258" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1141" name="GameSessionPauseTests" fullname="Game.Tests.EditMode.GameSessionPauseTests" classname="Game.Tests.EditMode.GameSessionPauseTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.001188" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1142" name="PauseFreezesActiveKnockback_ResumeAllowsItToSettle" fullname="Game.Tests.EditMode.GameSessionPauseTests.PauseFreezesActiveKnockback_ResumeAllowsItToSettle" methodname="PauseFreezesActiveKnockback_ResumeAllowsItToSettle" classname="Game.Tests.EditMode.GameSessionPauseTests" runstate="Runnable" seed="1035906505" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000565" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1143" name="GameSessionRetryTests" fullname="Game.Tests.EditMode.GameSessionRetryTests" classname="Game.Tests.EditMode.GameSessionRetryTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.001943" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1146" name="PlayDeltaTime_IsZeroUnlessPlaying" fullname="Game.Tests.EditMode.GameSessionRetryTests.PlayDeltaTime_IsZeroUnlessPlaying" methodname="PlayDeltaTime_IsZeroUnlessPlaying" classname="Game.Tests.EditMode.GameSessionRetryTests" runstate="Runnable" seed="730086711" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000456" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1144" name="Retry_ResetsHeight" fullname="Game.Tests.EditMode.GameSessionRetryTests.Retry_ResetsHeight" methodname="Retry_ResetsHeight" classname="Game.Tests.EditMode.GameSessionRetryTests" runstate="Runnable" seed="164186931" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000309" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1145" name="StartLevelAndRetry_RaiseLevelStarted_EvenWhenAlreadyPlaying" fullname="Game.Tests.EditMode.GameSessionRetryTests.StartLevelAndRetry_RaiseLevelStarted_EvenWhenAlreadyPlaying" methodname="StartLevelAndRetry_RaiseLevelStarted_EvenWhenAlreadyPlaying" classname="Game.Tests.EditMode.GameSessionRetryTests" runstate="Runnable" seed="945437606" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000335" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1147" name="GameSettingsTests" fullname="Game.Tests.EditMode.GameSettingsTests" classname="Game.Tests.EditMode.GameSettingsTests" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.003781" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1156" name="Bumps_DefaultToOneBoxingType" fullname="Game.Tests.EditMode.GameSettingsTests.Bumps_DefaultToOneBoxingType" methodname="Bumps_DefaultToOneBoxingType" classname="Game.Tests.EditMode.GameSettingsTests" runstate="Runnable" seed="440688120" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000282" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1152" name="Burst_DefaultsMatchThePreviousBumpBurstViewFields" fullname="Game.Tests.EditMode.GameSettingsTests.Burst_DefaultsMatchThePreviousBumpBurstViewFields" methodname="Burst_DefaultsMatchThePreviousBumpBurstViewFields" classname="Game.Tests.EditMode.GameSettingsTests" runstate="Runnable" seed="1065801393" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000225" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1149" name="Camera_DefaultsMatchThePreviousCameraFollowAndShakeFields" fullname="Game.Tests.EditMode.GameSettingsTests.Camera_DefaultsMatchThePreviousCameraFollowAndShakeFields" methodname="Camera_DefaultsMatchThePreviousCameraFollowAndShakeFields" classname="Game.Tests.EditMode.GameSettingsTests" runstate="Runnable" seed="99453193" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000161" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1154" name="Features_DefaultToOff_AndPaceToTheTunedRate" fullname="Game.Tests.EditMode.GameSettingsTests.Features_DefaultToOff_AndPaceToTheTunedRate" methodname="Features_DefaultToOff_AndPaceToTheTunedRate" classname="Game.Tests.EditMode.GameSettingsTests" runstate="Runnable" seed="337008370" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000170" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1150" name="Hud_DefaultsMatchThePreviousViewFields" fullname="Game.Tests.EditMode.GameSettingsTests.Hud_DefaultsMatchThePreviousViewFields" methodname="Hud_DefaultsMatchThePreviousViewFields" classname="Game.Tests.EditMode.GameSettingsTests" runstate="Runnable" seed="1127699744" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000197" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1148" name="Motor_DefaultsMatchThePreviousPlayerMotorFields" fullname="Game.Tests.EditMode.GameSettingsTests.Motor_DefaultsMatchThePreviousPlayerMotorFields" methodname="Motor_DefaultsMatchThePreviousPlayerMotorFields" classname="Game.Tests.EditMode.GameSettingsTests" runstate="Runnable" seed="517625328" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000153" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1158" name="OrDefaults_NonNull_ReturnsThatInstance" fullname="Game.Tests.EditMode.GameSettingsTests.OrDefaults_NonNull_ReturnsThatInstance" methodname="OrDefaults_NonNull_ReturnsThatInstance" classname="Game.Tests.EditMode.GameSettingsTests" runstate="Runnable" seed="1277249659" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000113" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1157" name="OrDefaults_Null_ReturnsTheSharedDefaults" fullname="Game.Tests.EditMode.GameSettingsTests.OrDefaults_Null_ReturnsTheSharedDefaults" methodname="OrDefaults_Null_ReturnsTheSharedDefaults" classname="Game.Tests.EditMode.GameSettingsTests" runstate="Runnable" seed="1017782186" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000162" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1153" name="Pose_DefaultsMatchThePreviousClimberPoseDriverFields" fullname="Game.Tests.EditMode.GameSettingsTests.Pose_DefaultsMatchThePreviousClimberPoseDriverFields" methodname="Pose_DefaultsMatchThePreviousClimberPoseDriverFields" classname="Game.Tests.EditMode.GameSettingsTests" runstate="Runnable" seed="532605018" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000285" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1151" name="Summit_DefaultsMatchThePreviousSlideViewFields" fullname="Game.Tests.EditMode.GameSettingsTests.Summit_DefaultsMatchThePreviousSlideViewFields" methodname="Summit_DefaultsMatchThePreviousSlideViewFields" classname="Game.Tests.EditMode.GameSettingsTests" runstate="Runnable" seed="1977263893" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000156" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1155" name="Webhook_DefaultPortIs56789" fullname="Game.Tests.EditMode.GameSettingsTests.Webhook_DefaultPortIs56789" methodname="Webhook_DefaultPortIs56789" classname="Game.Tests.EditMode.GameSettingsTests" runstate="Runnable" seed="1368514054" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000131" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1159" name="HapticsControllerTests" fullname="Game.Tests.EditMode.HapticsControllerTests" classname="Game.Tests.EditMode.HapticsControllerTests" runstate="Runnable" testcasecount="14" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.005293" total="14" passed="14" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1172" name="Amplitude_StaysWithinPlatformRange" fullname="Game.Tests.EditMode.HapticsControllerTests.Amplitude_StaysWithinPlatformRange" methodname="Amplitude_StaysWithinPlatformRange" classname="Game.Tests.EditMode.HapticsControllerTests" runstate="Runnable" seed="1967910873" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000564" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1174" name="Cancel_StopsTheDeviceAndClearsTheGrabLimit" fullname="Game.Tests.EditMode.HapticsControllerTests.Cancel_StopsTheDeviceAndClearsTheGrabLimit" methodname="Cancel_StopsTheDeviceAndClearsTheGrabLimit" classname="Game.Tests.EditMode.HapticsControllerTests" runstate="Runnable" seed="1105055928" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000469" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1168" name="DisabledOrZeroIntensity_PlaysNothing" fullname="Game.Tests.EditMode.HapticsControllerTests.DisabledOrZeroIntensity_PlaysNothing" methodname="DisabledOrZeroIntensity_PlaysNothing" classname="Game.Tests.EditMode.HapticsControllerTests" runstate="Runnable" seed="1231983872" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000179" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1170" name="Grab_IsQuietRightAfterAHeavyPulse" fullname="Game.Tests.EditMode.HapticsControllerTests.Grab_IsQuietRightAfterAHeavyPulse" methodname="Grab_IsQuietRightAfterAHeavyPulse" classname="Game.Tests.EditMode.HapticsControllerTests" runstate="Runnable" seed="692363081" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000168" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1160" name="Grab_IsRateLimited" fullname="Game.Tests.EditMode.HapticsControllerTests.Grab_IsRateLimited" methodname="Grab_IsRateLimited" classname="Game.Tests.EditMode.HapticsControllerTests" runstate="Runnable" seed="434318771" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000111" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1165" name="Grab_NeverPlaysOutsidePlaying" fullname="Game.Tests.EditMode.HapticsControllerTests.Grab_NeverPlaysOutsidePlaying" classname="Game.Tests.EditMode.HapticsControllerTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.001055" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1161" name="Grab_NeverPlaysOutsidePlaying(Menu)" fullname="Game.Tests.EditMode.HapticsControllerTests.Grab_NeverPlaysOutsidePlaying(Menu)" methodname="Grab_NeverPlaysOutsidePlaying" classname="Game.Tests.EditMode.HapticsControllerTests" runstate="Runnable" seed="1056363732" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000168" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1162" name="Grab_NeverPlaysOutsidePlaying(Paused)" fullname="Game.Tests.EditMode.HapticsControllerTests.Grab_NeverPlaysOutsidePlaying(Paused)" methodname="Grab_NeverPlaysOutsidePlaying" classname="Game.Tests.EditMode.HapticsControllerTests" runstate="Runnable" seed="2082411759" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000070" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1163" name="Grab_NeverPlaysOutsidePlaying(Won)" fullname="Game.Tests.EditMode.HapticsControllerTests.Grab_NeverPlaysOutsidePlaying(Won)" methodname="Grab_NeverPlaysOutsidePlaying" classname="Game.Tests.EditMode.HapticsControllerTests" runstate="Runnable" seed="945870161" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000075" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1164" name="Grab_NeverPlaysOutsidePlaying(Lost)" fullname="Game.Tests.EditMode.HapticsControllerTests.Grab_NeverPlaysOutsidePlaying(Lost)" methodname="Grab_NeverPlaysOutsidePlaying" classname="Game.Tests.EditMode.HapticsControllerTests" runstate="Runnable" seed="1425560369" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000073" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1169" name="HazardHit_IsStrongerThanGrab" fullname="Game.Tests.EditMode.HapticsControllerTests.HazardHit_IsStrongerThanGrab" methodname="HazardHit_IsStrongerThanGrab" classname="Game.Tests.EditMode.HapticsControllerTests" runstate="Runnable" seed="74995769" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000213" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1171" name="Intensity_ScalesAmplitudeAndDuration" fullname="Game.Tests.EditMode.HapticsControllerTests.Intensity_ScalesAmplitudeAndDuration" methodname="Intensity_ScalesAmplitudeAndDuration" classname="Game.Tests.EditMode.HapticsControllerTests" runstate="Runnable" seed="1097286005" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000276" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1167" name="Suspended_PlaysNothing" fullname="Game.Tests.EditMode.HapticsControllerTests.Suspended_PlaysNothing" methodname="Suspended_PlaysNothing" classname="Game.Tests.EditMode.HapticsControllerTests" runstate="Runnable" seed="219624646" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000229" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1173" name="Win_IsOnePulseNormallyAndAPatternOnTheFinalLevel" fullname="Game.Tests.EditMode.HapticsControllerTests.Win_IsOnePulseNormallyAndAPatternOnTheFinalLevel" methodname="Win_IsOnePulseNormallyAndAPatternOnTheFinalLevel" classname="Game.Tests.EditMode.HapticsControllerTests" runstate="Runnable" seed="213111078" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000224" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1166" name="Win_OnlyPlaysWhenWon" fullname="Game.Tests.EditMode.HapticsControllerTests.Win_OnlyPlaysWhenWon" methodname="Win_OnlyPlaysWhenWon" classname="Game.Tests.EditMode.HapticsControllerTests" runstate="Runnable" seed="1824560176" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000091" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1175" name="HazardBandTests" fullname="Game.Tests.EditMode.HazardBandTests" classname="Game.Tests.EditMode.HazardBandTests" runstate="Runnable" testcasecount="13" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.005263" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1177" name="ActiveBand_AboveHead_DoesNotHit" fullname="Game.Tests.EditMode.HazardBandTests.ActiveBand_AboveHead_DoesNotHit" methodname="ActiveBand_AboveHead_DoesNotHit" classname="Game.Tests.EditMode.HazardBandTests" runstate="Runnable" seed="1195513330" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000994" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1178" name="ActiveBand_BelowFeet_DoesNotHit" fullname="Game.Tests.EditMode.HazardBandTests.ActiveBand_BelowFeet_DoesNotHit" methodname="ActiveBand_BelowFeet_DoesNotHit" classname="Game.Tests.EditMode.HazardBandTests" runstate="Runnable" seed="1954221391" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000196" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1176" name="ActiveBand_InMiddleOfBody_Hits" fullname="Game.Tests.EditMode.HazardBandTests.ActiveBand_InMiddleOfBody_Hits" methodname="ActiveBand_InMiddleOfBody_Hits" classname="Game.Tests.EditMode.HazardBandTests" runstate="Runnable" seed="450124686" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000176" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1182" name="BandActivatingWhileOverlappingStationaryClimber_Hits" fullname="Game.Tests.EditMode.HazardBandTests.BandActivatingWhileOverlappingStationaryClimber_Hits" methodname="BandActivatingWhileOverlappingStationaryClimber_Hits" classname="Game.Tests.EditMode.HazardBandTests" runstate="Runnable" seed="1355469707" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000211" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1187" name="BumpDuringHazardKnockback_AddsToClearanceTarget" fullname="Game.Tests.EditMode.HazardBandTests.BumpDuringHazardKnockback_AddsToClearanceTarget" methodname="BumpDuringHazardKnockback_AddsToClearanceTarget" classname="Game.Tests.EditMode.HazardBandTests" runstate="Runnable" seed="637982862" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000243" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1188" name="BumpKnockback_DistanceIsUnchanged" fullname="Game.Tests.EditMode.HazardBandTests.BumpKnockback_DistanceIsUnchanged" methodname="BumpKnockback_DistanceIsUnchanged" classname="Game.Tests.EditMode.HazardBandTests" runstate="Runnable" seed="1123907394" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000149" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1179" name="ClimbingHeadIntoActiveBand_Hits" fullname="Game.Tests.EditMode.HazardBandTests.ClimbingHeadIntoActiveBand_Hits" methodname="ClimbingHeadIntoActiveBand_Hits" classname="Game.Tests.EditMode.HazardBandTests" runstate="Runnable" seed="2095075498" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000264" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1180" name="FastFrame_SweepingPastActiveBand_StillHits" fullname="Game.Tests.EditMode.HazardBandTests.FastFrame_SweepingPastActiveBand_StillHits" methodname="FastFrame_SweepingPastActiveBand_StillHits" classname="Game.Tests.EditMode.HazardBandTests" runstate="Runnable" seed="1091820988" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000184" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1185" name="HazardKnockback_KeepsUsualDistanceWhenAlreadyClear" fullname="Game.Tests.EditMode.HazardBandTests.HazardKnockback_KeepsUsualDistanceWhenAlreadyClear" methodname="HazardKnockback_KeepsUsualDistanceWhenAlreadyClear" classname="Game.Tests.EditMode.HazardBandTests" runstate="Runnable" seed="1505489357" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000298" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1183" name="HazardKnockback_LeavesHeadBelowBand" fullname="Game.Tests.EditMode.HazardBandTests.HazardKnockback_LeavesHeadBelowBand" methodname="HazardKnockback_LeavesHeadBelowBand" classname="Game.Tests.EditMode.HazardBandTests" runstate="Runnable" seed="1180649756" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000256" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1184" name="HazardKnockback_NeverGoesBelowZero" fullname="Game.Tests.EditMode.HazardBandTests.HazardKnockback_NeverGoesBelowZero" methodname="HazardKnockback_NeverGoesBelowZero" classname="Game.Tests.EditMode.HazardBandTests" runstate="Runnable" seed="482023429" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000180" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1186" name="HazardKnockback_RespectsInvulnerability" fullname="Game.Tests.EditMode.HazardBandTests.HazardKnockback_RespectsInvulnerability" methodname="HazardKnockback_RespectsInvulnerability" classname="Game.Tests.EditMode.HazardBandTests" runstate="Runnable" seed="2048037084" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000136" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1181" name="SafeBand_DoesNotHit" fullname="Game.Tests.EditMode.HazardBandTests.SafeBand_DoesNotHit" methodname="SafeBand_DoesNotHit" classname="Game.Tests.EditMode.HazardBandTests" runstate="Runnable" seed="1368726044" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000172" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1189" name="HeightFeedbackTests" fullname="Game.Tests.EditMode.HeightFeedbackTests" classname="Game.Tests.EditMode.HeightFeedbackTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.005224" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1193" name="BriefPauseInClimb_DoesNotFlicker" fullname="Game.Tests.EditMode.HeightFeedbackTests.BriefPauseInClimb_DoesNotFlicker" methodname="BriefPauseInClimb_DoesNotFlicker" classname="Game.Tests.EditMode.HeightFeedbackTests" runstate="Runnable" seed="516319207" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000882" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1190" name="Climbing_TurnsGainAndScalesUp" fullname="Game.Tests.EditMode.HeightFeedbackTests.Climbing_TurnsGainAndScalesUp" methodname="Climbing_TurnsGainAndScalesUp" classname="Game.Tests.EditMode.HeightFeedbackTests" runstate="Runnable" seed="639316475" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000359" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1194" name="DriftInsideTheDeadband_StaysStable" fullname="Game.Tests.EditMode.HeightFeedbackTests.DriftInsideTheDeadband_StaysStable" methodname="DriftInsideTheDeadband_StaysStable" classname="Game.Tests.EditMode.HeightFeedbackTests" runstate="Runnable" seed="304015269" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000127" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1191" name="Losing_TurnsRedAndScalesMoreThanGain" fullname="Game.Tests.EditMode.HeightFeedbackTests.Losing_TurnsRedAndScalesMoreThanGain" methodname="Losing_TurnsRedAndScalesMoreThanGain" classname="Game.Tests.EditMode.HeightFeedbackTests" runstate="Runnable" seed="944105199" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000125" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1197" name="Reset_ClearsEverything_AndNextSampleOnlyBaselines" fullname="Game.Tests.EditMode.HeightFeedbackTests.Reset_ClearsEverything_AndNextSampleOnlyBaselines" methodname="Reset_ClearsEverything_AndNextSampleOnlyBaselines" classname="Game.Tests.EditMode.HeightFeedbackTests" runstate="Runnable" seed="372920700" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000142" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1195" name="Scale_NeverExceedsTheConfiguredMaximum" fullname="Game.Tests.EditMode.HeightFeedbackTests.Scale_NeverExceedsTheConfiguredMaximum" methodname="Scale_NeverExceedsTheConfiguredMaximum" classname="Game.Tests.EditMode.HeightFeedbackTests" runstate="Runnable" seed="1972029845" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000111" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1192" name="Stopping_ReturnsExactlyToBaseline" fullname="Game.Tests.EditMode.HeightFeedbackTests.Stopping_ReturnsExactlyToBaseline" methodname="Stopping_ReturnsExactlyToBaseline" classname="Game.Tests.EditMode.HeightFeedbackTests" runstate="Runnable" seed="2120897167" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000288" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1196" name="ZeroDelta_FreezesState" fullname="Game.Tests.EditMode.HeightFeedbackTests.ZeroDelta_FreezesState" methodname="ZeroDelta_FreezesState" classname="Game.Tests.EditMode.HeightFeedbackTests" runstate="Runnable" seed="1031746397" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000112" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1198" name="LevelCampaignDataTests" fullname="Game.Tests.EditMode.LevelCampaignDataTests" classname="Game.Tests.EditMode.LevelCampaignDataTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.102370" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1199" name="AllFiveLevels_ParseInOrderWithProgressionInData" fullname="Game.Tests.EditMode.LevelCampaignDataTests.AllFiveLevels_ParseInOrderWithProgressionInData" methodname="AllFiveLevels_ParseInOrderWithProgressionInData" classname="Game.Tests.EditMode.LevelCampaignDataTests" runstate="Runnable" seed="897825201" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.008100" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1200" name="EveryBand_HasReactionMarginAtMinimumSupportedPace" fullname="Game.Tests.EditMode.LevelCampaignDataTests.EveryBand_HasReactionMarginAtMinimumSupportedPace" methodname="EveryBand_HasReactionMarginAtMinimumSupportedPace" classname="Game.Tests.EditMode.LevelCampaignDataTests" runstate="Runnable" seed="449793708" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000560" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1205" name="EveryLevel_IsCompletableWithoutHelpOrHits_AndGrowsLonger" fullname="Game.Tests.EditMode.LevelCampaignDataTests.EveryLevel_IsCompletableWithoutHelpOrHits_AndGrowsLonger" methodname="EveryLevel_IsCompletableWithoutHelpOrHits_AndGrowsLonger" classname="Game.Tests.EditMode.LevelCampaignDataTests" runstate="Runnable" seed="351496820" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.013739" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Level 1 clean run: 14.0 s
+Level 2 clean run: 19.0 s
+Level 3 clean run: 27.0 s
+Level 4 clean run: 34.0 s
+Level 5 clean run: 43.0 s
+]]></output>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1204" name="EveryLevel_IsCompletableWithoutHits_AcrossSupportedPacesAndFrameRates" fullname="Game.Tests.EditMode.LevelCampaignDataTests.EveryLevel_IsCompletableWithoutHits_AcrossSupportedPacesAndFrameRates" classname="Game.Tests.EditMode.LevelCampaignDataTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.078465" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1202" name="EveryLevel_IsCompletableWithoutHits_AcrossSupportedPacesAndFrameRates(30)" fullname="Game.Tests.EditMode.LevelCampaignDataTests.EveryLevel_IsCompletableWithoutHits_AcrossSupportedPacesAndFrameRates(30)" methodname="EveryLevel_IsCompletableWithoutHits_AcrossSupportedPacesAndFrameRates" classname="Game.Tests.EditMode.LevelCampaignDataTests" runstate="Runnable" seed="155141731" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.020346" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1203" name="EveryLevel_IsCompletableWithoutHits_AcrossSupportedPacesAndFrameRates(60)" fullname="Game.Tests.EditMode.LevelCampaignDataTests.EveryLevel_IsCompletableWithoutHits_AcrossSupportedPacesAndFrameRates(60)" methodname="EveryLevel_IsCompletableWithoutHits_AcrossSupportedPacesAndFrameRates" classname="Game.Tests.EditMode.LevelCampaignDataTests" runstate="Runnable" seed="272788722" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.057472" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1201" name="ShippedPace_IsWithinSupportedRange" fullname="Game.Tests.EditMode.LevelCampaignDataTests.ShippedPace_IsWithinSupportedRange" methodname="ShippedPace_IsWithinSupportedRange" classname="Game.Tests.EditMode.LevelCampaignDataTests" runstate="Runnable" seed="783096268" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000170" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1206" name="LevelDefinitionHazardValidationTests" fullname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests" classname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests" runstate="Runnable" testcasecount="16" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.004453" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1218" name="AlwaysActiveBand_MessageShowsTheValue" fullname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests.AlwaysActiveBand_MessageShowsTheValue" methodname="AlwaysActiveBand_MessageShowsTheValue" classname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests" runstate="Runnable" seed="1472783674" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000373" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1217" name="BadHazard_IsRejectedNamingIndexAndField" fullname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests.BadHazard_IsRejectedNamingIndexAndField" classname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.001735" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1208" name="BadHazard_IsRejectedNamingIndexAndField(&quot;0&quot;,&quot;4&quot;,&quot;1&quot;,&quot;0&quot;,&quot;hazards[1].height&quot;)" fullname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests.BadHazard_IsRejectedNamingIndexAndField(&quot;0&quot;,&quot;4&quot;,&quot;1&quot;,&quot;0&quot;,&quot;hazards[1].height&quot;)" methodname="BadHazard_IsRejectedNamingIndexAndField" classname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests" runstate="Runnable" seed="155146921" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000209" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1209" name="BadHazard_IsRejectedNamingIndexAndField(&quot;-3&quot;,&quot;4&quot;,&quot;1&quot;,&quot;0&quot;,&quot;hazards[1].height&quot;)" fullname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests.BadHazard_IsRejectedNamingIndexAndField(&quot;-3&quot;,&quot;4&quot;,&quot;1&quot;,&quot;0&quot;,&quot;hazards[1].height&quot;)" methodname="BadHazard_IsRejectedNamingIndexAndField" classname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests" runstate="Runnable" seed="1201650418" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000068" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1210" name="BadHazard_IsRejectedNamingIndexAndField(&quot;30&quot;,&quot;4&quot;,&quot;1&quot;,&quot;0&quot;,&quot;hazards[1].height&quot;)" fullname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests.BadHazard_IsRejectedNamingIndexAndField(&quot;30&quot;,&quot;4&quot;,&quot;1&quot;,&quot;0&quot;,&quot;hazards[1].height&quot;)" methodname="BadHazard_IsRejectedNamingIndexAndField" classname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests" runstate="Runnable" seed="1649472300" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000061" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1211" name="BadHazard_IsRejectedNamingIndexAndField(&quot;45&quot;,&quot;4&quot;,&quot;1&quot;,&quot;0&quot;,&quot;hazards[1].height&quot;)" fullname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests.BadHazard_IsRejectedNamingIndexAndField(&quot;45&quot;,&quot;4&quot;,&quot;1&quot;,&quot;0&quot;,&quot;hazards[1].height&quot;)" methodname="BadHazard_IsRejectedNamingIndexAndField" classname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests" runstate="Runnable" seed="1613455417" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000062" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1212" name="BadHazard_IsRejectedNamingIndexAndField(&quot;10&quot;,&quot;0&quot;,&quot;1&quot;,&quot;0&quot;,&quot;hazards[1].periodSeconds&quot;)" fullname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests.BadHazard_IsRejectedNamingIndexAndField(&quot;10&quot;,&quot;0&quot;,&quot;1&quot;,&quot;0&quot;,&quot;hazards[1].periodSeconds&quot;)" methodname="BadHazard_IsRejectedNamingIndexAndField" classname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests" runstate="Runnable" seed="1446552773" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000063" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1213" name="BadHazard_IsRejectedNamingIndexAndField(&quot;10&quot;,&quot;-1&quot;,&quot;1&quot;,&quot;0&quot;,&quot;hazards[1].periodSeconds&quot;)" fullname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests.BadHazard_IsRejectedNamingIndexAndField(&quot;10&quot;,&quot;-1&quot;,&quot;1&quot;,&quot;0&quot;,&quot;hazards[1].periodSeconds&quot;)" methodname="BadHazard_IsRejectedNamingIndexAndField" classname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests" runstate="Runnable" seed="844019191" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000057" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1214" name="BadHazard_IsRejectedNamingIndexAndField(&quot;10&quot;,&quot;4&quot;,&quot;0&quot;,&quot;0&quot;,&quot;hazards[1].activeSeconds&quot;)" fullname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests.BadHazard_IsRejectedNamingIndexAndField(&quot;10&quot;,&quot;4&quot;,&quot;0&quot;,&quot;0&quot;,&quot;hazards[1].activeSeconds&quot;)" methodname="BadHazard_IsRejectedNamingIndexAndField" classname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests" runstate="Runnable" seed="228343947" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000059" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1215" name="BadHazard_IsRejectedNamingIndexAndField(&quot;10&quot;,&quot;4&quot;,&quot;4&quot;,&quot;0&quot;,&quot;hazards[1].activeSeconds&quot;)" fullname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests.BadHazard_IsRejectedNamingIndexAndField(&quot;10&quot;,&quot;4&quot;,&quot;4&quot;,&quot;0&quot;,&quot;hazards[1].activeSeconds&quot;)" methodname="BadHazard_IsRejectedNamingIndexAndField" classname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests" runstate="Runnable" seed="1033839726" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000069" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1216" name="BadHazard_IsRejectedNamingIndexAndField(&quot;10&quot;,&quot;4&quot;,&quot;5&quot;,&quot;0&quot;,&quot;hazards[1].activeSeconds&quot;)" fullname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests.BadHazard_IsRejectedNamingIndexAndField(&quot;10&quot;,&quot;4&quot;,&quot;5&quot;,&quot;0&quot;,&quot;hazards[1].activeSeconds&quot;)" methodname="BadHazard_IsRejectedNamingIndexAndField" classname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests" runstate="Runnable" seed="492835889" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000061" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1224" name="NonFiniteFinishHeight_FailsValidation" fullname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests.NonFiniteFinishHeight_FailsValidation" methodname="NonFiniteFinishHeight_FailsValidation" classname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests" runstate="Runnable" seed="615159735" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000117" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1223" name="NonFiniteValues_FailValidation" fullname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests.NonFiniteValues_FailValidation" classname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000772" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1220" name="NonFiniteValues_FailValidation(float.NaN)" fullname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests.NonFiniteValues_FailValidation(float.NaN)" methodname="NonFiniteValues_FailValidation" classname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests" runstate="Runnable" seed="874927897" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000160" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1221" name="NonFiniteValues_FailValidation(float.PositiveInfinity)" fullname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests.NonFiniteValues_FailValidation(float.PositiveInfinity)" methodname="NonFiniteValues_FailValidation" classname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests" runstate="Runnable" seed="79998752" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000041" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1222" name="NonFiniteValues_FailValidation(float.NegativeInfinity)" fullname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests.NonFiniteValues_FailValidation(float.NegativeInfinity)" methodname="NonFiniteValues_FailValidation" classname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests" runstate="Runnable" seed="350792809" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000046" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1219" name="NullHazardEntry_IsRejectedNamingTheIndex" fullname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests.NullHazardEntry_IsRejectedNamingTheIndex" methodname="NullHazardEntry_IsRejectedNamingTheIndex" classname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests" runstate="Runnable" seed="2047912562" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000142" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1207" name="ValidHazards_Pass" fullname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests.ValidHazards_Pass" methodname="ValidHazards_Pass" classname="Game.Tests.EditMode.LevelDefinitionHazardValidationTests" runstate="Runnable" seed="2088344765" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000094" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1225" name="LevelDefinitionJsonTests" fullname="Game.Tests.EditMode.LevelDefinitionJsonTests" classname="Game.Tests.EditMode.LevelDefinitionJsonTests" runstate="Runnable" testcasecount="14" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.004193" total="14" passed="14" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="ParameterizedMethod" id="1231" name="EmptyOrMalformedJson_IsRejected" fullname="Game.Tests.EditMode.LevelDefinitionJsonTests.EmptyOrMalformedJson_IsRejected" classname="Game.Tests.EditMode.LevelDefinitionJsonTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000811" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1228" name="EmptyOrMalformedJson_IsRejected(&quot;&quot;,&quot;empty&quot;)" fullname="Game.Tests.EditMode.LevelDefinitionJsonTests.EmptyOrMalformedJson_IsRejected(&quot;&quot;,&quot;empty&quot;)" methodname="EmptyOrMalformedJson_IsRejected" classname="Game.Tests.EditMode.LevelDefinitionJsonTests" runstate="Runnable" seed="1809676555" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000222" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1229" name="EmptyOrMalformedJson_IsRejected(&quot;   &quot;,&quot;empty&quot;)" fullname="Game.Tests.EditMode.LevelDefinitionJsonTests.EmptyOrMalformedJson_IsRejected(&quot;   &quot;,&quot;empty&quot;)" methodname="EmptyOrMalformedJson_IsRejected" classname="Game.Tests.EditMode.LevelDefinitionJsonTests" runstate="Runnable" seed="1955097918" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000046" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1230" name="EmptyOrMalformedJson_IsRejected(&quot;{ not json&quot;,&quot;malformed&quot;)" fullname="Game.Tests.EditMode.LevelDefinitionJsonTests.EmptyOrMalformedJson_IsRejected(&quot;{ not json&quot;,&quot;malformed&quot;)" methodname="EmptyOrMalformedJson_IsRejected" classname="Game.Tests.EditMode.LevelDefinitionJsonTests" runstate="Runnable" seed="359916954" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000060" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="ParameterizedMethod" id="1237" name="InvalidField_IsRejectedNamingTheField" fullname="Game.Tests.EditMode.LevelDefinitionJsonTests.InvalidField_IsRejectedNamingTheField" classname="Game.Tests.EditMode.LevelDefinitionJsonTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000866" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1233" name="InvalidField_IsRejectedNamingTheField(&quot;0&quot;,&quot;\&quot;A\&quot;&quot;,&quot;10&quot;,&quot;1&quot;,&quot;levelId&quot;)" fullname="Game.Tests.EditMode.LevelDefinitionJsonTests.InvalidField_IsRejectedNamingTheField(&quot;0&quot;,&quot;\&quot;A\&quot;&quot;,&quot;10&quot;,&quot;1&quot;,&quot;levelId&quot;)" methodname="InvalidField_IsRejectedNamingTheField" classname="Game.Tests.EditMode.LevelDefinitionJsonTests" runstate="Runnable" seed="943726362" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000203" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1234" name="InvalidField_IsRejectedNamingTheField(&quot;1&quot;,&quot;\&quot;  \&quot;&quot;,&quot;10&quot;,&quot;1&quot;,&quot;displayName&quot;)" fullname="Game.Tests.EditMode.LevelDefinitionJsonTests.InvalidField_IsRejectedNamingTheField(&quot;1&quot;,&quot;\&quot;  \&quot;&quot;,&quot;10&quot;,&quot;1&quot;,&quot;displayName&quot;)" methodname="InvalidField_IsRejectedNamingTheField" classname="Game.Tests.EditMode.LevelDefinitionJsonTests" runstate="Runnable" seed="1625421143" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000052" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1235" name="InvalidField_IsRejectedNamingTheField(&quot;1&quot;,&quot;\&quot;A\&quot;&quot;,&quot;0.5&quot;,&quot;1&quot;,&quot;finishHeight&quot;)" fullname="Game.Tests.EditMode.LevelDefinitionJsonTests.InvalidField_IsRejectedNamingTheField(&quot;1&quot;,&quot;\&quot;A\&quot;&quot;,&quot;0.5&quot;,&quot;1&quot;,&quot;finishHeight&quot;)" methodname="InvalidField_IsRejectedNamingTheField" classname="Game.Tests.EditMode.LevelDefinitionJsonTests" runstate="Runnable" seed="241953603" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000060" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1236" name="InvalidField_IsRejectedNamingTheField(&quot;1&quot;,&quot;\&quot;A\&quot;&quot;,&quot;10&quot;,&quot;0.05&quot;,&quot;climbSpeed&quot;)" fullname="Game.Tests.EditMode.LevelDefinitionJsonTests.InvalidField_IsRejectedNamingTheField(&quot;1&quot;,&quot;\&quot;A\&quot;&quot;,&quot;10&quot;,&quot;0.05&quot;,&quot;climbSpeed&quot;)" methodname="InvalidField_IsRejectedNamingTheField" classname="Game.Tests.EditMode.LevelDefinitionJsonTests" runstate="Runnable" seed="579327633" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000057" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1227" name="MissingHazardsKey_MeansNoHazards" fullname="Game.Tests.EditMode.LevelDefinitionJsonTests.MissingHazardsKey_MeansNoHazards" methodname="MissingHazardsKey_MeansNoHazards" classname="Game.Tests.EditMode.LevelDefinitionJsonTests" runstate="Runnable" seed="1210610306" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000132" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1242" name="MissingKey_IsRejectedNamingTheField" fullname="Game.Tests.EditMode.LevelDefinitionJsonTests.MissingKey_IsRejectedNamingTheField" classname="Game.Tests.EditMode.LevelDefinitionJsonTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.001138" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1238" name="MissingKey_IsRejectedNamingTheField(&quot;levelId&quot;)" fullname="Game.Tests.EditMode.LevelDefinitionJsonTests.MissingKey_IsRejectedNamingTheField(&quot;levelId&quot;)" methodname="MissingKey_IsRejectedNamingTheField" classname="Game.Tests.EditMode.LevelDefinitionJsonTests" runstate="Runnable" seed="1058126809" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000381" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1239" name="MissingKey_IsRejectedNamingTheField(&quot;displayName&quot;)" fullname="Game.Tests.EditMode.LevelDefinitionJsonTests.MissingKey_IsRejectedNamingTheField(&quot;displayName&quot;)" methodname="MissingKey_IsRejectedNamingTheField" classname="Game.Tests.EditMode.LevelDefinitionJsonTests" runstate="Runnable" seed="740173334" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000071" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1240" name="MissingKey_IsRejectedNamingTheField(&quot;finishHeight&quot;)" fullname="Game.Tests.EditMode.LevelDefinitionJsonTests.MissingKey_IsRejectedNamingTheField(&quot;finishHeight&quot;)" methodname="MissingKey_IsRejectedNamingTheField" classname="Game.Tests.EditMode.LevelDefinitionJsonTests" runstate="Runnable" seed="99882101" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000075" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1241" name="MissingKey_IsRejectedNamingTheField(&quot;climbSpeed&quot;)" fullname="Game.Tests.EditMode.LevelDefinitionJsonTests.MissingKey_IsRejectedNamingTheField(&quot;climbSpeed&quot;)" methodname="MissingKey_IsRejectedNamingTheField" classname="Game.Tests.EditMode.LevelDefinitionJsonTests" runstate="Runnable" seed="158873893" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000084" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1232" name="NullJson_IsRejected" fullname="Game.Tests.EditMode.LevelDefinitionJsonTests.NullJson_IsRejected" methodname="NullJson_IsRejected" classname="Game.Tests.EditMode.LevelDefinitionJsonTests" runstate="Runnable" seed="1469083041" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000146" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1226" name="ShippedLevel1_ParsesWithItsAuthoredValues" fullname="Game.Tests.EditMode.LevelDefinitionJsonTests.ShippedLevel1_ParsesWithItsAuthoredValues" methodname="ShippedLevel1_ParsesWithItsAuthoredValues" classname="Game.Tests.EditMode.LevelDefinitionJsonTests" runstate="Runnable" seed="764142091" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000195" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1243" name="PlayerMotorBumpTests" fullname="Game.Tests.EditMode.PlayerMotorBumpTests" classname="Game.Tests.EditMode.PlayerMotorBumpTests" runstate="Runnable" testcasecount="15" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.006987" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1247" name="Bump_AppliesWhileInvulnerable_AndStacks" fullname="Game.Tests.EditMode.PlayerMotorBumpTests.Bump_AppliesWhileInvulnerable_AndStacks" methodname="Bump_AppliesWhileInvulnerable_AndStacks" classname="Game.Tests.EditMode.PlayerMotorBumpTests" runstate="Runnable" seed="2030006767" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000618" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1250" name="Bump_InvulnerabilityCoversTheWholeEasedMove" fullname="Game.Tests.EditMode.PlayerMotorBumpTests.Bump_InvulnerabilityCoversTheWholeEasedMove" methodname="Bump_InvulnerabilityCoversTheWholeEasedMove" classname="Game.Tests.EditMode.PlayerMotorBumpTests" runstate="Runnable" seed="47295831" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000227" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1255" name="BumpMove_UsesBumpMoveSeconds_AndItsOwnLockout" fullname="Game.Tests.EditMode.PlayerMotorBumpTests.BumpMove_UsesBumpMoveSeconds_AndItsOwnLockout" methodname="BumpMove_UsesBumpMoveSeconds_AndItsOwnLockout" classname="Game.Tests.EditMode.PlayerMotorBumpTests" runstate="Runnable" seed="879371708" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000389" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1252" name="DelayedBump_DoesNotMoveBeforeTheImpactDelay" fullname="Game.Tests.EditMode.PlayerMotorBumpTests.DelayedBump_DoesNotMoveBeforeTheImpactDelay" methodname="DelayedBump_DoesNotMoveBeforeTheImpactDelay" classname="Game.Tests.EditMode.PlayerMotorBumpTests" runstate="Runnable" seed="568176126" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000241" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1258" name="DelayedBumps_StackTheirFullDistances" fullname="Game.Tests.EditMode.PlayerMotorBumpTests.DelayedBumps_StackTheirFullDistances" methodname="DelayedBumps_StackTheirFullDistances" classname="Game.Tests.EditMode.PlayerMotorBumpTests" runstate="Runnable" seed="764408385" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000349" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1256" name="HazardHit_IsNotABumpMove_AndUsesKnockbackSeconds" fullname="Game.Tests.EditMode.PlayerMotorBumpTests.HazardHit_IsNotABumpMove_AndUsesKnockbackSeconds" methodname="HazardHit_IsNotABumpMove_AndUsesKnockbackSeconds" classname="Game.Tests.EditMode.PlayerMotorBumpTests" runstate="Runnable" seed="238261975" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000252" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1246" name="NegativeBump_ClampsAtZero" fullname="Game.Tests.EditMode.PlayerMotorBumpTests.NegativeBump_ClampsAtZero" methodname="NegativeBump_ClampsAtZero" classname="Game.Tests.EditMode.PlayerMotorBumpTests" runstate="Runnable" seed="1639472646" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000263" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1257" name="NegativeBump_ReportsDownwardDirection" fullname="Game.Tests.EditMode.PlayerMotorBumpTests.NegativeBump_ReportsDownwardDirection" methodname="NegativeBump_ReportsDownwardDirection" classname="Game.Tests.EditMode.PlayerMotorBumpTests" runstate="Runnable" seed="1716643337" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000182" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1253" name="PendingBump_FreezesWhilePaused" fullname="Game.Tests.EditMode.PlayerMotorBumpTests.PendingBump_FreezesWhilePaused" methodname="PendingBump_FreezesWhilePaused" classname="Game.Tests.EditMode.PlayerMotorBumpTests" runstate="Runnable" seed="1737359206" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000413" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1245" name="PositiveBump_ClampsAtFinish" fullname="Game.Tests.EditMode.PlayerMotorBumpTests.PositiveBump_ClampsAtFinish" methodname="PositiveBump_ClampsAtFinish" classname="Game.Tests.EditMode.PlayerMotorBumpTests" runstate="Runnable" seed="2146086229" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000234" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1244" name="PositiveBump_EasesUpByTheWorldDistance_IgnoringDistanceScale" fullname="Game.Tests.EditMode.PlayerMotorBumpTests.PositiveBump_EasesUpByTheWorldDistance_IgnoringDistanceScale" methodname="PositiveBump_EasesUpByTheWorldDistance_IgnoringDistanceScale" classname="Game.Tests.EditMode.PlayerMotorBumpTests" runstate="Runnable" seed="1918729577" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000291" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1248" name="RapidPositiveBumps_AccumulateFullDistance" fullname="Game.Tests.EditMode.PlayerMotorBumpTests.RapidPositiveBumps_AccumulateFullDistance" methodname="RapidPositiveBumps_AccumulateFullDistance" classname="Game.Tests.EditMode.PlayerMotorBumpTests" runstate="Runnable" seed="602884548" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000216" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1254" name="ResetState_CancelsAPendingBump" fullname="Game.Tests.EditMode.PlayerMotorBumpTests.ResetState_CancelsAPendingBump" methodname="ResetState_CancelsAPendingBump" classname="Game.Tests.EditMode.PlayerMotorBumpTests" runstate="Runnable" seed="1976780139" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000197" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1251" name="UpwardBump_AcrossActiveHazardBand_CostsNoHitPoint" fullname="Game.Tests.EditMode.PlayerMotorBumpTests.UpwardBump_AcrossActiveHazardBand_CostsNoHitPoint" methodname="UpwardBump_AcrossActiveHazardBand_CostsNoHitPoint" classname="Game.Tests.EditMode.PlayerMotorBumpTests" runstate="Runnable" seed="1072646862" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000303" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1249" name="UpwardBump_CrossingBandOnItsLastStep_CostsNoHitPoint_EvenWithShortInvulnerability" fullname="Game.Tests.EditMode.PlayerMotorBumpTests.UpwardBump_CrossingBandOnItsLastStep_CostsNoHitPoint_EvenWithShortInvulnerability" methodname="UpwardBump_CrossingBandOnItsLastStep_CostsNoHitPoint_EvenWithShortInvulnerability" classname="Game.Tests.EditMode.PlayerMotorBumpTests" runstate="Runnable" seed="889225958" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000261" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1259" name="PlayerMotorKnockbackTests" fullname="Game.Tests.EditMode.PlayerMotorKnockbackTests" classname="Game.Tests.EditMode.PlayerMotorKnockbackTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.003056" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1266" name="HeldClimb_ClampsAtFinishHeight" fullname="Game.Tests.EditMode.PlayerMotorKnockbackTests.HeldClimb_ClampsAtFinishHeight" methodname="HeldClimb_ClampsAtFinishHeight" classname="Game.Tests.EditMode.PlayerMotorKnockbackTests" runstate="Runnable" seed="1334687037" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000206" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1260" name="Knockback_InvulnerabilityEndsBeforeHeldReclimbReachesBandHeight" fullname="Game.Tests.EditMode.PlayerMotorKnockbackTests.Knockback_InvulnerabilityEndsBeforeHeldReclimbReachesBandHeight" methodname="Knockback_InvulnerabilityEndsBeforeHeldReclimbReachesBandHeight" classname="Game.Tests.EditMode.PlayerMotorKnockbackTests" runstate="Runnable" seed="1592014852" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000304" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1262" name="Knockback_NeverProducesUpwardHeightChangedDuringDisplacement" fullname="Game.Tests.EditMode.PlayerMotorKnockbackTests.Knockback_NeverProducesUpwardHeightChangedDuringDisplacement" methodname="Knockback_NeverProducesUpwardHeightChangedDuringDisplacement" classname="Game.Tests.EditMode.PlayerMotorKnockbackTests" runstate="Runnable" seed="953416915" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000186" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1265" name="Knockback_SettlesAtBoundedTarget" fullname="Game.Tests.EditMode.PlayerMotorKnockbackTests.Knockback_SettlesAtBoundedTarget" classname="Game.Tests.EditMode.PlayerMotorKnockbackTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.001015" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1263" name="Knockback_SettlesAtBoundedTarget(10.0f,8.5f)" fullname="Game.Tests.EditMode.PlayerMotorKnockbackTests.Knockback_SettlesAtBoundedTarget(10.0f,8.5f)" methodname="Knockback_SettlesAtBoundedTarget" classname="Game.Tests.EditMode.PlayerMotorKnockbackTests" runstate="Runnable" seed="1843398501" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000430" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1264" name="Knockback_SettlesAtBoundedTarget(0.5f,0.0f)" fullname="Game.Tests.EditMode.PlayerMotorKnockbackTests.Knockback_SettlesAtBoundedTarget(0.5f,0.0f)" methodname="Knockback_SettlesAtBoundedTarget" classname="Game.Tests.EditMode.PlayerMotorKnockbackTests" runstate="Runnable" seed="788740080" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000082" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1261" name="Step_WhilePaused_FreezesKnockbackAndTimers" fullname="Game.Tests.EditMode.PlayerMotorKnockbackTests.Step_WhilePaused_FreezesKnockbackAndTimers" methodname="Step_WhilePaused_FreezesKnockbackAndTimers" classname="Game.Tests.EditMode.PlayerMotorKnockbackTests" runstate="Runnable" seed="1691984796" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000156" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1267" name="PunchVolleyTests" fullname="Game.Tests.EditMode.PunchVolleyTests" classname="Game.Tests.EditMode.PunchVolleyTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.001684" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1268" name="GloveOnTheImpactFrame_DoesNotDoubleTheImpactPunch" fullname="Game.Tests.EditMode.PunchVolleyTests.GloveOnTheImpactFrame_DoesNotDoubleTheImpactPunch" methodname="GloveOnTheImpactFrame_DoesNotDoubleTheImpactPunch" classname="Game.Tests.EditMode.PunchVolleyTests" runstate="Runnable" seed="1988546431" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000253" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1269" name="GlovesCloserThanTheInterval_AreSkipped_LaterOnesPlay" fullname="Game.Tests.EditMode.PunchVolleyTests.GlovesCloserThanTheInterval_AreSkipped_LaterOnesPlay" methodname="GlovesCloserThanTheInterval_AreSkipped_LaterOnesPlay" classname="Game.Tests.EditMode.PunchVolleyTests" runstate="Runnable" seed="801924150" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000103" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1272" name="MaxOfOne_PlaysTheImpactPunchAlone" fullname="Game.Tests.EditMode.PunchVolleyTests.MaxOfOne_PlaysTheImpactPunchAlone" methodname="MaxOfOne_PlaysTheImpactPunchAlone" classname="Game.Tests.EditMode.PunchVolleyTests" runstate="Runnable" seed="126136237" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000068" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1271" name="Reset_StartsTheNextBumpFresh" fullname="Game.Tests.EditMode.PunchVolleyTests.Reset_StartsTheNextBumpFresh" methodname="Reset_StartsTheNextBumpFresh" classname="Game.Tests.EditMode.PunchVolleyTests" runstate="Runnable" seed="508459109" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000111" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1270" name="Volley_StopsAtTheMaximum_CountingTheImpact" fullname="Game.Tests.EditMode.PunchVolleyTests.Volley_StopsAtTheMaximum_CountingTheImpact" methodname="Volley_StopsAtTheMaximum_CountingTheImpact" classname="Game.Tests.EditMode.PunchVolleyTests" runstate="Runnable" seed="1235284053" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000089" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1273" name="SoundCueSchedulerTests" fullname="Game.Tests.EditMode.SoundCueSchedulerTests" classname="Game.Tests.EditMode.SoundCueSchedulerTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.003626" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1275" name="BumpCue_IsPositiveOnly" fullname="Game.Tests.EditMode.SoundCueSchedulerTests.BumpCue_IsPositiveOnly" methodname="BumpCue_IsPositiveOnly" classname="Game.Tests.EditMode.SoundCueSchedulerTests" runstate="Runnable" seed="2079128024" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000327" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1280" name="Cancel_DropsPendingCues_AndClearsLimits" fullname="Game.Tests.EditMode.SoundCueSchedulerTests.Cancel_DropsPendingCues_AndClearsLimits" methodname="Cancel_DropsPendingCues_AndClearsLimits" classname="Game.Tests.EditMode.SoundCueSchedulerTests" runstate="Runnable" seed="1002733639" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.001097" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1278" name="Cues_LimitIndependently" fullname="Game.Tests.EditMode.SoundCueSchedulerTests.Cues_LimitIndependently" methodname="Cues_LimitIndependently" classname="Game.Tests.EditMode.SoundCueSchedulerTests" runstate="Runnable" seed="1186627304" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000081" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1276" name="Grab_IsRateLimitedByCooldown" fullname="Game.Tests.EditMode.SoundCueSchedulerTests.Grab_IsRateLimitedByCooldown" methodname="Grab_IsRateLimitedByCooldown" classname="Game.Tests.EditMode.SoundCueSchedulerTests" runstate="Runnable" seed="340015156" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000087" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1277" name="Overlap_CapsVoicesStillPlaying_AndFreesThemWhenTheyEnd" fullname="Game.Tests.EditMode.SoundCueSchedulerTests.Overlap_CapsVoicesStillPlaying_AndFreesThemWhenTheyEnd" methodname="Overlap_CapsVoicesStillPlaying_AndFreesThemWhenTheyEnd" classname="Game.Tests.EditMode.SoundCueSchedulerTests" runstate="Runnable" seed="322004419" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000078" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1279" name="Scheduled_IsDueOnlyAfterTheDelayOfAdvancedTime" fullname="Game.Tests.EditMode.SoundCueSchedulerTests.Scheduled_IsDueOnlyAfterTheDelayOfAdvancedTime" methodname="Scheduled_IsDueOnlyAfterTheDelayOfAdvancedTime" classname="Game.Tests.EditMode.SoundCueSchedulerTests" runstate="Runnable" seed="28115435" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000513" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1274" name="WinCue_IsFinalOnlyOnTheLastLevel" fullname="Game.Tests.EditMode.SoundCueSchedulerTests.WinCue_IsFinalOnlyOnTheLastLevel" methodname="WinCue_IsFinalOnlyOnTheLastLevel" classname="Game.Tests.EditMode.SoundCueSchedulerTests" runstate="Runnable" seed="453863239" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000083" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1281" name="SummitTests" fullname="Game.Tests.EditMode.SummitTests" classname="Game.Tests.EditMode.SummitTests" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.006652" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1287" name="MenuDefault_IsAppliedOnEnable" fullname="Game.Tests.EditMode.SummitTests.MenuDefault_IsAppliedOnEnable" methodname="MenuDefault_IsAppliedOnEnable" classname="Game.Tests.EditMode.SummitTests" runstate="Runnable" seed="1337834482" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.001324" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1283" name="Place_EndsShaftAtCrownBase" fullname="Game.Tests.EditMode.SummitTests.Place_EndsShaftAtCrownBase" methodname="Place_EndsShaftAtCrownBase" classname="Game.Tests.EditMode.SummitTests" runstate="Runnable" seed="2004166044" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000272" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1284" name="Place_HidesPiecesAboveCrownBase_AndShowsThoseBelow" fullname="Game.Tests.EditMode.SummitTests.Place_HidesPiecesAboveCrownBase_AndShowsThoseBelow" methodname="Place_HidesPiecesAboveCrownBase_AndShowsThoseBelow" classname="Game.Tests.EditMode.SummitTests" runstate="Runnable" seed="1320049512" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000443" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1282" name="Place_PutsSurfaceAtFinishPlusLip_AndCrownBaseBelowIt" fullname="Game.Tests.EditMode.SummitTests.Place_PutsSurfaceAtFinishPlusLip_AndCrownBaseBelowIt" methodname="Place_PutsSurfaceAtFinishPlusLip_AndCrownBaseBelowIt" classname="Game.Tests.EditMode.SummitTests" runstate="Runnable" seed="1483655256" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000239" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1285" name="Place_ReappliesForLowerAndHigherFinish" fullname="Game.Tests.EditMode.SummitTests.Place_ReappliesForLowerAndHigherFinish" methodname="Place_ReappliesForLowerAndHigherFinish" classname="Game.Tests.EditMode.SummitTests" runstate="Runnable" seed="2019538220" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000288" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1286" name="PlayingFromMenu_UsesMotorFinishHeight_ButResumeKeepsIt" fullname="Game.Tests.EditMode.SummitTests.PlayingFromMenu_UsesMotorFinishHeight_ButResumeKeepsIt" methodname="PlayingFromMenu_UsesMotorFinishHeight_ButResumeKeepsIt" classname="Game.Tests.EditMode.SummitTests" runstate="Runnable" seed="71035979" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000273" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1288" name="SlideView_ReachesStandingPoseAfterItsDuration_AndHolds" fullname="Game.Tests.EditMode.SummitTests.SlideView_ReachesStandingPoseAfterItsDuration_AndHolds" methodname="SlideView_ReachesStandingPoseAfterItsDuration_AndHolds" classname="Game.Tests.EditMode.SummitTests" runstate="Runnable" seed="820152202" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000724" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1289" name="SlideView_RisesBeforeMovingInward" fullname="Game.Tests.EditMode.SummitTests.SlideView_RisesBeforeMovingInward" methodname="SlideView_RisesBeforeMovingInward" classname="Game.Tests.EditMode.SummitTests" runstate="Runnable" seed="1102882722" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000269" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1292" name="SlideView_SnapsBackOnPlayingOrMenu" fullname="Game.Tests.EditMode.SummitTests.SlideView_SnapsBackOnPlayingOrMenu" classname="Game.Tests.EditMode.SummitTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.001311" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1290" name="SlideView_SnapsBackOnPlayingOrMenu(Playing)" fullname="Game.Tests.EditMode.SummitTests.SlideView_SnapsBackOnPlayingOrMenu(Playing)" methodname="SlideView_SnapsBackOnPlayingOrMenu" classname="Game.Tests.EditMode.SummitTests" runstate="Runnable" seed="1638239891" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000391" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1291" name="SlideView_SnapsBackOnPlayingOrMenu(Menu)" fullname="Game.Tests.EditMode.SummitTests.SlideView_SnapsBackOnPlayingOrMenu(Menu)" methodname="SlideView_SnapsBackOnPlayingOrMenu" classname="Game.Tests.EditMode.SummitTests" runstate="Runnable" seed="271322019" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000248" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestFixture" id="1293" name="VictoryMathTests" fullname="Game.Tests.EditMode.VictoryMathTests" classname="Game.Tests.EditMode.VictoryMathTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.015838" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1299" name="ConfettiAlphaFadesToZeroAtLifetime" fullname="Game.Tests.EditMode.VictoryMathTests.ConfettiAlphaFadesToZeroAtLifetime" methodname="ConfettiAlphaFadesToZeroAtLifetime" classname="Game.Tests.EditMode.VictoryMathTests" runstate="Runnable" seed="75258022" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000131" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1298" name="FinalIsBiggerAndLongerThanIntermediate" fullname="Game.Tests.EditMode.VictoryMathTests.FinalIsBiggerAndLongerThanIntermediate" methodname="FinalIsBiggerAndLongerThanIntermediate" classname="Game.Tests.EditMode.VictoryMathTests" runstate="Runnable" seed="1854085808" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000276" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1296" name="HeadingReturnsToBaselineAtEnd" fullname="Game.Tests.EditMode.VictoryMathTests.HeadingReturnsToBaselineAtEnd" classname="Game.Tests.EditMode.VictoryMathTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000542" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1294" name="HeadingReturnsToBaselineAtEnd(False)" fullname="Game.Tests.EditMode.VictoryMathTests.HeadingReturnsToBaselineAtEnd(False)" methodname="HeadingReturnsToBaselineAtEnd" classname="Game.Tests.EditMode.VictoryMathTests" runstate="Runnable" seed="232545546" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000165" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1295" name="HeadingReturnsToBaselineAtEnd(True)" fullname="Game.Tests.EditMode.VictoryMathTests.HeadingReturnsToBaselineAtEnd(True)" methodname="HeadingReturnsToBaselineAtEnd" classname="Game.Tests.EditMode.VictoryMathTests" runstate="Runnable" seed="1760624948" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000039" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1297" name="HeadingStartsAtStartScaleAndOvershoots" fullname="Game.Tests.EditMode.VictoryMathTests.HeadingStartsAtStartScaleAndOvershoots" methodname="HeadingStartsAtStartScaleAndOvershoots" classname="Game.Tests.EditMode.VictoryMathTests" runstate="Runnable" seed="20511501" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.000068" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1300" name="ViewCelebrateStepAndStopRestoreHeadingAndClearConfetti" fullname="Game.Tests.EditMode.VictoryMathTests.ViewCelebrateStepAndStopRestoreHeadingAndClearConfetti" methodname="ViewCelebrateStepAndStopRestoreHeadingAndClearConfetti" classname="Game.Tests.EditMode.VictoryMathTests" runstate="Runnable" seed="165865750" result="Passed" start-time="2026-09-29 03:09:51Z" end-time="2026-09-29 03:09:51Z" duration="0.013873" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: /Users/hiago/Library/Application Support/DefaultCompany/Tower_Prototype/TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

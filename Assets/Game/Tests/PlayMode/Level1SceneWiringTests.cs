@@ -120,6 +120,32 @@ namespace Game.Tests.PlayMode
             yield break;
         }
 
+        // A control whose target graphic is not a raycast target never receives a tap (the HUD pause button once shipped that way).
+        [UnityTest]
+        public IEnumerator EverySelectable_HasARaycastTargetGraphic()
+        {
+            var problems = new List<string>();
+            int checkedSelectables = 0;
+
+            foreach (UnityEngine.UI.Selectable s in UnityEngine.Object.FindObjectsByType<UnityEngine.UI.Selectable>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            {
+                if (s.gameObject.scene != H.Scene)
+                {
+                    continue;
+                }
+
+                checkedSelectables++;
+                if (s.targetGraphic == null || !s.targetGraphic.raycastTarget)
+                {
+                    problems.Add(Path(s.transform));
+                }
+            }
+
+            Assert.Greater(checkedSelectables, 5, "suspiciously few Selectables found");
+            Assert.IsEmpty(problems, "Selectables that cannot be tapped:\n  " + string.Join("\n  ", problems));
+            yield break;
+        }
+
         private static void CheckComponent(Component c, List<string> problems)
         {
             for (Type type = c.GetType(); type != null && type != typeof(MonoBehaviour); type = type.BaseType)

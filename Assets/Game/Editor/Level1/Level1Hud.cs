@@ -65,9 +65,10 @@ namespace Game.Editor
             SceneBinding.Bind(hudView, "pauseButton", pauseButton.gameObject);
 
             // Only controls may intercept a touch; every other HUD graphic stays transparent to the full-screen climb hold.
+            // includeInactive: the panel is built hidden, and the default lookup skips inactive objects.
             foreach (Graphic graphic in hudPanel.GetComponentsInChildren<Graphic>(true))
             {
-                if (graphic.GetComponentInParent<Selectable>() == null)
+                if (graphic.GetComponentInParent<Selectable>(true) == null)
                 {
                     graphic.raycastTarget = false;
                 }
