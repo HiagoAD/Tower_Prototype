@@ -1,6 +1,6 @@
 # Bump events
 
-`/bump` is a typed command. The server says which polarity and which bump type; the game decides how far each type moves the climber (`BumpCatalog`).
+`/bump` is a typed command. The server says which polarity and which bump type; the game decides how far each type moves the climber (the `bumps` section of `GameSettings`).
 
 - Positive: gloves hit from below and lift the climber up. Card on the left edge (blue banner).
 - Negative: gloves hit from above and knock the climber down. Card on the right edge (orange banner). Never costs a hit point.
@@ -49,15 +49,15 @@ curl -X POST http://localhost:56789/bump -H "Content-Type: application/json" \
 curl -X POST http://localhost:56789/bump -d "polarity=positive&type=boxing&tag=TikTikBox"
 ```
 
-On a phone or emulator, forward the port first so a PC-side curl reaches the device: `adb forward tcp:56789 tcp:56789`.
+On a phone or emulator, forward the port first so a PC-side curl reaches the device: `adb forward tcp:56789 tcp:56789`. The port is `webhook.port` in `GameSettings`.
 
 ## Adding a bump type
 
-Data only, no code. Open `Assets/Game/Levels/BumpCatalog.asset` and add an entry to `types`:
+Data only, no code. Open `Assets/Game/Settings/GameSettings.asset` and add an entry to `bumps.types`:
 
 - `id`: what the server sends as `type`
 - `displayName`: card detail line (`<name>*1`)
 - `icon` and `iconTint`: card badge and burst projectiles
 - `liftBodyHeights` / `dropBodyHeights`: climber body heights (feet to head, `GameSession.hazardBodyHeight` world units) moved up by a positive bump / down by a negative one. The boxing type is 1 / 1. These are not scaled by the climb pace
 
-The scene builder only fills the catalog when it creates it, so rebuilding the scene never overwrites tuned values.
+The scene builder only fills the settings asset when it creates it, so rebuilding the scene never overwrites tuned values.

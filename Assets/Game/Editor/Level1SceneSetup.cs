@@ -32,14 +32,14 @@ namespace Game.Editor
 
             Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             (TextAsset[] levelFiles, LevelDefinition[] levels) = Level1Assets.LoadLevels();
-            var inputs = new Level1Inputs(gloveSprite, starSprite, impactClip, levelFiles, levels);
+            GameSettings settings = Level1Assets.LoadOrCreateSettings(gloveSprite);
+            var inputs = new Level1Inputs(gloveSprite, starSprite, impactClip, levelFiles, levels, settings);
             HazardVisualAssets hazard = Level1Assets.BuildHazardVisualAssets();
 
             Level1Environment.BuildLighting();
 
             // The climb pace scales level distances at runtime (see ClimbPace); build the tower and
             // sky tall enough for the fastest pace allowed, so changing it never needs a rebuild.
-            ClimbPace pace = Level1Assets.LoadOrCreatePace();
             float bodyHeight = Level1Layout.CharacterHeightToTowerDiameter * 2f * Level1Layout.TowerRadius();
             // Tower and sky are sized for the tallest level of the campaign.
             float climbTop = 0f;
@@ -56,14 +56,12 @@ namespace Game.Editor
             float cloudSpan = climbTop + Level1Layout.TowerHeadroom + 2f * Level1Layout.CloudMargin;
             float level1CloudSpan = level1Top + Level1Layout.TowerHeadroom + 2f * Level1Layout.CloudMargin;
             Level1Environment.BuildClouds(climbTop + Level1Layout.TowerHeadroom, Level1Layout.CloudCountFor(cloudSpan, level1CloudSpan));
-            PlayerBuildResult player = Level1Player.Build(tower);
-            float summitLip = Level1Wiring.BindPlayerMeasurements(pace, player);
-            BumpCatalog bumpCatalog = Level1Assets.LoadOrCreateBumpCatalog(gloveSprite);
-            GameFeatures features = Level1Assets.LoadOrCreateFeatures();
-            CameraBuildResult camera = Level1Camera.Build(player.Motor, player.Metrics.ChestHeight, pace);
+            PlayerBuildResult player = Level1Player.Build(tower, settings);
+            float summitLip = Level1Wiring.BindPlayerMeasurements(settings, player);
+            CameraBuildResult camera = Level1Camera.Build(player.Motor, player.Metrics.ChestHeight, settings);
 
-            GameSession session = Level1Wiring.BuildSession(inputs, hazard, pace, bumpCatalog, features, tower, player);
-            Level1Wiring.WireSessionConsumers(session, pace, level, tower, player, camera, summitLip);
+            GameSession session = Level1Wiring.BuildSession(inputs, hazard, tower, player);
+            Level1Wiring.WireSessionConsumers(session, settings, level, tower, player, camera, summitLip);
 
             Level1Ui.Build(uiKit, session, player.HitTarget, camera, inputs);
 

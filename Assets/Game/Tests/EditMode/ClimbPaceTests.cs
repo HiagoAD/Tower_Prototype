@@ -19,7 +19,8 @@ namespace Game.Tests.EditMode
         [Test]
         public void DistanceScale_MapsAuthoredSpeedToPacedWorldSpeed()
         {
-            ClimbPace pace = CreatePace(bodyHeightsPerSecond: 1.5f, bodyHeight: 2f);
+            GameSettings settings = CreateSettings(bodyHeightsPerSecond: 1.5f, bodyHeight: 2f);
+            ClimbPace pace = settings.pace;
             LevelDefinition level = CreateLevel();
             try
             {
@@ -30,7 +31,7 @@ namespace Game.Tests.EditMode
             }
             finally
             {
-                Object.DestroyImmediate(pace);
+                Object.DestroyImmediate(settings);
             }
         }
 
@@ -39,7 +40,7 @@ namespace Game.Tests.EditMode
         {
             var motorGo = new GameObject("Motor");
             var sessionGo = new GameObject("Session");
-            ClimbPace pace = CreatePace(bodyHeightsPerSecond: 1.5f, bodyHeight: 2f);
+            GameSettings settings = CreateSettings(bodyHeightsPerSecond: 1.5f, bodyHeight: 2f);
             LevelDefinition level = CreateLevel();
             var levelJson = new TextAsset(LevelJson);
             try
@@ -48,7 +49,8 @@ namespace Game.Tests.EditMode
                 GameSession session = sessionGo.AddComponent<GameSession>();
                 SetPrivate(session, "motor", motor);
                 SetLevelFiles(session, levelJson);
-                SetPrivate(session, "pace", pace);
+                SetPrivate(session, "settings", settings);
+                SetPrivate(motor, "settings", settings);
 
                 session.StartLevel();
 
@@ -70,7 +72,7 @@ namespace Game.Tests.EditMode
             {
                 Object.DestroyImmediate(sessionGo);
                 Object.DestroyImmediate(motorGo);
-                Object.DestroyImmediate(pace);
+                Object.DestroyImmediate(settings);
                 Object.DestroyImmediate(levelJson);
             }
         }
@@ -83,14 +85,14 @@ namespace Game.Tests.EditMode
             return LevelDefinition.FromJson(LevelJson);
         }
 
-        private static ClimbPace CreatePace(float bodyHeightsPerSecond, float bodyHeight)
+        private static GameSettings CreateSettings(float bodyHeightsPerSecond, float bodyHeight)
         {
-            var pace = ScriptableObject.CreateInstance<ClimbPace>();
-            var so = new SerializedObject(pace);
-            so.FindProperty("bodyHeightsPerSecond").floatValue = bodyHeightsPerSecond;
-            so.FindProperty("bodyHeight").floatValue = bodyHeight;
+            var settings = ScriptableObject.CreateInstance<GameSettings>();
+            var so = new SerializedObject(settings);
+            so.FindProperty("pace.bodyHeightsPerSecond").floatValue = bodyHeightsPerSecond;
+            so.FindProperty("pace.bodyHeight").floatValue = bodyHeight;
             so.ApplyModifiedPropertiesWithoutUndo();
-            return pace;
+            return settings;
         }
 
         private static void SetLevelFiles(Object target, Object value)

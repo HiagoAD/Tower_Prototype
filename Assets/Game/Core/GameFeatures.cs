@@ -1,14 +1,15 @@
+using System;
 using UnityEngine;
 
 namespace Game.Core
 {
     /// <summary>
     /// Features the brief describes but the reference game does not show, so both are off by default:
-    /// lives (running out ends the run) and the pause menu (a pause button and panel). Views read
-    /// these at runtime through GameSession, so toggling one needs no scene rebuild.
+    /// lives (running out ends the run) and the pause menu (a pause button and panel). A section of
+    /// GameSettings; views read it at runtime through GameSession, so toggling one needs no scene rebuild.
     /// </summary>
-    [CreateAssetMenu(menuName = "Tower/Game Features", fileName = "GameFeatures")]
-    public sealed class GameFeatures : ScriptableObject
+    [Serializable]
+    public sealed class GameFeatures
     {
         public const int MaxLives = 5;
 

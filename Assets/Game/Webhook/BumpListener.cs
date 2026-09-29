@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using Game.Core;
 
 [assembly: InternalsVisibleTo("Game.Tests.EditMode")]
 
@@ -91,7 +92,7 @@ namespace Game.Webhook
             }
         }
 
-        public BumpListener(int port = 56789)
+        public BumpListener(int port = WebhookSettings.DefaultPort)
         {
             _port = port;
         }

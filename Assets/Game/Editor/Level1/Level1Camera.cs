@@ -22,7 +22,7 @@ namespace Game.Editor
     /// <summary>Level 1's camera rig: follow, shake offset and the main camera.</summary>
     internal static class Level1Camera
     {
-        public static CameraBuildResult Build(PlayerMotor motor, float characterChestHeight, ClimbPace pace)
+        public static CameraBuildResult Build(PlayerMotor motor, float characterChestHeight, GameSettings settings)
         {
             // A level camera raised above the climber, so their chest sits Level1Layout.CharacterScreenHeightFraction
             // up from the bottom of the frame with a long run of tower overhead, as in ref.png. Raising
@@ -37,12 +37,12 @@ namespace Game.Editor
             var follow = rigGo.AddComponent<CameraFollow>();
             SceneBinding.Bind(follow, "target", motor);
             SceneBinding.Bind(follow, "offset", cameraOffset);
-            SceneBinding.Bind(follow, "pace", pace);
+            SceneBinding.Bind(follow, "settings", settings);
 
             var shakeGo = new GameObject("CameraShakeOffset");
             shakeGo.transform.SetParent(rigGo.transform, false);
             CameraShake shake = shakeGo.AddComponent<CameraShake>();
-            SceneBinding.Bind(shake, "magnitude", Level1Layout.CameraShakeMagnitude);
+            SceneBinding.Bind(shake, "settings", settings);
 
             var cameraGo = new GameObject("Main Camera", typeof(Camera), typeof(AudioListener));
             cameraGo.tag = "MainCamera";

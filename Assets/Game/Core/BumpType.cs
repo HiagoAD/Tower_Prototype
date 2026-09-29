@@ -5,7 +5,7 @@ namespace Game.Core
 {
     /// <summary>
     /// One kind of /bump the server can name: how it looks and how far it moves the climber. Data
-    /// only -- adding a type is a new entry in the BumpCatalog asset, no code.
+    /// only -- adding a type is a new entry under GameSettings.bumps, no code.
     /// </summary>
     [Serializable]
     public sealed class BumpType

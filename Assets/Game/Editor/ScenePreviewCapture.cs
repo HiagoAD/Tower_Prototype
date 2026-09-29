@@ -36,10 +36,9 @@ namespace Game.Editor
         private const int CycleFrames = 16;
         private const int CycleFrameInterval = 3; // 20 fps at the simulated 60
         private const float SimulationStep = 1f / 60f;
-        private const string ClimbPacePath = "Assets/Game/Levels/ClimbPace.asset";
-        private const string BumpCatalogPath = "Assets/Game/Levels/BumpCatalog.asset";
+        private const string SettingsPath = "Assets/Game/Settings/GameSettings.asset";
 
-        private static float _climbSpeed = 2.5f; // the paced world speed, read from ClimbPace when Capture starts
+        private static float _climbSpeed = 2.5f; // the paced world speed, read from the settings' pace when Capture starts
 
         private static readonly Vector2Int[] Resolutions = { new Vector2Int(1080, 2025), new Vector2Int(1080, 2520) };
 
@@ -50,8 +49,8 @@ namespace Game.Editor
             Directory.CreateDirectory(outDir);
 
             EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
-            var pace = AssetDatabase.LoadAssetAtPath<Game.Core.ClimbPace>(ClimbPacePath);
-            _climbSpeed = pace != null ? pace.WorldSpeed : 2.5f;
+            var settings = AssetDatabase.LoadAssetAtPath<GameSettings>(SettingsPath);
+            _climbSpeed = settings != null ? settings.pace.WorldSpeed : 2.5f;
 
             Camera camera = Camera.main;
             Transform player = GameObject.Find("Player").transform;
@@ -194,7 +193,7 @@ namespace Game.Editor
         private static void ShowEventCards(bool visible)
         {
             string[] tags = { "A very long sender tag here <size=900>x", "Anna_2077", "TikTikBox" };
-            BumpType boxing = AssetDatabase.LoadAssetAtPath<BumpCatalog>(BumpCatalogPath).types[0];
+            BumpType boxing = AssetDatabase.LoadAssetAtPath<GameSettings>(SettingsPath).bumps.types[0];
             foreach (EventFeedView feed in Object.FindObjectsByType<EventFeedView>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             {
                 var so = new SerializedObject(feed);
@@ -234,7 +233,7 @@ namespace Game.Editor
 
             const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
             typeof(BumpBurstView).GetMethod("Awake", flags).Invoke(view, null);
-            BumpType boxing = AssetDatabase.LoadAssetAtPath<BumpCatalog>(BumpCatalogPath).types[0];
+            BumpType boxing = AssetDatabase.LoadAssetAtPath<GameSettings>(SettingsPath).bumps.types[0];
             // Project the chest by viewport (the camera has no render size outside Render) into the canvas's local units.
             var hitTarget = (Transform)new SerializedObject(view).FindProperty("hitTarget").objectReferenceValue;
             var burstRoot = (RectTransform)new SerializedObject(view).FindProperty("burstRoot").objectReferenceValue;

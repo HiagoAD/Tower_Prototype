@@ -32,10 +32,10 @@ namespace Game.Tests.EditMode
 
         private static ClimbPace LoadPace()
         {
-            const string path = "Assets/Game/Levels/ClimbPace.asset";
-            var pace = AssetDatabase.LoadAssetAtPath<ClimbPace>(path);
-            Assert.IsNotNull(pace, "missing " + path);
-            return pace;
+            const string path = "Assets/Game/Settings/GameSettings.asset";
+            var settings = AssetDatabase.LoadAssetAtPath<GameSettings>(path);
+            Assert.IsNotNull(settings, "missing " + path);
+            return settings.pace;
         }
 
         [Test]

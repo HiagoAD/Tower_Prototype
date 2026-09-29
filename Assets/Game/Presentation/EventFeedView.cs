@@ -22,11 +22,12 @@ namespace Game.Presentation
         [SerializeField] private Text[] detailTexts;
         [SerializeField] private Image[] badgeIcons;
         [SerializeField] private Image[] badgeOutlines;
-        [SerializeField] private float lifetimeSeconds = 4f;
-        [SerializeField] private float fadeSeconds = 0.5f;
-        [SerializeField] private float popSeconds = 0.18f;
+        [Tooltip("Tuning asset; the hud section sets how long a card lives, fades and pops.")]
+        [SerializeField] private GameSettings settings;
 
         private const float PopStartScale = 1.12f;
+
+        private GameSettings Settings => GameSettings.OrDefaults(settings);
 
         private float[] _ages;
         private Vector3[] _baseScales;
@@ -146,6 +147,7 @@ namespace Game.Presentation
         private void Update()
         {
             // Cards hold still under the pause panel; on Won and Lost they keep fading.
+            HudSettings hud = Settings.hud;
             float dt = session.State == SessionState.Paused ? 0f : Time.unscaledDeltaTime;
             for (int i = 0; i < cards.Length; i++)
             {
@@ -155,10 +157,10 @@ namespace Game.Presentation
                 }
 
                 _ages[i] += dt;
-                float remaining = lifetimeSeconds - _ages[i];
-                cards[i].alpha = Mathf.Clamp01(remaining / fadeSeconds);
+                float remaining = hud.cardLifetimeSeconds - _ages[i];
+                cards[i].alpha = Mathf.Clamp01(remaining / hud.cardFadeSeconds);
 
-                float pop = Mathf.Clamp01(_ages[i] / popSeconds);
+                float pop = Mathf.Clamp01(_ages[i] / hud.cardPopSeconds);
                 cards[i].transform.localScale = _baseScales[i] * Mathf.Lerp(PopStartScale, 1f, pop);
 
                 if (remaining <= 0f)

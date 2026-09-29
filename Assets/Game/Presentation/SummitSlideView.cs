@@ -14,12 +14,10 @@ namespace Game.Presentation
         [SerializeField] private GameSession session;
         [Tooltip("Local offset from the climbing pose to the standing pose: up over the lip, then inward onto the top.")]
         [SerializeField] private Vector3 standOffset;
-        [Tooltip("Rotation about Y applied by the end of the slide (180 turns from facing the tower to facing the camera).")]
-        [SerializeField] private float endYawDegrees = 180f;
-        [SerializeField] private float slideSeconds = 0.8f;
-        [Tooltip("Share of the slide spent rising before the inward move starts, so the climber clears the lip first.")]
-        [Range(0f, 0.9f)]
-        [SerializeField] private float riseFirstFraction = 0.4f;
+        [Tooltip("Tuning asset; the summit section sets the slide's duration, turn and rise-first share.")]
+        [SerializeField] private GameSettings settings;
+
+        private GameSettings Settings => GameSettings.OrDefaults(settings);
 
         private bool _sliding;
         private float _elapsed;
@@ -74,15 +72,17 @@ namespace Game.Presentation
             }
 
             _elapsed += dt;
+            float slideSeconds = Settings.summit.slideSeconds;
             Apply(slideSeconds > 0f ? Mathf.Clamp01(_elapsed / slideSeconds) : 1f);
         }
 
         private void Apply(float t)
         {
             float rise = Smooth(t);
-            float across = Smooth(Mathf.InverseLerp(riseFirstFraction, 1f, t));
+            SummitSettings summit = Settings.summit;
+            float across = Smooth(Mathf.InverseLerp(summit.riseFirstFraction, 1f, t));
             transform.localPosition = new Vector3(standOffset.x * across, standOffset.y * rise, standOffset.z * across);
-            transform.localRotation = Quaternion.Euler(0f, endYawDegrees * Smooth(t), 0f);
+            transform.localRotation = Quaternion.Euler(0f, summit.endYawDegrees * Smooth(t), 0f);
         }
 
         private static float Smooth(float t)

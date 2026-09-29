@@ -1,3 +1,4 @@
+using Game.Core;
 using UnityEngine;
 
 namespace Game.Gameplay
@@ -5,7 +6,8 @@ namespace Game.Gameplay
     /// <summary>Child-transform shake offset. Never touches the follow target's own position.</summary>
     public sealed class CameraShake : MonoBehaviour
     {
-        [SerializeField] private float magnitude = 0.35f;
+        [Tooltip("GameSettings.camera holds the shake magnitude. Without it the built-in defaults apply.")]
+        [SerializeField] private GameSettings settings;
 
         private float _timer;
         private float _duration;
@@ -46,7 +48,7 @@ namespace Game.Gameplay
 
             _timer -= Time.deltaTime;
             float falloff = Mathf.Clamp01(_timer / Mathf.Max(_duration, 0.0001f));
-            transform.localPosition = (Vector3)(Random.insideUnitCircle * magnitude * falloff);
+            transform.localPosition = (Vector3)(Random.insideUnitCircle * GameSettings.OrDefaults(settings).camera.shakeMagnitude * falloff);
         }
     }
 }

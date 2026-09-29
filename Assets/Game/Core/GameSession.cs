@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Game.Gameplay;
 using Game.Webhook;
 using UnityEngine;
@@ -19,12 +20,8 @@ namespace Game.Core
         [SerializeField] private PlayerMotor motor;
         [Tooltip("The campaign, in play order. Main menu Start begins at the first.")]
         [SerializeField] private TextAsset[] levelFiles;
-        [Tooltip("Optional global climb pace; without it the level plays exactly as authored.")]
-        [SerializeField] private ClimbPace pace;
-        [Tooltip("Optional features the reference game does not show (lives, pause menu). Without it both are off.")]
-        [SerializeField] private GameFeatures features;
-        [Tooltip("Bump types and the defaults for fields a /bump request omits. Without it every bump is a default negative boxing bump.")]
-        [SerializeField] private BumpCatalog bumpCatalog;
+        [Tooltip("Every tuning value the game reads (pace, features, bump types, motor, webhook). Without it the built-in defaults apply.")]
+        [SerializeField] private GameSettings settings;
         [SerializeField] private GameObject hazardVisualPrefab;
         [SerializeField] private Material hazardActiveMaterial;
         [SerializeField] private Material hazardSafeMaterial;
@@ -36,15 +33,9 @@ namespace Game.Core
         // lift/drop distances are measured in. (Name kept: the scene binding serializes it.)
         [SerializeField] private float hazardBodyHeight = 2.7f;
 
-        [Tooltip("Seconds from an accepted bump to its glove impact, when the climber's move starts. BumpBurstView times its first glove's mid-flight to this.")]
-        [SerializeField] private float bumpImpactDelaySeconds = 0.275f;
-
-        // How far below a hazard band the knocked-back climber's head must end up, as a share of the body height.
-        private const float HazardClearanceToBodyHeight = 0.1f;
-
         private readonly System.Collections.Generic.List<HazardBand> _spawnedHazards = new System.Collections.Generic.List<HazardBand>();
         private BumpListener _listener;
-        private BumpCatalog _fallbackCatalog;
+        private bool _loggedEmptyCatalog;
 
         private volatile bool _accepting;
         private volatile int _levelInstanceId;
@@ -101,6 +92,9 @@ namespace Game.Core
             }
         }
 
+        /// <summary>The tuning asset, or the built-in defaults when none is assigned.</summary>
+        public GameSettings Settings => GameSettings.OrDefaults(settings);
+
         /// <summary>Authored-to-play distance factor for the current level (see ClimbPace).</summary>
         public float DistanceScale => _distanceScale;
 
@@ -108,11 +102,11 @@ namespace Game.Core
         public float BodyHeight => hazardBodyHeight;
 
         /// <summary>Delay between an accepted bump and its glove impact (the climber's move starting).</summary>
-        public float BumpImpactDelaySeconds => bumpImpactDelaySeconds;
+        public float BumpImpactDelaySeconds => Settings.motor.bumpImpactDelaySeconds;
 
-        public bool LivesEnabled => features != null && features.LivesEnabled;
+        public bool LivesEnabled => Settings.features.LivesEnabled;
 
-        public bool PauseMenuEnabled => features != null && features.PauseMenuEnabled;
+        public bool PauseMenuEnabled => Settings.features.PauseMenuEnabled;
 
         /// <summary>Lives left in this attempt; 0 whenever lives are disabled.</summary>
         public int Lives { get; private set; }
@@ -139,9 +133,11 @@ namespace Game.Core
 
         private void Awake()
         {
-            _listener = new BumpListener();
+            _listener = new BumpListener(Settings.webhook.port);
             _listener.StateProvider = () => (_accepting, _levelInstanceId);
-            _listener.KnownTypeIds = bumpCatalog != null ? bumpCatalog.KnownTypeIds() : null;
+            // The listener checks `type` on its worker threads against this copy of the ids; null (any id) while the catalog has none.
+            IReadOnlyCollection<string> typeIds = Settings.bumps.KnownTypeIds();
+            _listener.KnownTypeIds = typeIds.Count > 0 ? typeIds : null;
             _listener.Faulted += msg => Debug.LogWarning("[GameSession] listener error: " + msg);
         }
 
@@ -157,11 +153,6 @@ namespace Game.Core
 
         private void OnDestroy()
         {
-            if (_fallbackCatalog != null)
-            {
-                Destroy(_fallbackCatalog);
-            }
-
             _listener.Dispose();
         }
 
@@ -215,7 +206,7 @@ namespace Game.Core
 
                 // Nonlethal spectacle: never costs a life, never blocks continued play.
                 float bodyHeights = bump.Polarity == BumpPolarity.Positive ? bump.Type.liftBodyHeights : -bump.Type.dropBodyHeights;
-                motor.ApplyBump(bodyHeights * hazardBodyHeight, bumpImpactDelaySeconds);
+                motor.ApplyBump(bodyHeights * hazardBodyHeight, BumpImpactDelaySeconds);
                 BumpAccepted?.Invoke(bump);
             }
         }
@@ -223,10 +214,11 @@ namespace Game.Core
         /// <summary>Fills the fields the sender left out from the catalog defaults.</summary>
         private BumpEvent ResolveBump(BumpRequest request)
         {
-            BumpCatalog catalog = bumpCatalog != null && bumpCatalog.types.Length > 0 ? bumpCatalog : FallbackCatalog();
-            if (!catalog.TryGet(request.Command.TypeId, out BumpType type) && !catalog.TryGet(catalog.defaultTypeId, out type))
+            BumpCatalog catalog = Settings.bumps;
+            BumpType type = null;
+            if (!catalog.TryGet(request.Command.TypeId, out type) && !catalog.TryGet(catalog.defaultTypeId, out type))
             {
-                type = catalog.types[0];
+                type = FirstType(catalog);
             }
 
             return new BumpEvent(
@@ -236,17 +228,24 @@ namespace Game.Core
                 request.Command.Tag ?? catalog.fallbackTag);
         }
 
-        /// <summary>A scene without a BumpCatalog still plays: one boxing type on the catalog's own defaults. Logged once.</summary>
-        private BumpCatalog FallbackCatalog()
+        /// <summary>The catalog's first type. A catalog emptied in the Inspector still plays: one built-in boxing type, logged once.</summary>
+        private BumpType FirstType(BumpCatalog catalog)
         {
-            if (_fallbackCatalog == null)
+            foreach (BumpType candidate in catalog.types ?? System.Array.Empty<BumpType>())
             {
-                Debug.LogError("[GameSession] No BumpCatalog assigned; using a built-in boxing type.");
-                _fallbackCatalog = ScriptableObject.CreateInstance<BumpCatalog>();
-                _fallbackCatalog.types = new[] { new BumpType { id = _fallbackCatalog.defaultTypeId, displayName = "Boxing", liftBodyHeights = 1f, dropBodyHeights = 1f } };
+                if (candidate != null)
+                {
+                    return candidate;
+                }
             }
 
-            return _fallbackCatalog;
+            if (!_loggedEmptyCatalog)
+            {
+                _loggedEmptyCatalog = true;
+                Debug.LogError("[GameSession] GameSettings.bumps has no types; using a built-in boxing type.");
+            }
+
+            return new BumpType { id = catalog.defaultTypeId, displayName = "Boxing", liftBodyHeights = 1f, dropBodyHeights = 1f };
         }
 
         /// <summary>Begins the campaign at its first level (the main menu's Start).</summary>
@@ -275,7 +274,7 @@ namespace Game.Core
             _levelInstanceId++;
             _levelClock = 0f;
             // The pace scales the level's speed and every distance alike, so its timing is unchanged.
-            _distanceScale = pace != null ? pace.DistanceScaleFor(level) : 1f;
+            _distanceScale = Settings.pace.DistanceScaleFor(level);
             motor.DistanceScale = _distanceScale;
             motor.FinishHeight = level.finishHeight * _distanceScale;
             motor.ClimbSpeed = level.climbSpeed * _distanceScale;
@@ -287,7 +286,7 @@ namespace Game.Core
             SetState(SessionState.Playing);
             _accepting = true;
 
-            Lives = LivesEnabled ? features.StartingLives : 0;
+            Lives = LivesEnabled ? Settings.features.StartingLives : 0;
 
             LevelStarted?.Invoke();
             LivesChanged?.Invoke(Lives);
@@ -359,7 +358,7 @@ namespace Game.Core
             }
 
             // Invulnerable from a recent hit: no-op, matches short recovery window.
-            if (!motor.TryApplyHazardHit(bandHeight, hazardBodyHeight, hazardBodyHeight * HazardClearanceToBodyHeight) || !LivesEnabled)
+            if (!motor.TryApplyHazardHit(bandHeight, hazardBodyHeight, hazardBodyHeight * Settings.motor.hazardClearanceBodyHeights) || !LivesEnabled)
             {
                 return;
             }

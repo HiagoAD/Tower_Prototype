@@ -1,5 +1,4 @@
 using Game.Core;
-using Game.Gameplay;
 using Game.Presentation;
 using Game.Webhook;
 using UnityEditor.Events;
@@ -32,7 +31,7 @@ namespace Game.Editor
         /// controls hint, both event-card columns, the pause button, the lives row and the HudView that drives them. The panel is
         /// shrunk to Screen.safeArea so every top/bottom-anchored child clears a camera cutout.
         /// </summary>
-        public static GameObject Build(UiKit kit, RectTransform canvasRect, GameSession session, Sprite gloveSprite)
+        public static GameObject Build(UiKit kit, RectTransform canvasRect, GameSession session, GameSettings settings, Sprite gloveSprite)
         {
             GameObject hudPanel = UiKit.BuildPanel(canvasRect, "HudPanel");
             hudPanel.SetActive(false);
@@ -47,14 +46,15 @@ namespace Game.Editor
             Button pauseButton = BuildPauseButton(kit, hudPanel.transform, session);
             (GameObject livesRoot, GameObject[] lifeIcons) = BuildLives(hudPanel.transform);
 
-            BuildControlsHint(kit, hudPanel, session);
-            BuildEventFeed(hudPanel, session, gloveSprite, BumpPolarity.Positive);
-            BuildEventFeed(hudPanel, session, gloveSprite, BumpPolarity.Negative);
+            BuildControlsHint(kit, hudPanel, session, settings);
+            BuildEventFeed(hudPanel, session, settings, gloveSprite, BumpPolarity.Positive);
+            BuildEventFeed(hudPanel, session, settings, gloveSprite, BumpPolarity.Negative);
 
             var hudViewGo = new GameObject("HudView");
             hudViewGo.transform.SetParent(hudPanel.transform, false);
             HudView hudView = hudViewGo.AddComponent<HudView>();
             SceneBinding.Bind(hudView, "session", session);
+            SceneBinding.Bind(hudView, "settings", settings);
             SceneBinding.Bind(hudView, "progressFill", bar.Fill);
             SceneBinding.Bind(hudView, "progressMarker", bar.Marker);
             SceneBinding.Bind(hudView, "heightLabel", bar.HeightLabel);
@@ -199,7 +199,7 @@ namespace Game.Editor
         /// (layered orange flame banner, badge at the right end, text right-aligned). Each column has
         /// its own EventFeedView, which only shifts text, badge and alpha between the slots.
         /// </summary>
-        private static void BuildEventFeed(GameObject hudPanel, GameSession session, Sprite gloveSprite, BumpPolarity polarity)
+        private static void BuildEventFeed(GameObject hudPanel, GameSession session, GameSettings settings, Sprite gloveSprite, BumpPolarity polarity)
         {
             const int slotCount = 3;
             const float slotSpacing = 190f;
@@ -274,6 +274,7 @@ namespace Game.Editor
             feedGo.transform.SetParent(hudPanel.transform, false);
             EventFeedView feed = feedGo.AddComponent<EventFeedView>();
             SceneBinding.Bind(feed, "session", session);
+            SceneBinding.Bind(feed, "settings", settings);
             SceneBinding.Bind(feed, "polarity", polarity);
             SceneBinding.BindArray(feed, "cards", cards);
             SceneBinding.BindArray(feed, "senderTexts", senders);
@@ -316,13 +317,13 @@ namespace Game.Editor
 
         /// <summary>
         /// A short prompt laid out over ClimbInputSource's exact touch region
-        /// (ClimbInputSource.TouchRegionNormalizedHeight, not a copy of the value). No band graphic:
+        /// (settings.input.touchRegionNormalizedHeight, not a copy of the value). No band graphic:
         /// the reference frame is clean sky. Never a raycast target. Fades out once the player has
         /// climbed a little (see ControlsHintView).
         /// </summary>
-        private static void BuildControlsHint(UiKit kit, GameObject hudPanel, GameSession session)
+        private static void BuildControlsHint(UiKit kit, GameObject hudPanel, GameSession session, GameSettings settings)
         {
-            float regionFraction = ClimbInputSource.TouchRegionNormalizedHeight;
+            float regionFraction = settings.input.touchRegionNormalizedHeight;
 
             Text hintText = UiKit.AddText(hudPanel.transform, "ClimbHintText", "Hold below to climb - release to grip", 32, TextAnchor.LowerCenter,
                 new Vector2(0f, 20f), anchorMin: new Vector2(0f, 0f), anchorMax: new Vector2(1f, regionFraction), pivot: new Vector2(0.5f, 0f), sizeDelta: new Vector2(0f, 90f));
@@ -333,6 +334,7 @@ namespace Game.Editor
             hintViewGo.transform.SetParent(hudPanel.transform, false);
             ControlsHintView hintView = hintViewGo.AddComponent<ControlsHintView>();
             SceneBinding.Bind(hintView, "session", session);
+            SceneBinding.Bind(hintView, "settings", settings);
             SceneBinding.Bind(hintView, "hintText", hintText);
         }
     }

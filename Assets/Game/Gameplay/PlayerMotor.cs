@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Game.Core;
 using UnityEngine;
 
 namespace Game.Gameplay
@@ -10,30 +11,10 @@ namespace Game.Gameplay
     /// </summary>
     public sealed class PlayerMotor : MonoBehaviour
     {
-        [Tooltip("Hazard knockback distance in the level's authored units; scaled by DistanceScale.")]
-        [SerializeField] private float hitDisplacement = 1.5f;
+        [Tooltip("Hit, bump and invulnerability timings and distances (GameSettings.motor). Without it the built-in defaults apply.")]
+        [SerializeField] private GameSettings settings;
 
-        // A hit or bump never teleports the player -- it eases them to the new height (over
-        // knockbackSeconds for a hit, bumpMoveSeconds for a bump), then holds for regripSeconds
-        // before climb input is accepted again. Together they define ClimbLockoutSeconds /
-        // BumpLockoutSeconds, the single source of truth for how long input stays locked.
-        [SerializeField] private float knockbackSeconds = 0.35f;
-
-        [Tooltip("Duration of a webhook bump's eased move. Longer than a hazard knockback so the climber visibly travels on screen.")]
-        [SerializeField] private float bumpMoveSeconds = 0.6f;
-        [SerializeField] private float regripSeconds = 0.25f;
-
-        // Must never exceed ClimbLockoutSeconds: invulnerability exists so a hit can't be
-        // re-applied while the player is still being carried through the knockback/re-grip they
-        // can't yet respond to, not to grant free passage back through a still-active band. If this
-        // outlasts the lockout, a player who holds climb through the whole recovery would pass back
-        // through a still-red band for free (the G3 pass-through bug) -- StartDisplacement clamps
-        // against ClimbLockoutSeconds below so that can't happen even if this is misconfigured.
-        //
-        // Separately, IsInvulnerable is always true while the eased move is playing, so an upward
-        // bump that carries the climber through a hazard band costs no hit point, even on the
-        // move's final frame.
-        [SerializeField] private float invulnerabilitySeconds = 0.6f;
+        private MotorSettings Motor => GameSettings.OrDefaults(settings).motor;
 
         private float _invulnTimer;
         private float _lockoutTimer;
@@ -70,6 +51,8 @@ namespace Game.Gameplay
         /// <summary>Set by GameSession while paused. Freezes every timer below, not just movement.</summary>
         public bool Paused { get; set; }
 
+        // Always true while the eased move is playing, so an upward bump that carries the climber
+        // through a hazard band costs no hit point, even on the move's final frame.
         public bool IsInvulnerable => _invulnTimer > 0f || _knockbackActive;
 
         /// <summary>True only while the eased hit/bump displacement is actively playing.</summary>
@@ -87,10 +70,10 @@ namespace Game.Gameplay
         /// <summary>True from the moment a hit lands until climb input is accepted again (knockback + re-grip).</summary>
         public bool IsLockedOut => _lockoutTimer > 0f;
 
-        public float KnockbackSeconds => knockbackSeconds;
-        public float ClimbLockoutSeconds => knockbackSeconds + regripSeconds;
-        public float BumpMoveSeconds => bumpMoveSeconds;
-        public float BumpLockoutSeconds => bumpMoveSeconds + regripSeconds;
+        public float KnockbackSeconds => Motor.knockbackSeconds;
+        public float ClimbLockoutSeconds => Motor.knockbackSeconds + Motor.regripSeconds;
+        public float BumpMoveSeconds => Motor.bumpMoveSeconds;
+        public float BumpLockoutSeconds => Motor.bumpMoveSeconds + Motor.regripSeconds;
 
         public float NormalizedProgress => FinishHeight <= 0f ? 0f : Mathf.Clamp01(Height / FinishHeight);
 
@@ -160,7 +143,7 @@ namespace Game.Gameplay
         /// </summary>
         public bool TryApplyHit()
         {
-            return BeginHit(Mathf.Max(0f, Height - hitDisplacement * DistanceScale));
+            return BeginHit(Mathf.Max(0f, Height - Motor.hitDisplacement * DistanceScale));
         }
 
         /// <summary>
@@ -171,7 +154,7 @@ namespace Game.Gameplay
         /// </summary>
         public bool TryApplyHazardHit(float bandHeight, float bodyHeight, float clearance)
         {
-            float usual = Height - hitDisplacement * DistanceScale;
+            float usual = Height - Motor.hitDisplacement * DistanceScale;
             float clear = bandHeight - bodyHeight - clearance;
             return BeginHit(Mathf.Max(0f, Mathf.Min(Height, Mathf.Min(usual, clear))));
         }
@@ -226,12 +209,12 @@ namespace Game.Gameplay
         private void BeginBump(float worldDistance)
         {
             float from = _knockbackActive ? _knockbackTargetHeight : Height;
-            StartDisplacement(Mathf.Clamp(from + worldDistance, 0f, FinishHeight), bumpMoveSeconds, true);
+            StartDisplacement(Mathf.Clamp(from + worldDistance, 0f, FinishHeight), Motor.bumpMoveSeconds, true);
         }
 
         private void StartDisplacement(float targetHeight)
         {
-            StartDisplacement(targetHeight, knockbackSeconds, false);
+            StartDisplacement(targetHeight, Motor.knockbackSeconds, false);
         }
 
         private void StartDisplacement(float targetHeight, float moveSeconds, bool isBump)
@@ -243,10 +226,11 @@ namespace Game.Gameplay
             _moveSeconds = moveSeconds;
             _moveIsBump = isBump;
 
-            // Clamp against the lockout -- see the field comment above for why this must never be
-            // allowed to outlast it.
-            float lockout = moveSeconds + regripSeconds;
-            _invulnTimer = Mathf.Min(invulnerabilitySeconds, lockout);
+            // Invulnerability must never outlast the lockout: if it did, a player holding climb
+            // through the whole recovery would pass back through a still-red band for free (the G3
+            // pass-through bug), so a misconfigured value is clamped here.
+            float lockout = moveSeconds + Motor.regripSeconds;
+            _invulnTimer = Mathf.Min(Motor.invulnerabilitySeconds, lockout);
             _lockoutTimer = lockout;
         }
 

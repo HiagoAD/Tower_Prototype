@@ -61,7 +61,6 @@ namespace Game.Editor
         // floor is taken as this share of its measured height rather than its rim.
         public const float SummitLipToBodyHeight = 0.85f;
         public const float CrownStandSurfaceFraction = 0.8f;
-        public const float SummitSlideSeconds = 0.8f;
         // Win panel button, in menu-button slots below the screen centre: the standing climber
         // lands around 0.3-0.5 of the screen height up from the bottom, so the button sits below it.
         public const int WinButtonSlot = 4;
@@ -74,7 +73,6 @@ namespace Game.Editor
         public const int MaxCloudCount = 150;
         public const float CloudMargin = 10f * WorldScale; // cloud field extends this far above and below the climb, so the frame is never empty.
         public const float MainLightShadowDistance = 14f * WorldScale;
-        public const float CameraShakeMagnitude = 0.35f * WorldScale;
 
         // Fraction of the character's total (feet-to-head) bounds height used both for HitTarget
         // placement (glove burst aim) and the camera's chest-height framing.

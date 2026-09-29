@@ -27,6 +27,7 @@ namespace Game.Tests.EditMode
         private GameObject _motorGo;
         private GameObject _sessionGo;
         private TextAsset _level;
+        private GameSettings _settings;
         private BumpCatalog _catalog;
         private PlayerMotor _motor;
         private GameSession _session;
@@ -40,7 +41,8 @@ namespace Game.Tests.EditMode
             _motor = _motorGo.AddComponent<PlayerMotor>();
             _level = new TextAsset("{\"levelId\":1,\"displayName\":\"Test\",\"finishHeight\":30,\"climbSpeed\":2.5,\"hazards\":[]}");
 
-            _catalog = ScriptableObject.CreateInstance<BumpCatalog>();
+            _settings = ScriptableObject.CreateInstance<GameSettings>();
+            _catalog = _settings.bumps;
             _catalog.defaultPolarity = BumpPolarity.Negative;
             _catalog.defaultTypeId = "boxing";
             _catalog.fallbackTag = "Guest";
@@ -53,7 +55,8 @@ namespace Game.Tests.EditMode
             _session = _sessionGo.AddComponent<GameSession>();
             SetObjectReference(_session, "motor", _motor);
             SetArray(new SerializedObject(_session), "levelFiles", _level);
-            SetObjectReference(_session, "bumpCatalog", _catalog);
+            SettingsBinding.Bind(_session, _settings);
+            SettingsBinding.Bind(_motor, _settings);
             SetFloat(_session, "hazardBodyHeight", BodyHeight);
             typeof(GameSession).GetMethod("Awake", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(_session, null);
 
@@ -75,7 +78,7 @@ namespace Game.Tests.EditMode
             UnityEngine.Object.DestroyImmediate(_sessionGo);
             UnityEngine.Object.DestroyImmediate(_motorGo);
             UnityEngine.Object.DestroyImmediate(_level);
-            UnityEngine.Object.DestroyImmediate(_catalog);
+            UnityEngine.Object.DestroyImmediate(_settings);
         }
 
         [Test]
@@ -204,7 +207,7 @@ namespace Game.Tests.EditMode
         [Test]
         public void AcceptedBump_WaitsForTheImpactDelay_ThenMovesExactlyOneBodyHeight()
         {
-            SetFloat(_session, "bumpImpactDelaySeconds", 0.275f);
+            _settings.motor.bumpImpactDelaySeconds = 0.275f;
             Assert.AreEqual(0.275f, _session.BumpImpactDelaySeconds, 0.0001f);
             float start = _motor.Height;
 

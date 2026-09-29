@@ -18,7 +18,7 @@ namespace Game.Tests.EditMode
         private GameObject _motorGo;
         private GameObject _sessionGo;
         private TextAsset _level;
-        private GameFeatures _features;
+        private GameSettings _settings;
         private GameSession _session;
 
         [SetUp]
@@ -28,7 +28,7 @@ namespace Game.Tests.EditMode
             _sessionGo = new GameObject("Session");
             PlayerMotor motor = _motorGo.AddComponent<PlayerMotor>();
             _level = new TextAsset("{\"levelId\":1,\"displayName\":\"Test\",\"finishHeight\":30,\"climbSpeed\":2.5,\"hazards\":[]}");
-            _features = ScriptableObject.CreateInstance<GameFeatures>();
+            _settings = ScriptableObject.CreateInstance<GameSettings>();
             _session = _sessionGo.AddComponent<GameSession>();
             Bind("motor", p => p.objectReferenceValue = motor);
             Bind("levelFiles", p =>
@@ -44,11 +44,11 @@ namespace Game.Tests.EditMode
             Object.DestroyImmediate(_sessionGo);
             Object.DestroyImmediate(_motorGo);
             Object.DestroyImmediate(_level);
-            Object.DestroyImmediate(_features);
+            Object.DestroyImmediate(_settings);
         }
 
         [Test]
-        public void NullFeatures_BackgroundThenReturn_AutoResumes()
+        public void NullSettings_BackgroundThenReturn_AutoResumes()
         {
             _session.StartLevel();
             Background(true);
@@ -115,10 +115,10 @@ namespace Game.Tests.EditMode
 
         private void UseFeatures(bool pauseMenuEnabled)
         {
-            var so = new SerializedObject(_features);
-            so.FindProperty("pauseMenuEnabled").boolValue = pauseMenuEnabled;
+            var so = new SerializedObject(_settings);
+            so.FindProperty("features.pauseMenuEnabled").boolValue = pauseMenuEnabled;
             so.ApplyModifiedPropertiesWithoutUndo();
-            Bind("features", p => p.objectReferenceValue = _features);
+            Bind("settings", p => p.objectReferenceValue = _settings);
         }
 
         private void Bind(string field, System.Action<SerializedProperty> set)

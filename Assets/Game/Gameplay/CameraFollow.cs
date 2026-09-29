@@ -10,11 +10,10 @@ namespace Game.Gameplay
         [Tooltip("Optional. When set, the camera snaps to the climber on every level start and on return to the menu instead of gliding down from the previous run's height.")]
         [SerializeField] private GameSession session;
         [SerializeField] private Vector3 offset = new Vector3(0f, 1.5f, -12f);
-        [Tooltip("Follow rate at the tuned pace; scales with the climb pace so the camera trails by the same share of the climber at any speed.")]
-        [SerializeField] private float followLerp = 6f;
-        [SerializeField] private ClimbPace pace;
-        [Tooltip("Multiplies the follow rate while a webhook bump move plays, so the climber visibly travels on screen and the camera then catches up. Hazard hits are unaffected.")]
-        [Min(0.01f)] [SerializeField] private float bumpFollowFactor = 0.25f;
+        [Tooltip("Follow rates (GameSettings.camera) and the climb pace they scale with. Without it the built-in defaults apply.")]
+        [SerializeField] private GameSettings settings;
+
+        private GameSettings Settings => GameSettings.OrDefaults(settings);
 
         private void OnEnable()
         {
@@ -59,10 +58,10 @@ namespace Game.Gameplay
             }
 
             Vector3 desired = new Vector3(offset.x, target.Height + offset.y, offset.z);
-            float rate = followLerp * (pace != null ? pace.PresentationRate : 1f);
+            float rate = Settings.camera.followLerp * Settings.pace.PresentationRate;
             if (target.IsBumpMove)
             {
-                rate *= bumpFollowFactor;
+                rate *= Settings.camera.bumpFollowFactor;
             }
 
             transform.position = Vector3.Lerp(transform.position, desired, 1f - Mathf.Exp(-rate * Time.deltaTime));

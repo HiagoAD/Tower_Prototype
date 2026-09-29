@@ -1,3 +1,4 @@
+using Game.Core;
 using Game.Gameplay;
 using Game.Presentation;
 using UnityEditor;
@@ -54,10 +55,11 @@ namespace Game.Editor
         /// meshes, each pivoted at its own joint) and a chest-height HitTarget child for the glove burst
         /// to aim at.
         /// </summary>
-        public static PlayerBuildResult Build(TowerMetrics tower)
+        public static PlayerBuildResult Build(TowerMetrics tower, GameSettings settings)
         {
             GameObject playerGo = new GameObject("Player");
             PlayerMotor motor = playerGo.AddComponent<PlayerMotor>();
+            SceneBinding.Bind(motor, "settings", settings);
 
             GameObject characterPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(Level1Paths.CharacterFbx);
             Texture2D characterTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(Level1Paths.CharacterTexture);
@@ -68,6 +70,7 @@ namespace Game.Editor
             var slideGo = new GameObject("SummitSlide");
             slideGo.transform.SetParent(playerGo.transform, false);
             SummitSlideView slideView = slideGo.AddComponent<SummitSlideView>();
+            SceneBinding.Bind(slideView, "settings", settings);
 
             var visualGo = new GameObject("Visual");
             visualGo.transform.SetParent(slideGo.transform, false);
@@ -111,6 +114,7 @@ namespace Game.Editor
 
             ClimberPoseDriver poseDriver = visualGo.AddComponent<ClimberPoseDriver>();
             SceneBinding.Bind(poseDriver, "motor", motor);
+            SceneBinding.Bind(poseDriver, "settings", settings);
             SceneBinding.BindIfNotNull(poseDriver, "armLeft", armLeft);
             SceneBinding.BindIfNotNull(poseDriver, "armRight", armRight);
             SceneBinding.BindIfNotNull(poseDriver, "legLeft", legLeft);

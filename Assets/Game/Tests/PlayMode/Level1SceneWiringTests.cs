@@ -54,6 +54,72 @@ namespace Game.Tests.PlayMode
             yield break;
         }
 
+        // "One place": every component that tunes itself from GameSettings must point at the same shipped asset.
+        [UnityTest]
+        public IEnumerator EveryComponentWithSettings_ReferencesTheSameShippedGameSettingsAsset()
+        {
+            const string expectedPath = "Assets/Game/Settings/GameSettings.asset";
+            string[] expectedTypes =
+            {
+                "GameSession", "PlayerMotor", "ClimbInputSource", "CameraFollow", "CameraShake", "ClimberPoseDriver",
+                "BumpBurstView", "EventFeedView", "ControlsHintView", "HudView", "MenuView", "SummitSlideView",
+            };
+
+            Assembly gameAssembly = typeof(Game.Core.GameSession).Assembly;
+            var found = new HashSet<string>();
+            var problems = new List<string>();
+            UnityEngine.Object shared = null;
+
+            foreach (MonoBehaviour c in UnityEngine.Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            {
+                if (c == null || c.gameObject.scene != H.Scene || c.GetType().Assembly != gameAssembly)
+                {
+                    continue;
+                }
+
+                FieldInfo f = null;
+                for (Type type = c.GetType(); type != null && f == null; type = type.BaseType)
+                {
+                    f = type.GetField("settings", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+                }
+
+                if (f == null || f.FieldType != typeof(Game.Core.GameSettings))
+                {
+                    continue;
+                }
+
+                found.Add(c.GetType().Name);
+                var value = (UnityEngine.Object)f.GetValue(c);
+                string where = Path(c.transform) + " " + c.GetType().Name;
+                if (value == null)
+                {
+                    problems.Add(where + ".settings is null");
+                    continue;
+                }
+
+                shared = shared == null ? value : shared;
+                if (!ReferenceEquals(value, shared))
+                {
+                    problems.Add(where + ".settings is a different instance than " + shared.name);
+                }
+#if UNITY_EDITOR
+                string path = UnityEditor.AssetDatabase.GetAssetPath(value);
+                if (path != expectedPath)
+                {
+                    problems.Add(where + ".settings is '" + path + "', expected " + expectedPath);
+                }
+#endif
+            }
+
+            foreach (string name in expectedTypes)
+            {
+                Assert.IsTrue(found.Contains(name), name + " has no 'settings' field bound in Level1");
+            }
+
+            Assert.IsEmpty(problems, "GameSettings must be one shared asset:\n  " + string.Join("\n  ", problems));
+            yield break;
+        }
+
         private static void CheckComponent(Component c, List<string> problems)
         {
             for (Type type = c.GetType(); type != null && type != typeof(MonoBehaviour); type = type.BaseType)

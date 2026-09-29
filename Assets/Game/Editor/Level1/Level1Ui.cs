@@ -25,7 +25,7 @@ namespace Game.Editor
             Button startButton = AddMenuButton(kit, mainMenuPanel.transform, "StartButton", "Start", 0, primary: true);
             UnityEventTools.AddPersistentListener(startButton.onClick, session.StartCampaign);
 
-            GameObject hudPanel = Level1Hud.Build(kit, canvasRect, session, inputs.GloveSprite);
+            GameObject hudPanel = Level1Hud.Build(kit, canvasRect, session, inputs.Settings, inputs.GloveSprite);
 
             GameObject pausePanel = BuildMenuPanel(kit, canvasRect, "PausePanel", "PAUSED");
             pausePanel.SetActive(false);
@@ -63,7 +63,7 @@ namespace Game.Editor
             SceneBinding.Bind(menuView, "losePanel", losePanel);
             SceneBinding.Bind(menuView, "winPanel", winPanel);
             SceneBinding.Bind(menuView, "finalWinPanel", finalWinPanel);
-            SceneBinding.Bind(menuView, "winPanelDelaySeconds", Level1Layout.SummitSlideSeconds);
+            SceneBinding.Bind(menuView, "settings", inputs.Settings);
 
             Level1Burst.Build(canvasGo.transform, session, hitTarget, camera, inputs);
         }

@@ -1,3 +1,4 @@
+using Game.Core;
 using Game.Gameplay;
 using NUnit.Framework;
 using UnityEngine;
@@ -11,12 +12,15 @@ namespace Game.Tests.EditMode
 
         private GameObject _go;
         private PlayerMotor _motor;
+        private GameSettings _settings;
 
         [SetUp]
         public void SetUp()
         {
+            _settings = ScriptableObject.CreateInstance<GameSettings>();
             _go = new GameObject("Motor");
             _motor = _go.AddComponent<PlayerMotor>();
+            SettingsBinding.Bind(_motor, _settings);
             _motor.FinishHeight = 30f;
             _motor.ClimbSpeed = 2.5f;
         }
@@ -25,6 +29,7 @@ namespace Game.Tests.EditMode
         public void TearDown()
         {
             Object.DestroyImmediate(_go);
+            Object.DestroyImmediate(_settings);
         }
 
         private void RunFor(float seconds)
@@ -110,9 +115,7 @@ namespace Game.Tests.EditMode
         [Test]
         public void UpwardBump_CrossingBandOnItsLastStep_CostsNoHitPoint_EvenWithShortInvulnerability()
         {
-            var so = new UnityEditor.SerializedObject(_motor);
-            so.FindProperty("invulnerabilitySeconds").floatValue = 0.05f;
-            so.ApplyModifiedPropertiesWithoutUndo();
+            _settings.motor.invulnerabilitySeconds = 0.05f;
             var hits = 0;
             const float bandHeight = 11.9999f; // just under the 12 target: only the final eased steps reach it.
             _motor.HeightChanged += (previous, next) =>

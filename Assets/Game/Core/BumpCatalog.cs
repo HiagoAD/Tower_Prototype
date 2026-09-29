@@ -7,11 +7,11 @@ namespace Game.Core
 {
     /// <summary>
     /// The bump types the game knows and the defaults applied to a /bump request that leaves a
-    /// field out. The server says which polarity and type; this asset says how far each type moves
-    /// the climber.
+    /// field out. The server says which polarity and type; this section of GameSettings says how far
+    /// each type moves the climber.
     /// </summary>
-    [CreateAssetMenu(menuName = "Tower/Bump Catalog", fileName = "BumpCatalog")]
-    public sealed class BumpCatalog : ScriptableObject
+    [Serializable]
+    public sealed class BumpCatalog
     {
         [Tooltip("Polarity used when a request omits it. Negative keeps a bare POST /bump the full glove burst the brief asks for.")]
         public BumpPolarity defaultPolarity = BumpPolarity.Negative;
@@ -23,16 +23,20 @@ namespace Game.Core
         public string fallbackTag = "Guest";
 
         [Tooltip("Every bump type the server may name.")]
-        public BumpType[] types = Array.Empty<BumpType>();
+        public BumpType[] types =
+        {
+            new BumpType { id = "boxing", displayName = "Boxing", iconTint = new Color(0.9f, 0.08f, 0.08f, 1f), liftBodyHeights = 1f, dropBodyHeights = 1f },
+        };
 
-        private void OnValidate()
+        /// <summary>Called from GameSettings.OnValidate: warns about a type id used twice.</summary>
+        internal void WarnOnDuplicateIds(UnityEngine.Object context)
         {
             var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             foreach (BumpType type in types ?? Array.Empty<BumpType>())
             {
                 if (type != null && !string.IsNullOrEmpty(type.id) && !seen.Add(type.id))
                 {
-                    Debug.LogWarning("[BumpCatalog] Duplicate bump type id '" + type.id + "'; only the first entry is used.", this);
+                    Debug.LogWarning("[BumpCatalog] Duplicate bump type id '" + type.id + "'; only the first entry is used.", context);
                 }
             }
         }

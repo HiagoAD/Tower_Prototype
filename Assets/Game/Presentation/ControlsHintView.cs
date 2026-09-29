@@ -13,8 +13,10 @@ namespace Game.Presentation
     {
         [SerializeField] private GameSession session;
         [SerializeField] private Graphic hintText;
-        [SerializeField] private float fadeStartHeight = 1.5f;
-        [SerializeField] private float fadeDistance = 2.5f;
+        [Tooltip("Tuning asset; the hud section sets where the hint fades out.")]
+        [SerializeField] private GameSettings settings;
+
+        private GameSettings Settings => GameSettings.OrDefaults(settings);
 
         private float _textBaseAlpha;
 
@@ -41,7 +43,8 @@ namespace Game.Presentation
 
         private void OnHeightUpdated(float height, float finishHeight)
         {
-            float t = fadeDistance > 0f ? Mathf.Clamp01((height - fadeStartHeight) / fadeDistance) : (height > fadeStartHeight ? 1f : 0f);
+            HudSettings hud = Settings.hud;
+            float t = hud.hintFadeDistance > 0f ? Mathf.Clamp01((height - hud.hintFadeStartHeight) / hud.hintFadeDistance) : (height > hud.hintFadeStartHeight ? 1f : 0f);
             float multiplier = 1f - t;
 
             SetAlpha(hintText, _textBaseAlpha * multiplier);

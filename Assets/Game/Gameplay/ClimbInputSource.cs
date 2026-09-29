@@ -1,3 +1,4 @@
+using Game.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -12,15 +13,9 @@ namespace Game.Gameplay
     /// </summary>
     public sealed class ClimbInputSource : MonoBehaviour
     {
-        /// <summary>
-        /// Single source of truth for the bottom-of-screen climb touch region, as a fraction of
-        /// Screen.height. The controls hint visual (see Level1SceneSetup) reads this same constant
-        /// so its drawn band can never drift out of sync with the actual input region below.
-        /// </summary>
-        public const float TouchRegionNormalizedHeight = 0.35f;
-
         [SerializeField] private PlayerMotor motor;
-        [Range(0f, 1f)][SerializeField] private float touchRegionNormalizedHeight = TouchRegionNormalizedHeight;
+        [Tooltip("GameSettings.input holds the bottom-of-screen climb touch region, which the controls hint is drawn from too. Without it the built-in defaults apply.")]
+        [SerializeField] private GameSettings settings;
 
         private void Update()
         {
@@ -50,7 +45,7 @@ namespace Game.Gameplay
                 }
 
                 Vector2 pos = touch.primaryTouch.position.ReadValue();
-                float regionPixels = Screen.height * touchRegionNormalizedHeight;
+                float regionPixels = Screen.height * GameSettings.OrDefaults(settings).input.touchRegionNormalizedHeight;
                 if (pos.y <= regionPixels)
                 {
                     return true;

@@ -16,8 +16,10 @@ namespace Game.Presentation
         [SerializeField] private GameObject pausePanel;
         [Tooltip("Shown when the run is lost (lives feature); its Continue retries the level.")]
         [SerializeField] private GameObject losePanel;
-        [Tooltip("Seconds after the win before its panel appears, so the climber's slide onto the summit plays first.")]
-        [SerializeField] private float winPanelDelaySeconds = 0.8f;
+        [Tooltip("Tuning asset; the win panel appears after the summit section's slideSeconds, so the climber's slide onto the summit plays first.")]
+        [SerializeField] private GameSettings settings;
+
+        private GameSettings Settings => GameSettings.OrDefaults(settings);
 
         private float _winDelayRemaining;
 
@@ -48,6 +50,7 @@ namespace Game.Presentation
 
         private void OnStateChanged(SessionState state)
         {
+            float winPanelDelaySeconds = Settings.summit.slideSeconds;
             _winDelayRemaining = state == SessionState.Won ? winPanelDelaySeconds : 0f;
             SetActive(mainMenuPanel, state == SessionState.Menu);
             SetActive(hudPanel, state == SessionState.Playing || state == SessionState.Paused);

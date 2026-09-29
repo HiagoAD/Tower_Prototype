@@ -30,8 +30,7 @@ namespace Game.Tests.EditMode
         private GameObject _sessionGo;
         private TextAsset _level1;
         private TextAsset _level2;
-        private GameFeatures _features;
-        private BumpCatalog _catalog;
+        private GameSettings _settings;
         private PlayerMotor _motor;
         private GameSession _session;
         private BumpListener _listener;
@@ -44,9 +43,8 @@ namespace Game.Tests.EditMode
             _motor = _motorGo.AddComponent<PlayerMotor>();
             _level1 = new TextAsset(LevelJson);
             _level2 = new TextAsset(LevelJson);
-            _features = ScriptableObject.CreateInstance<GameFeatures>();
-            _catalog = ScriptableObject.CreateInstance<BumpCatalog>();
-            _catalog.types = new[] { new BumpType { id = _catalog.defaultTypeId, displayName = "Boxing", liftBodyHeights = 1f, dropBodyHeights = 1f } };
+            _settings = ScriptableObject.CreateInstance<GameSettings>();
+            _settings.bumps.types = new[] { new BumpType { id = _settings.bumps.defaultTypeId, displayName = "Boxing", liftBodyHeights = 1f, dropBodyHeights = 1f } };
 
             _session = _sessionGo.AddComponent<GameSession>();
             Bind(_session, "motor", so => so.objectReferenceValue = _motor);
@@ -56,7 +54,8 @@ namespace Game.Tests.EditMode
                 so.GetArrayElementAtIndex(0).objectReferenceValue = _level1;
                 so.GetArrayElementAtIndex(1).objectReferenceValue = _level2;
             });
-            Bind(_session, "bumpCatalog", so => so.objectReferenceValue = _catalog);
+            SettingsBinding.Bind(_session, _settings);
+            SettingsBinding.Bind(_motor, _settings);
             Bind(_session, "hazardBodyHeight", so => so.floatValue = 2f);
             typeof(GameSession).GetMethod("Awake", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(_session, null);
 
@@ -75,19 +74,18 @@ namespace Game.Tests.EditMode
             Object.DestroyImmediate(_motorGo);
             Object.DestroyImmediate(_level1);
             Object.DestroyImmediate(_level2);
-            Object.DestroyImmediate(_features);
-            Object.DestroyImmediate(_catalog);
+            Object.DestroyImmediate(_settings);
         }
 
         [Test]
         public void GameFeatures_DefaultsAreOff_AndMaxLivesIsFive()
         {
-            var fresh = ScriptableObject.CreateInstance<GameFeatures>();
+            var fresh = ScriptableObject.CreateInstance<GameSettings>();
             try
             {
-                Assert.IsFalse(fresh.LivesEnabled);
-                Assert.IsFalse(fresh.PauseMenuEnabled);
-                Assert.AreEqual(3, fresh.StartingLives);
+                Assert.IsFalse(fresh.features.LivesEnabled);
+                Assert.IsFalse(fresh.features.PauseMenuEnabled);
+                Assert.AreEqual(3, fresh.features.StartingLives);
                 Assert.AreEqual(5, GameFeatures.MaxLives);
             }
             finally
@@ -97,8 +95,9 @@ namespace Game.Tests.EditMode
         }
 
         [Test]
-        public void NullFeatures_MeansBothOff_AndHazardHitsNeverCostLives()
+        public void NullSettings_MeansBothOff_AndHazardHitsNeverCostLives()
         {
+            Bind(_session, "settings", so => so.objectReferenceValue = null);
             _session.StartLevel();
             _motor.ResetState(10f);
 
@@ -315,12 +314,11 @@ namespace Game.Tests.EditMode
 
         private void UseFeatures(bool livesEnabled, int startingLives, bool pauseMenuEnabled)
         {
-            var so = new SerializedObject(_features);
-            so.FindProperty("livesEnabled").boolValue = livesEnabled;
-            so.FindProperty("startingLives").intValue = startingLives;
-            so.FindProperty("pauseMenuEnabled").boolValue = pauseMenuEnabled;
+            var so = new SerializedObject(_settings);
+            so.FindProperty("features.livesEnabled").boolValue = livesEnabled;
+            so.FindProperty("features.startingLives").intValue = startingLives;
+            so.FindProperty("features.pauseMenuEnabled").boolValue = pauseMenuEnabled;
             so.ApplyModifiedPropertiesWithoutUndo();
-            Bind(_session, "features", p => p.objectReferenceValue = _features);
         }
 
         private static void Bind(Object target, string field, System.Action<SerializedProperty> set)

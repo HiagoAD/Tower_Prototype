@@ -29,6 +29,7 @@ namespace Game.Editor
             gloveBurstGo.transform.SetParent(canvas, false);
             BumpBurstView gloveBurst = gloveBurstGo.AddComponent<BumpBurstView>();
             SceneBinding.Bind(gloveBurst, "session", session);
+            SceneBinding.Bind(gloveBurst, "settings", inputs.Settings);
             SceneBinding.Bind(gloveBurst, "burstRoot", burstRect);
             SceneBinding.Bind(gloveBurst, "flashImage", flashImage);
             SceneBinding.Bind(gloveBurst, "cameraShake", camera.Shake);

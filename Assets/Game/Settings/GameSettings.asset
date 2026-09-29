@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5c419b56f74441e4a069998f2d252aa, type: 3}
+  m_Name: GameSettings
+  m_EditorClassIdentifier: Game::Game.Core.GameSettings
+  features:
+    livesEnabled: 1
+    startingLives: 3
+    pauseMenuEnabled: 1
+  pace:
+    bodyHeightsPerSecond: 0.92
+    bodyHeight: 2.7250042
+  bumps:
+    defaultPolarity: 1
+    defaultTypeId: boxing
+    fallbackTag: Guest
+    types:
+    - id: boxing
+      displayName: Boxing
+      icon: {fileID: 21300000, guid: 7d0008652b6a6400dbdf2154fe492c8f, type: 3}
+      iconTint: {r: 0.9, g: 0.08, b: 0.08, a: 1}
+      liftBodyHeights: 1
+      dropBodyHeights: 1
+  motor:
+    hitDisplacement: 1.5
+    knockbackSeconds: 0.35
+    bumpMoveSeconds: 0.6
+    regripSeconds: 0.25
+    invulnerabilitySeconds: 0.6
+    bumpImpactDelaySeconds: 0.275
+    hazardClearanceBodyHeights: 0.1
+  input:
+    touchRegionNormalizedHeight: 0.35
+  camera:
+    followLerp: 6
+    bumpFollowFactor: 0.25
+    shakeMagnitude: 1.575
+  hud:
+    displayUnitsPerWorldUnit: 100
+    hintFadeStartHeight: 1.5
+    hintFadeDistance: 2.5
+    cardLifetimeSeconds: 4
+    cardFadeSeconds: 0.5
+    cardPopSeconds: 0.18
+  summit:
+    slideSeconds: 0.8
+    endYawDegrees: 180
+    riseFirstFraction: 0.4
+  burst:
+    gloveCount: 14
+    starCount: 16
+    durationSeconds: 1.3
+    gloveFlightSeconds: 0.55
+    gloveSize: 230
+    starSize: 90
+    flashSeconds: 0.3
+    glowSeconds: 0.45
+  pose:
+    gripOutward: 0.4
+    gripHigh: 0.95
+    gripLow: 0
+    reachDistance: 0.4
+    idleReachSeconds: 0.18
+    reachArcOutward: 0.25
+    reachArcAway: 0.35
+    swayDistance: 0.2
+    swayFrequency: 3
+    swayDamping: 0.45
+    rollDegreesPerSway: 6
+    twistDegrees: 8
+    grabYank: 1.2
+    yankFrequency: 3.5
+    yankDamping: 0.45
+    legHangDirection: {x: 0.1, y: -1, z: -0.05}
+    legPendulumFrequency: 1.6
+    legPendulumDamping: 0.3
+    hitPushDistance: 0.3
+    hitTiltDegrees: 14
+    hitFlailFrequency: 18
+    regripSeconds: 0.2
+    flailArmDirection: {x: 0.7, y: 0.75, z: -0.2}
+    winArmDirection: {x: 0.3, y: 1, z: 0.1}
+    loseArmDirection: {x: 0.5, y: -0.8, z: -0.4}
+    loseBodyTiltDegrees: 16
+    boostArmDirection: {x: 0.25, y: 1, z: 0.05}
+    boostLegDirection: {x: 0.08, y: -1, z: -0.18}
+  webhook:
+    port: 56789

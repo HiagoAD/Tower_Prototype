@@ -26,13 +26,13 @@ namespace Game.Presentation
         [Tooltip("Shown only when the pause menu feature is on.")]
         [SerializeField] private GameObject pauseButton;
 
-        // World units are small (a level is tens of units tall); the reference counts altitude in
-        // the thousands, so the readout is scaled for display only. It counts the level's authored
-        // units, so the numbers stay the same at any climb pace.
-        [SerializeField] private int displayUnitsPerWorldUnit = 100;
+        [Tooltip("Tuning asset; the hud section scales the altitude readout, which counts the level's authored units so the numbers stay the same at any climb pace.")]
+        [SerializeField] private GameSettings settings;
 
         // ref.png groups thousands with a dot ("6.162", "10.000").
         private static readonly NumberFormatInfo AltitudeFormat = new NumberFormatInfo { NumberDecimalSeparator = ",", NumberGroupSeparator = ".", NumberGroupSizes = new[] { 3 } };
+
+        private GameSettings Settings => GameSettings.OrDefaults(settings);
 
         private int _lastHeight = int.MinValue;
         private int _lastFinishHeight = int.MinValue;
@@ -85,7 +85,7 @@ namespace Game.Presentation
                 progressMarker.anchorMax = new Vector2(progressMarker.anchorMax.x, progress);
             }
 
-            float perWorldUnit = displayUnitsPerWorldUnit / Mathf.Max(session.DistanceScale, 0.0001f);
+            float perWorldUnit = Settings.hud.displayUnitsPerWorldUnit / Mathf.Max(session.DistanceScale, 0.0001f);
             int displayHeight = Mathf.RoundToInt(height * perWorldUnit);
             int displayFinish = Mathf.RoundToInt(finishHeight * perWorldUnit);
             if (displayHeight == _lastHeight && displayFinish == _lastFinishHeight)

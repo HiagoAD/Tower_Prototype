@@ -188,7 +188,7 @@ namespace Game.Tests.EditMode
             go.transform.SetParent(_root.transform, false);
             var view = go.AddComponent<SummitSlideView>();
             Set(view, "standOffset", offset);
-            Set(view, "slideSeconds", 0.8f);
+            // No settings bound: the view reads GameSettings.Defaults (summit.slideSeconds = 0.8).
             return view;
         }
 

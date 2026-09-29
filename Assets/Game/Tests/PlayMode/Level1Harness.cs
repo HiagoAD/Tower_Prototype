@@ -28,7 +28,7 @@ namespace Game.Tests.PlayMode
     {
         public const string ScenePath = "Assets/Game/Scenes/Level1.unity";
         public const string SceneName = "Level1";
-        public const int Port = 56789;
+        public const int Port = WebhookSettings.DefaultPort; // the shipped asset keeps the default port
 
         public GameSession Session { get; private set; }
         public PlayerMotor Motor { get; private set; }
@@ -38,9 +38,9 @@ namespace Game.Tests.PlayMode
         public Image Flash { get; private set; }
         public Scene Scene { get; private set; }
 
-        // In-memory GameFeatures created by UseFeatures; destroyed in Unload. The on-disk
-        // GameFeatures.asset is never touched (PlayMode edits to assets persist).
-        private GameFeatures _testFeatures;
+        // In-memory copy of the scene's GameSettings created by UseFeatures; destroyed in Unload. The
+        // on-disk GameSettings.asset is never touched (PlayMode edits to assets persist).
+        private GameSettings _testSettings;
 
         /// <summary>Loads Level1 (replacing whatever scene is loaded, which releases the listener port) and finds the components.</summary>
         public IEnumerator Load()
@@ -87,10 +87,10 @@ namespace Game.Tests.PlayMode
                 }
             }
 
-            if (_testFeatures != null)
+            if (_testSettings != null)
             {
-                UnityEngine.Object.Destroy(_testFeatures);
-                _testFeatures = null;
+                UnityEngine.Object.Destroy(_testSettings);
+                _testSettings = null;
             }
 
             yield return null;
@@ -102,23 +102,24 @@ namespace Game.Tests.PlayMode
         }
 
         /// <summary>
-        /// Rebinds the loaded scene's GameSession.features to a throwaway in-memory GameFeatures, so a
-        /// test can turn a flag on without touching the shipped asset. Call before PressStart: HudView
-        /// applies the flags when the HUD panel is enabled. Writes only the private serialized fields
-        /// of the scene instance and the in-memory object, by reflection (no SerializedObject, so it
-        /// works in a player too).
+        /// Rebinds the loaded scene's GameSession.settings to a throwaway in-memory copy of the shipped
+        /// GameSettings with the feature flags changed, so a test can turn a flag on or off without
+        /// touching the shipped asset. Only GameSession needs the copy: the views read the flags through
+        /// GameSession.LivesEnabled / PauseMenuEnabled, and every other tuning value is identical in the
+        /// copy. Call before PressStart: HudView applies the flags when the HUD panel is enabled. Writes
+        /// the private serialized fields by reflection (no SerializedObject, so it works in a player too).
         /// </summary>
         public void UseFeatures(bool livesEnabled, int startingLives, bool pauseMenuEnabled)
         {
-            if (_testFeatures == null)
+            if (_testSettings == null)
             {
-                _testFeatures = ScriptableObject.CreateInstance<GameFeatures>();
+                _testSettings = UnityEngine.Object.Instantiate(Session.Settings);
             }
 
-            WriteField(_testFeatures, "livesEnabled", livesEnabled);
-            WriteField(_testFeatures, "startingLives", startingLives);
-            WriteField(_testFeatures, "pauseMenuEnabled", pauseMenuEnabled);
-            WriteField(Session, "features", _testFeatures);
+            WriteField(_testSettings.features, "livesEnabled", livesEnabled);
+            WriteField(_testSettings.features, "startingLives", startingLives);
+            WriteField(_testSettings.features, "pauseMenuEnabled", pauseMenuEnabled);
+            WriteField(Session, "settings", _testSettings);
         }
 
         private static void WriteField(object target, string name, object value)

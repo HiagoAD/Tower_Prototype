@@ -12,7 +12,7 @@ namespace Game.Tests.PlayMode
     /// <summary>
     /// Lives and pause-menu features against the real Level1 scene (names as built by Level1Ui/Level1Hud).
     /// The shipped flags are asserted from the asset the scene is bound to; every other test binds a throwaway
-    /// in-memory GameFeatures through Level1Harness.UseFeatures, never the on-disk asset.
+    /// in-memory GameSettings copy through Level1Harness.UseFeatures, never the on-disk asset.
     /// </summary>
     public sealed class Level1FeatureTests : Level1PlayModeTestBase
     {
@@ -21,8 +21,8 @@ namespace Game.Tests.PlayMode
         [UnityTest]
         public IEnumerator Scene_HasFeaturePanelsButtonsAndHearts_BoundToTheSession()
         {
-            var features = Level1Harness.ReadField<GameFeatures>(H.Session, "features");
-            Assert.IsNotNull(features, "GameSession.features is unbound");
+            var settings = Level1Harness.ReadField<GameSettings>(H.Session, "settings");
+            Assert.IsNotNull(settings, "GameSession.settings is unbound");
 
             AssertButtonCalls(H.FindGameObject("PauseButton").GetComponent<Button>(), "Pause");
             AssertButtonCalls(H.FindButton("PausePanel", "ResumeButton"), "Resume");
@@ -50,10 +50,10 @@ namespace Game.Tests.PlayMode
         [UnityTest]
         public IEnumerator ShippedFlags_AreBothOn()
         {
-            var features = Level1Harness.ReadField<GameFeatures>(H.Session, "features");
-            Assert.IsNotNull(features, "GameSession.features is unbound");
-            Assert.IsTrue(features.LivesEnabled, "shipped GameFeatures.asset must have lives on");
-            Assert.IsTrue(features.PauseMenuEnabled, "shipped GameFeatures.asset must have the pause menu on");
+            var settings = Level1Harness.ReadField<GameSettings>(H.Session, "settings");
+            Assert.IsNotNull(settings, "GameSession.settings is unbound");
+            Assert.IsTrue(settings.features.LivesEnabled, "shipped GameSettings.asset must have lives on");
+            Assert.IsTrue(settings.features.PauseMenuEnabled, "shipped GameSettings.asset must have the pause menu on");
             Assert.IsTrue(H.Session.LivesEnabled);
             Assert.IsTrue(H.Session.PauseMenuEnabled);
             yield break;

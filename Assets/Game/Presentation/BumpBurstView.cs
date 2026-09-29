@@ -35,14 +35,12 @@ namespace Game.Presentation
         [SerializeField] private Sprite glowSprite;
         [SerializeField] private Transform hitTarget;
         [SerializeField] private Camera worldCamera;
-        [SerializeField] private int gloveCount = 14;
-        [SerializeField] private int starCount = 16;
-        [SerializeField] private float durationSeconds = 1.3f;
-        [SerializeField] private float gloveFlightSeconds = 0.55f;
-        [SerializeField] private float gloveSize = 230f;
-        [SerializeField] private float starSize = 90f;
+        [Tooltip("Tuning asset; the burst section sets its counts, sizes and timings.")]
+        [SerializeField] private GameSettings settings;
 
         private static readonly Color DefaultProjectileTint = new Color(0.9f, 0.08f, 0.08f, 1f);
+
+        private GameSettings Settings => GameSettings.OrDefaults(settings);
 
         private RectTransform[] _gloves;
         private Image[] _gloveFills;
@@ -244,6 +242,8 @@ namespace Game.Presentation
 
         private void BuildGloves()
         {
+            BurstSettings burst = Settings.burst;
+            int gloveCount = burst.gloveCount;
             _gloves = new RectTransform[gloveCount];
             _gloveFills = new Image[gloveCount];
             _gloveOutlines = new Image[gloveCount];
@@ -257,8 +257,8 @@ namespace Game.Presentation
                 glove.SetParent(burstRoot, false);
                 glove.sizeDelta = Vector2.zero;
 
-                _gloveOutlines[i] = CreateImage(glove, "Outline", gloveSprite, gloveSize * 1.12f, new Color(0.12f, 0.02f, 0.02f, 1f));
-                _gloveFills[i] = CreateImage(glove, "Glove", gloveSprite, gloveSize, DefaultProjectileTint);
+                _gloveOutlines[i] = CreateImage(glove, "Outline", gloveSprite, burst.gloveSize * 1.12f, new Color(0.12f, 0.02f, 0.02f, 1f));
+                _gloveFills[i] = CreateImage(glove, "Glove", gloveSprite, burst.gloveSize, DefaultProjectileTint);
 
                 // Fan the launch points along the bottom edge and up the lower sides, like the
                 // reference's glove fountain, so every glove crosses the character on its way out.
@@ -276,12 +276,14 @@ namespace Game.Presentation
 
         private void BuildStars()
         {
+            BurstSettings burst = Settings.burst;
+            int starCount = burst.starCount;
             _stars = new RectTransform[starCount];
             _starVelocities = new Vector2[starCount];
 
             for (int i = 0; i < starCount; i++)
             {
-                Image star = CreateImage(burstRoot, "Star" + i, starSprite, starSize, Color.white);
+                Image star = CreateImage(burstRoot, "Star" + i, starSprite, burst.starSize, Color.white);
                 _stars[i] = star.rectTransform;
 
                 float angle = (360f / starCount) * i + Random.Range(-12f, 12f);
@@ -307,20 +309,21 @@ namespace Game.Presentation
 
         private IEnumerator BurstRoutine()
         {
+            BurstSettings burst = Settings.burst;
             if (cameraShake != null)
             {
-                cameraShake.Shake(durationSeconds);
+                cameraShake.Shake(burst.durationSeconds);
             }
 
             // The session owns the impact time (it is when the climber's move starts). Shift the glove
             // schedule so the first glove is halfway through its flight -- at the character -- then.
             float impactTime = session.BumpImpactDelaySeconds;
-            float firstGloveMidFlight = _gloveDelays.Length > 0 ? Mathf.Min(_gloveDelays) + gloveFlightSeconds * 0.5f : 0f;
+            float firstGloveMidFlight = _gloveDelays.Length > 0 ? Mathf.Min(_gloveDelays) + burst.gloveFlightSeconds * 0.5f : 0f;
             float gloveShift = impactTime - firstGloveMidFlight;
             bool impacted = false;
 
             float t = 0f;
-            while (t < durationSeconds)
+            while (t < burst.durationSeconds)
             {
                 float dt = session.PlayDeltaTime;
                 if (dt <= 0f)
@@ -360,7 +363,7 @@ namespace Game.Presentation
         {
             for (int i = 0; i < _gloves.Length; i++)
             {
-                float u = (t - _gloveDelays[i]) / gloveFlightSeconds;
+                float u = (t - _gloveDelays[i]) / Settings.burst.gloveFlightSeconds;
                 bool flying = u >= 0f && u <= 1f;
                 _gloves[i].gameObject.SetActive(flying);
                 if (!flying)
@@ -381,13 +384,12 @@ namespace Game.Presentation
         /// <summary>White flash + expanding glow on the character, and a spray of spinning stars.</summary>
         private void UpdateImpact(float sinceImpact, Vector2 target)
         {
-            const float flashSeconds = 0.3f;
-            const float glowSeconds = 0.45f;
-            float starSeconds = Mathf.Max(0.05f, durationSeconds - 0.3f);
+            BurstSettings burst = Settings.burst;
+            float starSeconds = Mathf.Max(0.05f, burst.durationSeconds - 0.3f);
 
-            SetFlashAlpha(Mathf.Lerp(0.3f, 0f, sinceImpact / flashSeconds));
+            SetFlashAlpha(Mathf.Lerp(0.3f, 0f, sinceImpact / burst.flashSeconds));
 
-            float glowP = Mathf.Clamp01(sinceImpact / glowSeconds);
+            float glowP = Mathf.Clamp01(sinceImpact / burst.glowSeconds);
             _glow.gameObject.SetActive(glowP < 1f);
             _glow.anchoredPosition = target;
             _glow.localScale = Vector3.one * Mathf.Lerp(0.2f, 0.8f, 1f - (1f - glowP) * (1f - glowP));

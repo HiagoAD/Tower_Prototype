@@ -33,56 +33,11 @@ namespace Game.Presentation
         [SerializeField] private Transform legLeft;
         [SerializeField] private Transform legRight;
         [SerializeField] private Transform bodyRoot;
-        [Tooltip("Swing, yank and reach timings below are tuned at ClimbPace.TunedBodyHeightsPerSecond and scale with the pace.")]
-        [SerializeField] private ClimbPace pace;
+        [Tooltip("Tuning asset. The pose values are its pose section; swing, yank and reach timings scale with its pace section (ClimbPace.TunedBodyHeightsPerSecond).")]
+        [SerializeField] private GameSettings settings;
 
-        [Header("Grips (arm lengths, relative to the shoulder)")]
-        [Tooltip("How far out to the side each hand grips the tower.")]
-        [SerializeField] private float gripOutward = 0.4f;
-        [Tooltip("A new grip is taken this high above the shoulder.")]
-        [SerializeField] private float gripHigh = 0.95f;
-        [Tooltip("A planted hand lets go once its grip is this far above the shoulder (negative = below).")]
-        [SerializeField] private float gripLow = 0f;
-        [Tooltip("Climbed distance, in arm lengths, over which a reaching hand travels to its new grip.")]
-        [SerializeField] private float reachDistance = 0.4f;
-        [Tooltip("A hand caught mid-reach when the climber stops finishes its reach over this many seconds.")]
-        [SerializeField] private float idleReachSeconds = 0.18f;
-        [SerializeField] private float reachArcOutward = 0.25f;
-        [SerializeField] private float reachArcAway = 0.35f;
-
-        [Header("Body swing")]
-        [Tooltip("Sideways hang toward the hand holding alone, in arm lengths.")]
-        [SerializeField] private float swayDistance = 0.2f;
-        [SerializeField] private float swayFrequency = 3f;
-        [Range(0f, 1f)][SerializeField] private float swayDamping = 0.45f;
-        [SerializeField] private float rollDegreesPerSway = 6f;
-        [SerializeField] private float twistDegrees = 8f;
-        [Tooltip("Upward velocity given to the body on every grab, in arm lengths per second.")]
-        [SerializeField] private float grabYank = 1.2f;
-        [SerializeField] private float yankFrequency = 3.5f;
-        [Range(0f, 1f)][SerializeField] private float yankDamping = 0.45f;
-
-        [Header("Legs")]
-        [SerializeField] private Vector3 legHangDirection = new Vector3(0.1f, -1f, -0.05f);
-        [SerializeField] private float legPendulumFrequency = 1.6f;
-        [Range(0f, 1f)][SerializeField] private float legPendulumDamping = 0.3f;
-
-        [Header("Hit / recovery")]
-        [Tooltip("Body thrown back from the wall on a hit, in arm lengths.")]
-        [SerializeField] private float hitPushDistance = 0.3f;
-        [SerializeField] private float hitTiltDegrees = 14f;
-        [SerializeField] private float hitFlailFrequency = 18f;
-        [SerializeField] private float regripSeconds = 0.2f;
-
-        [Header("Override arm directions (x outward, y up, z into the tower)")]
-        [SerializeField] private Vector3 flailArmDirection = new Vector3(0.7f, 0.75f, -0.2f);
-        [SerializeField] private Vector3 winArmDirection = new Vector3(0.3f, 1f, 0.1f);
-        [SerializeField] private Vector3 loseArmDirection = new Vector3(0.5f, -0.8f, -0.4f);
-        [SerializeField] private float loseBodyTiltDegrees = 16f;
-        [Tooltip("Arms of the boosted pose, played during an upward bump move: raised overhead.")]
-        [SerializeField] private Vector3 boostArmDirection = new Vector3(0.25f, 1f, 0.05f);
-        [Tooltip("Legs of the boosted pose: hanging, trailing slightly behind the lift (x outward, y up, z into the tower).")]
-        [SerializeField] private Vector3 boostLegDirection = new Vector3(0.08f, -1f, -0.18f);
+        private GameSettings Settings => GameSettings.OrDefaults(settings);
+        private ClimberPoseSettings Pose => Settings.pose;
 
         private struct Limb
         {
@@ -177,7 +132,7 @@ namespace Game.Presentation
             }
 
             float dt = Mathf.Min(deltaTime, 0.05f);
-            _rate = pace != null ? pace.PresentationRate : 1f;
+            _rate = Settings.pace.PresentationRate;
             float deltaHeight = _hasLastHeight ? height - _lastHeight : 0f;
             _lastHeight = height;
             _hasLastHeight = true;
@@ -220,13 +175,13 @@ namespace Game.Presentation
             return transform.TransformPoint(arm.RestPivot).y;
         }
 
-        private float CycleLength => (gripHigh - gripLow) + reachDistance;
+        private float CycleLength => (Pose.gripHigh - Pose.gripLow) + Pose.reachDistance;
 
         /// <summary>Both hands holding, one high and the other half a cycle lower.</summary>
         private void SeedGrips()
         {
-            _handL = new Hand { GripY = ShoulderRestWorldY(_armL) + gripHigh * _armLength };
-            _handR = new Hand { GripY = ShoulderRestWorldY(_armR) + (gripHigh - CycleLength * 0.5f) * _armLength };
+            _handL = new Hand { GripY = ShoulderRestWorldY(_armL) + Pose.gripHigh * _armLength };
+            _handR = new Hand { GripY = ShoulderRestWorldY(_armR) + (Pose.gripHigh - CycleLength * 0.5f) * _armLength };
             _swayX = _swayVelocity = _yankY = _yankVelocity = _legX = _legVelocity = _twist = 0f;
             // A restart leaves nothing of the previous run: no win/flail blend, no stale regrip.
             _overrideWeight = 0f;
@@ -237,8 +192,8 @@ namespace Game.Presentation
         /// <summary>After a knockback, both hands grab fresh holds from wherever they flailed to.</summary>
         private void Regrip()
         {
-            StartTimedReach(ref _handL, _armL, gripHigh);
-            StartTimedReach(ref _handR, _armR, gripHigh - CycleLength * 0.5f);
+            StartTimedReach(ref _handL, _armL, Pose.gripHigh);
+            StartTimedReach(ref _handR, _armR, Pose.gripHigh - CycleLength * 0.5f);
         }
 
         private void StartTimedReach(ref Hand hand, Limb arm, float targetAboveShoulder)
@@ -248,7 +203,7 @@ namespace Game.Presentation
             hand.GripY = ShoulderRestWorldY(arm) + targetAboveShoulder * _armLength;
             hand.Progress = 0f;
             hand.Reaching = true;
-            hand.TimedReach = regripSeconds / _rate;
+            hand.TimedReach = Pose.regripSeconds / _rate;
         }
 
         private void StepHands(float climbed, float dt)
@@ -274,25 +229,25 @@ namespace Game.Presentation
                 if (climbed <= 0f && hand.TimedReach <= 0f)
                 {
                     // Stopped mid-reach: finish by time, onto a hold level with where the shoulder is now.
-                    hand.TimedReach = idleReachSeconds / _rate;
-                    hand.GripY = Mathf.Min(hand.GripY, shoulderY + gripHigh * _armLength);
+                    hand.TimedReach = Pose.idleReachSeconds / _rate;
+                    hand.GripY = Mathf.Min(hand.GripY, shoulderY + Pose.gripHigh * _armLength);
                 }
 
                 hand.Progress += hand.TimedReach > 0f
                     ? dt / hand.TimedReach
-                    : climbed / (reachDistance * _armLength);
+                    : climbed / (Pose.reachDistance * _armLength);
 
                 if (hand.Progress >= 1f)
                 {
                     hand.Reaching = false;
                     hand.TimedReach = 0f;
-                    _yankVelocity += grabYank * _rate * _armLength;
+                    _yankVelocity += Pose.grabYank * _rate * _armLength;
                 }
 
                 return;
             }
 
-            bool low = hand.GripY - shoulderY <= gripLow * _armLength;
+            bool low = hand.GripY - shoulderY <= Pose.gripLow * _armLength;
             if (climbed > 0f && low && !other.Reaching)
             {
                 hand.Reaching = true;
@@ -300,7 +255,7 @@ namespace Game.Presentation
                 hand.Progress = 0f;
                 hand.FromY = hand.GripY;
                 // Aim where the shoulder will be once the reach completes, so the new hold lands gripHigh above it.
-                hand.GripY = shoulderY + (reachDistance + gripHigh) * _armLength;
+                hand.GripY = shoulderY + (Pose.reachDistance + Pose.gripHigh) * _armLength;
             }
         }
 
@@ -321,11 +276,11 @@ namespace Game.Presentation
         {
             // Hang beneath whichever hand holds alone; centred when both hold.
             float hangSide = (_handL.Reaching ? 1f : 0f) - (_handR.Reaching ? 1f : 0f); // left reaching -> hang right (+x)
-            float swayTarget = knockedBack ? 0f : hangSide * swayDistance * _armLength;
-            Spring(ref _swayX, ref _swayVelocity, swayTarget, swayFrequency * _rate, swayDamping, dt);
-            Spring(ref _yankY, ref _yankVelocity, 0f, yankFrequency * _rate, yankDamping, dt);
-            Spring(ref _legX, ref _legVelocity, _swayX, legPendulumFrequency * _rate, legPendulumDamping, dt);
-            _twist = Mathf.Lerp(_twist, -hangSide * twistDegrees, 1f - Mathf.Exp(-dt * _rate / 0.08f));
+            float swayTarget = knockedBack ? 0f : hangSide * Pose.swayDistance * _armLength;
+            Spring(ref _swayX, ref _swayVelocity, swayTarget, Pose.swayFrequency * _rate, Pose.swayDamping, dt);
+            Spring(ref _yankY, ref _yankVelocity, 0f, Pose.yankFrequency * _rate, Pose.yankDamping, dt);
+            Spring(ref _legX, ref _legVelocity, _swayX, Pose.legPendulumFrequency * _rate, Pose.legPendulumDamping, dt);
+            _twist = Mathf.Lerp(_twist, -hangSide * Pose.twistDegrees, 1f - Mathf.Exp(-dt * _rate / 0.08f));
         }
 
         /// <summary>Damped spring, semi-implicit Euler in fixed substeps so it stays stable at fast paces and low frame rates.</summary>
@@ -349,7 +304,7 @@ namespace Game.Presentation
                 return;
             }
 
-            float roll = -rollDegreesPerSway * _swayX / Mathf.Max(swayDistance * _armLength, 0.0001f);
+            float roll = -Pose.rollDegreesPerSway * _swayX / Mathf.Max(Pose.swayDistance * _armLength, 0.0001f);
             Vector3 offset = new Vector3(_swayX, _yankY, 0f);
             Vector3 euler = new Vector3(0f, _twist, roll);
 
@@ -361,13 +316,13 @@ namespace Game.Presentation
             }
             else if (flailing)
             {
-                float flail = Mathf.Sin(Time.time * hitFlailFrequency);
-                offset = Vector3.Lerp(offset, new Vector3(0f, 0f, -hitPushDistance * _armLength), _overrideWeight);
-                euler = Vector3.Lerp(euler, new Vector3(-hitTiltDegrees, 0f, flail * rollDegreesPerSway), _overrideWeight);
+                float flail = Mathf.Sin(Time.time * Pose.hitFlailFrequency);
+                offset = Vector3.Lerp(offset, new Vector3(0f, 0f, -Pose.hitPushDistance * _armLength), _overrideWeight);
+                euler = Vector3.Lerp(euler, new Vector3(-Pose.hitTiltDegrees, 0f, flail * Pose.rollDegreesPerSway), _overrideWeight);
             }
             else if (_sessionState == SessionState.Lost)
             {
-                euler = Vector3.Lerp(euler, new Vector3(loseBodyTiltDegrees, 0f, 0f), _overrideWeight);
+                euler = Vector3.Lerp(euler, new Vector3(Pose.loseBodyTiltDegrees, 0f, 0f), _overrideWeight);
             }
 
             // In this transform's unscaled space, not the scaled/axis-converted FBX root's.
@@ -379,11 +334,11 @@ namespace Game.Presentation
 
         private void ApplyArms(bool flailing, bool boosted)
         {
-            Vector3 overrideDirection = boosted ? boostArmDirection
-                : flailing ? flailArmDirection
-                : _sessionState == SessionState.Won ? winArmDirection
-                : loseArmDirection;
-            float flail = flailing ? Mathf.Sin(Time.time * hitFlailFrequency) * 0.5f : 0f;
+            Vector3 overrideDirection = boosted ? Pose.boostArmDirection
+                : flailing ? Pose.flailArmDirection
+                : _sessionState == SessionState.Won ? Pose.winArmDirection
+                : Pose.loseArmDirection;
+            float flail = flailing ? Mathf.Sin(Time.time * Pose.hitFlailFrequency) * 0.5f : 0f;
             AimArm(_armL, _handL, overrideDirection + new Vector3(0f, flail, 0f));
             AimArm(_armR, _handR, overrideDirection - new Vector3(0f, flail, 0f));
         }
@@ -392,15 +347,15 @@ namespace Game.Presentation
         {
             // The hold is anchored to the gameplay root, not the body: the body sways, the hold does not.
             Vector3 shoulder = transform.InverseTransformPoint(arm.Transform.position);
-            float gripX = arm.RestPivot.x + arm.Side * gripOutward * _armLength;
+            float gripX = arm.RestPivot.x + arm.Side * Pose.gripOutward * _armLength;
             float gripY = HandWorldY(hand) - transform.position.y;
 
             float arc = hand.Reaching ? Mathf.Sin(Mathf.PI * Mathf.Clamp01(hand.Progress)) : 0f;
-            float dx = gripX - shoulder.x + arm.Side * reachArcOutward * arc * _armLength;
+            float dx = gripX - shoulder.x + arm.Side * Pose.reachArcOutward * arc * _armLength;
             float dy = gripY - shoulder.y;
             float minDepth = 0.2f * _armLength;
             float dz = Mathf.Sqrt(Mathf.Max(_armLength * _armLength - dx * dx - dy * dy, minDepth * minDepth))
-                - reachArcAway * arc * _armLength;
+                - Pose.reachArcAway * arc * _armLength;
 
             Vector3 gripDirection = new Vector3(dx, dy, dz).normalized;
             Vector3 overrideDirection = Mirror(overrideOutward, arm.Side).normalized;
@@ -411,7 +366,7 @@ namespace Game.Presentation
         {
             if (boosted)
             {
-                Vector3 hang = Vector3.Slerp(legHangDirection, boostLegDirection, _overrideWeight);
+                Vector3 hang = Vector3.Slerp(Pose.legHangDirection, Pose.boostLegDirection, _overrideWeight);
                 Aim(_legL, Mirror(hang, -1f));
                 Aim(_legR, hang);
                 return;
@@ -419,9 +374,9 @@ namespace Game.Presentation
 
             // The legs' pendulum lags the body's sway, so the feet trail out opposite it.
             float trail = (_legX - _swayX) / Mathf.Max(_legLength, 0.0001f);
-            float flail = flailing ? Mathf.Sin(Time.time * hitFlailFrequency) * 0.4f * _overrideWeight : 0f;
-            Aim(_legL, Mirror(legHangDirection, -1f) + new Vector3(trail, 0f, -flail));
-            Aim(_legR, legHangDirection + new Vector3(trail, 0f, flail));
+            float flail = flailing ? Mathf.Sin(Time.time * Pose.hitFlailFrequency) * 0.4f * _overrideWeight : 0f;
+            Aim(_legL, Mirror(Pose.legHangDirection, -1f) + new Vector3(trail, 0f, -flail));
+            Aim(_legR, Pose.legHangDirection + new Vector3(trail, 0f, flail));
         }
 
         private static Vector3 Mirror(Vector3 direction, float side)

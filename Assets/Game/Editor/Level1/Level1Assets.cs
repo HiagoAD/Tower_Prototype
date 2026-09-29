@@ -1,12 +1,11 @@
 using Game.Core;
 using Game.Gameplay;
-using Game.Webhook;
 using UnityEditor;
 using UnityEngine;
 
 namespace Game.Editor
 {
-    /// <summary>Inputs Level 1's builders share: art and audio loaded once, the parsed level, and the hazard assets.</summary>
+    /// <summary>Inputs Level 1's builders share: art and audio loaded once, the parsed levels, and the settings asset.</summary>
     internal readonly struct Level1Inputs
     {
         public readonly Sprite GloveSprite;
@@ -14,9 +13,11 @@ namespace Game.Editor
         public readonly AudioClip ImpactClip;
         public readonly TextAsset[] LevelFiles;
         public readonly LevelDefinition[] Levels;
+        public readonly GameSettings Settings;
 
-        public Level1Inputs(Sprite gloveSprite, Sprite starSprite, AudioClip impactClip, TextAsset[] levelFiles, LevelDefinition[] levels)
+        public Level1Inputs(Sprite gloveSprite, Sprite starSprite, AudioClip impactClip, TextAsset[] levelFiles, LevelDefinition[] levels, GameSettings settings)
         {
+            Settings = settings;
             GloveSprite = gloveSprite;
             StarSprite = starSprite;
             ImpactClip = impactClip;
@@ -136,65 +137,29 @@ namespace Game.Editor
             return (files, levels);
         }
 
-        /// <summary>Create-if-missing: an existing asset keeps its tuned pace across rebuilds; only its measured body height is rewritten.</summary>
-        public static ClimbPace LoadOrCreatePace()
-        {
-            var pace = AssetDatabase.LoadAssetAtPath<ClimbPace>(Level1Paths.ClimbPace);
-            if (pace == null)
-            {
-                pace = ScriptableObject.CreateInstance<ClimbPace>();
-                AssetDatabase.CreateAsset(pace, Level1Paths.ClimbPace);
-                AssetDatabase.SaveAssets();
-            }
-
-            return pace;
-        }
-
-        /// <summary>Create-if-missing and never rewritten: the feature toggles are the user's to set, and they survive rebuilds.</summary>
-        public static GameFeatures LoadOrCreateFeatures()
-        {
-            var features = AssetDatabase.LoadAssetAtPath<GameFeatures>(Level1Paths.GameFeatures);
-            if (features == null)
-            {
-                features = ScriptableObject.CreateInstance<GameFeatures>();
-                AssetDatabase.CreateAsset(features, Level1Paths.GameFeatures);
-                AssetDatabase.SaveAssets();
-            }
-
-            return features;
-        }
-
         /// <summary>
-        /// Create-if-missing, and only populated when newly created: tuned distances, added types and
-        /// changed defaults survive a scene rebuild. The boxing distances equal the old fixed hit
-        /// displacement (1.5), so a negative bump feels like the hit it replaced.
+        /// Create-if-missing, and only populated when newly created: every tuned value, added bump type
+        /// and changed default survives a scene rebuild. The builder only ever writes the measured
+        /// pace.bodyHeight (Level1Wiring.BindPlayerMeasurements). The default boxing distances equal
+        /// the old fixed hit displacement (1.5), so a negative bump feels like the hit it replaced.
         /// </summary>
-        public static BumpCatalog LoadOrCreateBumpCatalog(Sprite gloveSprite)
+        public static GameSettings LoadOrCreateSettings(Sprite gloveSprite)
         {
-            var catalog = AssetDatabase.LoadAssetAtPath<BumpCatalog>(Level1Paths.BumpCatalog);
-            if (catalog == null)
+            var settings = AssetDatabase.LoadAssetAtPath<GameSettings>(Level1Paths.GameSettings);
+            if (settings == null)
             {
-                catalog = ScriptableObject.CreateInstance<BumpCatalog>();
-                catalog.defaultPolarity = BumpPolarity.Negative;
-                catalog.defaultTypeId = "boxing";
-                catalog.fallbackTag = "Guest";
-                catalog.types = new[]
+                settings = ScriptableObject.CreateInstance<GameSettings>();
+                settings.bumps.types[0].icon = gloveSprite;
+                if (!AssetDatabase.IsValidFolder(Level1Paths.SettingsFolder))
                 {
-                    new BumpType
-                    {
-                        id = "boxing",
-                        displayName = "Boxing",
-                        icon = gloveSprite,
-                        iconTint = new Color(0.9f, 0.08f, 0.08f, 1f),
-                        liftBodyHeights = 1f,
-                        dropBodyHeights = 1f,
-                    },
-                };
-                AssetDatabase.CreateAsset(catalog, Level1Paths.BumpCatalog);
+                    AssetDatabase.CreateFolder("Assets/Game", "Settings");
+                }
+
+                AssetDatabase.CreateAsset(settings, Level1Paths.GameSettings);
                 AssetDatabase.SaveAssets();
             }
 
-            return catalog;
+            return settings;
         }
 
         /// <summary>
