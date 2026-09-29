@@ -28,7 +28,7 @@ Responses:
 
 Timing: an accepted bump does not move the climber at once. The move starts when the first glove lands, `GameSession.bumpImpactDelaySeconds` (0.275 s) after acceptance; `BumpBurstView` times its first glove's mid-flight to that same value. The climber then eases to the new height over `PlayerMotor.bumpMoveSeconds` (0.6 s, longer than a hazard's 0.35 s), and the camera follows at a quarter of its usual rate while the move plays (`CameraFollow.bumpFollowFactor`) so the movement is visible on screen. Input stays locked for `bumpMoveSeconds + regripSeconds`. A bump still waiting for its impact freezes while the game is paused and is dropped when a level starts or restarts. An upward bump plays a boosted pose (arms overhead); a downward one and hazard hits play the flail.
 
-When the app goes to the background the session pauses, so `/bump` answers `409 not_playing` instead of timing out; returning to the app resumes it (there is no pause UI).
+When the app goes to the background the session pauses, so `/bump` answers `409 not_playing` instead of timing out. With `pauseMenuEnabled` on (the shipped setting), returning shows the PAUSED panel and play resumes on Continue; with it off, returning resumes automatically.
 
 Stacking: a bump that arrives while an earlier bump is still easing adds its distance to that bump's target (two rapid +2 body-height bumps end 4 body heights up), clamped to the tower. Bumps always apply, even during a hit's invulnerability, and never cost a hit point. Long tags are cut to one line with an ellipsis; card text is plain, so markup such as `<size=900>` shows literally.
 

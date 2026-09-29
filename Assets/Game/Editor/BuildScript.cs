@@ -7,9 +7,22 @@ namespace Game.Editor
     public static class BuildScript
     {
         private const string ApkOutputPath = "Builds/Android/TowerPrototype.apk";
+        private const string ReleaseApkOutputPath = "Builds/Android/TowerPrototype-release.apk";
 
         [MenuItem("Tower/Build Android APK")]
         public static void BuildAndroid()
+        {
+            Build(ApkOutputPath, BuildOptions.Development | BuildOptions.AllowDebugging);
+        }
+
+        /// <summary>The delivery APK: no development overlay, profiler hooks or script debugging.</summary>
+        [MenuItem("Tower/Build Android APK (Release)")]
+        public static void BuildAndroidRelease()
+        {
+            Build(ReleaseApkOutputPath, BuildOptions.None);
+        }
+
+        private static void Build(string outputPath, BuildOptions buildOptions)
         {
             PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel25;
             PlayerSettings.Android.targetSdkVersion = AndroidSdkVersions.AndroidApiLevelAuto;
@@ -27,9 +40,9 @@ namespace Game.Editor
             var options = new BuildPlayerOptions
             {
                 scenes = scenes,
-                locationPathName = ApkOutputPath,
+                locationPathName = outputPath,
                 target = BuildTarget.Android,
-                options = BuildOptions.Development | BuildOptions.AllowDebugging,
+                options = buildOptions,
             };
 
             UnityEditor.Build.Reporting.BuildReport report = BuildPipeline.BuildPlayer(options);

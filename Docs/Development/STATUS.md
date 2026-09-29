@@ -730,3 +730,28 @@ The bump now plays a punch volley. The main impact punch still plays when the fi
 - The volley freezes with pause and stops on cancel.
 
 Validation: scene rebuilt and wiring check passed. **258/258 EditMode** (including 5 new `PunchVolleyTests`) and **22/22 PlayMode** passed (`evidence/feedback_volley_editmode.xml`, `feedback_volley_playmode.xml`). APK SHA-256 `8786e31715bb0642208c559c0677e7f6947eac772273cb839fd462d592e0b3c8`, installed on `0070013699`. Not yet listened to on device.
+
+
+### 2026-09-28 — G4/G5 closure (Claude, completing Codex's in-progress evaluation)
+
+**G4/G5 PASS**, on the user's report: "I've validate all the levels, we're getting short on time, lets move on". The user validated all five levels on the phone. This closure records that decision. The evidence below is what Codex and Claude executed.
+
+- **Build link.** The installed `base.apk` on moto g 5G plus `0070013699` (Android 11, arm64-v8a, 1080x2520) hashes to `8786e31715bb0642208c559c0677e7f6947eac772273cb839fd462d592e0b3c8`, the same as `Builds/Android/TowerPrototype.apk`. That source is commit `e64248e`. `ProjectSettings.asset` was re-saved 11 s after the build, but its content matches both the commit and its parent.
+- **Tests (Codex, same source):** 258/258 EditMode and 22/22 PlayMode passed (`evidence/feedback_volley_*.xml`).
+- **Device, touch only (Claude)** (`evidence/g45/`).
+  - A closed-loop controller injected real touch-down/up events through monkey's network mode and read hazard colours from screen captures.
+  - Main menu → Start. Level 1 won; Next advanced to Level 2, which was won in 28.5 s (`touch_win_L1.png`, `touch_win_L2.png`).
+  - On Level 3, lives ran out and GAME OVER → Continue retried the level (`touch_gameover_L3.png`). The losses came from the controller's own 0.5 s capture latency near closely spaced bands, not from a game fault. Hits cost one life each; the retry restarted the level.
+  - The run was stopped at the user's request after they validated all levels by hand.
+  - Pause panel (`menu.png`) and main menu (`main_menu.png`) captured by Codex.
+- **Not executed:** a separate five-minute performance capture, and a scripted pause/background cycle on this APK. Audio mix, haptics and effect strength are the user's judgment and are covered by their validation, not by new measurements here.
+
+Freeze: from here, only blocker fixes. G6/G7 work started: a `Tower → Build Android APK (Release)` entry point (no Development overlay or script debugging), README with engine version, asset licenses, `/bump` instructions and the `adb forward` / `adb reverse` explanation, and a stale pause note in BUMP_EVENTS corrected.
+
+Release APK built from this tree (`BuildScript.BuildAndroidRelease`, result Succeeded, 0 errors): `Builds/Android/TowerPrototype-release.apk`, 35.1 MB (the development APK is 139.1 MB), SHA-256 `80ae5c1cb491ec40227ed4eeef9bebd07770d60285115f0948a6d03d56697318`. Installed on `0070013699`. Device smoke test after the user unlocked the phone (the first attempt ran with the screen locked and is void). Frames are in `evidence/g45/release_smoke_sheet.png`:
+- `/bump` on the main menu → `409 not_playing`.
+- In Level 1: bare POST, bare GET and `?polarity=positive&tag=Viewer42` all → `200 accepted`, with resolved polarity negative/negative/positive.
+- No Development Build watermark.
+- The negative burst showed gloves, stars, flash and aberration. The positive burst lifted the climber to 451 with a green height tint and a `Viewer42` card.
+- A hold afterwards climbed normally to 627. All three lives survived the bumps; a later blind hold into an active band took one.
+- No Unity errors or crashes in logcat.
