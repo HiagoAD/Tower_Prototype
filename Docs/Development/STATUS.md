@@ -777,3 +777,5 @@ Release APK built from this tree (`BuildScript.BuildAndroidRelease`, result Succ
 ### 2026-09-29 — delivery video (user-recorded)
 
 The user recorded the §6.2 video on the device and shared it: https://drive.google.com/file/d/1cr_5mld6p29mh-v1Yg_5i94HKrBN_ZMF/view?usp=sharing. A signed-out request returned HTTP 200 with the file page for `Tower_Prototype.mp4` (video/mp4) and no request-access prompt. The video content was not reviewed here; the user recorded it. Link added to the README Deliverables section. Still open for G7: the APK download link and pushing the repository.
+
+APK link shared by the user: https://drive.google.com/file/d/13xm4jUDWHKTv1-0LccdMLTx-RZkPrUj7/view?usp=drive_link (`TowerPrototype.apk`). A signed-out download returned 35,122,328 bytes with SHA-256 `22cbf1966c10c5022b69258315c46b41ed77acd074c86bf79200b5f1daa44382`, the pause-fix release build installed and tested on the device. Added to the README. Remaining for G7: push the repository and confirm the evaluators can reach it.

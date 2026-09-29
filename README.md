@@ -4,6 +4,7 @@ A Unity reproduction of the *God Tower* reference: a blocky climber scales a sto
 
 ## Deliverables
 
+- **APK:** [TowerPrototype.apk](https://drive.google.com/file/d/13xm4jUDWHKTv1-0LccdMLTx-RZkPrUj7/view?usp=drive_link) (35.1 MB release build, signed with the debug key). SHA-256 `22cbf1966c10c5022b69258315c46b41ed77acd074c86bf79200b5f1daa44382`. Install with `adb install TowerPrototype.apk`.
 - **Video:** [Tower_Prototype.mp4](https://drive.google.com/file/d/1cr_5mld6p29mh-v1Yg_5i94HKrBN_ZMF/view?usp=sharing), recorded on a moto g 5G plus (Android 11). It shows the main menu, all five levels completed and the `/bump` event.
 - **Source:** this repository.
 
