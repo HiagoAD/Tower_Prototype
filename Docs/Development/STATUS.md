@@ -621,3 +621,36 @@ Follow-up the same evening: the user asked for both flags **on** in the shipped 
 At the user's request, every tuning value now comes from one asset, `Assets/Game/Settings/GameSettings.asset`. The asset has sections for features, pace, bump types, motor, input, camera, HUD, summit, burst, climber pose and webhook port. It replaces the separate ClimbPace, BumpCatalog and GameFeatures assets, which are deleted, plus about 60 tuning fields that lived on 14 components and two builder constants (CameraShakeMagnitude, SummitSlideSeconds). Before this change, tuning lived mostly as component field defaults that each scene rebuild copied from code, so a value tuned in the scene was lost on rebuild. The asset survives rebuilds; the builder writes only the measured body height. The win-panel delay and the summit slide now share `summit.slideSeconds`.
 
 Migration was lossless: every scene value equalled its code default except camera shake, which the builder derived as 0.35 × WorldScale 4.5 = 1.575, now its default. Pace 0.92, body height 2.725, the boxing type and its glove icon/tint, and the lives and pause flags (on) all carried over. Rebuilding over the existing asset left it byte-identical. `ClimbPace.bodyHeight` now defaults to 0 ("unmeasured"), which plays levels as authored, so a component without an asset behaves as before. The lead fixed two integration errors: a per-level bump-type refresh that threw in EditMode because the listener is only created in Awake (reverted to Awake-only, as before), and one test that still wrote the old delay field. Rerun in the Editor: **191/191 EditMode, 22/22 PlayMode passed**, including new `GameSettingsTests` (pinned defaults) and a wiring test requiring every Level1 component to reference the one shipped asset. No Android build or device run.
+
+
+### 2026-09-28 — Unused asset cleanup (Codex, user-requested)
+
+Removed the unused template `Assets/Scenes/SampleScene.unity`, `Assets/Readme.asset`,
+and `Assets/TutorialInfo/` (welcome scripts, icon and layout), with their metadata
+and the empty `Assets/Scenes` folder metadata: 17 files, 64,257 bytes total.
+Audited GUID references across Assets, ProjectSettings, Packages and Tools, plus
+script-based asset loading and build paths. Kept the build fallback Smoke scene,
+configured input actions, both render pipelines and their SampleSceneProfile,
+and the original character texture documented as recolour source material.
+All gameplay art, audio and source/license records remain.
+
+Validation: no retained project references to removed GUIDs; no orphaned `.meta`
+files; all six immutable-reference checksums passed. Unity is running but its
+Pipeline server is unreachable (not Safe Mode), so removal used the filesystem;
+Editor reimport, compilation and gameplay were not executed. No milestone gate
+changed. Existing planning/status edits were preserved.
+
+
+### 2026-09-28 — Asset cleanup batch validation (Codex)
+
+After the user closed the Editor and requested the batch workflow, Unity
+6000.3.11f1 completed a direct `-batchmode -nographics -quit -executeMethod`
+validation with exit code 0 and an explicit `CLEANUP_VALIDATION_PASS` marker.
+Compilation succeeded; Level1 and Smoke opened successfully. Checked 805
+GameObjects and 66 recursive dependencies: no missing scripts, broken serialized
+component object references, missing dependency files, or deleted template assets
+remaining in AssetDatabase. All six immutable-reference checksums passed again.
+Temporary diagnostic/validation scripts and their metadata were removed.
+This supersedes the earlier unverified import/compilation note; gameplay and
+Android testing were not rerun. Pipeline discovery troubleshooting was abandoned
+at the user's request. No milestone gate changed.
