@@ -2,6 +2,11 @@
 
 A Unity reproduction of the *God Tower* reference: a blocky climber scales a stone tower in the sky while viewers help or hinder with webhook-triggered boxing-glove bumps. Five sequential levels, one gameplay scene, Android APK.
 
+## Deliverables
+
+- **Video:** [Tower_Prototype.mp4](https://drive.google.com/file/d/1cr_5mld6p29mh-v1Yg_5i94HKrBN_ZMF/view?usp=sharing), recorded on a moto g 5G plus (Android 11). It shows the main menu, all five levels completed and the `/bump` event.
+- **Source:** this repository.
+
 ## Engine and build
 
 - **Unity 6000.3.11f1** (Unity 6.3 LTS), Universal Render Pipeline 17.3.0, Input System 1.19.0.

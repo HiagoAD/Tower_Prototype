@@ -772,3 +772,8 @@ Release APK built from this tree (`BuildScript.BuildAndroidRelease`, result Succ
   - Pause → Exit returns to the main menu.
   - No Unity errors.
 - The device was set to stay awake while on USB (`svc power stayon usb`). Revert with `adb shell svc power stayon false`.
+
+
+### 2026-09-29 — delivery video (user-recorded)
+
+The user recorded the §6.2 video on the device and shared it: https://drive.google.com/file/d/1cr_5mld6p29mh-v1Yg_5i94HKrBN_ZMF/view?usp=sharing. A signed-out request returned HTTP 200 with the file page for `Tower_Prototype.mp4` (video/mp4) and no request-access prompt. The video content was not reviewed here; the user recorded it. Link added to the README Deliverables section. Still open for G7: the APK download link and pushing the repository.
