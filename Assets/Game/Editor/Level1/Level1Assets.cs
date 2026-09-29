@@ -150,6 +150,20 @@ namespace Game.Editor
             return pace;
         }
 
+        /// <summary>Create-if-missing and never rewritten: the feature toggles are the user's to set, and they survive rebuilds.</summary>
+        public static GameFeatures LoadOrCreateFeatures()
+        {
+            var features = AssetDatabase.LoadAssetAtPath<GameFeatures>(Level1Paths.GameFeatures);
+            if (features == null)
+            {
+                features = ScriptableObject.CreateInstance<GameFeatures>();
+                AssetDatabase.CreateAsset(features, Level1Paths.GameFeatures);
+                AssetDatabase.SaveAssets();
+            }
+
+            return features;
+        }
+
         /// <summary>
         /// Create-if-missing, and only populated when newly created: tuned distances, added types and
         /// changed defaults survive a scene rebuild. The boxing distances equal the old fixed hit

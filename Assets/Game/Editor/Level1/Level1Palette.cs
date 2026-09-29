@@ -27,6 +27,9 @@ namespace Game.Editor
         public static readonly Color HudYellow = new Color32(255, 214, 20, 255);
         public static readonly Color HudRed = new Color32(236, 24, 24, 255);
         public static readonly Color HudStroke = new Color32(24, 16, 10, 255);
+        public static readonly Color HudButton = new Color32(44, 50, 60, 217);
+        public static readonly Color HeartFill = new Color32(235, 30, 40, 255);
+        public static readonly Color HeartOutline = new Color(0.2f, 0f, 0.02f, 0.9f);
         public static readonly Color CardBanner = new Color32(30, 84, 170, 235);
         public static readonly Color CardBannerGlint = new Color32(84, 156, 236, 200);
         public static readonly Color FlameGlow = new Color32(240, 70, 20, 110);

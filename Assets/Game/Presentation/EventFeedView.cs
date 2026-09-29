@@ -145,7 +145,7 @@ namespace Game.Presentation
 
         private void Update()
         {
-            // Cards hold still under the pause panel; on Won they keep fading.
+            // Cards hold still under the pause panel; on Won and Lost they keep fading.
             float dt = session.State == SessionState.Paused ? 0f : Time.unscaledDeltaTime;
             for (int i = 0; i < cards.Length; i++)
             {

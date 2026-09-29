@@ -2,12 +2,13 @@ using Game.Core;
 using Game.Gameplay;
 using Game.Presentation;
 using Game.Webhook;
+using UnityEditor.Events;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Game.Editor
 {
-    /// <summary>Level 1's in-game HUD: altitude meter, controls hint and the two event-card columns.</summary>
+    /// <summary>Level 1's in-game HUD: altitude meter, controls hint, the two event-card columns, and the pause button and lives row.</summary>
     internal static class Level1Hud
     {
         private readonly struct ProgressBarParts
@@ -28,7 +29,7 @@ namespace Game.Editor
 
         /// <summary>
         /// The in-game HUD panel, hidden until the session starts: altitude meter,
-        /// controls hint, both event-card columns and the HudView that drives them. The panel is
+        /// controls hint, both event-card columns, the pause button, the lives row and the HudView that drives them. The panel is
         /// shrunk to Screen.safeArea so every top/bottom-anchored child clears a camera cutout.
         /// </summary>
         public static GameObject Build(UiKit kit, RectTransform canvasRect, GameSession session, Sprite gloveSprite)
@@ -43,6 +44,9 @@ namespace Game.Editor
 
             Text levelLabel = BuildLevelLabel(kit, hudPanel.transform);
 
+            Button pauseButton = BuildPauseButton(kit, hudPanel.transform, session);
+            (GameObject livesRoot, GameObject[] lifeIcons) = BuildLives(hudPanel.transform);
+
             BuildControlsHint(kit, hudPanel, session);
             BuildEventFeed(hudPanel, session, gloveSprite, BumpPolarity.Positive);
             BuildEventFeed(hudPanel, session, gloveSprite, BumpPolarity.Negative);
@@ -56,6 +60,9 @@ namespace Game.Editor
             SceneBinding.Bind(hudView, "heightLabel", bar.HeightLabel);
             SceneBinding.Bind(hudView, "finishLabel", bar.FinishLabel);
             SceneBinding.Bind(hudView, "levelLabel", levelLabel);
+            SceneBinding.Bind(hudView, "livesRoot", livesRoot);
+            SceneBinding.BindArray(hudView, "lifeIcons", lifeIcons);
+            SceneBinding.Bind(hudView, "pauseButton", pauseButton.gameObject);
             return hudPanel;
         }
 
@@ -72,6 +79,75 @@ namespace Game.Editor
             label.verticalOverflow = VerticalWrapMode.Overflow;
             Level1Ui.StyleHeavyText(kit, label, Level1Palette.HudYellow);
             return label;
+        }
+
+        /// <summary>
+        /// Top-right, clear of the top-centre level label (which ends 220 units short of the right
+        /// edge). Always built: HudView shows it only when the pause-menu feature is on.
+        /// </summary>
+        private static Button BuildPauseButton(UiKit kit, Transform hudPanel, GameSession session)
+        {
+            const float margin = 32f;
+            const float size = 110f;
+            Button button = kit.AddButton(hudPanel, "PauseButton", "II", new Vector2(-margin, -margin), Level1Palette.HudButton, Level1Palette.HudYellow,
+                anchorMin: Vector2.one, anchorMax: Vector2.one, pivot: Vector2.one, sizeDelta: new Vector2(size, size));
+            Level1Ui.StyleHeavyText(kit, button.GetComponentInChildren<Text>(), Level1Palette.HudYellow);
+            UnityEventTools.AddPersistentListener(button.onClick, session.Pause);
+            return button;
+        }
+
+        /// <summary>
+        /// One heart per possible life, right-aligned in a row under the pause button: the top edge
+        /// beside the pause button is taken by the level label, and the right edge is free down to
+        /// the negative event cards (0.46 of the height). Built from UI primitives because the
+        /// Android built-in font has no heart glyph. HudView shows the row only when the lives
+        /// feature is on, and as many hearts as there are lives left.
+        /// </summary>
+        private static (GameObject root, GameObject[] icons) BuildLives(Transform hudPanel)
+        {
+            const float heartSize = 40f;
+            const float spacing = 78f;
+            const float top = 32f + 110f + 16f; // HUD margin, pause button, gap.
+
+            var rowGo = new GameObject("Lives", typeof(RectTransform));
+            rowGo.transform.SetParent(hudPanel, false);
+            var row = rowGo.GetComponent<RectTransform>();
+            row.anchorMin = row.anchorMax = row.pivot = Vector2.one;
+            row.sizeDelta = new Vector2(GameFeatures.MaxLives * spacing, 60f);
+            row.anchoredPosition = new Vector2(-32f, -top);
+
+            var icons = new GameObject[GameFeatures.MaxLives];
+            for (int i = 0; i < icons.Length; i++)
+            {
+                var heartGo = new GameObject("Heart" + i, typeof(RectTransform));
+                heartGo.transform.SetParent(row, false);
+                var heart = heartGo.GetComponent<RectTransform>();
+                heart.anchorMin = heart.anchorMax = new Vector2(1f, 0.5f);
+                heart.sizeDelta = Vector2.zero;
+                heart.anchoredPosition = new Vector2(-(spacing * 0.5f + i * spacing), -heartSize * 0.07f);
+
+                AddHeartShape(heart, heartSize * 1.22f, Level1Palette.HeartOutline);
+                AddHeartShape(heart, heartSize, Level1Palette.HeartFill);
+                icons[i] = heartGo;
+            }
+
+            return (rowGo, icons);
+        }
+
+        /// <summary>A 45-degree square under two circles.</summary>
+        private static void AddHeartShape(RectTransform parent, float size, Color color)
+        {
+            Image square = UiKit.AddImage(parent, "Point", null, color);
+            square.rectTransform.sizeDelta = new Vector2(size, size);
+            square.rectTransform.localRotation = Quaternion.Euler(0f, 0f, 45f);
+
+            float lobeOffset = size * 0.354f; // midpoints of the rotated square's two upper edges.
+            foreach (float side in new[] { -1f, 1f })
+            {
+                Image lobe = UiKit.AddImage(parent, "Lobe", UiKit.KnobSprite, color);
+                lobe.rectTransform.sizeDelta = new Vector2(size, size);
+                lobe.rectTransform.anchoredPosition = new Vector2(side * lobeOffset, lobeOffset);
+            }
         }
 
         /// <summary>

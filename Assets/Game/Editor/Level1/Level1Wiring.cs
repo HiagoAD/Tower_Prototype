@@ -19,7 +19,7 @@ namespace Game.Editor
             return summitLip;
         }
 
-        public static GameSession BuildSession(Level1Inputs inputs, HazardVisualAssets hazard, ClimbPace pace, BumpCatalog bumpCatalog, TowerMetrics tower, PlayerBuildResult player)
+        public static GameSession BuildSession(Level1Inputs inputs, HazardVisualAssets hazard, ClimbPace pace, BumpCatalog bumpCatalog, GameFeatures features, TowerMetrics tower, PlayerBuildResult player)
         {
             GameObject sessionGo = new GameObject("GameSession");
             GameSession session = sessionGo.AddComponent<GameSession>();
@@ -27,6 +27,7 @@ namespace Game.Editor
             SceneBinding.BindArray(session, "levelFiles", inputs.LevelFiles);
             SceneBinding.Bind(session, "pace", pace);
             SceneBinding.Bind(session, "bumpCatalog", bumpCatalog);
+            SceneBinding.Bind(session, "features", features);
             SceneBinding.Bind(session, "hazardVisualPrefab", hazard.Prefab);
             SceneBinding.Bind(session, "hazardActiveMaterial", hazard.Active);
             SceneBinding.Bind(session, "hazardSafeMaterial", hazard.Safe);

@@ -38,6 +38,10 @@ namespace Game.Tests.PlayMode
         public Image Flash { get; private set; }
         public Scene Scene { get; private set; }
 
+        // In-memory GameFeatures created by UseFeatures; destroyed in Unload. The on-disk
+        // GameFeatures.asset is never touched (PlayMode edits to assets persist).
+        private GameFeatures _testFeatures;
+
         /// <summary>Loads Level1 (replacing whatever scene is loaded, which releases the listener port) and finds the components.</summary>
         public IEnumerator Load()
         {
@@ -83,12 +87,45 @@ namespace Game.Tests.PlayMode
                 }
             }
 
+            if (_testFeatures != null)
+            {
+                UnityEngine.Object.Destroy(_testFeatures);
+                _testFeatures = null;
+            }
+
             yield return null;
             float until = Time.realtimeSinceStartup + 0.15f;
             while (Time.realtimeSinceStartup < until)
             {
                 yield return null;
             }
+        }
+
+        /// <summary>
+        /// Rebinds the loaded scene's GameSession.features to a throwaway in-memory GameFeatures, so a
+        /// test can turn a flag on without touching the shipped asset. Call before PressStart: HudView
+        /// applies the flags when the HUD panel is enabled. Writes only the private serialized fields
+        /// of the scene instance and the in-memory object, by reflection (no SerializedObject, so it
+        /// works in a player too).
+        /// </summary>
+        public void UseFeatures(bool livesEnabled, int startingLives, bool pauseMenuEnabled)
+        {
+            if (_testFeatures == null)
+            {
+                _testFeatures = ScriptableObject.CreateInstance<GameFeatures>();
+            }
+
+            WriteField(_testFeatures, "livesEnabled", livesEnabled);
+            WriteField(_testFeatures, "startingLives", startingLives);
+            WriteField(_testFeatures, "pauseMenuEnabled", pauseMenuEnabled);
+            WriteField(Session, "features", _testFeatures);
+        }
+
+        private static void WriteField(object target, string name, object value)
+        {
+            FieldInfo f = target.GetType().GetField(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            Assert.IsNotNull(f, target.GetType().Name + " has no field '" + name + "'");
+            f.SetValue(target, value);
         }
 
         /// <summary>Stops the touch/keyboard source from overwriting ClimbHeld, so a test can drive climbing through the public motor member.</summary>

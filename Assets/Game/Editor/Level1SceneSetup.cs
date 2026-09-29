@@ -59,9 +59,10 @@ namespace Game.Editor
             PlayerBuildResult player = Level1Player.Build(tower);
             float summitLip = Level1Wiring.BindPlayerMeasurements(pace, player);
             BumpCatalog bumpCatalog = Level1Assets.LoadOrCreateBumpCatalog(gloveSprite);
+            GameFeatures features = Level1Assets.LoadOrCreateFeatures();
             CameraBuildResult camera = Level1Camera.Build(player.Motor, player.Metrics.ChestHeight, pace);
 
-            GameSession session = Level1Wiring.BuildSession(inputs, hazard, pace, bumpCatalog, tower, player);
+            GameSession session = Level1Wiring.BuildSession(inputs, hazard, pace, bumpCatalog, features, tower, player);
             Level1Wiring.WireSessionConsumers(session, pace, level, tower, player, camera, summitLip);
 
             Level1Ui.Build(uiKit, session, player.HitTarget, camera, inputs);

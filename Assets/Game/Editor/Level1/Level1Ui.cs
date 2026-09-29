@@ -9,7 +9,7 @@ namespace Game.Editor
 {
     /// <summary>
     /// Level 1's UI, assembled in the scene's draw order: canvas and event system, then the menu,
-    /// HUD and win panels, MenuView, and the bump burst on top. Each part is its own builder
+    /// HUD, pause, win and lose panels, MenuView, and the bump burst on top. Each part is its own builder
     /// (Level1Hud, Level1Burst); this class owns the canvas root and the full-screen menu panels.
     /// </summary>
     internal static class Level1Ui
@@ -27,6 +27,13 @@ namespace Game.Editor
 
             GameObject hudPanel = Level1Hud.Build(kit, canvasRect, session, inputs.GloveSprite);
 
+            GameObject pausePanel = BuildMenuPanel(kit, canvasRect, "PausePanel", "PAUSED");
+            pausePanel.SetActive(false);
+            Button resumeButton = AddMenuButton(kit, pausePanel.transform, "ResumeButton", "Continue", 0, primary: true);
+            UnityEventTools.AddPersistentListener(resumeButton.onClick, session.Resume);
+            Button pauseMenuButton = AddMenuButton(kit, pausePanel.transform, "MenuButton", "Exit", 1, primary: false);
+            UnityEventTools.AddPersistentListener(pauseMenuButton.onClick, session.ReturnToMenu);
+
             GameObject winPanel = BuildMenuPanel(kit, canvasRect, "WinPanel", "SUMMIT REACHED");
             winPanel.SetActive(false);
             Button nextButton = AddMenuButton(kit, winPanel.transform, "NextButton", "Next Level", Level1Layout.WinButtonSlot - 1, primary: true);
@@ -39,12 +46,21 @@ namespace Game.Editor
             Button finalMenuButton = AddMenuButton(kit, finalWinPanel.transform, "MenuButton", "Exit", Level1Layout.WinButtonSlot, primary: true);
             UnityEventTools.AddPersistentListener(finalMenuButton.onClick, session.ReturnToMenu);
 
+            GameObject losePanel = BuildMenuPanel(kit, canvasRect, "LosePanel", "GAME OVER");
+            losePanel.SetActive(false);
+            Button retryButton = AddMenuButton(kit, losePanel.transform, "RetryButton", "Continue", 0, primary: true);
+            UnityEventTools.AddPersistentListener(retryButton.onClick, session.Retry);
+            Button loseMenuButton = AddMenuButton(kit, losePanel.transform, "MenuButton", "Exit", 1, primary: false);
+            UnityEventTools.AddPersistentListener(loseMenuButton.onClick, session.ReturnToMenu);
+
             var menuViewGo = new GameObject("MenuView");
             menuViewGo.transform.SetParent(canvasGo.transform, false);
             MenuView menuView = menuViewGo.AddComponent<MenuView>();
             SceneBinding.Bind(menuView, "session", session);
             SceneBinding.Bind(menuView, "mainMenuPanel", mainMenuPanel);
             SceneBinding.Bind(menuView, "hudPanel", hudPanel);
+            SceneBinding.Bind(menuView, "pausePanel", pausePanel);
+            SceneBinding.Bind(menuView, "losePanel", losePanel);
             SceneBinding.Bind(menuView, "winPanel", winPanel);
             SceneBinding.Bind(menuView, "finalWinPanel", finalWinPanel);
             SceneBinding.Bind(menuView, "winPanelDelaySeconds", Level1Layout.SummitSlideSeconds);

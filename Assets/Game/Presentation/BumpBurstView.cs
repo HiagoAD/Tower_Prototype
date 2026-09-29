@@ -90,7 +90,7 @@ namespace Game.Presentation
 
         private void OnStateChanged(SessionState state)
         {
-            if (state == SessionState.Menu || state == SessionState.Won)
+            if (state == SessionState.Menu || state == SessionState.Won || state == SessionState.Lost)
             {
                 Cancel();
                 return;

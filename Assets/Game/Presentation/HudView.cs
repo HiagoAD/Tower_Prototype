@@ -19,6 +19,12 @@ namespace Game.Presentation
         [SerializeField] private Text heightLabel;
         [SerializeField] private Text finishLabel;
         [SerializeField] private Text levelLabel;
+        [Tooltip("Parent of the life icons; shown only when the lives feature is on.")]
+        [SerializeField] private GameObject livesRoot;
+        [Tooltip("One icon per possible life; icon i shows while i < lives.")]
+        [SerializeField] private GameObject[] lifeIcons;
+        [Tooltip("Shown only when the pause menu feature is on.")]
+        [SerializeField] private GameObject pauseButton;
 
         // World units are small (a level is tens of units tall); the reference counts altitude in
         // the thousands, so the readout is scaled for display only. It counts the level's authored
@@ -35,12 +41,30 @@ namespace Game.Presentation
         {
             session.HeightUpdated += OnHeightUpdated;
             session.LevelStarted += OnLevelStarted;
+            session.LivesChanged += OnLivesChanged;
+            SetActive(livesRoot, session.LivesEnabled);
+            SetActive(pauseButton, session.PauseMenuEnabled);
+            OnLivesChanged(session.Lives);
         }
 
         private void OnDisable()
         {
             session.HeightUpdated -= OnHeightUpdated;
             session.LevelStarted -= OnLevelStarted;
+            session.LivesChanged -= OnLivesChanged;
+        }
+
+        private void OnLivesChanged(int lives)
+        {
+            if (lifeIcons == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < lifeIcons.Length; i++)
+            {
+                SetActive(lifeIcons[i], i < lives);
+            }
         }
 
         private void OnLevelStarted()
@@ -80,6 +104,14 @@ namespace Game.Presentation
             if (finishLabel != null)
             {
                 finishLabel.text = displayFinish.ToString("#,0", AltitudeFormat);
+            }
+        }
+
+        private static void SetActive(GameObject go, bool active)
+        {
+            if (go != null)
+            {
+                go.SetActive(active);
             }
         }
 

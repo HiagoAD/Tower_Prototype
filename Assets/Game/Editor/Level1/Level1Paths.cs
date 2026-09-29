@@ -15,6 +15,7 @@ namespace Game.Editor
         };
         public const string ClimbPace = "Assets/Game/Levels/ClimbPace.asset";
         public const string BumpCatalog = "Assets/Game/Levels/BumpCatalog.asset";
+        public const string GameFeatures = "Assets/Game/Levels/GameFeatures.asset";
         public const string GlovePng = "Assets/Game/Art/Licensed/BoxingGlove/boxing-glove-white.png";
         public const string ImpactSfx = "Assets/Game/Art/Licensed/ImpactSounds/impactPunch_heavy_000.ogg";
         public const string HazardVisualPrefab = "Assets/Game/Prefabs/HazardVisual.prefab";

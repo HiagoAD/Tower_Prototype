@@ -77,6 +77,8 @@ namespace Game.Presentation
         [Header("Override arm directions (x outward, y up, z into the tower)")]
         [SerializeField] private Vector3 flailArmDirection = new Vector3(0.7f, 0.75f, -0.2f);
         [SerializeField] private Vector3 winArmDirection = new Vector3(0.3f, 1f, 0.1f);
+        [SerializeField] private Vector3 loseArmDirection = new Vector3(0.5f, -0.8f, -0.4f);
+        [SerializeField] private float loseBodyTiltDegrees = 16f;
         [Tooltip("Arms of the boosted pose, played during an upward bump move: raised overhead.")]
         [SerializeField] private Vector3 boostArmDirection = new Vector3(0.25f, 1f, 0.05f);
         [Tooltip("Legs of the boosted pose: hanging, trailing slightly behind the lift (x outward, y up, z into the tower).")]
@@ -118,7 +120,7 @@ namespace Game.Presentation
         private float _yankY, _yankVelocity;
         private float _legX, _legVelocity;
         private float _twist;
-        private float _overrideWeight; // 0 = climbing grips, 1 = flail/win directions
+        private float _overrideWeight; // 0 = climbing grips, 1 = flail/win/lose directions
         private bool _wasKnockedBack;
         private float _rate = 1f; // ClimbPace.PresentationRate: grabs come faster at a quicker pace, so the body responds faster.
 
@@ -151,8 +153,8 @@ namespace Game.Presentation
 
         private void LateUpdate()
         {
-            // Frozen only by the session's pause. motor.Paused is also set on Won and Menu, where the
-            // win pose must still play out and the pose must settle back to climbing.
+            // Frozen only by the session's pause. motor.Paused is also set on Won, Lost and Menu, where the
+            // win/lose pose must still play out and the pose must settle back to climbing.
             bool paused = session != null ? session.State == SessionState.Paused : motor != null && motor.Paused;
             if (motor == null || paused)
             {
@@ -198,7 +200,7 @@ namespace Game.Presentation
             bool boosted = knockedBack && motor.IsBumpMove && motor.BumpMoveDirection > 0;
             bool flailing = knockedBack && !boosted;
 
-            bool overridePose = knockedBack || _sessionState == SessionState.Won;
+            bool overridePose = knockedBack || _sessionState == SessionState.Won || _sessionState == SessionState.Lost;
             _overrideWeight = Mathf.MoveTowards(_overrideWeight, overridePose ? 1f : 0f, dt / (knockedBack ? 0.05f : 0.2f));
             if (!overridePose)
             {
@@ -363,6 +365,10 @@ namespace Game.Presentation
                 offset = Vector3.Lerp(offset, new Vector3(0f, 0f, -hitPushDistance * _armLength), _overrideWeight);
                 euler = Vector3.Lerp(euler, new Vector3(-hitTiltDegrees, 0f, flail * rollDegreesPerSway), _overrideWeight);
             }
+            else if (_sessionState == SessionState.Lost)
+            {
+                euler = Vector3.Lerp(euler, new Vector3(loseBodyTiltDegrees, 0f, 0f), _overrideWeight);
+            }
 
             // In this transform's unscaled space, not the scaled/axis-converted FBX root's.
             bodyRoot.position = transform.TransformPoint(_bodyRestPosition + offset);
@@ -375,7 +381,8 @@ namespace Game.Presentation
         {
             Vector3 overrideDirection = boosted ? boostArmDirection
                 : flailing ? flailArmDirection
-                : winArmDirection;
+                : _sessionState == SessionState.Won ? winArmDirection
+                : loseArmDirection;
             float flail = flailing ? Mathf.Sin(Time.time * hitFlailFrequency) * 0.5f : 0f;
             AimArm(_armL, _handL, overrideDirection + new Vector3(0f, flail, 0f));
             AimArm(_armR, _handR, overrideDirection - new Vector3(0f, flail, 0f));

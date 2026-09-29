@@ -5,11 +5,13 @@ using UnityEngine;
 namespace Game.Core
 {
     /// <summary>
-    /// Owns menu/playing/paused/won state, the campaign (the ordered level files and which one is
+    /// Owns menu/playing/paused/won/lost state, the campaign (the ordered level files and which one is
     /// current), the active level instance id, and bump dispatch. Playing -> Won when the climber
     /// reaches the summit; from Won, StartNextLevel begins the next level or, on the last one, the
-    /// view offers a return to the menu. There is no lose state. Paused exists only for app
-    /// backgrounding (no pause UI).
+    /// view offers a return to the menu. Two optional features (GameFeatures, both off by default) add
+    /// lives, where the last hazard hit ends the run as Lost and Retry replays the level with full
+    /// lives, and the pause menu, where Paused waits for a deliberate Resume. Without them Paused
+    /// exists only for app backgrounding and returning resumes.
     /// Sole authority for whether a hit (hazard or webhook) is allowed to apply right now.
     /// </summary>
     public sealed class GameSession : MonoBehaviour
@@ -19,6 +21,8 @@ namespace Game.Core
         [SerializeField] private TextAsset[] levelFiles;
         [Tooltip("Optional global climb pace; without it the level plays exactly as authored.")]
         [SerializeField] private ClimbPace pace;
+        [Tooltip("Optional features the reference game does not show (lives, pause menu). Without it both are off.")]
+        [SerializeField] private GameFeatures features;
         [Tooltip("Bump types and the defaults for fields a /bump request omits. Without it every bump is a default negative boxing bump.")]
         [SerializeField] private BumpCatalog bumpCatalog;
         [SerializeField] private GameObject hazardVisualPrefab;
@@ -106,10 +110,18 @@ namespace Game.Core
         /// <summary>Delay between an accepted bump and its glove impact (the climber's move starting).</summary>
         public float BumpImpactDelaySeconds => bumpImpactDelaySeconds;
 
+        public bool LivesEnabled => features != null && features.LivesEnabled;
+
+        public bool PauseMenuEnabled => features != null && features.PauseMenuEnabled;
+
+        /// <summary>Lives left in this attempt; 0 whenever lives are disabled.</summary>
+        public int Lives { get; private set; }
+
         public SessionState State { get; private set; } = SessionState.Menu;
 
         public event System.Action<SessionState> StateChanged;
         public event System.Action<float, float> HeightUpdated;
+        public event System.Action<int> LivesChanged;
         public event System.Action<BumpEvent> BumpAccepted;
 
         /// <summary>
@@ -201,7 +213,7 @@ namespace Game.Core
                     continue; // the worker already gave up and expired this one -- never dispatch it.
                 }
 
-                // Nonlethal spectacle: never consumes a hit point, never blocks continued play.
+                // Nonlethal spectacle: never costs a life, never blocks continued play.
                 float bodyHeights = bump.Polarity == BumpPolarity.Positive ? bump.Type.liftBodyHeights : -bump.Type.dropBodyHeights;
                 motor.ApplyBump(bodyHeights * hazardBodyHeight, bumpImpactDelaySeconds);
                 BumpAccepted?.Invoke(bump);
@@ -275,7 +287,10 @@ namespace Game.Core
             SetState(SessionState.Playing);
             _accepting = true;
 
+            Lives = LivesEnabled ? features.StartingLives : 0;
+
             LevelStarted?.Invoke();
+            LivesChanged?.Invoke(Lives);
             HeightUpdated?.Invoke(0f, motor.FinishHeight);
         }
 
@@ -313,12 +328,13 @@ namespace Game.Core
         private void OnApplicationPause(bool pauseStatus)
         {
             // A backgrounded app answers /bump with 409 (not a 503 timeout) and nothing advances
-            // while away. The game has no pause UI (neither reference shows one), so returning resumes.
+            // while away. Without the pause menu returning resumes; with it the player resumes
+            // deliberately from the pause panel.
             if (pauseStatus)
             {
                 Pause();
             }
-            else
+            else if (!PauseMenuEnabled)
             {
                 Resume();
             }
@@ -343,7 +359,17 @@ namespace Game.Core
             }
 
             // Invulnerable from a recent hit: no-op, matches short recovery window.
-            motor.TryApplyHazardHit(bandHeight, hazardBodyHeight, hazardBodyHeight * HazardClearanceToBodyHeight);
+            if (!motor.TryApplyHazardHit(bandHeight, hazardBodyHeight, hazardBodyHeight * HazardClearanceToBodyHeight) || !LivesEnabled)
+            {
+                return;
+            }
+
+            Lives--;
+            LivesChanged?.Invoke(Lives);
+            if (Lives <= 0)
+            {
+                Lose();
+            }
         }
 
         private void Win()
@@ -352,6 +378,14 @@ namespace Game.Core
             motor.Paused = true;
             _accepting = false;
             SetState(SessionState.Won);
+        }
+
+        private void Lose()
+        {
+            motor.CanClimb = false;
+            motor.Paused = true;
+            _accepting = false;
+            SetState(SessionState.Lost);
         }
 
         private void SpawnHazards()
