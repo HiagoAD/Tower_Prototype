@@ -4,11 +4,11 @@ Latest ownership update — 2026-09-28: **Claude owns planning, prioritization, 
 
 Plan: [ACTION_PLAN.md](ACTION_PLAN.md). Project ownership handoff: [CLAUDE_HANDOFF.md](CLAUDE_HANDOFF.md). Earlier assessment: [GOALS_REVIEW.md](GOALS_REVIEW.md).
 
-Current state: **G2 and G3 PASS; G4–G7 NOT VERIFIED.** Five sequential levels and campaign/menu flow are accepted for the recorded baseline. Lives and pause now ship enabled behind flags in `Assets/Game/Settings/GameSettings.asset`; webhook bumps never cost lives. These later decisions supersede the earlier no-lives/no-pause summaries. See [G3 review](G3_REVIEW.md) and the dated implementation reports below.
+Current state: **All gates G0–G7 PASS; delivered.** The final source is `main` at `5d1bd70` on https://github.com/HiagoAD/Tower_Prototype. The APK (SHA-256 `22cbf196…4382`) and the video are on Google Drive, linked from the README. See the G7 closure below.
 
-Current priority: reconcile existing uncommitted implementation work with the [ordered player-feedback backlog](ACTION_PLAN.md#2a-ordered-player-feedback-backlog), complete the remaining batches, then collect current-build Android evidence for G4/G5. Latest reported settings-consolidation results are **191/191 EditMode and 22/22 PlayMode**. Later cleanup batch validation passed compilation and scene/dependency checks; it did not rerun gameplay or Android. This handoff performs no new implementation validation or gate acceptance.
+Current priority: none. The project is delivered. Only a reported blocker would reopen work, and it would need a new build, APK link and gate entry.
 
-Forecast: the earlier 17:45 schedule and **4½–6½-hour** estimate below are historical and do not cover the expanded feedback scope. Claude must re-estimate from actual remaining work and preserve at least 90 minutes for recording/package/access checks. The deadline remains interpreted as **September 29 09:00 UTC / 06:00 Recife**; no new date confirmation is asserted.
+Forecast: complete. Delivered on 2026-09-29 (Recife, early morning), before the interpreted 09:00 UTC deadline.
 
 | Gate | Revised target, Recife Sep 28 | Status | Evidence / remaining acceptance |
 | --- | --- | --- | --- |
@@ -16,10 +16,10 @@ Forecast: the earlier 17:45 schedule and **4½–6½-hour** estimate below are h
 | G1 — Android install and HTTP proof | Completed earlier | PASS | Earlier installed APK responded to GET/POST; detailed historical reports below. |
 | G2 — integrated social vertical slice | Closed Sep 28 | PASS | User confirmed all four current-build acceptance checks passed: artifact provenance, real HTTP/social recovery, lifecycle cleanup, and audible impact/current visuals. See closure record below. |
 | G3 — five complete levels and menus | Closed Sep 28 | PASS | Five distinct levels, sequential/final/menu flow and Android completion evidence reviewed. User retains a tuning pass before freeze; see G3_REVIEW.md. |
-| G4 — complete candidate; feature freeze | 20:00–21:00 | NOT VERIFIED | Complete content and focused tuning; freeze when candidate actually passes. |
-| G5 — accepted release candidate | 21:00 | NOT VERIFIED | Code-review fixes, final device/lifecycle/performance evidence and APK/source provenance. |
-| G6 — recording and complete package | 22:15 | NOT VERIFIED | All-five final APK video, README/credits, clean source and packaged reinstall. |
-| G7 — verified link submitted | 23:00 | NOT VERIFIED | Upload/download/access checks and candidate submission. |
+| G4 — complete candidate; feature freeze | Closed Sep 28 | PASS | Ten feedback rows and punch volley in `e64248e`; user validated all five levels on device; freeze declared. See the G4/G5 closure below. |
+| G5 — accepted release candidate | Closed Sep 28 | PASS | APK↔commit provenance, 258/258 EditMode + 22/22 PlayMode, touch-only device run with GAME OVER/Continue, release build smoke-tested. The five-minute performance capture was not run separately. |
+| G6 — recording and complete package | Closed Sep 29 | PASS | Pause button fixed (`18a023f`, 258/258 + 23/23); release APK `22cbf196…4382` installed and device-tested; user-recorded video; README with engine, licenses, `/bump` and adb forwarding. |
+| G7 — verified link submitted | Closed Sep 29 | PASS | Signed out: the repository page and README return 200 at `5d1bd70`; the APK download matches `22cbf196…4382`; the video page opens `Tower_Prototype.mp4`. Submission is the candidate's. |
 
 Gate target times above are historical estimates, not current forecasts or acceptance. Historical reports below retain their original findings, ownership and assumptions; current decisions in ACTION_PLAN and CLAUDE_HANDOFF supersede them. The prior Jev request `jev/20260928T203943015475Z-G2` describes an earlier assessment and is not current-plan acceptance evidence.
 
@@ -30,8 +30,8 @@ Gate target times above are historical estimates, not current forecasts or accep
 | Device ownership | Candidate + Claude lead | Known moto g 5G plus; coordinate exclusive build/device time and confirm recording/audio capture. |
 | Deadline date inferred | Candidate + Claude | Confirm September 29 if the interpretation is incorrect; today-end target remains earlier. |
 | Running Editor's Pipeline unreachable in planning session | Claude lead | Diagnose connection/permissions; do not assume missing package. |
-| Final integrated acceptance | Claude | Preserve accepted planted-grip feel; verify social recovery, audio and current visuals on Android. |
-| Brief names `adb reverse` for PC-side request | Webhook lane + lead | Implement/test `adb forward`; explain direction in README. Preserve brief. |
+| Final integrated acceptance | Claude | Closed: user validated all levels; release APK device-tested; pause fix verified. |
+| Brief names `adb reverse` for PC-side request | Webhook lane + lead | Closed: README explains `adb forward` for a PC-side curl and when `adb reverse` applies. Brief unchanged. |
 | No asset generation | All | Import existing free art/audio; retain licenses and attribution. |
 | Pro allowances may not cover the full implementation sprint | Candidate + both agents | Record balances/reset times below; measure usage after G1/G2; prioritize required behavior and fixes. |
 
@@ -779,3 +779,19 @@ Release APK built from this tree (`BuildScript.BuildAndroidRelease`, result Succ
 The user recorded the §6.2 video on the device and shared it: https://drive.google.com/file/d/1cr_5mld6p29mh-v1Yg_5i94HKrBN_ZMF/view?usp=sharing. A signed-out request returned HTTP 200 with the file page for `Tower_Prototype.mp4` (video/mp4) and no request-access prompt. The video content was not reviewed here; the user recorded it. Link added to the README Deliverables section. Still open for G7: the APK download link and pushing the repository.
 
 APK link shared by the user: https://drive.google.com/file/d/13xm4jUDWHKTv1-0LccdMLTx-RZkPrUj7/view?usp=drive_link (`TowerPrototype.apk`). A signed-out download returned 35,122,328 bytes with SHA-256 `22cbf1966c10c5022b69258315c46b41ed77acd074c86bf79200b5f1daa44382`, the pause-fix release build installed and tested on the device. Added to the README. Remaining for G7: push the repository and confirm the evaluators can reach it.
+
+
+### 2026-09-29 — G6 and G7 closure (Claude)
+
+**G6 PASS.**
+- **APK:** the release build `TowerPrototype.apk` from `18a023f` (pause fix), SHA-256 `22cbf1966c10c5022b69258315c46b41ed77acd074c86bf79200b5f1daa44382`, 35.1 MB. Installed and tested on the moto g 5G plus.
+- **Video:** recorded by the user on the device, covering the main menu, all five levels and the `/bump` event.
+- **README:** covers the Unity 6000.3.11f1 version, the build and play steps, the asset table with licenses and source links, the `/bump` contract and curl commands, the `adb forward` / `adb reverse` explanation and the assumptions. Per-asset `LICENSE.md` records are kept.
+- **Source:** clean; `Library`, `Temp`, `Builds` and `Logs` are ignored.
+
+**G7 PASS.** Access checked from an unauthenticated client:
+- `https://github.com/HiagoAD/Tower_Prototype`: HTTP 200. Remote `main` is `5d1bd70`, the same as local, and the public README carries both Drive links.
+- APK, https://drive.google.com/file/d/13xm4jUDWHKTv1-0LccdMLTx-RZkPrUj7/view?usp=drive_link: the direct download returned 35,122,328 bytes with SHA-256 `22cbf196…4382`.
+- Video, https://drive.google.com/file/d/1cr_5mld6p29mh-v1Yg_5i94HKrBN_ZMF/view?usp=sharing: HTTP 200, `Tower_Prototype.mp4` (video/mp4), no request-access prompt. Its content was reviewed by the user, not by Claude.
+
+Submitting the links to the evaluators is the candidate's step. Deferred and recorded: a separate five-minute performance capture. Reference snapshot checksums: all six OK.

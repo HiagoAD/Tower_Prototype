@@ -18,7 +18,7 @@ The player climbs while viewers help or hinder through server-triggered bump com
 ## 2. Current baseline
 
 - Unity **6000.3.11f1**; physical Android evidence on Motorola moto g 5G plus, Android 11, arm64-v8a, serial `0070013699`.
-- **G2 and G3 PASS** are recorded in [STATUS.md](STATUS.md) and [G3_REVIEW.md](G3_REVIEW.md): five levels, sequential/final flow and social-loop evidence exist. G4–G7 remain open.
+- **All gates G0–G7 PASS** (September 29), recorded in [STATUS.md](STATUS.md). The project is delivered; the backlog below is complete and kept for history.
 - Last accepted campaign APK: `261e913853fa13de9da0977d51dd6919a883e087974a157ce5661799cf310bce`. Later level tuning, restored lives/pause and settings consolidation need a new Android build and device regression.
 - Latest implementation report records **191/191 EditMode and 22/22 PlayMode passed** after settings consolidation; these were not rerun for this planning update.
 - All new feedback tuning belongs in `Assets/Game/Settings/GameSettings.asset`. Preserve current user settings, level data and concurrent implementation edits.
