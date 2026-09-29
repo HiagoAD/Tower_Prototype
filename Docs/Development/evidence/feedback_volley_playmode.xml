@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="22" result="Passed" total="22" passed="22" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-29 02:23:51Z" end-time="2026-09-29 02:24:18Z" duration="27.2947581">
+  <test-suite type="TestSuite" id="1033" name="Tower_Prototype" fullname="Tower_Prototype" runstate="Runnable" testcasecount="22" result="Passed" start-time="2026-09-29 02:23:51Z" end-time="2026-09-29 02:24:18Z" duration="27.294758" total="22" passed="22" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1026" name="Game.Tests.PlayMode.dll" fullname="/Volumes/Projects/Tower_Prototype/Library/ScriptAssemblies/Game.Tests.PlayMode.dll" runstate="Runnable" testcasecount="22" result="Passed" start-time="2026-09-29 02:23:51Z" end-time="2026-09-29 02:24:18Z" duration="27.288840" total="22" passed="22" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="40055" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1027" name="Game" fullname="Game" runstate="Runnable" testcasecount="22" result="Passed" start-time="2026-09-29 02:23:51Z" end-time="2026-09-29 02:24:18Z" duration="27.288022" total="22" passed="22" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1028" name="Tests" fullname="Game.Tests" runstate="Runnable" testcasecount="22" result="Passed" start-time="2026-09-29 02:23:51Z" end-time="2026-09-29 02:24:18Z" duration="27.287567" total="22" passed="22" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1029" name="PlayMode" fullname="Game.Tests.PlayMode" runstate="Runnable" testcasecount="22" result="Passed" start-time="2026-09-29 02:23:51Z" end-time="2026-09-29 02:24:18Z" duration="27.287091" total="22" passed="22" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1001" name="Level1FeatureTests" fullname="Game.Tests.PlayMode.Level1FeatureTests" classname="Game.Tests.PlayMode.Level1FeatureTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-09-29 02:23:51Z" end-time="2026-09-29 02:23:58Z" duration="7.207808" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1005" name="FlagsOff_BackgroundThenReturn_AutoResumes_WithNoPausePanel" fullname="Game.Tests.PlayMode.Level1FeatureTests.FlagsOff_BackgroundThenReturn_AutoResumes_WithNoPausePanel" methodname="FlagsOff_BackgroundThenReturn_AutoResumes_WithNoPausePanel" classname="Game.Tests.PlayMode.Level1FeatureTests" runstate="Runnable" seed="2056734632" result="Passed" start-time="2026-09-29 02:23:51Z" end-time="2026-09-29 02:23:52Z" duration="1.417289" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1004" name="FlagsOff_PauseButtonAndHeartsHidden_PanelsHidden_HazardHitsAreFree" fullname="Game.Tests.PlayMode.Level1FeatureTests.FlagsOff_PauseButtonAndHeartsHidden_PanelsHidden_HazardHitsAreFree" methodname="FlagsOff_PauseButtonAndHeartsHidden_PanelsHidden_HazardHitsAreFree" classname="Game.Tests.PlayMode.Level1FeatureTests" runstate="Runnable" seed="1997064207" result="Passed" start-time="2026-09-29 02:23:52Z" end-time="2026-09-29 02:23:53Z" duration="0.785152" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1008" name="LivesOn_HeartsTrackLives_LoseShowsPanel_ContinueRetries_ExitLeaves" fullname="Game.Tests.PlayMode.Level1FeatureTests.LivesOn_HeartsTrackLives_LoseShowsPanel_ContinueRetries_ExitLeaves" methodname="LivesOn_HeartsTrackLives_LoseShowsPanel_ContinueRetries_ExitLeaves" classname="Game.Tests.PlayMode.Level1FeatureTests" runstate="Runnable" seed="172168816" result="Passed" start-time="2026-09-29 02:23:53Z" end-time="2026-09-29 02:23:54Z" duration="0.786790" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1009" name="LivesOn_HttpBump_NeverCostsALife" fullname="Game.Tests.PlayMode.Level1FeatureTests.LivesOn_HttpBump_NeverCostsALife" methodname="LivesOn_HttpBump_NeverCostsALife" classname="Game.Tests.PlayMode.Level1FeatureTests" runstate="Runnable" seed="2086030808" result="Passed" start-time="2026-09-29 02:23:54Z" end-time="2026-09-29 02:23:55Z" duration="0.908107" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1007" name="PauseMenuOn_BackgroundThenReturn_StaysPausedWithPanel" fullname="Game.Tests.PlayMode.Level1FeatureTests.PauseMenuOn_BackgroundThenReturn_StaysPausedWithPanel" methodname="PauseMenuOn_BackgroundThenReturn_StaysPausedWithPanel" classname="Game.Tests.PlayMode.Level1FeatureTests" runstate="Runnable" seed="986731008" result="Passed" start-time="2026-09-29 02:23:55Z" end-time="2026-09-29 02:23:56Z" duration="0.811354" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1006" name="PauseMenuOn_ButtonPauses_ContinueResumes_ExitReturnsToMenu" fullname="Game.Tests.PlayMode.Level1FeatureTests.PauseMenuOn_ButtonPauses_ContinueResumes_ExitReturnsToMenu" methodname="PauseMenuOn_ButtonPauses_ContinueResumes_ExitReturnsToMenu" classname="Game.Tests.PlayMode.Level1FeatureTests" runstate="Runnable" seed="516770273" result="Passed" start-time="2026-09-29 02:23:56Z" end-time="2026-09-29 02:23:57Z" duration="0.838450" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1002" name="Scene_HasFeaturePanelsButtonsAndHearts_BoundToTheSession" fullname="Game.Tests.PlayMode.Level1FeatureTests.Scene_HasFeaturePanelsButtonsAndHearts_BoundToTheSession" methodname="Scene_HasFeaturePanelsButtonsAndHearts_BoundToTheSession" classname="Game.Tests.PlayMode.Level1FeatureTests" runstate="Runnable" seed="1209285236" result="Passed" start-time="2026-09-29 02:23:57Z" end-time="2026-09-29 02:23:57Z" duration="0.815304" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1003" name="ShippedFlags_AreBothOn" fullname="Game.Tests.PlayMode.Level1FeatureTests.ShippedFlags_AreBothOn" methodname="ShippedFlags_AreBothOn" classname="Game.Tests.PlayMode.Level1FeatureTests" runstate="Runnable" seed="1282137000" result="Passed" start-time="2026-09-29 02:23:57Z" end-time="2026-09-29 02:23:58Z" duration="0.827952" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1010" name="Level1FlowTests" fullname="Game.Tests.PlayMode.Level1FlowTests" classname="Game.Tests.PlayMode.Level1FlowTests" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-09-29 02:23:58Z" end-time="2026-09-29 02:24:17Z" duration="18.945832" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1022" name="Campaign_AllLevels_EndsWithFinalWinPanel_ExitReturnsToMenu_AndStartRestartsAtLevelOne" fullname="Game.Tests.PlayMode.Level1FlowTests.Campaign_AllLevels_EndsWithFinalWinPanel_ExitReturnsToMenu_AndStartRestartsAtLevelOne" methodname="Campaign_AllLevels_EndsWithFinalWinPanel_ExitReturnsToMenu_AndStartRestartsAtLevelOne" classname="Game.Tests.PlayMode.Level1FlowTests" runstate="Runnable" seed="1489933192" result="Passed" start-time="2026-09-29 02:23:58Z" end-time="2026-09-29 02:24:03Z" duration="4.974392" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1012" name="HttpBump_InMenu_Returns409" fullname="Game.Tests.PlayMode.Level1FlowTests.HttpBump_InMenu_Returns409" methodname="HttpBump_InMenu_Returns409" classname="Game.Tests.PlayMode.Level1FlowTests" runstate="Runnable" seed="1311786527" result="Passed" start-time="2026-09-29 02:24:03Z" end-time="2026-09-29 02:24:04Z" duration="0.774078" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1013" name="HttpBump_WhilePaused_Returns409_AndShowsNoBurst" fullname="Game.Tests.PlayMode.Level1FlowTests.HttpBump_WhilePaused_Returns409_AndShowsNoBurst" methodname="HttpBump_WhilePaused_Returns409_AndShowsNoBurst" classname="Game.Tests.PlayMode.Level1FlowTests" runstate="Runnable" seed="2030111341" result="Passed" start-time="2026-09-29 02:24:04Z" end-time="2026-09-29 02:24:04Z" duration="0.494807" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1014" name="HttpBump_WhilePlaying_ShowsBurst_MovesClimber_ThenCleansUp_AndClimbingStillWorks" fullname="Game.Tests.PlayMode.Level1FlowTests.HttpBump_WhilePlaying_ShowsBurst_MovesClimber_ThenCleansUp_AndClimbingStillWorks" methodname="HttpBump_WhilePlaying_ShowsBurst_MovesClimber_ThenCleansUp_AndClimbingStillWorks" classname="Game.Tests.PlayMode.Level1FlowTests" runstate="Runnable" seed="1685751861" result="Passed" start-time="2026-09-29 02:24:04Z" end-time="2026-09-29 02:24:08Z" duration="3.072297" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1015" name="Pause_DuringBurst_FreezesIt_AndResumeFinishesIt" fullname="Game.Tests.PlayMode.Level1FlowTests.Pause_DuringBurst_FreezesIt_AndResumeFinishesIt" methodname="Pause_DuringBurst_FreezesIt_AndResumeFinishesIt" classname="Game.Tests.PlayMode.Level1FlowTests" runstate="Runnable" seed="341031662" result="Passed" start-time="2026-09-29 02:24:08Z" end-time="2026-09-29 02:24:10Z" duration="2.284910" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1018" name="Retry_DuringBurst_HidesBurstSynchronously_AndResetsShake" fullname="Game.Tests.PlayMode.Level1FlowTests.Retry_DuringBurst_HidesBurstSynchronously_AndResetsShake" methodname="Retry_DuringBurst_HidesBurstSynchronously_AndResetsShake" classname="Game.Tests.PlayMode.Level1FlowTests" runstate="Runnable" seed="1244006318" result="Passed" start-time="2026-09-29 02:24:10Z" end-time="2026-09-29 02:24:11Z" duration="1.030346" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1016" name="ReturnToMenu_DuringBurst_HidesBurstSynchronously_AndResetsShake" fullname="Game.Tests.PlayMode.Level1FlowTests.ReturnToMenu_DuringBurst_HidesBurstSynchronously_AndResetsShake" methodname="ReturnToMenu_DuringBurst_HidesBurstSynchronously_AndResetsShake" classname="Game.Tests.PlayMode.Level1FlowTests" runstate="Runnable" seed="1728624441" result="Passed" start-time="2026-09-29 02:24:11Z" end-time="2026-09-29 02:24:12Z" duration="1.032590" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1011" name="StartButton_MovesFromMenuToPlaying_WithHudShown" fullname="Game.Tests.PlayMode.Level1FlowTests.StartButton_MovesFromMenuToPlaying_WithHudShown" methodname="StartButton_MovesFromMenuToPlaying_WithHudShown" classname="Game.Tests.PlayMode.Level1FlowTests" runstate="Runnable" seed="1335153485" result="Passed" start-time="2026-09-29 02:24:12Z" end-time="2026-09-29 02:24:12Z" duration="0.452394" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1017" name="StartLevel_DuringBurst_HidesBurstSynchronously_AndResetsShake" fullname="Game.Tests.PlayMode.Level1FlowTests.StartLevel_DuringBurst_HidesBurstSynchronously_AndResetsShake" methodname="StartLevel_DuringBurst_HidesBurstSynchronously_AndResetsShake" classname="Game.Tests.PlayMode.Level1FlowTests" runstate="Runnable" seed="279494321" result="Passed" start-time="2026-09-29 02:24:12Z" end-time="2026-09-29 02:24:13Z" duration="0.715403" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1019" name="Win_DuringBurst_HidesBurstAndResetsShake" fullname="Game.Tests.PlayMode.Level1FlowTests.Win_DuringBurst_HidesBurstAndResetsShake" methodname="Win_DuringBurst_HidesBurstAndResetsShake" classname="Game.Tests.PlayMode.Level1FlowTests" runstate="Runnable" seed="1729606538" result="Passed" start-time="2026-09-29 02:24:13Z" end-time="2026-09-29 02:24:14Z" duration="0.722843" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1021" name="Win_NextButton_StartsLevelTwo_WithItsFinish_Label_AndWorkingBumps" fullname="Game.Tests.PlayMode.Level1FlowTests.Win_NextButton_StartsLevelTwo_WithItsFinish_Label_AndWorkingBumps" methodname="Win_NextButton_StartsLevelTwo_WithItsFinish_Label_AndWorkingBumps" classname="Game.Tests.PlayMode.Level1FlowTests" runstate="Runnable" seed="2069216168" result="Passed" start-time="2026-09-29 02:24:14Z" end-time="2026-09-29 02:24:16Z" duration="1.791544" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1020" name="Win_ShowsWinPanelAfterDelay_AndExitButtonReturnsToMenuAtHeightZero" fullname="Game.Tests.PlayMode.Level1FlowTests.Win_ShowsWinPanelAfterDelay_AndExitButtonReturnsToMenuAtHeightZero" methodname="Win_ShowsWinPanelAfterDelay_AndExitButtonReturnsToMenuAtHeightZero" classname="Game.Tests.PlayMode.Level1FlowTests" runstate="Runnable" seed="455161386" result="Passed" start-time="2026-09-29 02:24:16Z" end-time="2026-09-29 02:24:17Z" duration="1.594164" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1023" name="Level1SceneWiringTests" fullname="Game.Tests.PlayMode.Level1SceneWiringTests" classname="Game.Tests.PlayMode.Level1SceneWiringTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-29 02:24:17Z" end-time="2026-09-29 02:24:18Z" duration="1.130428" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1025" name="EveryComponentWithSettings_ReferencesTheSameShippedGameSettingsAsset" fullname="Game.Tests.PlayMode.Level1SceneWiringTests.EveryComponentWithSettings_ReferencesTheSameShippedGameSettingsAsset" methodname="EveryComponentWithSettings_ReferencesTheSameShippedGameSettingsAsset" classname="Game.Tests.PlayMode.Level1SceneWiringTests" runstate="Runnable" seed="561572998" result="Passed" start-time="2026-09-29 02:24:17Z" end-time="2026-09-29 02:24:18Z" duration="0.548911" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1024" name="EveryGameComponent_HasAllObjectReferencesBound_AndNoMissingScripts" fullname="Game.Tests.PlayMode.Level1SceneWiringTests.EveryGameComponent_HasAllObjectReferencesBound_AndNoMissingScripts" methodname="EveryGameComponent_HasAllObjectReferencesBound_AndNoMissingScripts" classname="Game.Tests.PlayMode.Level1SceneWiringTests" runstate="Runnable" seed="1322579543" result="Passed" start-time="2026-09-29 02:24:18Z" end-time="2026-09-29 02:24:18Z" duration="0.578907" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: /Users/hiago/Library/Application Support/DefaultCompany/Tower_Prototype/TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

@@ -13,6 +13,10 @@ namespace Game.Core
     [Serializable]
     public sealed class BumpCatalog
     {
+        /// <summary>Default boxing strengths, in body heights. Well above a hazard's knockback (about half a body height) so a community bump is the strongest moment; independent so each polarity is tuned alone.</summary>
+        public const float DefaultLiftBodyHeights = 2f;
+        public const float DefaultDropBodyHeights = 1.75f;
+
         [Tooltip("Polarity used when a request omits it. Negative keeps a bare POST /bump the full glove burst the brief asks for.")]
         public BumpPolarity defaultPolarity = BumpPolarity.Negative;
 
@@ -25,7 +29,7 @@ namespace Game.Core
         [Tooltip("Every bump type the server may name.")]
         public BumpType[] types =
         {
-            new BumpType { id = "boxing", displayName = "Boxing", iconTint = new Color(0.9f, 0.08f, 0.08f, 1f), liftBodyHeights = 1f, dropBodyHeights = 1f },
+            new BumpType { id = "boxing", displayName = "Boxing", iconTint = new Color(0.9f, 0.08f, 0.08f, 1f), liftBodyHeights = DefaultLiftBodyHeights, dropBodyHeights = DefaultDropBodyHeights },
         };
 
         /// <summary>Called from GameSettings.OnValidate: warns about a type id used twice.</summary>

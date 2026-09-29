@@ -4,22 +4,24 @@ using UnityEngine;
 
 namespace Game.Editor
 {
-    /// <summary>The camera rig's parts: the camera itself, the shake the burst view drives, and the follow the session is bound to afterwards.</summary>
+    /// <summary>The camera rig's parts: the camera itself, the shake and effect-offset transforms CameraEffects drives, and the follow the session is bound to afterwards.</summary>
     internal readonly struct CameraBuildResult
     {
         public readonly Camera Camera;
         public readonly CameraShake Shake;
         public readonly CameraFollow Follow;
+        public readonly Transform Offset;
 
-        public CameraBuildResult(Camera camera, CameraShake shake, CameraFollow follow)
+        public CameraBuildResult(Camera camera, CameraShake shake, CameraFollow follow, Transform offset)
         {
             Camera = camera;
             Shake = shake;
             Follow = follow;
+            Offset = offset;
         }
     }
 
-    /// <summary>Level 1's camera rig: follow, shake offset and the main camera.</summary>
+    /// <summary>Level 1's camera rig: follow, shake offset, effect offset (win move) and the main camera.</summary>
     internal static class Level1Camera
     {
         public static CameraBuildResult Build(PlayerMotor motor, float characterChestHeight, GameSettings settings)
@@ -44,14 +46,18 @@ namespace Game.Editor
             CameraShake shake = shakeGo.AddComponent<CameraShake>();
             SceneBinding.Bind(shake, "settings", settings);
 
+            // Carries the win move's drop and arc, separate from the shake so neither overwrites the other.
+            var offsetGo = new GameObject("CameraEffectOffset");
+            offsetGo.transform.SetParent(shakeGo.transform, false);
+
             var cameraGo = new GameObject("Main Camera", typeof(Camera), typeof(AudioListener));
             cameraGo.tag = "MainCamera";
-            cameraGo.transform.SetParent(shakeGo.transform, false);
+            cameraGo.transform.SetParent(offsetGo.transform, false);
             Camera camera = cameraGo.GetComponent<Camera>();
             camera.clearFlags = CameraClearFlags.Skybox;
             camera.fieldOfView = Level1Layout.CameraVerticalFovDeg;
 
-            return new CameraBuildResult(camera, shake, follow);
+            return new CameraBuildResult(camera, shake, follow, offsetGo.transform);
         }
     }
 }

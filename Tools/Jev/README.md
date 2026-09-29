@@ -2,7 +2,7 @@
 
 Python 3.9+ standard library; development tooling only. No Unity dependency.
 
-At G2/G3/G5/G6, the implementer writes a focused report with the assessed APK revision, real results, evidence paths and explicit unknowns. Codex prepares a Jev request from that report, then reviews Jev's classifications against source/test/device evidence. Jev never edits STATUS or approves a milestone. Keep expected answers out of the supplied state. Send original relevant report excerpts, including negative findings, rather than a summary written to obtain a preferred verdict.
+At G2/G3/G5/G6, the implementer writes a focused report with the assessed APK revision, real results, evidence paths and explicit unknowns. Claude, as project owner, prepares a Jev request from that report, then reviews Jev's classifications against source/test/device evidence. Jev never edits STATUS or approves a milestone. Keep expected answers out of the supplied state. Send original relevant report excerpts, including negative findings, rather than a summary written to obtain a preferred verdict.
 
 ```sh
 python3 Tools/Jev/review.py prepare --gate G2 --build-revision BUILD_REVISION --report Docs/Development/STATUS.md --apk Builds/Android/TowerPrototype.apk
@@ -26,7 +26,7 @@ python3 Tools/Jev/review.py import Docs/Development/jev/RUN_DIRECTORY --response
 
 Export plain JSON, not HTML-escaped chat text. Playground request/response pairing is manually asserted and labeled accordingly. Imported stale evidence is marked STALE, never silently treated as current.
 
-Every completed run saves `response.json`, metadata and `review.md`. Results always require Codex review, even with unanimous high-confidence answers. Jev assesses text claims; it cannot inspect referenced screenshots, audio or video. Code checks exact hashes/counts; humans and device tests establish actual behavior. Do not send credentials or full unrelated logs as report inputs.
+Every completed run saves `response.json`, metadata and `review.md`. Results always require Claude’s evidence review (or the acting owner during quota fallback), even with unanimous high-confidence answers. Jev assesses text claims; it cannot inspect referenced screenshots, audio or video. Code checks exact hashes/counts; humans and device tests establish actual behavior. Do not send credentials or full unrelated logs as report inputs.
 
 Verification: `python3 -m unittest discover -s Tools/Jev -p 'test_*.py' -v`
 

@@ -28,6 +28,12 @@ namespace Game.Core
         public BurstSettings burst = new BurstSettings();
         public ClimberPoseSettings pose = new ClimberPoseSettings();
         public WebhookSettings webhook = new WebhookSettings();
+        public CameraFeedbackSettings cameraFx = new CameraFeedbackSettings();
+        public GrabFeedbackSettings grab = new GrabFeedbackSettings();
+        public HeightFeedbackSettings heightFx = new HeightFeedbackSettings();
+        public VictorySettings victory = new VictorySettings();
+        public HapticsSettings haptics = new HapticsSettings();
+        public SoundSettings sound = new SoundSettings();
 
         private static GameSettings _defaults;
 
@@ -96,8 +102,8 @@ namespace Game.Core
     [Serializable]
     public sealed class InputSettings
     {
-        [Tooltip("Height of the bottom-of-screen climb touch region, as a fraction of the screen. The controls hint is drawn from the same value.")]
-        [Range(0f, 1f)] public float touchRegionNormalizedHeight = 0.35f;
+        // Climbing is full-screen: any touch that starts outside an interactive control holds the climb, so there
+        // is nothing to tune yet. The section stays so the asset keeps a home for future input options.
     }
 
     [Serializable]
@@ -166,6 +172,12 @@ namespace Game.Core
         public float flashSeconds = 0.3f;
         [Tooltip("Length of the glow at the impact point.")]
         public float glowSeconds = 0.45f;
+        [Tooltip("Most punches one bump plays, counting the main impact punch. Each further glove passing the climber adds one, spaced by volleyMinIntervalSeconds. 1 plays the impact punch alone.")]
+        [Min(1)] public int volleyMaxPunches = 7;
+        [Tooltip("Shortest gap between two punches of a bump's volley, so the gloves read as a flurry rather than a buzz.")]
+        public float volleyMinIntervalSeconds = 0.055f;
+        [Tooltip("Volume of each volley punch, relative to the main impact punch.")]
+        [Range(0f, 1f)] public float volleyVolume = 0.6f;
     }
 
     /// <summary>ClimberPoseDriver's procedural climbing pose. Swing, yank and reach timings are tuned at ClimbPace.TunedBodyHeightsPerSecond and scale with the pace.</summary>

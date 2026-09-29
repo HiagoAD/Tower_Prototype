@@ -97,6 +97,7 @@ namespace Game.Editor
             AssetDatabase.SaveAssets();
         }
 
+        // Lilita One, not Kenney Future: Future's X is drawn as an H with two tiny notches, so EXIT read as EHIT.
         public static Font LoadUiFont()
         {
             return AssetDatabase.LoadAssetAtPath<Font>(Level1Paths.UiFont);

@@ -22,7 +22,7 @@ The page refreshes every 15 seconds while visible, when returning to the tab, or
 
 ## Updating the information
 
-Continue updating [STATUS.md](../../Docs/Development/STATUS.md) and [ACTION_PLAN.md](../../Docs/Development/ACTION_PLAN.md) through the established Claude/Codex workflow. The panel reads them on every refresh. No second progress database needs to be maintained.
+Continue updating [STATUS.md](../../Docs/Development/STATUS.md) and [ACTION_PLAN.md](../../Docs/Development/ACTION_PLAN.md) through the Claude-owned workflow in [AGENTS.md](../../AGENTS.md). The panel reads them on every refresh. No second progress database needs to be maintained.
 
 Keep the existing Markdown table headings and columns:
 

@@ -37,10 +37,16 @@ namespace Game.Presentation
         private int _lastHeight = int.MinValue;
         private int _lastFinishHeight = int.MinValue;
 
+        private readonly HeightFeedback _heightFeedback = new HeightFeedback();
+        private Color _heightBaseColor;
+        private bool _heightBaseCaptured;
+
         private void OnEnable()
         {
+            CaptureHeightBase();
             session.HeightUpdated += OnHeightUpdated;
             session.LevelStarted += OnLevelStarted;
+            session.StateChanged += OnStateChanged;
             session.LivesChanged += OnLivesChanged;
             SetActive(livesRoot, session.LivesEnabled);
             SetActive(pauseButton, session.PauseMenuEnabled);
@@ -51,7 +57,45 @@ namespace Game.Presentation
         {
             session.HeightUpdated -= OnHeightUpdated;
             session.LevelStarted -= OnLevelStarted;
+            session.StateChanged -= OnStateChanged;
             session.LivesChanged -= OnLivesChanged;
+            ResetHeightFeedback();
+        }
+
+        private void CaptureHeightBase()
+        {
+            if (!_heightBaseCaptured && heightLabel != null)
+            {
+                _heightBaseColor = heightLabel.color;
+                _heightBaseCaptured = true;
+            }
+        }
+
+        private void OnStateChanged(SessionState state)
+        {
+            // Paused keeps its tint and scale frozen (no HeightUpdated arrives); every other non-playing state clears them.
+            if (state != SessionState.Playing && state != SessionState.Paused)
+            {
+                ResetHeightFeedback();
+            }
+        }
+
+        private void ResetHeightFeedback()
+        {
+            _heightFeedback.Reset();
+            ApplyHeightFeedback();
+        }
+
+        private void ApplyHeightFeedback()
+        {
+            if (heightLabel == null || !_heightBaseCaptured)
+            {
+                return;
+            }
+
+            HeightFeedbackSettings fx = Settings.heightFx;
+            heightLabel.color = _heightFeedback.Evaluate(_heightBaseColor, fx);
+            heightLabel.rectTransform.localScale = Vector3.one * _heightFeedback.Scale;
         }
 
         private void OnLivesChanged(int lives)
@@ -69,6 +113,7 @@ namespace Game.Presentation
 
         private void OnLevelStarted()
         {
+            ResetHeightFeedback();
             if (levelLabel != null)
             {
                 levelLabel.text = "LEVEL " + (session.LevelIndex + 1) + "/" + session.LevelCount + "\n" + session.CurrentLevel.displayName.ToUpperInvariant();
@@ -77,6 +122,9 @@ namespace Game.Presentation
 
         private void OnHeightUpdated(float height, float finishHeight)
         {
+            _heightFeedback.Sample(height, session.PlayDeltaTime, Settings.heightFx);
+            ApplyHeightFeedback();
+
             float progress = finishHeight > 0f ? Mathf.Clamp01(height / finishHeight) : 0f;
             SetAnchorTop(progressFill, progress);
             if (progressMarker != null)

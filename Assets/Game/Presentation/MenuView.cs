@@ -18,6 +18,8 @@ namespace Game.Presentation
         [SerializeField] private GameObject losePanel;
         [Tooltip("Tuning asset; the win panel appears after the summit section's slideSeconds, so the climber's slide onto the summit plays first.")]
         [SerializeField] private GameSettings settings;
+        [Tooltip("Plays the heading pop and confetti when the win or final panel is shown.")]
+        [SerializeField] private VictoryView victory;
 
         private GameSettings Settings => GameSettings.OrDefaults(settings);
 
@@ -69,6 +71,11 @@ namespace Game.Presentation
             bool campaignComplete = session.IsFinalLevel;
             SetActive(winPanel, !campaignComplete);
             SetActive(finalWinPanel, campaignComplete);
+            GameObject shown = campaignComplete ? finalWinPanel : winPanel;
+            if (victory != null && shown != null)
+            {
+                victory.Celebrate(campaignComplete, shown.GetComponent<RectTransform>());
+            }
         }
 
         private static void SetActive(GameObject go, bool active)

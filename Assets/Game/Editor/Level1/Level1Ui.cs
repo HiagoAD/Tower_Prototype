@@ -65,6 +65,16 @@ namespace Game.Editor
             SceneBinding.Bind(menuView, "finalWinPanel", finalWinPanel);
             SceneBinding.Bind(menuView, "settings", inputs.Settings);
 
+            var victoryGo = new GameObject("VictoryView", typeof(RectTransform));
+            victoryGo.transform.SetParent(canvasGo.transform, false);
+            VictoryView victoryView = victoryGo.AddComponent<VictoryView>();
+            SceneBinding.Bind(victoryView, "session", session);
+            SceneBinding.Bind(victoryView, "winHeading", winPanel.transform.Find("Title"));
+            SceneBinding.Bind(victoryView, "finalHeading", finalWinPanel.transform.Find("Title"));
+            SceneBinding.Bind(victoryView, "confettiSprite", inputs.StarSprite);
+            SceneBinding.Bind(victoryView, "settings", inputs.Settings);
+            SceneBinding.Bind(menuView, "victory", victoryView);
+
             Level1Burst.Build(canvasGo.transform, session, hitTarget, camera, inputs);
         }
 

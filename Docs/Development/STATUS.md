@@ -1,14 +1,14 @@
 # Development status
 
-Latest planning update — 2026-09-28, approximately 17:45 Recife: **social setbacks replace terminal failure**. Viewers help or hinder through signed bumps; lost height/frustration is the intended loss experience. No lives/game-over implementation is outstanding. Document the difference from the brief's expected lose-state wording in README; immutable reference unchanged.
+Latest ownership update — 2026-09-28: **Claude owns planning, prioritization, milestone review, implementation, integration, and delivery coordination**, at the user's request. No Codex sign-off is required. Claude maintains the plan, backlog, forecasts and gate evidence. Quota fallback remains available; Claude resumes full ownership after recovery. Keep one Editor/build/device owner.
 
-Plan: [ACTION_PLAN.md](ACTION_PLAN.md). Implementer handoff: [CLAUDE_HANDOFF.md](CLAUDE_HANDOFF.md). Earlier assessment: [GOALS_REVIEW.md](GOALS_REVIEW.md).
+Plan: [ACTION_PLAN.md](ACTION_PLAN.md). Project ownership handoff: [CLAUDE_HANDOFF.md](CLAUDE_HANDOFF.md). Earlier assessment: [GOALS_REVIEW.md](GOALS_REVIEW.md).
 
-Current state: **G2 and G3 PASS.** Five distinct sequential levels and campaign/menu flow are accepted for the current baseline. G2 closed on user-confirmed device acceptance; G3 closed after source, saved test and Android evidence review. See [G3 review](G3_REVIEW.md).
+Current state: **G2 and G3 PASS; G4–G7 NOT VERIFIED.** Five sequential levels and campaign/menu flow are accepted for the recorded baseline. Lives and pause now ship enabled behind flags in `Assets/Game/Settings/GameSettings.asset`; webhook bumps never cost lives. These later decisions supersede the earlier no-lives/no-pause summaries. See [G3 review](G3_REVIEW.md) and the dated implementation reports below.
 
-Current priority: validate the [completed level/gameplay-feel tuning pass](LEVEL_FEEL_PASS.md) on Android, then G4 candidate freeze and G5 final regression. Fresh tuning tests passed 162/162 EditMode and 13/13 PlayMode; subjective device feel remains unverified. Codex plans/reviews; Claude implements. Preserve one Editor/build/device owner and the quota fallback.
+Current priority: reconcile existing uncommitted implementation work with the [ordered player-feedback backlog](ACTION_PLAN.md#2a-ordered-player-feedback-backlog), complete the remaining batches, then collect current-build Android evidence for G4/G5. Latest reported settings-consolidation results are **191/191 EditMode and 22/22 PlayMode**. Later cleanup batch validation passed compilation and scene/dependency checks; it did not rerun gameplay or Android. This handoff performs no new implementation validation or gate acceptance.
 
-Forecast: **4½–6½ hours remaining from implementation resumption**, assuming no major review defects, quota interruption or toolchain/device problem. Baseline start 17:45 Recife → finish **22:15 September 28–00:15 September 29**. Working target **23:00 Recife September 28 / 02:00 UTC September 29**. Previous 22:00 target is a stretch. User deadline remains interpreted as **September 29 09:00 UTC / 06:00 Recife**; no new date confirmation is asserted.
+Forecast: the earlier 17:45 schedule and **4½–6½-hour** estimate below are historical and do not cover the expanded feedback scope. Claude must re-estimate from actual remaining work and preserve at least 90 minutes for recording/package/access checks. The deadline remains interpreted as **September 29 09:00 UTC / 06:00 Recife**; no new date confirmation is asserted.
 
 | Gate | Revised target, Recife Sep 28 | Status | Evidence / remaining acceptance |
 | --- | --- | --- | --- |
@@ -21,16 +21,16 @@ Forecast: **4½–6½ hours remaining from implementation resumption**, assuming
 | G6 — recording and complete package | 22:15 | NOT VERIFIED | All-five final APK video, README/credits, clean source and packaged reinstall. |
 | G7 — verified link submitted | 23:00 | NOT VERIFIED | Upload/download/access checks and candidate submission. |
 
-Targets are midpoint estimates, not acceptance. Additional 30–60-minute repair reserve is included in the total forecast. Shift by delayed implementation start; reforecast after G2/G3. Historical reports below retain their original findings and assumptions; current social design and schedule above supersede old lose/retry gates and elapsed priorities. The prior Jev request `jev/20260928T203943015475Z-G2` describes the earlier assessment and is not current-plan acceptance evidence.
+Gate target times above are historical estimates, not current forecasts or acceptance. Historical reports below retain their original findings, ownership and assumptions; current decisions in ACTION_PLAN and CLAUDE_HANDOFF supersede them. The prior Jev request `jev/20260928T203943015475Z-G2` describes an earlier assessment and is not current-plan acceptance evidence.
 
 ## Known risks / decisions
 
 | Item | Owner | Next action |
 | --- | --- | --- |
 | Device ownership | Candidate + Claude lead | Known moto g 5G plus; coordinate exclusive build/device time and confirm recording/audio capture. |
-| Deadline date inferred | Candidate + Codex | Confirm September 29 if the interpretation is incorrect; today-end target remains earlier. |
+| Deadline date inferred | Candidate + Claude | Confirm September 29 if the interpretation is incorrect; today-end target remains earlier. |
 | Running Editor's Pipeline unreachable in planning session | Claude lead | Diagnose connection/permissions; do not assume missing package. |
-| Final integrated acceptance | Claude + Codex | Preserve accepted planted-grip feel; verify social recovery, audio and current visuals on Android. |
+| Final integrated acceptance | Claude | Preserve accepted planted-grip feel; verify social recovery, audio and current visuals on Android. |
 | Brief names `adb reverse` for PC-side request | Webhook lane + lead | Implement/test `adb forward`; explain direction in README. Preserve brief. |
 | No asset generation | All | Import existing free art/audio; retain licenses and attribution. |
 | Pro allowances may not cover the full implementation sprint | Candidate + both agents | Record balances/reset times below; measure usage after G1/G2; prioritize required behavior and fixes. |
@@ -623,6 +623,14 @@ At the user's request, every tuning value now comes from one asset, `Assets/Game
 Migration was lossless: every scene value equalled its code default except camera shake, which the builder derived as 0.35 × WorldScale 4.5 = 1.575, now its default. Pace 0.92, body height 2.725, the boxing type and its glove icon/tint, and the lives and pause flags (on) all carried over. Rebuilding over the existing asset left it byte-identical. `ClimbPace.bodyHeight` now defaults to 0 ("unmeasured"), which plays levels as authored, so a component without an asset behaves as before. The lead fixed two integration errors: a per-level bump-type refresh that threw in EditMode because the listener is only created in Awake (reverted to Awake-only, as before), and one test that still wrote the old delay field. Rerun in the Editor: **191/191 EditMode, 22/22 PlayMode passed**, including new `GameSettingsTests` (pinned defaults) and a wiring test requiring every Level1 component to reference the one shipped asset. No Android build or device run.
 
 
+
+### 2026-09-28 — player feedback categorized and ordered (Codex; planning only)
+
+Incorporated all ten feedback items into [ACTION_PLAN §2A](ACTION_PLAN.md#2a-ordered-player-feedback-backlog) and synchronized [CLAUDE_HANDOFF.md](CLAUDE_HANDOFF.md). Order: full-screen controls (#2), EXIT readability (#1), stronger community bumps (#9), obstacle shake (#4), grab particles (#3), reactive height HUD (#5), basic victory fanfare (#6), supported haptics (#7), audio/music (#8), and optional win-camera choreography (#10). Categories, P0–P3 priorities, dependencies, device acceptance and cut order are recorded. Essential audio is integrated with the corresponding effects; background music and the elaborate orbit are optional.
+
+Refreshed stale plan baseline to G2/G3 PASS, five implemented levels, shipped lives/pause enabled and the single settings asset. Prior clock estimates are historical; expanded polish needs a revised estimate. No gate changed. Implementation, tests, Editor/build/device operations and subjective acceptance were not performed for this update. Read the immutable brief and inspected its image plus sampled video frames; all six reference checksum entries passed. Existing implementation edits were preserved.
+
+
 ### 2026-09-28 — Unused asset cleanup (Codex, user-requested)
 
 Removed the unused template `Assets/Scenes/SampleScene.unity`, `Assets/Readme.asset`,
@@ -654,3 +662,71 @@ Temporary diagnostic/validation scripts and their metadata were removed.
 This supersedes the earlier unverified import/compilation note; gameplay and
 Android testing were not rerun. Pipeline discovery troubleshooting was abandoned
 at the user's request. No milestone gate changed.
+
+
+### 2026-09-28 — Project ownership transferred to Claude (user-requested)
+
+Claude takes over Codex's planning, prioritization, forecasts, milestone/evidence review and blocker coordination, alongside implementation and integration, through remaining delivery gates G4–G7. Updated AGENTS, ACTION_PLAN, CLAUDE_HANDOFF, the current STATUS summary and the Jev/panel workflow documentation. No Codex approval remains required. Quota fallback returns ownership to Claude after recovery; the candidate retains final submission.
+
+Existing implementation and documentation edits were preserved. Historical reports retain their original authors and evidence limits. No Unity, build, device or gameplay checks were run for this documentation handoff; no gate changed. All six immutable-reference checksums passed.
+
+
+### 2026-09-28 — player-feedback backlog rows 1–10 implemented (Claude; five parallel Sonnet 5.5 agents, lead integration)
+
+All ten ACTION_PLAN §2A rows now have an implementation; none is accepted yet. Five `claude-sonnet-5-5` agents worked in the same tree with disjoint file ownership. The lead first added shared seams: `GameSession.HazardHit`, `ClimberPoseDriver.HandPlanted`, six new settings sections (`cameraFx`, `grab`, `heightFx`, `victory`, `haptics`, `sound`) and three builder steps. The lead also owned the only Unity, build and device session.
+
+- **Rows 1, 2, 6 (input, EXIT, height HUD).**
+  - Holding anywhere climbs; the touch-region setting is removed. Touches that begin on a `Selectable`, or before climbing is allowed, are never claimed. Pause, background and transitions clear held input.
+  - The display font is now Lilita One (SIL OFL 1.1): Kenney Future's X glyph is an H with small notches, so EXIT read as EHIT.
+  - The height label tints green or red and scales with the actual altitude trend, using a deadband and hold. It resets on level start, menu, win and loss.
+- **Rows 3, 4, 10 (bumps, hit shake, camera).**
+  - The boxing bump is now 2 body heights up and 1.75 down (was 1 and 1).
+  - A new `CameraEffects` owner drives, at glove impact:
+    - a polarity-dependent zoom pulse (positive pulls out, negative punches in);
+    - a per-channel shake that takes the maximum rather than the sum;
+    - URP bloom and chromatic-aberration pulses in the new `Game.PostFx` assembly (post-processing is on only while a pulse is active).
+  - Hazard hits get a smaller hit-channel shake.
+  - On win, the camera pushes in with a 10° arc.
+  - Lead fix: `CameraShake` now always zeroes its offset once no shake is active. The approximate `Vector3 !=` guard left a sub-tolerance offset, which two new tests caught.
+- **Rows 5 and 8 (grab particles, haptics).**
+  - Pooled sparks play at the real grip point. The agent corrected the lead's `GripWorldPoint` depth.
+  - Grabs count only while climbing, so idle-finished reaches give no feedback.
+  - Android Vibrator haptics: light on grab (rate-limited), heavy on hit, a win pulse, and a triple pulse on the final win. Enable and intensity settings; silent when paused or backgrounded. VIBRATE is present in the APK manifest (`aapt dump permissions`).
+- **Row 7 (victory UI).** A heading pop with wobble and a pooled confetti burst (not a raycast target) play after the summit slide. The final TOWER CLEARED win gets a larger, longer, two-burst version. Everything clears on Next, Exit, Retry and menu.
+- **Row 9 (audio).**
+  - `GameAudio` plays a music loop (ducked while paused, won or lost) and pooled SFX with per-cue cooldowns and overlap caps.
+  - Cues: grab, hit, positive-bump at impact, level-win and final-win jingles, and UI click (the lead wired it to every button).
+  - Sources, all under `Assets/Game/Art/Licensed/Audio/*/LICENSE.md`: Kenney RPG Audio, Impact Sounds, Digital Audio, Music Jingles and Interface Sounds (all CC0), and cynicmusic "Happy Lullaby (song17)" (CC0, OpenGameArt). No generated audio.
+
+**Validation**
+- Scene rebuilt; SceneWiringCheck passed.
+- Tests: **253/253 EditMode** and **22/22 PlayMode** passed (`evidence/feedback_editmode.xml`, `feedback_playmode.xml`).
+- Preview capture reviewed: the Exit/Next labels are legible (`evidence/feedback_win_preview.png`).
+- APK SHA-256 `8bed1c7631d10e2739a5b452bfd185c003b20b03d73445aad137e248df63ed2c`, installed on moto g 5G plus `0070013699`. The source is uncommitted work on top of `5532ffd`.
+- Device smoke run over adb forward (`evidence/feedback_device_*.png`):
+  - A hold near the top of the screen climbed.
+  - A positive GET, a bare GET (negative, request ID `93d6436785544aa5aa52bb8460f750b7`) and a bare POST all returned 200/accepted.
+  - The negative bump showed the punch-in, aberration, red height and glove card.
+  - After the burst, a bottom hold climbed again with green height. A hazard hit during that climb took one life; the bumps took none.
+  - No Unity or AndroidRuntime errors in logcat.
+- Immutable reference checksums: all six OK.
+
+**Not yet done.** Human feel, visual and audio review on the phone:
+- bump distances and effect strengths;
+- whether the victory arc exposes the tower;
+- confetti and heading;
+- whether the grab haptic tick is felt;
+- the music loop point and mix.
+
+Also still open: a five-level natural-play regression, a five-minute performance run, and the G4/G5 freeze. No gate changed.
+
+
+### 2026-09-28 — bump punch volley SFX (Claude, user-requested)
+
+The bump now plays a punch volley. The main impact punch still plays when the first glove hits. Each later glove that passes the climber adds a punch from nine more Kenney Impact Sounds clips (CC0; the same pack, verified by the byte-identical `impactPunch_heavy_000.ogg`).
+
+- The volley is spaced at least 0.055 s apart, caps at 7 punches per bump counting the impact punch, and plays at 0.6 volume.
+- Tuning lives in `burst.volley*`; `PunchVolley` holds the spacing logic.
+- The volley freezes with pause and stops on cancel.
+
+Validation: scene rebuilt and wiring check passed. **258/258 EditMode** (including 5 new `PunchVolleyTests`) and **22/22 PlayMode** passed (`evidence/feedback_volley_editmode.xml`, `feedback_volley_playmode.xml`). APK SHA-256 `8786e31715bb0642208c559c0677e7f6947eac772273cb839fd462d592e0b3c8`, installed on `0070013699`. Not yet listened to on device.

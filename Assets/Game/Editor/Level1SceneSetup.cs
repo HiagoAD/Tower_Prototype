@@ -64,6 +64,9 @@ namespace Game.Editor
             Level1Wiring.WireSessionConsumers(session, settings, level, tower, player, camera, summitLip);
 
             Level1Ui.Build(uiKit, session, player.HitTarget, camera, inputs);
+            Level1CameraFx.Build(session, settings, player, camera);
+            Level1GrabFx.Build(session, settings, player, camera);
+            Level1Audio.Build(session, settings, player, camera);
 
             // Every object field on a game component must be wired; nothing in this scene is left optional.
             SceneWiringCheck.Verify(scene);

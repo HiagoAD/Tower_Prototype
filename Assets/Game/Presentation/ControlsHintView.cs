@@ -5,9 +5,9 @@ using UnityEngine.UI;
 namespace Game.Presentation
 {
     /// <summary>
-    /// Fades the climb prompt (laid out over ClimbInputSource's exact touch region -- see
-    /// Level1SceneSetup.BuildControlsHint) out once the player has climbed a little. Never
-    /// intercepts input itself: the text has raycastTarget = false, set where it's created.
+    /// Fades the climb prompt ("hold anywhere to climb" -- the whole screen is the touch area) out once the
+    /// player has climbed a little. Never intercepts input itself: the text has raycastTarget = false,
+    /// set where it's created.
     /// </summary>
     public sealed class ControlsHintView : MonoBehaviour
     {

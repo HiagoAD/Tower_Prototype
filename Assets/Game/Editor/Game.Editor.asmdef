@@ -3,6 +3,7 @@
     "rootNamespace": "",
     "references": [
         "Game",
+        "Game.PostFx",
         "Unity.InputSystem",
         "UnityEngine.UI"
     ],

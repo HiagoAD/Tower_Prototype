@@ -30,7 +30,7 @@ Timing: an accepted bump does not move the climber at once. The move starts when
 
 When the app goes to the background the session pauses, so `/bump` answers `409 not_playing` instead of timing out; returning to the app resumes it (there is no pause UI).
 
-Stacking: a bump that arrives while an earlier bump is still easing adds its distance to that bump's target (two rapid +1 body-height bumps end 2 body heights up), clamped to the tower. Bumps always apply, even during a hit's invulnerability, and never cost a hit point. Long tags are cut to one line with an ellipsis; card text is plain, so markup such as `<size=900>` shows literally.
+Stacking: a bump that arrives while an earlier bump is still easing adds its distance to that bump's target (two rapid +2 body-height bumps end 4 body heights up), clamped to the tower. Bumps always apply, even during a hit's invulnerability, and never cost a hit point. Long tags are cut to one line with an ellipsis; card text is plain, so markup such as `<size=900>` shows literally.
 
 ## Examples
 
@@ -58,6 +58,6 @@ Data only, no code. Open `Assets/Game/Settings/GameSettings.asset` and add an en
 - `id`: what the server sends as `type`
 - `displayName`: card detail line (`<name>*1`)
 - `icon` and `iconTint`: card badge and burst projectiles
-- `liftBodyHeights` / `dropBodyHeights`: climber body heights (feet to head, `GameSession.hazardBodyHeight` world units) moved up by a positive bump / down by a negative one. The boxing type is 1 / 1. These are not scaled by the climb pace
+- `liftBodyHeights` / `dropBodyHeights`: climber body heights (feet to head, `GameSession.hazardBodyHeight` world units) moved up by a positive bump / down by a negative one. The boxing type is 2 / 1.75 (`BumpCatalog.DefaultLiftBodyHeights` / `DefaultDropBodyHeights`), raised from 1 / 1 so a social bump reads as the strongest feedback moment. These are not scaled by the climb pace
 
 The scene builder only fills the settings asset when it creates it, so rebuilding the scene never overwrites tuned values.

@@ -1,21 +1,50 @@
+using System.Collections.Generic;
 using Game.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace Game.Gameplay
 {
     /// <summary>
-    /// Hold-to-climb input: drives PlayerMotor.ClimbHeld from Space/W (Editor) or a touch inside
-    /// the bottom screen region (device). This is a provisional interpretation, not confirmed
-    /// reference behaviour -- see Docs/Development/REFERENCE_OBSERVATION_ADDENDUM.md. Kept in its
-    /// own component so swapping control schemes later does not touch PlayerMotor or GameSession.
+    /// Hold-to-climb input: drives PlayerMotor.ClimbHeld from Space/W (Editor) or any touch on the screen
+    /// (device), so a hold climbs from the top, middle or bottom. A touch that starts on a button/toggle
+    /// belongs to that control and never climbs, even if it slides off; ClimbTouchGate holds the rules.
+    /// Kept in its own component so swapping control schemes later does not touch PlayerMotor or GameSession.
     /// </summary>
     public sealed class ClimbInputSource : MonoBehaviour
     {
         [SerializeField] private PlayerMotor motor;
-        [Tooltip("GameSettings.input holds the bottom-of-screen climb touch region, which the controls hint is drawn from too. Without it the built-in defaults apply.")]
+        [Tooltip("GameSettings.input; currently nothing to tune. Without it the built-in defaults apply.")]
         [SerializeField] private GameSettings settings;
+
+        private readonly ClimbTouchGate _gate = new ClimbTouchGate();
+        private readonly List<ClimbTouchGate.Touch> _touches = new List<ClimbTouchGate.Touch>();
+        private readonly List<RaycastResult> _hits = new List<RaycastResult>();
+        private PointerEventData _pointer;
+
+        private void OnDisable()
+        {
+            _gate.Clear();
+            if (motor != null)
+            {
+                motor.ClimbHeld = false;
+            }
+        }
+
+        private void OnApplicationPause(bool paused)
+        {
+            _gate.Clear();
+        }
+
+        private void OnApplicationFocus(bool focused)
+        {
+            if (!focused)
+            {
+                _gate.Clear();
+            }
+        }
 
         private void Update()
         {
@@ -24,29 +53,58 @@ namespace Game.Gameplay
                 return;
             }
 
-            motor.ClimbHeld = IsHoldDetected();
+            // Always evaluated so the gate sees CanClimb drop and forgets touches held through a menu.
+            bool touchHeld = EvaluateTouches();
+            motor.ClimbHeld = IsKeyHeld() || touchHeld;
         }
 
-        private bool IsHoldDetected()
+        private static bool IsKeyHeld()
         {
             Keyboard keyboard = Keyboard.current;
-            if (keyboard != null && (keyboard.spaceKey.isPressed || keyboard.wKey.isPressed))
+            return keyboard != null && (keyboard.spaceKey.isPressed || keyboard.wKey.isPressed);
+        }
+
+        private bool EvaluateTouches()
+        {
+            _touches.Clear();
+            Touchscreen screen = Touchscreen.current;
+            if (screen != null && motor.CanClimb)
             {
-                return true;
+                var all = screen.touches;
+                for (int i = 0; i < all.Count; i++)
+                {
+                    var touch = all[i];
+                    if (!touch.press.isPressed)
+                    {
+                        continue;
+                    }
+
+                    bool began = touch.press.wasPressedThisFrame;
+                    bool overUi = began && IsOverInteractiveUi(touch.position.ReadValue());
+                    _touches.Add(new ClimbTouchGate.Touch(touch.touchId.ReadValue(), began, overUi));
+                }
             }
 
-            Touchscreen touch = Touchscreen.current;
-            if (touch != null && touch.primaryTouch.press.isPressed)
-            {
-                int touchId = touch.primaryTouch.touchId.ReadValue();
-                if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject(touchId))
-                {
-                    return false; // a menu/HUD button is being touched, not the climb region.
-                }
+            return _gate.Evaluate(motor.CanClimb, _touches);
+        }
 
-                Vector2 pos = touch.primaryTouch.position.ReadValue();
-                float regionPixels = Screen.height * GameSettings.OrDefaults(settings).input.touchRegionNormalizedHeight;
-                if (pos.y <= regionPixels)
+        /// <summary>True only for a Selectable (button, toggle...) under the point; non-interactive HUD graphics never block a climb.</summary>
+        private bool IsOverInteractiveUi(Vector2 screenPosition)
+        {
+            EventSystem system = EventSystem.current;
+            if (system == null)
+            {
+                return false;
+            }
+
+            _pointer ??= new PointerEventData(system);
+            _pointer.position = screenPosition;
+            _hits.Clear();
+            system.RaycastAll(_pointer, _hits);
+            for (int i = 0; i < _hits.Count; i++)
+            {
+                GameObject hit = _hits[i].gameObject;
+                if (hit != null && hit.GetComponentInParent<Selectable>() != null)
                 {
                     return true;
                 }

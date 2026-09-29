@@ -28,8 +28,8 @@ MonoBehaviour:
       displayName: Boxing
       icon: {fileID: 21300000, guid: 7d0008652b6a6400dbdf2154fe492c8f, type: 3}
       iconTint: {r: 0.9, g: 0.08, b: 0.08, a: 1}
-      liftBodyHeights: 1
-      dropBodyHeights: 1
+      liftBodyHeights: 2
+      dropBodyHeights: 1.75
   motor:
     hitDisplacement: 1.5
     knockbackSeconds: 0.35
@@ -38,8 +38,6 @@ MonoBehaviour:
     invulnerabilitySeconds: 0.6
     bumpImpactDelaySeconds: 0.275
     hazardClearanceBodyHeights: 0.1
-  input:
-    touchRegionNormalizedHeight: 0.35
   camera:
     followLerp: 6
     bumpFollowFactor: 0.25
@@ -64,6 +62,9 @@ MonoBehaviour:
     starSize: 90
     flashSeconds: 0.3
     glowSeconds: 0.45
+    volleyMaxPunches: 7
+    volleyMinIntervalSeconds: 0.055
+    volleyVolume: 0.6
   pose:
     gripOutward: 0.4
     gripHigh: 0.95
@@ -95,3 +96,112 @@ MonoBehaviour:
     boostLegDirection: {x: 0.08, y: -1, z: -0.18}
   webhook:
     port: 56789
+  cameraFx:
+    pulseAttackSeconds: 0.07
+    pulseReleaseSeconds: 0.55
+    positiveFovPercent: 10
+    negativeFovPercent: -12
+    bumpShakeSeconds: 0.9
+    positiveShakeScale: 0.8
+    negativeShakeScale: 1
+    hitShakeMagnitude: 0.55
+    hitShakeSeconds: 0.25
+    positiveFlashTint: {r: 0.72, g: 0.88, b: 1, a: 1}
+    negativeFlashTint: {r: 1, g: 0.7, b: 0.55, a: 1}
+    postProcessingEnabled: 1
+    aberrationIntensity: 0.5
+    bloomIntensity: 0.9
+    bloomThreshold: 0.9
+    bloomScatter: 0.6
+    positiveAberrationWeight: 0.35
+    positiveBloomWeight: 1
+    negativeAberrationWeight: 1
+    negativeBloomWeight: 0.35
+    victoryCameraEnabled: 1
+    victoryStartDelaySeconds: 0.1
+    victoryMoveSeconds: 1.6
+    victoryPushInFovPercent: -16
+    victoryCameraDropWorldUnits: 2
+    victoryArcDegrees: 10
+    victoryArcEnabled: 1
+    victoryAberrationWeight: 0.45
+    victoryBloomWeight: 0.6
+    victoryPulseReleaseSeconds: 0.9
+  grab:
+    enabled: 1
+    particlesPerGrab: 5
+    lifetimeSeconds: 0.32
+    sizeBodyHeights: 0.055
+    sizeJitter: 0.35
+    speedBodyHeights: 0.45
+    towardCameraBodyHeights: 0.04
+    maxParticles: 24
+    color: {r: 1, g: 0.92, b: 0.55, a: 1}
+  heightFx:
+    deadbandUnitsPerSecond: 0.05
+    holdSeconds: 0.15
+    gainColor: {r: 0.3, g: 0.92, b: 0.32, a: 1}
+    lossColor: {r: 1, g: 0.26, b: 0.22, a: 1}
+    gainScale: 1.08
+    lossScale: 1.25
+    responseRate: 14
+  victory:
+    headingSeconds: 0.6
+    headingStartScale: 0.2
+    headingOvershoot: 1.25
+    headingRiseFraction: 0.6
+    headingWobbleDegrees: 6
+    headingWobbleCycles: 2
+    confettiCount: 60
+    confettiColors:
+    - {r: 1, g: 0.85, b: 0.1, a: 1}
+    - {r: 1, g: 0.3, b: 0.3, a: 1}
+    - {r: 0.3, g: 0.75, b: 1, a: 1}
+    - {r: 0.45, g: 0.9, b: 0.4, a: 1}
+    - {r: 1, g: 0.55, b: 0.85, a: 1}
+    confettiLifetime: {x: 1.6, y: 2.6}
+    confettiSpeed: {x: 500, y: 1100}
+    confettiGravity: 1400
+    confettiSize: {x: 22, y: 44}
+    confettiSpinDegrees: 360
+    confettiFadeFraction: 0.3
+    finalHeadingMultiplier: 1.5
+    finalHeadingSecondsMultiplier: 1.5
+    finalConfettiMultiplier: 2
+    finalLifetimeMultiplier: 1.5
+    finalSecondBurstDelay: 0.7
+  haptics:
+    enabled: 1
+    intensity: 1
+    grabMilliseconds: 18
+    grabStrength: 0.3
+    grabMinIntervalSeconds: 0.18
+    hitMilliseconds: 70
+    hitStrength: 0.85
+    winMilliseconds: 110
+    winStrength: 0.7
+    finalWinPulses: 3
+    finalWinGapMilliseconds: 90
+    grabQuietAfterHeavySeconds: 0.35
+  sound:
+    masterVolume: 1
+    musicVolume: 0.22
+    sfxVolume: 1
+    musicInMenu: 1
+    musicDuckScale: 0.3
+    musicFadePerSecond: 1.5
+    sfxVoices: 6
+    grabVolume: 0.3
+    grabCooldownSeconds: 0.14
+    grabMaxOverlap: 2
+    grabPitchJitter: 0.08
+    hitVolume: 0.55
+    hitCooldownSeconds: 0.2
+    hitMaxOverlap: 2
+    bumpVolume: 0.8
+    bumpCooldownSeconds: 0.1
+    bumpMaxOverlap: 2
+    winVolume: 0.7
+    finalWinVolume: 0.9
+    clickVolume: 0.5
+    clickCooldownSeconds: 0.05

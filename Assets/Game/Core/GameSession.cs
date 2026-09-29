@@ -118,6 +118,9 @@ namespace Game.Core
         public event System.Action<int> LivesChanged;
         public event System.Action<BumpEvent> BumpAccepted;
 
+        /// <summary>Raised once per hazard hit the motor accepted (not during invulnerability), whether or not lives are enabled.</summary>
+        public event System.Action HazardHit;
+
         /// <summary>
         /// Raised by every StartLevel/Retry, including one made while already Playing (which raises no
         /// StateChanged transition worth acting on). Time-based presentation cancels its leftovers here.
@@ -245,7 +248,7 @@ namespace Game.Core
                 Debug.LogError("[GameSession] GameSettings.bumps has no types; using a built-in boxing type.");
             }
 
-            return new BumpType { id = catalog.defaultTypeId, displayName = "Boxing", liftBodyHeights = 1f, dropBodyHeights = 1f };
+            return new BumpType { id = catalog.defaultTypeId, displayName = "Boxing", liftBodyHeights = BumpCatalog.DefaultLiftBodyHeights, dropBodyHeights = BumpCatalog.DefaultDropBodyHeights };
         }
 
         /// <summary>Begins the campaign at its first level (the main menu's Start).</summary>
@@ -358,7 +361,13 @@ namespace Game.Core
             }
 
             // Invulnerable from a recent hit: no-op, matches short recovery window.
-            if (!motor.TryApplyHazardHit(bandHeight, hazardBodyHeight, hazardBodyHeight * Settings.motor.hazardClearanceBodyHeights) || !LivesEnabled)
+            if (!motor.TryApplyHazardHit(bandHeight, hazardBodyHeight, hazardBodyHeight * Settings.motor.hazardClearanceBodyHeights))
+            {
+                return;
+            }
+
+            HazardHit?.Invoke();
+            if (!LivesEnabled)
             {
                 return;
             }

@@ -63,6 +63,16 @@ namespace Game.Editor
             SceneBinding.Bind(hudView, "livesRoot", livesRoot);
             SceneBinding.BindArray(hudView, "lifeIcons", lifeIcons);
             SceneBinding.Bind(hudView, "pauseButton", pauseButton.gameObject);
+
+            // Only controls may intercept a touch; every other HUD graphic stays transparent to the full-screen climb hold.
+            foreach (Graphic graphic in hudPanel.GetComponentsInChildren<Graphic>(true))
+            {
+                if (graphic.GetComponentInParent<Selectable>() == null)
+                {
+                    graphic.raycastTarget = false;
+                }
+            }
+
             return hudPanel;
         }
 
@@ -316,17 +326,14 @@ namespace Game.Editor
         }
 
         /// <summary>
-        /// A short prompt laid out over ClimbInputSource's exact touch region
-        /// (settings.input.touchRegionNormalizedHeight, not a copy of the value). No band graphic:
-        /// the reference frame is clean sky. Never a raycast target. Fades out once the player has
+        /// A short prompt near the bottom edge: a hold anywhere on the screen climbs, so the hint names no region.
+        /// No band graphic: the reference frame is clean sky. Never a raycast target. Fades out once the player has
         /// climbed a little (see ControlsHintView).
         /// </summary>
         private static void BuildControlsHint(UiKit kit, GameObject hudPanel, GameSession session, GameSettings settings)
         {
-            float regionFraction = settings.input.touchRegionNormalizedHeight;
-
-            Text hintText = UiKit.AddText(hudPanel.transform, "ClimbHintText", "Hold below to climb - release to grip", 32, TextAnchor.LowerCenter,
-                new Vector2(0f, 20f), anchorMin: new Vector2(0f, 0f), anchorMax: new Vector2(1f, regionFraction), pivot: new Vector2(0.5f, 0f), sizeDelta: new Vector2(0f, 90f));
+            Text hintText = UiKit.AddText(hudPanel.transform, "ClimbHintText", "HOLD ANYWHERE TO CLIMB\nRELEASE TO GRIP", 40, TextAnchor.LowerCenter,
+                new Vector2(0f, 60f), anchorMin: new Vector2(0f, 0f), anchorMax: new Vector2(1f, 0f), pivot: new Vector2(0.5f, 0f), sizeDelta: new Vector2(0f, 130f));
             kit.UseDisplayFont(hintText);
             UiKit.AddOutline(hintText, new Color(0f, 0f, 0f, 0.5f), 2f);
 

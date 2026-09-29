@@ -1,6 +1,5 @@
 using System.Collections;
 using Game.Core;
-using Game.Gameplay;
 using Game.Webhook;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,9 +14,10 @@ namespace Game.Presentation
     /// yellow stars go off on the character. Bounded: a new trigger while one is already playing
     /// restarts the single coroutine instead of stacking, so accepted requests during an active burst
     /// still produce visible feedback without extending the lock indefinitely.
-    /// Follows the session: advances by GameSession.PlayDeltaTime, so it (and its camera shake and
-    /// impact sound) freezes while paused and continues on resume, and is cancelled outright on
-    /// menu, win and every level start.
+    /// Follows the session: advances by GameSession.PlayDeltaTime, so it (and its impact sound) freezes
+    /// while paused and continues on resume, and is cancelled outright on menu, win and every level
+    /// start. The camera shake, zoom pulse and post-processing at the same impact moment belong to
+    /// CameraEffects.
     /// </summary>
     public sealed class BumpBurstView : MonoBehaviour
     {
@@ -28,8 +28,9 @@ namespace Game.Presentation
         [SerializeField] private GameSession session;
         [SerializeField] private RectTransform burstRoot;
         [SerializeField] private Image flashImage;
-        [SerializeField] private CameraShake cameraShake;
         [SerializeField] private AudioSource impactAudioSource;
+        [Tooltip("Punches for the volley: one plays as each further glove passes the climber (see the burst section's volley settings).")]
+        [SerializeField] private AudioClip[] punchClips;
         [SerializeField] private Sprite gloveSprite;
         [SerializeField] private Sprite starSprite;
         [SerializeField] private Sprite glowSprite;
@@ -48,6 +49,9 @@ namespace Game.Presentation
         private float[] _gloveLaunchAngles;
         private Vector2[] _gloveStarts;
         private float[] _gloveDelays;
+        private bool[] _glovePunched;
+        private readonly PunchVolley _volley = new PunchVolley();
+        private int _lastPunchClip = -1;
         private RectTransform[] _stars;
         private Vector2[] _starVelocities;
         private RectTransform _glow;
@@ -97,14 +101,10 @@ namespace Game.Presentation
             SetFrozen(state == SessionState.Paused);
         }
 
-        /// <summary>Stops the burst, its camera shake and its impact sound, leaving every element hidden.</summary>
+        /// <summary>Stops the burst and its impact sound, leaving every element hidden.</summary>
         public void Cancel()
         {
             StopOwnedEffects();
-            if (cameraShake != null)
-            {
-                cameraShake.Cancel();
-            }
 
             if (impactAudioSource != null)
             {
@@ -112,14 +112,9 @@ namespace Game.Presentation
             }
         }
 
-        /// <summary>Holds (or releases) the camera shake and the impact sound; the routine holds itself via PlayDeltaTime.</summary>
+        /// <summary>Holds (or releases) the impact sound; the routine holds itself via PlayDeltaTime.</summary>
         private void SetFrozen(bool frozen)
         {
-            if (cameraShake != null)
-            {
-                cameraShake.Paused = frozen;
-            }
-
             if (impactAudioSource != null)
             {
                 if (frozen)
@@ -150,7 +145,9 @@ namespace Game.Presentation
         {
             Sprite sprite = bump.Type != null && bump.Type.icon != null ? bump.Type.icon : gloveSprite;
             Color tint = bump.Type != null && bump.Type.icon != null ? bump.Type.iconTint : DefaultProjectileTint;
-            float sign = bump.Polarity == BumpPolarity.Positive ? 1f : -1f;
+            bool positive = bump.Polarity == BumpPolarity.Positive;
+            float sign = positive ? 1f : -1f;
+            SetFlashTint(positive ? Settings.cameraFx.positiveFlashTint : Settings.cameraFx.negativeFlashTint);
             float distance = Mathf.Max(_spanX, _spanY) * 0.62f;
 
             for (int i = 0; i < _gloves.Length; i++)
@@ -202,6 +199,18 @@ namespace Game.Presentation
             }
         }
 
+        /// <summary>Colours the full-screen flash by polarity (cool for a lift, warm for a knock-down), keeping its alpha.</summary>
+        private void SetFlashTint(Color tint)
+        {
+            if (flashImage == null)
+            {
+                return;
+            }
+
+            tint.a = flashImage.color.a;
+            flashImage.color = tint;
+        }
+
         private void SetFlashAlpha(float alpha)
         {
             if (flashImage == null)
@@ -250,6 +259,7 @@ namespace Game.Presentation
             _gloveLaunchAngles = new float[gloveCount];
             _gloveStarts = new Vector2[gloveCount];
             _gloveDelays = new float[gloveCount];
+            _glovePunched = new bool[gloveCount];
 
             for (int i = 0; i < gloveCount; i++)
             {
@@ -310,10 +320,6 @@ namespace Game.Presentation
         private IEnumerator BurstRoutine()
         {
             BurstSettings burst = Settings.burst;
-            if (cameraShake != null)
-            {
-                cameraShake.Shake(burst.durationSeconds);
-            }
 
             // The session owns the impact time (it is when the climber's move starts). Shift the glove
             // schedule so the first glove is halfway through its flight -- at the character -- then.
@@ -321,6 +327,11 @@ namespace Game.Presentation
             float firstGloveMidFlight = _gloveDelays.Length > 0 ? Mathf.Min(_gloveDelays) + burst.gloveFlightSeconds * 0.5f : 0f;
             float gloveShift = impactTime - firstGloveMidFlight;
             bool impacted = false;
+            _volley.Reset();
+            for (int i = 0; i < _glovePunched.Length; i++)
+            {
+                _glovePunched[i] = false;
+            }
 
             float t = 0f;
             while (t < burst.durationSeconds)
@@ -335,8 +346,7 @@ namespace Game.Presentation
                 t += dt;
                 Vector2 target = ComputeTargetLocalPosition();
 
-                UpdateGloves(t - gloveShift, target);
-
+                // The impact goes first so a glove passing the climber in the same frame can't double it.
                 if (!impacted && t >= impactTime)
                 {
                     impacted = true;
@@ -344,7 +354,11 @@ namespace Game.Presentation
                     {
                         impactAudioSource.PlayOneShot(impactAudioSource.clip);
                     }
+
+                    _volley.Register(t - gloveShift);
                 }
+
+                UpdateGloves(t - gloveShift, target);
 
                 if (impacted)
                 {
@@ -364,6 +378,12 @@ namespace Game.Presentation
             for (int i = 0; i < _gloves.Length; i++)
             {
                 float u = (t - _gloveDelays[i]) / Settings.burst.gloveFlightSeconds;
+                if (u >= 0.5f && !_glovePunched[i])
+                {
+                    _glovePunched[i] = true;
+                    TryPlayVolleyPunch(t);
+                }
+
                 bool flying = u >= 0f && u <= 1f;
                 _gloves[i].gameObject.SetActive(flying);
                 if (!flying)
@@ -379,6 +399,26 @@ namespace Game.Presentation
                 float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + SpritePunchAngleOffset;
                 _gloves[i].localRotation = Quaternion.Euler(0f, 0f, angle);
             }
+        }
+
+        /// <summary>A glove reached the climber (mid-flight): one volley punch, if the pacing allows, never the same clip twice running.</summary>
+        private void TryPlayVolleyPunch(float t)
+        {
+            BurstSettings burst = Settings.burst;
+            if (impactAudioSource == null || punchClips == null || punchClips.Length == 0
+                || !_volley.TryPunch(t, burst.volleyMinIntervalSeconds, burst.volleyMaxPunches))
+            {
+                return;
+            }
+
+            int clip = Random.Range(0, punchClips.Length);
+            if (clip == _lastPunchClip && punchClips.Length > 1)
+            {
+                clip = (clip + 1) % punchClips.Length;
+            }
+
+            _lastPunchClip = clip;
+            impactAudioSource.PlayOneShot(punchClips[clip], burst.volleyVolume);
         }
 
         /// <summary>White flash + expanding glow on the character, and a spray of spinning stars.</summary>

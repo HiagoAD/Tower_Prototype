@@ -17,6 +17,20 @@ namespace Game.Editor
         public const string GameSettings = SettingsFolder + "/GameSettings.asset";
         public const string GlovePng = "Assets/Game/Art/Licensed/BoxingGlove/boxing-glove-white.png";
         public const string ImpactSfx = "Assets/Game/Art/Licensed/ImpactSounds/impactPunch_heavy_000.ogg";
+
+        /// <summary>The bump's punch volley, one per glove passing the climber after the main impact.</summary>
+        public static readonly string[] PunchVolleySfx =
+        {
+            "Assets/Game/Art/Licensed/ImpactSounds/impactPunch_heavy_001.ogg",
+            "Assets/Game/Art/Licensed/ImpactSounds/impactPunch_heavy_002.ogg",
+            "Assets/Game/Art/Licensed/ImpactSounds/impactPunch_heavy_003.ogg",
+            "Assets/Game/Art/Licensed/ImpactSounds/impactPunch_heavy_004.ogg",
+            "Assets/Game/Art/Licensed/ImpactSounds/impactPunch_medium_000.ogg",
+            "Assets/Game/Art/Licensed/ImpactSounds/impactPunch_medium_001.ogg",
+            "Assets/Game/Art/Licensed/ImpactSounds/impactPunch_medium_002.ogg",
+            "Assets/Game/Art/Licensed/ImpactSounds/impactPunch_medium_003.ogg",
+            "Assets/Game/Art/Licensed/ImpactSounds/impactPunch_medium_004.ogg",
+        };
         public const string HazardVisualPrefab = "Assets/Game/Prefabs/HazardVisual.prefab";
         public const string HazardActiveMaterial = "Assets/Game/Art/Materials/HazardActive.mat";
         public const string HazardSafeMaterial = "Assets/Game/Art/Materials/HazardSafe.mat";
@@ -36,6 +50,6 @@ namespace Game.Editor
         public const string WindowFrameMaterial = "Assets/Game/Art/Materials/WindowFrame.mat";
         public const string WindowPaneMaterial = "Assets/Game/Art/Materials/WindowPane.mat";
         public const string StarPng = "Assets/Game/Art/Licensed/UI/star-yellow.png";
-        public const string UiFont = "Assets/Game/Art/Licensed/UI/Fonts/KenneyFuture.ttf";
+        public const string UiFont = "Assets/Game/Art/Licensed/UI/Fonts/LilitaOne-Regular.ttf";
     }
 }

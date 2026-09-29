@@ -32,13 +32,26 @@ namespace Game.Editor
             SceneBinding.Bind(gloveBurst, "settings", inputs.Settings);
             SceneBinding.Bind(gloveBurst, "burstRoot", burstRect);
             SceneBinding.Bind(gloveBurst, "flashImage", flashImage);
-            SceneBinding.Bind(gloveBurst, "cameraShake", camera.Shake);
             SceneBinding.Bind(gloveBurst, "impactAudioSource", audioSource);
+            SceneBinding.BindArray(gloveBurst, "punchClips", LoadPunchVolley());
             SceneBinding.Bind(gloveBurst, "gloveSprite", inputs.GloveSprite);
             SceneBinding.Bind(gloveBurst, "starSprite", inputs.StarSprite);
             SceneBinding.Bind(gloveBurst, "glowSprite", UiKit.KnobSprite);
             SceneBinding.Bind(gloveBurst, "hitTarget", hitTarget);
             SceneBinding.Bind(gloveBurst, "worldCamera", camera.Camera);
+        }
+
+        /// <summary>Short punches decompress on load as mono, like the other cues (Level1Audio).</summary>
+        private static AudioClip[] LoadPunchVolley()
+        {
+            var clips = new AudioClip[Level1Paths.PunchVolleySfx.Length];
+            for (int i = 0; i < clips.Length; i++)
+            {
+                Level1Audio.Configure(Level1Paths.PunchVolleySfx[i], AudioClipLoadType.DecompressOnLoad, true);
+                clips[i] = Level1Audio.Load(Level1Paths.PunchVolleySfx[i]);
+            }
+
+            return clips;
         }
     }
 }

@@ -56,12 +56,6 @@ namespace Game.Tests.EditMode
         }
 
         [Test]
-        public void Input_TouchRegionMatchesThePreviousConstant()
-        {
-            Assert.AreEqual(0.35f, _settings.input.touchRegionNormalizedHeight);
-        }
-
-        [Test]
         public void Summit_DefaultsMatchThePreviousSlideViewFields()
         {
             Assert.AreEqual(0.8f, _settings.summit.slideSeconds);
@@ -80,6 +74,9 @@ namespace Game.Tests.EditMode
             Assert.AreEqual(90f, _settings.burst.starSize);
             Assert.AreEqual(0.3f, _settings.burst.flashSeconds, "was a local const in BumpBurstView");
             Assert.AreEqual(0.45f, _settings.burst.glowSeconds, "was a local const in BumpBurstView");
+            Assert.AreEqual(7, _settings.burst.volleyMaxPunches);
+            Assert.AreEqual(0.055f, _settings.burst.volleyMinIntervalSeconds);
+            Assert.AreEqual(0.6f, _settings.burst.volleyVolume);
         }
 
         [Test]
@@ -121,8 +118,8 @@ namespace Game.Tests.EditMode
             Assert.AreEqual("boxing", _settings.bumps.types[0].id);
             Assert.AreEqual("boxing", _settings.bumps.defaultTypeId);
             Assert.IsTrue(_settings.bumps.TryGet("boxing", out BumpType boxing));
-            Assert.AreEqual(1f, boxing.liftBodyHeights);
-            Assert.AreEqual(1f, boxing.dropBodyHeights);
+            Assert.AreEqual(2f, boxing.liftBodyHeights, "bumps are the main moment: about two body heights up");
+            Assert.AreEqual(1.75f, boxing.dropBodyHeights, "slightly less down, so a knock-down stays recoverable");
         }
 
         [Test]

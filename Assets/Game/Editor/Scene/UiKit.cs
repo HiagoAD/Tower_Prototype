@@ -15,7 +15,7 @@ namespace Game.Editor
             DisplayFont = displayFont;
         }
 
-        /// <summary>Kenney Future for titles, numbers, buttons and prompts; small event-card text keeps the built-in font, whose lowercase stays legible at that size.</summary>
+        /// <summary>Lilita One (see Art/Licensed/UI/LICENSE.md) for titles, numbers, buttons and prompts; small event-card text keeps the built-in font, whose lowercase stays legible at that size.</summary>
         public Font DisplayFont { get; }
 
         public static Sprite UiSprite => AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");

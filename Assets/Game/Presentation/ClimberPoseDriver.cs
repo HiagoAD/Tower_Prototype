@@ -39,6 +39,14 @@ namespace Game.Presentation
         private GameSettings Settings => GameSettings.OrDefaults(settings);
         private ClimberPoseSettings Pose => Settings.pose;
 
+        /// <summary>
+        /// Raised when a reaching hand closes on its new grip (the grab), with the hand's world position on the tower.
+        /// Grab feedback (particles, audio, haptics) keys off this. Only real grabs raise it: a reach that lands while
+        /// the climber is moving up, including a post-hit regrip if the player is already climbing again. A reach that
+        /// finishes by time while the climber has stopped, or during a pause, win, loss or menu, is animation only.
+        /// </summary>
+        public event System.Action<Vector3> HandPlanted;
+
         private struct Limb
         {
             public Transform Transform;
@@ -242,6 +250,10 @@ namespace Game.Presentation
                     hand.Reaching = false;
                     hand.TimedReach = 0f;
                     _yankVelocity += Pose.grabYank * _rate * _armLength;
+                    if (climbed > 0f)
+                    {
+                        HandPlanted?.Invoke(GripWorldPoint(arm, hand));
+                    }
                 }
 
                 return;
@@ -257,6 +269,26 @@ namespace Game.Presentation
                 // Aim where the shoulder will be once the reach completes, so the new hold lands gripHigh above it.
                 hand.GripY = shoulderY + (Pose.reachDistance + Pose.gripHigh) * _armLength;
             }
+        }
+
+        /// <summary>
+        /// Where the hand lands, in world space: the same point AimArm reaches for (grip x and y on the tower face,
+        /// and the depth the rigid arm needs from the shoulder's current position), not the shoulder's own plane.
+        /// </summary>
+        private Vector3 GripWorldPoint(Limb arm, Hand hand)
+        {
+            Vector3 shoulder = transform.InverseTransformPoint(arm.Transform.position);
+            float gripX = arm.RestPivot.x + arm.Side * Pose.gripOutward * _armLength;
+            float gripY = HandWorldY(hand) - transform.position.y;
+            float dz = ArmDepth(gripX - shoulder.x, gripY - shoulder.y);
+            return transform.TransformPoint(new Vector3(gripX, gripY, shoulder.z + dz));
+        }
+
+        /// <summary>Depth along the view axis that a rigid arm needs to reach a grip dx sideways and dy up from the shoulder.</summary>
+        private float ArmDepth(float dx, float dy)
+        {
+            float minDepth = 0.2f * _armLength;
+            return Mathf.Sqrt(Mathf.Max(_armLength * _armLength - dx * dx - dy * dy, minDepth * minDepth));
         }
 
         private static float HandWorldY(Hand hand)
@@ -353,9 +385,7 @@ namespace Game.Presentation
             float arc = hand.Reaching ? Mathf.Sin(Mathf.PI * Mathf.Clamp01(hand.Progress)) : 0f;
             float dx = gripX - shoulder.x + arm.Side * Pose.reachArcOutward * arc * _armLength;
             float dy = gripY - shoulder.y;
-            float minDepth = 0.2f * _armLength;
-            float dz = Mathf.Sqrt(Mathf.Max(_armLength * _armLength - dx * dx - dy * dy, minDepth * minDepth))
-                - Pose.reachArcAway * arc * _armLength;
+            float dz = ArmDepth(dx, dy) - Pose.reachArcAway * arc * _armLength;
 
             Vector3 gripDirection = new Vector3(dx, dy, dz).normalized;
             Vector3 overrideDirection = Mirror(overrideOutward, arm.Side).normalized;
